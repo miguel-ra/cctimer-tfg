@@ -1,0 +1,10 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+	<linearGradient id="cube4-gradient" x1="10.390811%" x2="92.190306%" y1="2.611609%" y2="97.606691%">
+		<stop stop-color="var(--gradient-start,#69BFFF)" offset="0%" />
+		<stop stop-color="var(--gradient-end,#388BFD)" offset="100%" />
+	</linearGradient>
+	<g fill="none" fill-rule="evenodd">
+		<path d="m6 0h52c3.3137085 0 6 2.6862915 6 6v52c0 3.3137085-2.6862915 6-6 6h-52c-3.3137085 0-6-2.6862915-6-6v-52c0-3.3137085 2.6862915-6 6-6z" fill="var(--background-color,transparent)" />
+		<path d="m13 51v13h-7c-3.3137085 0-6-2.6862915-6-6v-7zm17 0v13h-13v-13zm17 0v13h-13v-13zm17 0v7c0 3.3137085-2.6862915 6-6 6h-7v-13zm-51-17v13h-13v-13zm17 0v13h-13v-13zm17 0v13h-13v-13zm17 0v13h-13v-13zm-51-17v13h-13v-13zm17 0v13h-13v-13zm17 0v13h-13v-13zm17 0v13h-13v-13zm-51-17v13h-13v-7c0-3.3137085 2.6862915-6 6-6zm17 0v13h-13v-13zm17 0v13h-13v-13zm11 0c3.3137085 0 6 2.6862915 6 6v7h-13v-13z" fill="url(#cube4-gradient)" />
+	</g>
+</svg>
