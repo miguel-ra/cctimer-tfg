@@ -31,11 +31,11 @@ function App() {
 
   return (
     <>
-      {/* <Helmet>
+      <Helmet>
         {metas.map((meta) => (
           <meta {...meta} />
         ))}
-      </Helmet> */}
+      </Helmet>
       <Layout />
     </>
   );
