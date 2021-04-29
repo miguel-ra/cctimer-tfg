@@ -1,5 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Layout from "features/layout/Layout";
+import { useColorMode } from "store/colorModeContext";
 // import useStyles from "./App.styles";
 // import useEventListener from "shared/hooks/useEventListener";
 
@@ -15,6 +16,7 @@ function getMetas() {
 
 function App() {
   // useStyles();
+  const { toggleColorMode } = useColorMode();
   const metas = getMetas();
 
   // useEventListener(window, "load", () => {
@@ -37,6 +39,7 @@ function App() {
         ))}
       </Helmet>
       <Layout />
+      <button onClick={toggleColorMode}>theme</button>
     </>
   );
 }

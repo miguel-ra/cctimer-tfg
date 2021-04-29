@@ -29,28 +29,56 @@
         font-style: normal;
         font-weight: 300;
         font-display: swap;
-        src: url(assets/fonts/roboto/light.woff2) format("woff2");
+        src: url(fonts/roboto/light.woff2) format("woff2");
       }
+
       @font-face {
         font-family: "Roboto";
         font-style: normal;
         font-weight: 400;
         font-display: swap;
-        src: url(assets/fonts/roboto/regular.woff2) format("woff2");
+        src: url(fonts/roboto/regular.woff2) format("woff2");
       }
+
       @font-face {
         font-family: "Roboto";
         font-style: normal;
         font-weight: 500;
         font-display: swap;
-        src: url(assets/fonts/roboto/medium.woff2) format("woff2");
+        src: url(fonts/roboto/medium.woff2) format("woff2");
       }
+
       @font-face {
         font-family: "Roboto";
         font-style: normal;
         font-weight: 700;
         font-display: swap;
-        src: url(assets/fonts/roboto/bold.woff2) format("woff2");
+        src: url(fonts/roboto/bold.woff2) format("woff2");
+      }
+
+      body {
+        --colors-grey-main: #0d1117;
+        --colors-grey-contrastText: #f0f6fc;
+        --colors-white-main: #ffffff;
+        --colors-white-contrastText: #24292e;
+
+        --palette-background-default: #f6f8fa;
+        --palette-background-paper: var(--colors-white-main);
+
+        --palette-text-primary: var(--colors-white-contrastText);
+        --palette-text-secondary: #586069;
+
+        --palette-border-primary: #e1e4e8;
+      }
+
+      body[data-color-mode="dark"] {
+        --palette-background-default: #060a0e;
+        --palette-background-paper: var(--colors-grey-main);
+
+        --palette-text-primary: var(--colors-grey-contrastText);
+        --palette-text-secondary: #8b949e;
+
+        --palette-border-primary: #30363d;
       }
 
       html,
@@ -67,8 +95,8 @@
       }
 
       body {
-        color: #24292e; /* If you change this color remember to update it also in src/styles/colors.js */
-        background-color: #f6f8fa; /* If you change this color remember to update it also in src/styles/theme.js */
+        color: var(--palette-text-primary);
+        background-color: var(--palette-background-default);
         margin: 0;
         font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI",
           "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
@@ -85,16 +113,23 @@
       body.mousedown *:focus {
         outline: 0;
       }
-
-      @media (prefers-color-scheme: dark) {
-        body {
-          color: #f0f6fc; /* If you change this color remember to update it also in src/styles/colors.js */
-          background-color: #060a0e; /* If you change this color remember to update it also in src/styles/theme.js */
-        }
-      }
     </style>
   </head>
   <body>
+    <script>
+      const isDarkMode =
+        window.localStorage.colorMode &&
+        window.localStorage.colorMode.includes("dark");
+
+      if (
+        (!window.localStorage.colorMode &&
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches) ||
+        isDarkMode
+      ) {
+        document.body.dataset.colorMode = "dark";
+      }
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
