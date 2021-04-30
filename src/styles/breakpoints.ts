@@ -60,6 +60,8 @@ const breakpoints = {
   width,
 };
 
+export type { BreakpointKey };
+
 export { values as breakpointsValues, keys as breakpointsKeys };
 
 export default breakpoints;
