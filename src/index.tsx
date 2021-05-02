@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import Providers from "store/Providers";
 import App from "features/app/App";
 import reportWebVitals from "./reportWebVitals";
+import "./i18n/i18n";
 
 ReactDOM.render(
   <React.StrictMode>
