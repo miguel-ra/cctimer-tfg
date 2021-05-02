@@ -1,10 +1,10 @@
 import { createUseStyles } from "react-jss";
 import { useTranslation } from "react-i18next";
-import { useColorMode } from "store/colorModeContext";
-import theme from "styles/theme";
-import Box from "components/flexboxgrid/Box";
 import { LangKey } from "i18n/i18n";
-// import Typography from "components/typography/Typography";
+import theme from "styles/theme";
+import { useColorMode } from "store/colorModeContext";
+import Box from "components/flexboxgrid/Box";
+import Typography from "components/typography/Typography";
 
 const languages: Array<[LangKey, string]> = [
   ["en", "English"],
@@ -30,7 +30,7 @@ function Navbar() {
 
   return (
     <div className={classes.navbar}>
-      {/* <Typography variant="h5">CCTimer.com</Typography> */}
+      <Typography variant="h5">CCTimer.com</Typography>
       <Box alignItems="center">
         <Box paddingRight="1rem">
           <label>
