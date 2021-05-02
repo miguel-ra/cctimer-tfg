@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 import { createUseStyles } from "react-jss";
 import { BreakpointKey } from "styles/breakpoints";
-import theme from "styles/theme";
+import breakpoints from "styles/breakpoints";
 
 type BreakpointsStyles = {
   [key in BreakpointKey]?: CSSProperties;
@@ -24,7 +24,7 @@ function useStyles({ propStyles, breakpointsStyles = {} }: UseStylesProps) {
     },
     ...(Object.keys(breakpointsStyles) as Array<BreakpointKey>).reduce(
       (accu: any, key) => {
-        accu[theme.breakpoints.up(key)] = {
+        accu[breakpoints.up(key)] = {
           box: breakpointsStyles[key],
         };
         return accu;

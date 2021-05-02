@@ -1,6 +1,6 @@
 import { CSSProperties, ElementType, ReactNode } from "react";
 import { BreakpointKey } from "styles/breakpoints";
-import theme from "styles/theme";
+import breakpoints from "styles/breakpoints";
 import useStyles, { BreakpointsStyles } from "./Box.styles";
 
 interface BoxProps extends BreakpointsStyles, CSSProperties {
@@ -33,7 +33,7 @@ function Box({
 }: BoxProps) {
   const [breakpointsStyles, propStyles] = splitBreakpointsStyles(
     props,
-    theme.breakpoints.keys
+    breakpoints.keys
   );
   const classes = useStyles({ propStyles, breakpointsStyles });
 

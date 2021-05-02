@@ -1,12 +1,13 @@
 import { ReactNode } from "react";
 import { HelmetProvider } from "react-helmet-async";
 import { ColorModeProvider } from "./colorModeContext";
+import { ModalProvider } from "./modalContext";
 
 type ProvidersProps = {
   children?: ReactNode;
 };
 
-const providers = [HelmetProvider, ColorModeProvider];
+const providers = [HelmetProvider, ColorModeProvider, ModalProvider];
 
 function Providers({ children }: ProvidersProps) {
   return (
