@@ -4,9 +4,10 @@ import useStyles from "./Button.styles";
 
 type ButtonProps = {
   startIcon?: ElementType;
-  fullWidth: boolean;
+  fullWidth?: boolean;
   className?: string;
   children: ReactNode;
+  variant?: "text" | "contained";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Button({
@@ -14,12 +15,16 @@ function Button({
   fullWidth = false,
   className,
   children,
+  variant = "text",
   ...props
 }: ButtonProps) {
   const classes = useStyles({ fullWidth });
 
   return (
-    <button className={clsx(classes.button, className)} {...props}>
+    <button
+      className={clsx(classes.button, className, classes.contained)}
+      {...props}
+    >
       {StartIcon && <StartIcon className={classes.icon} />}
       {children}
     </button>
