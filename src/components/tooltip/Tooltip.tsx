@@ -24,7 +24,6 @@ function Tooltip({
   const { isVisible, setPopover } = usePopover({
     anchorPosition: "right",
     appearance: "dark",
-    hideOnLeave: true,
     offset: 10,
     ...config,
   });

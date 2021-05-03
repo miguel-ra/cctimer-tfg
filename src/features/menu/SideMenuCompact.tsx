@@ -7,7 +7,7 @@ import ModalSettings from "features/settings/ModalSettings";
 import IconButton from "components/button/IconButton";
 import Tooltip from "components/tooltip/Tooltip";
 import Box from "components/flexboxgrid/Box";
-// import PuzzleSelector from "./PuzzleSelector";
+import PuzzleSelector from "./PuzzleSelector";
 
 const useStyles = createUseStyles({
   sideMenu: {
@@ -31,7 +31,7 @@ function SideMenuCompact() {
 
   return (
     <div className={classes.sideMenu}>
-      {/* <PuzzleSelector /> */}
+      <PuzzleSelector />
       <Box flexDirection="column" gap="1rem">
         <Tooltip label={t("Settings")}>
           <IconButton

@@ -105,13 +105,14 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     border: "1px solid var(--border-color)",
     backgroundColor: "var(--background-color)",
     borderRadius: theme.shape.borderRadius,
+    willChange: "transform",
   },
   position: ({ anchorPosition, transformPosition }) => ({
     transform: positions[anchorPosition][transformPosition],
   }),
   dark: {
-    "--background-color": theme.palette.colors.grey.main,
-    "--color": theme.palette.colors.grey.contrastText,
+    "--background-color": theme.palette.colors.white.contrastText,
+    "--color": theme.palette.colors.white.main,
     "--border-color": "transparent",
     'body[data-color-mode="dark"] &': {
       "--border-color": theme.palette.border.primary,

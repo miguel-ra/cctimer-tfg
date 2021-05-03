@@ -26,7 +26,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "generate:locales": "i18next 'src/**/*.{tsx}' --config=internals/i18n/parser.config.js"
+    "generate:locales": "i18next 'src/**/*.{ts,tsx}' --config=internals/i18n/parser.config.js"
   },
   "eslintConfig": {
     "extends": [
