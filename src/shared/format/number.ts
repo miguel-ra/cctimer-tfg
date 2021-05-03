@@ -21,4 +21,8 @@ function millisecondsToClock(time: number) {
   return `${padZero(sec)}.${padZero(mil)}`;
 }
 
-export { padZero, millisecondsToSeconds, millisecondsToClock };
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
+
+export { padZero, millisecondsToSeconds, millisecondsToClock, clamp };

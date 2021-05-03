@@ -5,7 +5,7 @@ import useStyles, { BreakpointsStyles } from "./Box.styles";
 
 interface BoxProps extends BreakpointsStyles, CSSProperties {
   as?: ElementType;
-  children: ReactNode;
+  children?: ReactNode;
   componentProps?: object;
 }
 
