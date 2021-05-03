@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 import { useModal } from "store/modalContext";
 import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
-// import ModalSettings from "features/settings/ModalSettings";
+import ModalSettings from "features/settings/ModalSettings";
 import IconButton from "components/button/IconButton";
 import Tooltip from "components/tooltip/Tooltip";
 import Box from "components/flexboxgrid/Box";
@@ -36,7 +36,7 @@ function SideMenuCompact() {
         <Tooltip label={t("Settings")}>
           <IconButton
             onClick={() => {
-              openModal("Prueba");
+              openModal(<ModalSettings />);
             }}
           >
             <SettingsIcon />
