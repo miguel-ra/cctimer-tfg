@@ -4,7 +4,7 @@ import theme from "styles/theme";
 import { useModal } from "store/modalContext";
 import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
 // import ModalSettings from "features/settings/ModalSettings";
-// import IconButton from "components/button/IconButton";
+import IconButton from "components/button/IconButton";
 import Tooltip from "components/tooltip/Tooltip";
 import Box from "components/flexboxgrid/Box";
 // import PuzzleSelector from "./PuzzleSelector";
@@ -34,20 +34,13 @@ function SideMenuCompact() {
       {/* <PuzzleSelector /> */}
       <Box flexDirection="column" gap="1rem">
         <Tooltip label={t("Settings")}>
-          <div
-            style={{
-              width: "2rem",
-              height: "10rem",
-              backgroundColor: "red",
-            }}
-          ></div>
-          {/* <IconButton
+          <IconButton
             onClick={() => {
-              openModal(<ModalSettings />);
+              openModal("Prueba");
             }}
           >
             <SettingsIcon />
-          </IconButton> */}
+          </IconButton>
         </Tooltip>
       </Box>
     </div>
