@@ -6,6 +6,9 @@ import { useModal } from "store/modalContext";
 import { useSettings } from "store/settingsContext";
 import { useColorMode } from "store/colorModeContext";
 import Box from "components/flexboxgrid/Box";
+import Button from "components/button/Button";
+import CheckboxField from "components/field/CheckboxField";
+import Field from "components/field/Field";
 
 const useStyles = createUseStyles({
   modalSettings: {
@@ -22,47 +25,53 @@ function ModalSettings() {
   const classes = useStyles();
   const { closeModal } = useModal();
   const { settings, setSetting } = useSettings();
-  const { toggleColorMode } = useColorMode();
+  const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
 
   return (
     <>
       <div className={classes.modalSettings}>
         <span>{t("Settings")}</span>
-        <button onClick={closeModal}>{t("Close")}</button>
+        <Button variant="contained" onClick={closeModal}>
+          {t("Close")}
+        </Button>
       </div>
       <form>
         <Box flexDirection="column" padding="1rem">
           <Box justifyContent="space-between" paddingBottom="1rem">
             <label htmlFor="settings.inspection.enabled">{t("Theme")}</label>
-            <button type="button" onClick={toggleColorMode}>
-              {t("Light/Dark mode")}
-            </button>
+            <Button type="button" onClick={toggleColorMode}>
+              {t(colorMode === "dark" ? "Light mode" : "Dark mode")}
+            </Button>
           </Box>
           <Box paddingBottom="1rem">{t("Inspection behaviour")}</Box>
-          <Box justifyContent="space-between" paddingLeft="1rem">
-            <label htmlFor="settings.inspection.enabled">{t("Enable")}</label>
-            <input
-              type="checkbox"
-              id="settings.inspection.enabled"
-              checked={settings.inspection.enabled}
-              onChange={(event) => {
-                setSetting("inspection", "enabled", event.target.checked);
+          <Box
+            justifyContent="space-between"
+            paddingLeft="1rem"
+            paddingBottom="0.5rem"
+          >
+            <CheckboxField
+              label={t("Enable")}
+              name="settings.inspection.enabled"
+              onChange={(checked: boolean) => {
+                setSetting("inspection", "enabled", checked);
               }}
+              checked={settings.inspection.enabled}
             />
           </Box>
-          <Box justifyContent="space-between" paddingLeft="1rem">
-            <label htmlFor="settings.inspection.time">
-              {t("Inspection time")}
-            </label>
-            <input
+          <Box
+            justifyContent="space-between"
+            paddingLeft="1rem"
+            paddingBottom="0.5rem"
+          >
+            <Field
               type="number"
-              id="settings.inspection.time"
-              style={{ marginRight: 2, width: "20%" }}
-              value={settings.inspection.time}
-              onChange={(event) => {
-                setSetting("inspection", "time", Number(event.target.value));
+              label={t("Inspection time")}
+              name="settings.inspection.time"
+              onChange={(value: string) => {
+                setSetting("inspection", "time", Number(value));
               }}
+              value={settings.inspection.time}
             />
           </Box>
           {/* <Box justifyContent="space-between" paddingLeft="1rem">
@@ -106,16 +115,13 @@ function ModalSettings() {
             />
           </Box> */}
           <Box justifyContent="space-between" paddingLeft="1rem">
-            <label htmlFor="settings.timer.holdToStart">
-              {t("Hold to start")}
-            </label>
-            <input
-              type="checkbox"
-              id="settings.timer.holdToStart"
-              checked={settings.timer.holdToStart}
-              onChange={(event) => {
-                setSetting("timer", "holdToStart", event.target.checked);
+            <CheckboxField
+              label={t("Hold to start")}
+              name="settings.timer.holdToStart"
+              onChange={(checked: boolean) => {
+                setSetting("timer", "holdToStart", checked);
               }}
+              checked={settings.timer.holdToStart}
             />
           </Box>
         </Box>
