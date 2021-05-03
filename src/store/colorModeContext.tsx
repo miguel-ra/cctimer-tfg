@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useContext, useEffect } from "react";
 import useStorageState from "shared/hooks/useStorageState";
 
-type ColorMode = "light" | "dark";
+type ColorModeKey = "light" | "dark";
 
 type ColorModeState = {
-  colorMode: ColorMode;
+  colorMode: ColorModeKey;
   toggleColorMode: () => void;
 };
 
@@ -12,7 +12,7 @@ type ColorModeProviderProps = {
   children: ReactNode;
 };
 
-const COLOR_MODES: { [key in ColorMode]: ColorMode } = {
+const COLOR_MODES: { [key in ColorModeKey]: ColorModeKey } = {
   light: "light",
   dark: "dark",
 };
@@ -53,7 +53,7 @@ function ColorModeProvider({ children }: ColorModeProviderProps) {
   }, [setColorMode]);
 
   function toggleColorMode() {
-    setColorMode((prevColorMode: ColorMode) =>
+    setColorMode((prevColorMode: ColorModeKey) =>
       prevColorMode === COLOR_MODES.light ? COLOR_MODES.dark : COLOR_MODES.light
     );
   }
@@ -69,5 +69,7 @@ function ColorModeProvider({ children }: ColorModeProviderProps) {
     </ColorModeContext.Provider>
   );
 }
+
+export type { ColorModeKey };
 
 export { useColorMode, ColorModeProvider };

@@ -1,8 +1,6 @@
 import { Helmet } from "react-helmet-async";
 import Layout from "features/layout/Layout";
-import { useColorMode } from "store/colorModeContext";
-// import useStyles from "./App.styles";
-// import useEventListener from "shared/hooks/useEventListener";
+import useEventListener from "shared/hooks/useEventListener";
 
 function getMetas() {
   const metas = [];
@@ -15,21 +13,19 @@ function getMetas() {
 }
 
 function App() {
-  // useStyles();
-  const { toggleColorMode } = useColorMode();
   const metas = getMetas();
 
-  // useEventListener(window, "load", () => {
-  //   document.body.classList.add("loaded");
-  // });
+  useEventListener(window, "load", () => {
+    document.body.classList.add("loaded");
+  });
 
-  // useEventListener(window, "mousedown", () => {
-  //   document.body.classList.add("mousedown");
-  // });
+  useEventListener(window, "mousedown", () => {
+    document.body.classList.add("mousedown");
+  });
 
-  // useEventListener(window, "keydown", () => {
-  //   document.body.classList.remove("mousedown");
-  // });
+  useEventListener(window, "keydown", () => {
+    document.body.classList.remove("mousedown");
+  });
 
   return (
     <>
@@ -39,7 +35,6 @@ function App() {
         ))}
       </Helmet>
       <Layout />
-      <button onClick={toggleColorMode}>theme</button>
     </>
   );
 }
