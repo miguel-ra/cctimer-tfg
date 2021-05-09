@@ -22,7 +22,7 @@ function Button({
 
   return (
     <button
-      className={clsx(classes.button, className, classes.contained)}
+      className={clsx(classes.button, className, classes[variant])}
       {...props}
     >
       {StartIcon && <StartIcon className={classes.icon} />}

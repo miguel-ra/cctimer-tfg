@@ -11,7 +11,7 @@ const theme = {
   },
   transition: {
     duration: {
-      colorMode: 200,
+      colorMode: "var(--transition-duration-colorMode)",
     },
   },
 };

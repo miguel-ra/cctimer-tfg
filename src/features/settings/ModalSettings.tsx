@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
     padding: "1rem",
     alignItems: "center",
     justifyContent: "space-between",
-    transition: ` border ${theme.transition.duration.colorMode}ms linear`,
+    transition: ` border ${theme.transition.duration.colorMode} linear`,
     borderBottom: `1px solid ${theme.palette.border.primary}`,
   },
 });
@@ -40,7 +40,7 @@ function ModalSettings() {
         <Box flexDirection="column" padding="1rem">
           <Box justifyContent="space-between" paddingBottom="1rem">
             <label htmlFor="settings.inspection.enabled">{t("Theme")}</label>
-            <Button type="button" onClick={toggleColorMode}>
+            <Button type="button" onClick={toggleColorMode} variant="contained">
               {t(colorMode === "dark" ? "Light mode" : "Dark mode")}
             </Button>
           </Box>

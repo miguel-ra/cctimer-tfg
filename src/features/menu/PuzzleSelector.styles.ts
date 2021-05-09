@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
     "& path, & circle, & rect": {
-      transition: `all ${theme.transition.duration.colorMode}ms linear`,
+      transition: `path ${theme.transition.duration.colorMode} linear`,
     },
     "&:hover $puzzleBorder": {
       opacity: 0.4,

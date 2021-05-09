@@ -1,7 +1,7 @@
 import { useRef, useEffect, useCallback, MutableRefObject } from "react";
 import { useDrag } from "react-use-gesture";
 import { useSprings, animated } from "@react-spring/web";
-import palette from "styles/palette";
+import theme from "styles/theme";
 import { clamp } from "shared/format/number";
 import SideMenuExpanded from "features/menu/SideMenuExpanded";
 import TimerTabs from "features/timer/TimerTabs";
@@ -151,6 +151,8 @@ function LayoutMobile() {
     };
   }, [computeSpring, set]);
 
+  console.log("render");
+
   return (
     <Box position="absolute" width="100%" height="100%" overflow="hidden">
       {springs.map(({ opacity, backgroundColor, ...style }, i) => {
@@ -183,7 +185,8 @@ function LayoutMobile() {
                     set(computeSpring);
                   },
                   style: {
-                    backgroundColor: palette.background.default,
+                    backgroundColor: theme.palette.background.default,
+                    transition: `background ${theme.transition.duration.colorMode} linear`,
                     opacity,
                     zIndex: opacity.to((value: number) => (value ? 1 : -1)),
                   },

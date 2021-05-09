@@ -4,9 +4,7 @@ import theme from "styles/theme";
 const useStyles = createUseStyles({
   select: {
     appearance: "none",
-    // color: theme.palette.text.primary,
-    // backgroundColor: theme.palette.colors.white,
-    padding: "0.45rem 3rem 0.45rem 1.2rem",
+    padding: "0.45rem 2.55rem 0.45rem 0.75rem",
     cursor: "pointer",
     backgroundRepeat: "no-repeat",
     backgroundSize: "0.7rem auto",

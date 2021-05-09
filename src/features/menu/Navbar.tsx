@@ -17,9 +17,9 @@ const languages: Array<[LangKey, string]> = [
 const useStyles = createUseStyles({
   navbar: {
     display: "flex",
-    padding: "1rem 2rem",
+    padding: "1rem 1.5rem",
     justifyContent: "space-between",
-    transition: `background ${theme.transition.duration.colorMode}ms linear, border ${theme.transition.duration.colorMode}ms linear`,
+    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
     background: theme.palette.background.paper,
     borderBottom: `1px solid ${theme.palette.border.primary}`,
   },
@@ -51,8 +51,10 @@ function Navbar() {
           </SelectField>
         </Box>
         <Button
+          variant="contained"
           onClick={toggleColorMode}
-          style={{ minWidth: 100, justifyContent: "center" }}
+          // TODO: Create class
+          style={{ minWidth: 110, justifyContent: "center" }}
         >
           {t(colorMode === "dark" ? "Light mode" : "Dark mode")}
         </Button>

@@ -19,11 +19,17 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     gap: "1.5rem",
     color: theme.palette.text.primary,
     cursor: "pointer",
-    borderRadius: theme.shape.borderRadius * 2,
+    borderRadius: theme.shape.borderRadius,
   },
   icon: {
     width: "2rem",
     opacity: "0.9",
+  },
+  text: {
+    transition: `opacity 0.2s linear`,
+    "&:hover": {
+      opacity: 0.5,
+    },
   },
   contained: {
     // TODO: Change this colors to CSS variables

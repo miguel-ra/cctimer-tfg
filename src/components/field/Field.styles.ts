@@ -18,13 +18,13 @@ const useStyles = createUseStyles({
   },
   input: {
     flex: 1,
-    padding: "0.45rem 1rem",
+    padding: "0.45rem 0.75rem",
     minHeight: "2rem",
     width: "auto",
     boxSizing: "border-box",
-    borderRadius: theme.shape.borderRadius * 2,
+    borderRadius: theme.shape.borderRadius,
     border: `1px solid ${theme.palette.border.primary}`,
-    transition: `border ${theme.transition.duration.colorMode}ms linear`,
+    transition: `border ${theme.transition.duration.colorMode} linear`,
   },
 });
 

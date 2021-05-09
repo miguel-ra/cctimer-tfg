@@ -9,7 +9,7 @@ const useStyles = createUseStyles({
     display: "flex",
     minHeight: "30vh",
     background: theme.palette.background.paper,
-    transition: `border ${theme.transition.duration.colorMode}ms linear, background ${theme.transition.duration.colorMode}ms linear`,
+    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     borderTop: `1px solid ${theme.palette.border.primary}`,
   },
   stats: {
@@ -17,7 +17,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexWrap: "wrap",
     placeContent: "center",
-    transition: `border ${theme.transition.duration.colorMode}ms linear, background ${theme.transition.duration.colorMode}ms linear`,
+    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     border: `0 solid ${theme.palette.border.primary}`,
     borderWidth: "0 1px 0 1px",
   },

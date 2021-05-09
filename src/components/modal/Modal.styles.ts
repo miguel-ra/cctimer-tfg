@@ -7,7 +7,7 @@ const useStyles = createUseStyles({
     top: 0,
     left: 0,
     background: `${theme.palette.background.paper}AA`,
-    transition: `background ${theme.transition.duration.colorMode}ms linear`,
+    transition: `background ${theme.transition.duration.colorMode} linear`,
     backdropFilter: "blur(1rem)",
     width: "100%",
     height: "100%",
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     height: "100%",
     width: "100%",
     background: theme.palette.background.paper,
-    transition: `background ${theme.transition.duration.colorMode}ms linear, border ${theme.transition.duration.colorMode}ms linear`,
+    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
     outline: "none",
     zIndex: "1",
     [theme.breakpoints.up("sm")]: {

@@ -33,7 +33,7 @@ const useStyles = createUseStyles({
       border: "1px solid var(--palette-border-primary)",
       borderRadius: theme.shape.borderRadius,
       background: theme.palette.colors.white.main,
-      transition: `border ${theme.transition.duration.colorMode}ms linear`,
+      transition: `border ${theme.transition.duration.colorMode} linear`,
     },
     "&:after": {
       content: "''",

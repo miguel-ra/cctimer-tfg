@@ -25,7 +25,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     "& svg": {
       width: "75%",
       "& path": {
-        transition: `color ${theme.transition.duration.colorMode}ms linear`,
+        transition: `color ${theme.transition.duration.colorMode} linear`,
       },
     },
   },

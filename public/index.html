@@ -64,20 +64,18 @@
 
         --palette-background-default: #f6f8fa;
         --palette-background-paper: var(--colors-white-main);
-
         --palette-text-primary: var(--colors-white-contrastText);
         --palette-text-secondary: #586069;
-
         --palette-border-primary: #e1e4e8;
+
+        --transition-duration-colorMode: 200ms;
       }
 
       body[data-color-mode="dark"] {
         --palette-background-default: #060a0e;
         --palette-background-paper: var(--colors-grey-main);
-
         --palette-text-primary: var(--colors-grey-contrastText);
         --palette-text-secondary: #8b949e;
-
         --palette-border-primary: #30363d;
       }
 
@@ -104,6 +102,8 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         font-size: 1.6rem;
+        transition: background var(--transition-duration-colorMode) linear,
+          color var(--transition-duration-colorMode) linear;
       }
 
       body.loaded {

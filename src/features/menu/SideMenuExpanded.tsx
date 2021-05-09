@@ -8,7 +8,7 @@ import Button from "components/button/Button";
 import Divider from "components/divider/Divider";
 import Typography from "components/typography/Typography";
 import PuzzleSelector from "./PuzzleSelector";
-import palette from "styles/palette";
+import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   root: {
@@ -19,15 +19,17 @@ const useStyles = createUseStyles({
     placeContent: "center",
     flexDirection: "column",
     justifyContent: "space-between",
-    background: palette.background.paper,
-    borderRight: `1px solid ${palette.border.primary}`,
+    background: theme.palette.background.paper,
+    borderRight: `1px solid ${theme.palette.border.primary}`,
+    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
   },
   navbar: {
     display: "flex",
     padding: "1rem",
     flexDirection: "column",
     justifyContent: "center",
-    borderRight: `1px solid ${palette.border.primary}`,
+    borderRight: `1px solid ${theme.palette.border.primary}`,
+    transition: `border ${theme.transition.duration.colorMode} linear`,
   },
   menu: {
     flex: 1,
@@ -35,7 +37,8 @@ const useStyles = createUseStyles({
     width: "100%",
     flexDirection: "column",
     justifyContent: "center",
-    background: `${palette.background.default}AA`,
+    background: `${theme.palette.background.default}AA`,
+    transition: `background ${theme.transition.duration.colorMode} linear`,
   },
 });
 

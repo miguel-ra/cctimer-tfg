@@ -18,7 +18,7 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
-    transition: `background ${theme.transition.duration.colorMode}ms linear, border ${theme.transition.duration.colorMode}ms linear`,
+    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
     background: theme.palette.background.paper,
     borderRight: `1px solid ${theme.palette.border.primary}`,
   },
