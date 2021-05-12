@@ -7,14 +7,13 @@ import ModalSettings from "features/settings/ModalSettings";
 import IconButton from "components/button/IconButton";
 import Tooltip from "components/tooltip/Tooltip";
 import Box from "components/flexboxgrid/Box";
-import PuzzleShowcase from "./PuzzleShowcase";
+import PuzzleShowcase from "./puzzles/PuzzleShowcase";
 
 const useStyles = createUseStyles({
   sideMenu: {
     display: "flex",
-    padding: "1rem",
     paddingBottom: "2rem",
-    minHeight: "100%",
+    height: "100vh",
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",

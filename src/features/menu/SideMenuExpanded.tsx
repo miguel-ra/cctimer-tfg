@@ -3,12 +3,12 @@ import { useTranslation } from "react-i18next";
 import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
 import ModalSettings from "features/settings/ModalSettings";
 import { useModal } from "store/modalContext";
+import theme from "styles/theme";
 import Box from "components/flexboxgrid/Box";
 import Button from "components/button/Button";
 import Divider from "components/divider/Divider";
 import Typography from "components/typography/Typography";
-import PuzzleShowcase from "./PuzzleShowcase";
-import theme from "styles/theme";
+import PuzzleShowcase from "./puzzles/PuzzleShowcase";
 
 const useStyles = createUseStyles({
   root: {
@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
   },
   navbar: {
     display: "flex",
-    padding: "1rem",
+    height: "100%",
     flexDirection: "column",
     justifyContent: "center",
     borderRight: `1px solid ${theme.palette.border.primary}`,
