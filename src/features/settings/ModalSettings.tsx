@@ -1,4 +1,3 @@
-// TODO: Refactor inputs
 import { useTranslation } from "react-i18next";
 import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
@@ -9,11 +8,12 @@ import Box from "components/flexboxgrid/Box";
 import Button from "components/button/Button";
 import CheckboxField from "components/field/CheckboxField";
 import Field from "components/field/Field";
+import Typography from "components/typography/Typography";
 
 const useStyles = createUseStyles({
-  modalSettings: {
+  header: {
     display: "flex",
-    padding: "1rem",
+    padding: "1rem 1.5rem",
     alignItems: "center",
     justifyContent: "space-between",
     transition: ` border ${theme.transition.duration.colorMode} linear`,
@@ -30,14 +30,14 @@ function ModalSettings() {
 
   return (
     <>
-      <div className={classes.modalSettings}>
-        <span>{t("Settings")}</span>
+      <div className={classes.header}>
+        <Typography variant="h6">{t("Settings")}</Typography>
         <Button variant="contained" onClick={closeModal}>
           {t("Close")}
         </Button>
       </div>
       <form>
-        <Box flexDirection="column" padding="1rem">
+        <Box flexDirection="column" padding="1.5rem">
           <Box justifyContent="space-between" paddingBottom="1rem">
             <label htmlFor="settings.inspection.enabled">{t("Theme")}</label>
             <Button type="button" onClick={toggleColorMode} variant="contained">

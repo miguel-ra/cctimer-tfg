@@ -7,7 +7,7 @@ import Box from "components/flexboxgrid/Box";
 import Button from "components/button/Button";
 import Divider from "components/divider/Divider";
 import Typography from "components/typography/Typography";
-import PuzzleSelector from "./PuzzleSelector";
+import PuzzleShowcase from "./PuzzleShowcase";
 import theme from "styles/theme";
 
 const useStyles = createUseStyles({
@@ -51,7 +51,7 @@ function SideMenuExpanded() {
     <div className={classes.root}>
       <Box width="100%" height="100%">
         <div className={classes.navbar}>
-          <PuzzleSelector />
+          <PuzzleShowcase />
         </div>
         <div className={classes.menu}>
           <Box padding="1rem">

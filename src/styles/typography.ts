@@ -51,7 +51,7 @@ const typography: { [key in TypographyKey]: CSSProperties } = {
   h3: buildVariant(fontWeight.regular, "4.8rem", 1.167, 0),
   h4: buildVariant(fontWeight.regular, "3.4rem", 1.235, 0.25),
   h5: buildVariant(fontWeight.regular, "2.4rem", 1.334, 0),
-  h6: buildVariant(fontWeight.medium, "2rem", 1.6, 0.15),
+  h6: buildVariant(fontWeight.regular, "2rem", 1.6, 0.15),
   subtitle1: buildVariant(fontWeight.regular, "1.6rem", 1.75, 0.15),
   subtitle2: buildVariant(fontWeight.medium, "1.4rem", 1.57, 0.1),
   body1: buildVariant(fontWeight.regular, "1.6rem", 1.5, 0.15),

@@ -1,12 +1,13 @@
 import { createUseStyles } from "react-jss";
-import palette from "styles/palette";
+import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   divider: {
     width: "100%",
     border: "none",
     margin: "1rem 0",
-    borderBottom: `1px solid ${palette.border.primary}`,
+    borderBottom: `1px solid ${theme.palette.border.primary}`,
+    transition: ` border ${theme.transition.duration.colorMode} linear`,
   },
 });
 

@@ -20,13 +20,13 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     color: theme.palette.text.primary,
     cursor: "pointer",
     borderRadius: theme.shape.borderRadius,
+    transition: `color ${theme.transition.duration.colorMode} linear, opacity 0.2s linear`,
   },
   icon: {
     width: "2rem",
     opacity: "0.9",
   },
   text: {
-    transition: `opacity 0.2s linear`,
     "&:hover": {
       opacity: 0.5,
     },
@@ -38,7 +38,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     backgroundSize: "200%",
     backgroundPositionX: "100%",
     color: theme.palette.colors.white.main,
-    transition: "background-position-x 0.2s linear",
+    transition: `color ${theme.transition.duration.colorMode} linear, background-position-x 0.2s linear`,
     "&:hover": {
       backgroundPositionX: "0%",
     },
