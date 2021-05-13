@@ -1,7 +1,8 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { useModal } from "store/modalContext";
+import isTouchDevice from "shared/browser/isTouchDevice";
 import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
 import { ReactComponent as RemoveIcon } from "assets/icons/remove.svg";
@@ -13,7 +14,7 @@ import useStyles from "./PuzzleShowcase.styles";
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import { usePuzzleView } from "./puzzleViewModel";
 import { usePopover } from "store/popoverContext";
-import ShowRemove from "./ShowRemove";
+import PuzzleIconWrapper from "./PuzzleIconWrapper";
 
 function PuzzleShowcase() {
   const { t } = useTranslation();
@@ -21,6 +22,8 @@ function PuzzleShowcase() {
   const { setPopover } = usePopover();
   const { puzzles, addPuzzle, removePuzzle } = usePuzzleView();
   const [selectedPuzzle, setSelectedPuzzle] = useState<number | null>(null);
+  const [showRemoveId, setShowRemoveId] = useState<number | null>(null);
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const classes = useStyles();
 
   useEffect(() => {
@@ -36,21 +39,23 @@ function PuzzleShowcase() {
     <Box
       width="7.5rem"
       flexDirection="column"
-      gap="2rem"
       padding="2rem 1rem 2rem"
       alignItems="center"
       overflow="auto"
       flexWrap="nowrap"
     >
-      {puzzles.map(({ id, key }) => {
+      {puzzles.map(({ id, key }, index) => {
         const { label, Icon } = puzzlesData[key];
         return (
           <Tooltip key={id} label={label}>
-            <ShowRemove
+            <PuzzleIconWrapper
               data-id={id}
               className={clsx(classes.puzzleIcon, {
                 selected: id === selectedPuzzle,
               })}
+              timeoutId={timeoutId}
+              showRemoveId={showRemoveId}
+              setShowRemoveId={setShowRemoveId}
               onClick={(event: MouseEvent) => {
                 const shouldRemove = !!(event.target as HTMLElement).closest<HTMLElement>(
                   '[data-action="remove"]'
@@ -61,8 +66,8 @@ function PuzzleShowcase() {
                 if (iconContainer?.dataset?.id) {
                   const id = Number(iconContainer?.dataset?.id);
                   if (shouldRemove) {
-                    setSelectedPuzzle(null);
                     removePuzzle(id);
+                    setSelectedPuzzle(puzzles[(index + 1) % puzzles.length].id);
                     setPopover();
                     return;
                   }
@@ -70,19 +75,18 @@ function PuzzleShowcase() {
                 }
               }}
             >
-              {({ showRemove }: { showRemove: boolean }) => (
-                <>
-                  <PuzzleBorder className={classes.puzzleBorder} />
-                  <Icon />
-                  {puzzles.length > 1 && showRemove && (
-                    <RemoveIcon
-                      data-action="remove"
-                      className={classes.puzzleRemove}
-                    />
-                  )}
-                </>
-              )}
-            </ShowRemove>
+              <PuzzleBorder className={classes.puzzleBorder} />
+              <Icon />
+              {puzzles.length > 1 &&
+                (isTouchDevice()
+                  ? showRemoveId === id
+                  : showRemoveId !== null) && (
+                  <RemoveIcon
+                    data-action="remove"
+                    className={classes.puzzleRemove}
+                  />
+                )}
+            </PuzzleIconWrapper>
           </Tooltip>
         );
       })}

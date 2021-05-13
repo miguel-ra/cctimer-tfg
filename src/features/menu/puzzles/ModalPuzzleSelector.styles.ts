@@ -16,10 +16,10 @@ const useStyles = createUseStyles({
     gap: "1rem",
     padding: "1.5rem",
     marginBottom: "1.5rem",
-    overflow: "auto",
     [theme.breakpoints.up("sm")]: {
       gridTemplateColumns: "repeat(4, 1fr)",
       marginBottom: 0,
+      maxHeight: "75vh",
     },
     [theme.breakpoints.up("md")]: {
       gridTemplateColumns: "repeat(6, 1fr)",

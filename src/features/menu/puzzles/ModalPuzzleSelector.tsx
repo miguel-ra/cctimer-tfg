@@ -29,26 +29,34 @@ function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
         </Button>
       </div>
       <div
-        className={classes.content}
-        onClick={(event) => {
-          const key = (event.target as HTMLElement).closest("button")?.dataset
-            .key as PuzzleKey;
-          if (key) {
-            handleAddPuzzle(key);
-          }
+        style={{
+          display: "grid",
+          alignItems: "flex-start",
+          overflow: "auto",
         }}
       >
-        {(Object.keys(puzzlesData) as PuzzleKey[]).map((key) => {
-          const { label, Icon } = puzzlesData[key];
-          return (
-            <button key={key} className={classes.item} data-key={key}>
-              <Icon className={classes.icon} />
-              <Typography variant="body2" style={{ lineHeight: "1rem" }}>
-                {label}
-              </Typography>
-            </button>
-          );
-        })}
+        <div
+          className={classes.content}
+          onClick={(event) => {
+            const key = (event.target as HTMLElement).closest("button")?.dataset
+              .key as PuzzleKey;
+            if (key) {
+              handleAddPuzzle(key);
+            }
+          }}
+        >
+          {(Object.keys(puzzlesData) as PuzzleKey[]).map((key) => {
+            const { label, Icon } = puzzlesData[key];
+            return (
+              <button key={key} className={classes.item} data-key={key}>
+                <Icon className={classes.icon} />
+                <Typography variant="body2" style={{ lineHeight: "1rem" }}>
+                  {label}
+                </Typography>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </>
   );

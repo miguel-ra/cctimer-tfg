@@ -33,9 +33,9 @@ function SideMenuCompact() {
       <PuzzleShowcase />
       <Box
         flexDirection="column"
-        gap="1rem"
         paddingTop="2rem"
         borderTop={`1px solid ${theme.palette.border.primary}`}
+        transition={`border ${theme.transition.duration.colorMode} linear`}
       >
         <Tooltip label={t("Settings")}>
           <IconButton

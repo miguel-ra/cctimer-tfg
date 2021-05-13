@@ -1,18 +1,9 @@
 import { createUseStyles } from "react-jss";
-import { useTranslation } from "react-i18next";
-import { LangKey } from "i18n/i18n";
 import theme from "styles/theme";
-import { useColorMode } from "store/colorModeContext";
 import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
-import Button from "components/button/Button";
-import SelectField from "components/field/SelectField";
-
-const languages: Array<[LangKey, string]> = [
-  ["en", "English"],
-  ["es", "Spanish"],
-  ["pr", "Portuguese"],
-];
+import LanguageSelector from "features/settings/LanguageSelector";
+import ColorModeToggle from "features/settings/ColorModeToggle";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -27,37 +18,15 @@ const useStyles = createUseStyles({
 
 function Navbar() {
   const classes = useStyles();
-  const { colorMode, toggleColorMode } = useColorMode();
-  const { t, i18n } = useTranslation();
 
   return (
     <div className={classes.navbar}>
       <Typography variant="h5">CCTimer.com</Typography>
       <Box alignItems="center">
         <Box paddingRight="1.5rem">
-          <SelectField
-            label={t("Language")}
-            name="settings.language"
-            onChange={(value: string) => {
-              i18n.changeLanguage(value);
-            }}
-            value={i18n.language}
-          >
-            {languages.map(([key, label]) => (
-              <option key={key} value={key}>
-                {t(label)}
-              </option>
-            ))}
-          </SelectField>
+          <LanguageSelector />
         </Box>
-        <Button
-          variant="contained"
-          onClick={toggleColorMode}
-          // TODO: Create class
-          style={{ minWidth: 110, justifyContent: "center" }}
-        >
-          {t(colorMode === "dark" ? "Light mode" : "Dark mode")}
-        </Button>
+        <ColorModeToggle />
       </Box>
     </div>
   );

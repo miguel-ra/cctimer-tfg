@@ -3,12 +3,13 @@ import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 import { useModal } from "store/modalContext";
 import { useSettings } from "store/settingsContext";
-import { useColorMode } from "store/colorModeContext";
 import Box from "components/flexboxgrid/Box";
 import Button from "components/button/Button";
 import CheckboxField from "components/field/CheckboxField";
 import Field from "components/field/Field";
 import Typography from "components/typography/Typography";
+import LanguageSelector from "./LanguageSelector";
+import ColorModeToggle from "./ColorModeToggle";
 
 const useStyles = createUseStyles({
   header: {
@@ -25,7 +26,6 @@ function ModalSettings() {
   const classes = useStyles();
   const { closeModal } = useModal();
   const { settings, setSetting } = useSettings();
-  const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();
 
   return (
@@ -38,11 +38,16 @@ function ModalSettings() {
       </div>
       <form>
         <Box flexDirection="column" padding="1.5rem">
-          <Box justifyContent="space-between" paddingBottom="1rem">
-            <label htmlFor="settings.inspection.enabled">{t("Theme")}</label>
-            <Button type="button" onClick={toggleColorMode} variant="contained">
-              {t(colorMode === "dark" ? "Light mode" : "Dark mode")}
-            </Button>
+          <Box
+            justifyContent="space-between"
+            alignItems="center"
+            paddingBottom="1rem"
+          >
+            <label>{t("Theme")}</label>
+            <ColorModeToggle />
+          </Box>
+          <Box paddingBottom="1rem">
+            <LanguageSelector />
           </Box>
           <Box paddingBottom="1rem">{t("Inspection behaviour")}</Box>
           <Box

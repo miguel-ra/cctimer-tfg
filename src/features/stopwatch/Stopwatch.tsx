@@ -89,6 +89,7 @@ function Stopwatch() {
       return;
     }
     if (settings.inspection.enabled && ["idle", "dnf"].includes(status)) {
+      ready.current = !settings.timer.holdToStart;
       startInspection();
       return;
     }

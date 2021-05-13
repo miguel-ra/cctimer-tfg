@@ -3,7 +3,8 @@ import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   wrapper: {
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "1fr auto",
     gap: "1.5rem",
     width: "100%",
     flexDirection: "row",
@@ -25,6 +26,7 @@ const useStyles = createUseStyles({
     borderRadius: theme.shape.borderRadius,
     border: `1px solid ${theme.palette.border.primary}`,
     transition: `border ${theme.transition.duration.colorMode} linear`,
+    fontSize: "1.4rem",
   },
 });
 

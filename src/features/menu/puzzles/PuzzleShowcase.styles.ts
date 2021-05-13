@@ -10,13 +10,14 @@ const useStyles = createUseStyles({
     display: "flex",
     cursor: "pointer",
     userSelect: "none",
+    marginBottom: "2rem",
     WebkitTapHighlightColor: "transparent",
     "& path, & circle, & rect": {
       transition: `all ${theme.transition.duration.colorMode} linear`,
     },
     "&:hover $puzzleBorder": {
       opacity: 1,
-      transform: "scale(1.32)",
+      transform: "scale(1.322)",
     },
     "&:hover $puzzleRemove": {
       display: "block",
@@ -24,7 +25,7 @@ const useStyles = createUseStyles({
     "&.selected $puzzleBorder": {
       opacity: 1,
       color: theme.palette.text.primary,
-      transform: "scale(1.32)",
+      transform: "scale(1.322)",
     },
     "&.selected $puzzleRemove": {
       color: theme.palette.text.primary,

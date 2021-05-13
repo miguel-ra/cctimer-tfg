@@ -3,6 +3,7 @@ import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   wrapper: {
+    gap: 0,
     "& $label, & $input": {
       cursor: "pointer",
       userSelect: "none",

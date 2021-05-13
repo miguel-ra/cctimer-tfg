@@ -12,6 +12,12 @@ type Resources = {
 
 const supportedLngs: Array<LangKey> = ["en", "es", "pr"];
 
+const languages: Array<[LangKey, string]> = [
+  ["en", "English"],
+  ["es", "Spanish"],
+  ["pr", "Portuguese"],
+];
+
 const resources = supportedLngs.reduce(
   (accu: Resources, languageKey: LangKey) => {
     accu[languageKey] = {
@@ -61,6 +67,6 @@ i18n
     },
   });
 
-export type { LangKey };
+export { languages };
 
 export default i18n;
