@@ -6,7 +6,7 @@ import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import useStyles from "./ModalPuzzleSelector.styles";
 
 type ModalPuzzleSelectorProps = {
-  onAddPuzzle: (key: PuzzleKey) => void;
+  onAddPuzzle: (key: PuzzleKey) => Promise<void>;
 };
 
 function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
@@ -15,8 +15,9 @@ function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
   const { t } = useTranslation();
 
   function handleAddPuzzle(key: PuzzleKey) {
-    onAddPuzzle(key);
-    closeModal();
+    onAddPuzzle(key).then(() => {
+      closeModal();
+    });
   }
 
   return (
@@ -27,15 +28,20 @@ function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
           {t("Close")}
         </Button>
       </div>
-      <div className={classes.content}>
+      <div
+        className={classes.content}
+        onClick={(event) => {
+          const key = (event.target as HTMLElement).closest("button")?.dataset
+            .key as PuzzleKey;
+          if (key) {
+            handleAddPuzzle(key);
+          }
+        }}
+      >
         {(Object.keys(puzzlesData) as PuzzleKey[]).map((key) => {
           const { label, Icon } = puzzlesData[key];
           return (
-            <button
-              key={key}
-              className={classes.item}
-              onClick={() => handleAddPuzzle(key)}
-            >
+            <button key={key} className={classes.item} data-key={key}>
               <Icon className={classes.icon} />
               <Typography variant="body2" style={{ lineHeight: "1rem" }}>
                 {label}

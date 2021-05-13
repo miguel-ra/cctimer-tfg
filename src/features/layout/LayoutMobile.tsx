@@ -151,8 +151,6 @@ function LayoutMobile() {
     };
   }, [computeSpring, set]);
 
-  console.log("render");
-
   return (
     <Box position="absolute" width="100%" height="100%" overflow="hidden">
       {springs.map(({ opacity, backgroundColor, ...style }, i) => {

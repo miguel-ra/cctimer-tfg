@@ -3,7 +3,8 @@ import { useRef, useEffect, useState } from "react";
 function useEventListener(
   targetProp: Window | HTMLElement | null,
   eventNameProp: string | string[],
-  handler: Function
+  handler: Function,
+  attachListener: boolean = true
 ) {
   const [target, setTarget] = useState<Window | HTMLElement | null>(targetProp);
   const savedHandler = useRef<Function | null>(null);
@@ -19,7 +20,7 @@ function useEventListener(
     const eventNames = Array.isArray(eventNameProp)
       ? eventNameProp
       : [eventNameProp];
-    if (!target || !target.addEventListener) {
+    if (!target || !target.addEventListener || !attachListener) {
       return;
     }
     if (savedHandler.current !== handler) {
@@ -39,7 +40,7 @@ function useEventListener(
         target.removeEventListener(eventName, eventListener);
       });
     };
-  }, [eventNameProp, target, handler]);
+  }, [eventNameProp, target, handler, attachListener]);
 
   return { setTarget };
 }

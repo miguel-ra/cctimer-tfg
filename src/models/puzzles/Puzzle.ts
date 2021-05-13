@@ -15,6 +15,8 @@ import { ReactComponent as MegaminxIcon } from "assets/icons/puzzles/megaminx.sv
 import { ReactComponent as GigaminxIcon } from "assets/icons/puzzles/gigaminx.svg";
 import { ReactComponent as PyraminxIcon } from "assets/icons/puzzles/pyraminx.svg";
 
+export type PuzzleId = number;
+
 export type PuzzleKey =
   | "skewb"
   | "clock"
@@ -34,7 +36,7 @@ export type PuzzleKey =
   | "gigaminx";
 
 export type UserPuzzle = {
-  id: number;
+  id: PuzzleId;
   key: PuzzleKey;
 };
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
+import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 
 function usePuzzleView() {
@@ -17,14 +17,23 @@ function usePuzzleView() {
   }, [refreshPuzzles]);
 
   const addPuzzle = useCallback(
-    async (key: PuzzleKey): Promise<void> => {
-      await puzzlesRepository.add(key);
+    async (key: PuzzleKey): Promise<PuzzleId> => {
+      const addedId = await puzzlesRepository.add(key);
+      refreshPuzzles();
+      return addedId;
+    },
+    [puzzlesRepository, refreshPuzzles]
+  );
+
+  const removePuzzle = useCallback(
+    async (id: PuzzleId): Promise<void> => {
+      await puzzlesRepository.remove(id);
       refreshPuzzles();
     },
     [puzzlesRepository, refreshPuzzles]
   );
 
-  return { puzzles, addPuzzle };
+  return { puzzles, addPuzzle, removePuzzle };
 }
 
 export { usePuzzleView };

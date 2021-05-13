@@ -1,26 +1,33 @@
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
+import { useModal } from "store/modalContext";
+import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
+import { ReactComponent as RemoveIcon } from "assets/icons/remove.svg";
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
 import IconButton from "components/button/IconButton";
 import Tooltip from "components/tooltip/Tooltip";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./PuzzleShowcase.styles";
-import { useModal } from "store/modalContext";
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import { usePuzzleView } from "./puzzleViewModel";
-import { puzzlesData } from "models/puzzles/Puzzle";
+import { usePopover } from "store/popoverContext";
+import ShowRemove from "./ShowRemove";
 
 function PuzzleShowcase() {
   const { t } = useTranslation();
   const { openModal } = useModal();
-  const { puzzles, addPuzzle } = usePuzzleView();
-  const [selectedPuzzle, setSelectedPuzzle] = useState<number>();
+  const { setPopover } = usePopover();
+  const { puzzles, addPuzzle, removePuzzle } = usePuzzleView();
+  const [selectedPuzzle, setSelectedPuzzle] = useState<number | null>(null);
   const classes = useStyles();
 
   useEffect(() => {
-    if (!selectedPuzzle && puzzles.length) {
+    if (!puzzles.length) {
+      return;
+    }
+    if (selectedPuzzle === null) {
       setSelectedPuzzle(puzzles[0].id);
     }
   }, [puzzles, selectedPuzzle]);
@@ -39,15 +46,43 @@ function PuzzleShowcase() {
         const { label, Icon } = puzzlesData[key];
         return (
           <Tooltip key={id} label={label}>
-            <div
+            <ShowRemove
+              data-id={id}
               className={clsx(classes.puzzleIcon, {
                 selected: id === selectedPuzzle,
               })}
-              onClick={() => setSelectedPuzzle(id)}
+              onClick={(event: MouseEvent) => {
+                const shouldRemove = !!(event.target as HTMLElement).closest<HTMLElement>(
+                  '[data-action="remove"]'
+                );
+                const iconContainer = (event.target as HTMLElement).closest<HTMLElement>(
+                  "[data-id]"
+                );
+                if (iconContainer?.dataset?.id) {
+                  const id = Number(iconContainer?.dataset?.id);
+                  if (shouldRemove) {
+                    setSelectedPuzzle(null);
+                    removePuzzle(id);
+                    setPopover();
+                    return;
+                  }
+                  setSelectedPuzzle(id);
+                }
+              }}
             >
-              <PuzzleBorder className={classes.puzzleBorder} />
-              <Icon />
-            </div>
+              {({ showRemove }: { showRemove: boolean }) => (
+                <>
+                  <PuzzleBorder className={classes.puzzleBorder} />
+                  <Icon />
+                  {puzzles.length > 1 && showRemove && (
+                    <RemoveIcon
+                      data-action="remove"
+                      className={classes.puzzleRemove}
+                    />
+                  )}
+                </>
+              )}
+            </ShowRemove>
           </Tooltip>
         );
       })}
@@ -55,7 +90,14 @@ function PuzzleShowcase() {
         <IconButton
           size="small"
           onClick={() =>
-            openModal(<ModalPuzzleSelector onAddPuzzle={addPuzzle} />)
+            openModal(
+              <ModalPuzzleSelector
+                onAddPuzzle={async (key: PuzzleKey) => {
+                  const addedId = await addPuzzle(key);
+                  setSelectedPuzzle(addedId);
+                }}
+              />
+            )
           }
         >
           <PlusIcon />

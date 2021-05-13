@@ -12,20 +12,24 @@ function getMetas() {
   return metas;
 }
 
+function loadHandler() {
+  document.body.classList.add("loaded");
+}
+
+function mouseDownHandler() {
+  document.body.classList.add("mousedown");
+}
+
+function keyDownHandler() {
+  document.body.classList.remove("mousedown");
+}
+
 function App() {
   const metas = getMetas();
 
-  useEventListener(window, "load", () => {
-    document.body.classList.add("loaded");
-  });
-
-  useEventListener(window, "mousedown", () => {
-    document.body.classList.add("mousedown");
-  });
-
-  useEventListener(window, "keydown", () => {
-    document.body.classList.remove("mousedown");
-  });
+  useEventListener(window, "load", loadHandler);
+  useEventListener(window, "mousedown", mouseDownHandler);
+  useEventListener(window, "keydown", keyDownHandler);
 
   return (
     <>

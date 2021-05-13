@@ -140,6 +140,8 @@ function PopoverProvider({ children }: PopoverProviderProps) {
         }
         return;
       }
+      const targetRect = targetElement?.getBoundingClientRect();
+      setMouseLeaveTarget(targetElement);
       if (config) {
         setPopoverConfig({ ...initialConfig, ...config });
       }
@@ -151,8 +153,6 @@ function PopoverProvider({ children }: PopoverProviderProps) {
             }
             tooltipRef.current = contentElement.parentElement;
             setTransitionEndTarget(tooltipRef.current);
-            setMouseLeaveTarget(targetElement);
-            const targetRect = targetElement?.getBoundingClientRect();
             Object.assign(tooltipRef.current?.style, {
               opacity: 1,
               ...computePopoverPosition(targetRect, {

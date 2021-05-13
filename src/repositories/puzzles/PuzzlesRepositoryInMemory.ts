@@ -1,5 +1,5 @@
 import { openDB, IDBPDatabase, DBSchema } from "idb";
-import { PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
+import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
 
 interface PuzzlesDB extends DBSchema {
@@ -27,9 +27,14 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
     });
   }
 
-  async add(puzzleKey: PuzzleKey) {
+  async add(puzzleKey: PuzzleKey): Promise<PuzzleId> {
     const db = await this.dbPromise;
-    db.add("puzzles", { key: puzzleKey } as UserPuzzle);
+    return await db.add("puzzles", { key: puzzleKey } as UserPuzzle);
+  }
+
+  async remove(puzzleId: PuzzleId) {
+    const db = await this.dbPromise;
+    await db.delete("puzzles", puzzleId);
   }
 
   async getAll() {

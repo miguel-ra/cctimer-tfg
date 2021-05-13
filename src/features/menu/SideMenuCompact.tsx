@@ -31,7 +31,12 @@ function SideMenuCompact() {
   return (
     <div className={classes.sideMenu}>
       <PuzzleShowcase />
-      <Box flexDirection="column" gap="1rem">
+      <Box
+        flexDirection="column"
+        gap="1rem"
+        paddingTop="2rem"
+        borderTop={`1px solid ${theme.palette.border.primary}`}
+      >
         <Tooltip label={t("Settings")}>
           <IconButton
             onClick={() => {
