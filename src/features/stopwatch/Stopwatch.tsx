@@ -25,21 +25,34 @@ function Stopwatch() {
   const [status, setStatus] = useState("idle"); // TODO: Create status constats
   const [color, setColor] = useState("inherit");
   const holdStartedAt = useRef<number | null>(null);
+  const dataToSave = useRef<any>();
 
   useEffect(() => {
     ready.current = !settings.timer.holdToStart;
   }, [settings.timer.holdToStart]);
 
-  const saveRecord = useCallback(() => {
-    console.log("record saved");
+  useEffect(() => {
+    let penalty = dataToSave?.current?.penalty;
+    if (penalty !== "dnf" && ["plus-two", "dnf"].includes(status)) {
+      penalty = status;
+    }
+    dataToSave.current = {
+      penalty,
+      elapsedTime: penalty === "dnf" ? 0 : elapsedTime,
+    };
+  }, [elapsedTime, status]);
+
+  const saveTime = useCallback(() => {
+    console.log("save time", dataToSave.current);
+    dataToSave.current = {};
   }, []);
 
   const setDNF = useCallback(() => {
     ready.current = false;
     setStatus("dnf");
     resetStopwatch();
-    saveRecord();
-  }, [resetStopwatch, saveRecord]);
+    saveTime();
+  }, [resetStopwatch, saveTime]);
 
   const startPlusTwo = useCallback(() => {
     setStatus("plus-two");
@@ -62,7 +75,7 @@ function Stopwatch() {
       ready.current = false;
       stopStopwatch();
       setStatus("idle");
-      saveRecord();
+      saveTime();
       return;
     }
     if (status === "dnf") {
@@ -79,7 +92,7 @@ function Stopwatch() {
         }
       }, 500);
     }
-  }, [saveRecord, settings.timer.holdToStart, status, stopStopwatch]);
+  }, [saveTime, settings.timer.holdToStart, status, stopStopwatch]);
 
   const handleRelease = useCallback(() => {
     setColor("inherit");
@@ -136,7 +149,7 @@ function Stopwatch() {
         setColor("inherit");
         if (status !== "idle") {
           stopStopwatch();
-          saveRecord();
+          saveTime();
           resetStopwatch();
         }
         cancel();
