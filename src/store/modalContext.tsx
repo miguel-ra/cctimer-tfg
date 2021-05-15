@@ -5,6 +5,7 @@ import {
   Suspense,
   useCallback,
   useContext,
+  useRef,
   useState,
 } from "react";
 
@@ -33,19 +34,35 @@ function useModal() {
 
 function ModalProvider({ children }: ModalProviderProps) {
   const [content, setContent] = useState<ReactNode | null>(null);
+  const prevActiveElement = useRef<HTMLElement>();
 
   const openModal = useCallback((newContent) => {
+    prevActiveElement.current = undefined;
     setContent(newContent);
   }, []);
 
   const closeModal = useCallback(() => {
     setContent(null);
+    if (prevActiveElement.current) {
+      prevActiveElement.current?.focus();
+      prevActiveElement.current = undefined;
+    }
+  }, []);
+
+  const setPrevActiveElement = useCallback((element: HTMLElement) => {
+    if (!prevActiveElement.current) {
+      prevActiveElement.current = element;
+    }
   }, []);
 
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       <Suspense fallback={null}>
-        <Modal containerId={containerId} closeModal={closeModal}>
+        <Modal
+          containerId={containerId}
+          closeModal={closeModal}
+          setPrevActiveElement={setPrevActiveElement}
+        >
           {content}
         </Modal>
       </Suspense>

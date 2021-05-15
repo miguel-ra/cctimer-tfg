@@ -1,5 +1,6 @@
 import {
   Dispatch,
+  HTMLAttributes,
   MouseEvent,
   MutableRefObject,
   ReactNode,
@@ -15,8 +16,10 @@ type PuzzleIconWrapperProps = {
   timeoutId: MutableRefObject<NodeJS.Timeout | null>;
   showRemoveId: number | null;
   setShowRemoveId: Dispatch<React.SetStateAction<number | null>>;
+  onSelect: () => void;
+  onRemove: () => void;
   children: ReactNode;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
 function PuzzleIconWrapper({
   onClick,
@@ -24,6 +27,8 @@ function PuzzleIconWrapper({
   timeoutId,
   showRemoveId,
   setShowRemoveId,
+  onSelect,
+  onRemove,
   ...props
 }: PuzzleIconWrapperProps) {
   const dataId = props?.["data-id"];
@@ -45,6 +50,8 @@ function PuzzleIconWrapper({
   return (
     <div
       {...props}
+      tabIndex={0}
+      role="button"
       onMouseEnter={() => {
         if (timeoutId.current) {
           clearTimeout(timeoutId.current);
@@ -75,6 +82,13 @@ function PuzzleIconWrapper({
           }, 500);
         }
         onClick(event);
+      }}
+      onKeyDown={(event) => {
+        if (["Enter", " "].includes(event.key)) {
+          onSelect();
+        } else if (event.key === "Delete") {
+          onRemove();
+        }
       }}
     >
       {children}

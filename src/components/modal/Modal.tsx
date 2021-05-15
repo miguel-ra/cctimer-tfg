@@ -6,9 +6,15 @@ type ModalProps = {
   containerId: string;
   closeModal: () => void;
   children?: ReactNode;
+  setPrevActiveElement: (element: HTMLElement) => void;
 };
 
-function Modal({ containerId, closeModal, children }: ModalProps) {
+function Modal({
+  containerId,
+  closeModal,
+  children,
+  setPrevActiveElement,
+}: ModalProps) {
   const [modalElement, setModalElement] = useState<HTMLElement>();
   const classes = useStyles();
 
@@ -16,10 +22,11 @@ function Modal({ containerId, closeModal, children }: ModalProps) {
     if (!modalElement || !children) {
       return;
     }
+    setPrevActiveElement(document.activeElement as HTMLElement);
     (document.activeElement as HTMLElement).blur();
     const modalElementCopy = modalElement;
 
-    function handler(event: KeyboardEvent) {
+    function handler(event: KeyboardEvent | null) {
       const focusableElements = modalElementCopy.querySelectorAll(
         'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="number"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])'
       );
@@ -28,21 +35,21 @@ function Modal({ containerId, closeModal, children }: ModalProps) {
         focusableElements.length - 1
       ] as HTMLElement;
 
-      if (event.key === "Escape") {
+      if (event?.key === "Escape") {
         closeModal();
       }
 
-      if (event.key !== "Tab") {
-        return;
-      }
-
       if (!modalElement?.contains(document.activeElement)) {
-        event.preventDefault();
+        event?.preventDefault();
         firstFocusable?.focus();
         return;
       }
 
-      if (event.shiftKey) {
+      if (event?.key !== "Tab") {
+        return;
+      }
+
+      if (event?.shiftKey) {
         if (document.activeElement === firstFocusable) {
           // shift + tab
           lastFocusable.focus();
@@ -51,15 +58,17 @@ function Modal({ containerId, closeModal, children }: ModalProps) {
       } else if (document.activeElement === lastFocusable) {
         // tab
         firstFocusable.focus();
-        event.preventDefault();
+        event?.preventDefault();
       }
     }
+
+    handler(null);
 
     window.addEventListener("keydown", handler);
     return () => {
       window.removeEventListener("keydown", handler);
     };
-  }, [children, closeModal, modalElement]);
+  }, [children, closeModal, modalElement, setPrevActiveElement]);
 
   if (!children) {
     return null;

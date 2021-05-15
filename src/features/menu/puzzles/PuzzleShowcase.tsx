@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useRef, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { useModal } from "store/modalContext";
@@ -35,27 +35,42 @@ function PuzzleShowcase() {
     }
   }, [puzzles, selectedPuzzle]);
 
+  const handleRemove = useCallback(
+    ({ id, index, puzzles: puzzlesParam }) => {
+      const nextSelectedPuzzle =
+        puzzlesParam[(index + 1) % puzzlesParam.length].id;
+      removePuzzle(id);
+      setSelectedPuzzle(nextSelectedPuzzle);
+      setPopover();
+    },
+    [removePuzzle, setPopover]
+  );
+
   return (
     <Box
       width="7.5rem"
-      flexDirection="column"
       padding="2rem 1rem 2rem"
       alignItems="center"
       overflow="auto"
       flexWrap="nowrap"
+      display="grid"
+      gap="2rem"
+      justifyContent="center"
     >
       {puzzles.map(({ id, key }, index) => {
         const { label, Icon } = puzzlesData[key];
         return (
-          <Tooltip key={id} label={label}>
+          <Tooltip key={id} label={t(label)}>
             <PuzzleIconWrapper
               data-id={id}
-              className={clsx(classes.puzzleIcon, {
+              className={clsx(classes.puzzleWrapper, {
                 selected: id === selectedPuzzle,
               })}
               timeoutId={timeoutId}
               showRemoveId={showRemoveId}
               setShowRemoveId={setShowRemoveId}
+              onSelect={() => setSelectedPuzzle(id)}
+              onRemove={() => handleRemove({ id, index, puzzles })}
               onClick={(event: MouseEvent) => {
                 const shouldRemove = !!(event.target as HTMLElement).closest<HTMLElement>(
                   '[data-action="remove"]'
@@ -63,12 +78,9 @@ function PuzzleShowcase() {
                 const iconContainer = (event.target as HTMLElement).closest<HTMLElement>(
                   "[data-id]"
                 );
-                if (iconContainer?.dataset?.id) {
-                  const id = Number(iconContainer?.dataset?.id);
+                if (iconContainer) {
                   if (shouldRemove) {
-                    removePuzzle(id);
-                    setSelectedPuzzle(puzzles[(index + 1) % puzzles.length].id);
-                    setPopover();
+                    handleRemove({ id, index, puzzles });
                     return;
                   }
                   setSelectedPuzzle(id);
@@ -76,7 +88,7 @@ function PuzzleShowcase() {
               }}
             >
               <PuzzleBorder className={classes.puzzleBorder} />
-              <Icon />
+              <Icon className={classes.puzzleIcon} />
               {puzzles.length > 1 &&
                 (isTouchDevice()
                   ? showRemoveId === id
@@ -90,23 +102,25 @@ function PuzzleShowcase() {
           </Tooltip>
         );
       })}
-      <Tooltip label={t("Add puzzle")}>
-        <IconButton
-          size="small"
-          onClick={() =>
-            openModal(
-              <ModalPuzzleSelector
-                onAddPuzzle={async (key: PuzzleKey) => {
-                  const addedId = await addPuzzle(key);
-                  setSelectedPuzzle(addedId);
-                }}
-              />
-            )
-          }
-        >
-          <PlusIcon />
-        </IconButton>
-      </Tooltip>
+      <Box justifyContent="center">
+        <Tooltip label={t("Add puzzle")}>
+          <IconButton
+            size="small"
+            onClick={() =>
+              openModal(
+                <ModalPuzzleSelector
+                  onAddPuzzle={async (key: PuzzleKey) => {
+                    const addedId = await addPuzzle(key);
+                    setSelectedPuzzle(addedId);
+                  }}
+                />
+              )
+            }
+          >
+            <PlusIcon />
+          </IconButton>
+        </Tooltip>
+      </Box>
     </Box>
   );
 }

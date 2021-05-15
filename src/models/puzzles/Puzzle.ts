@@ -1,19 +1,19 @@
-import { ReactComponent as Cube2Icon } from "assets/icons/puzzles/cube2.svg";
-import { ReactComponent as Cube3Icon } from "assets/icons/puzzles/cube3.svg";
-import { ReactComponent as Cube4Icon } from "assets/icons/puzzles/cube4.svg";
-import { ReactComponent as Cube5Icon } from "assets/icons/puzzles/cube5.svg";
-import { ReactComponent as Cube6Icon } from "assets/icons/puzzles/cube6.svg";
-import { ReactComponent as Cube7Icon } from "assets/icons/puzzles/cube7.svg";
-import { ReactComponent as Cube8Icon } from "assets/icons/puzzles/cube8.svg";
-import { ReactComponent as Cube9Icon } from "assets/icons/puzzles/cube9.svg";
-import { ReactComponent as Cube10Icon } from "assets/icons/puzzles/cube10.svg";
-import { ReactComponent as Cube11Icon } from "assets/icons/puzzles/cube11.svg";
-import { ReactComponent as ClockIcon } from "assets/icons/puzzles/clock.svg";
-import { ReactComponent as SquareIcon } from "assets/icons/puzzles/square.svg";
-import { ReactComponent as SkewbIcon } from "assets/icons/puzzles/skewb.svg";
-import { ReactComponent as MegaminxIcon } from "assets/icons/puzzles/megaminx.svg";
-import { ReactComponent as GigaminxIcon } from "assets/icons/puzzles/gigaminx.svg";
-import { ReactComponent as PyraminxIcon } from "assets/icons/puzzles/pyraminx.svg";
+import ClockIcon from "components/icon/ClockIcon";
+import Cube2Icon from "components/icon/Cube2Icon";
+import Cube3Icon from "components/icon/Cube3Icon";
+import Cube4Icon from "components/icon/Cube4Icon";
+import Cube5Icon from "components/icon/Cube5Icon";
+import Cube6Icon from "components/icon/Cube6Icon";
+import Cube7Icon from "components/icon/Cube7Icon";
+import Cube8Icon from "components/icon/Cube8Icon";
+import Cube9Icon from "components/icon/Cube9Icon";
+import Cube10Icon from "components/icon/Cube10Icon";
+import Cube11Icon from "components/icon/Cube11Icon";
+import SquareIcon from "components/icon/SquareIcon";
+import SkewbIcon from "components/icon/SkewbIcon";
+import MegaminxIcon from "components/icon/MegaminxIcon";
+import GigaminxIcon from "components/icon/GigaminxIcon";
+import PyraminxIcon from "components/icon/PyraminxIcon";
 
 export type PuzzleId = number;
 

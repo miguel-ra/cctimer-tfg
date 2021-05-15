@@ -2,7 +2,7 @@ import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 
 const useStyles = createUseStyles({
-  puzzleIcon: {
+  puzzleWrapper: {
     "--background-color": theme.palette.background.default,
     position: "relative",
     width: "3.5rem",
@@ -10,12 +10,12 @@ const useStyles = createUseStyles({
     display: "flex",
     cursor: "pointer",
     userSelect: "none",
-    marginBottom: "2rem",
     WebkitTapHighlightColor: "transparent",
+    outlineOffset: "0.5rem",
     "& path, & circle, & rect": {
       transition: `all ${theme.transition.duration.colorMode} linear`,
     },
-    "&:hover $puzzleBorder": {
+    "&:hover $puzzleBorder, &:focus-within $puzzleBorder": {
       opacity: 1,
       transform: "scale(1.322)",
     },
@@ -30,6 +30,9 @@ const useStyles = createUseStyles({
     "&.selected $puzzleRemove": {
       color: theme.palette.text.primary,
     },
+    "&:focus": {
+      outline: "5px auto -webkit-focus-ring-color",
+    },
   },
   puzzleBorder: {
     color: "var(--palette-border-secondary)",
@@ -41,6 +44,10 @@ const useStyles = createUseStyles({
     opacity: 0,
     transform: "scale(1.1)",
     transition: `opacity ${theme.transition.duration.colorMode} ease-in-out, color ${theme.transition.duration.colorMode} ease-in-out, transform 0.25s ease-in-out`,
+  },
+  puzzleIcon: {
+    width: "100%",
+    height: "100%",
   },
   puzzleRemove: {
     display: "none",
