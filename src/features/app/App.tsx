@@ -20,8 +20,11 @@ function mouseDownHandler() {
   document.body.classList.add("mousedown");
 }
 
-function keyDownHandler() {
+function keyDownHandler(event: KeyboardEvent) {
   document.body.classList.remove("mousedown");
+  if (event.key === "Escape") {
+    (document?.activeElement as HTMLElement)?.blur();
+  }
 }
 
 function App() {

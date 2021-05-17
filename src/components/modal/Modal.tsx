@@ -36,6 +36,7 @@ function Modal({
       ] as HTMLElement;
 
       if (event?.key === "Escape") {
+        event.stopPropagation();
         closeModal();
       }
 

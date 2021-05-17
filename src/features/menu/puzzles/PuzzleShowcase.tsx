@@ -37,10 +37,10 @@ function PuzzleShowcase() {
   }, [puzzles, selectedItem, setSelectedItem]);
 
   const handleRemove = useCallback(
-    ({ id, index, puzzles: puzzlesParam }) => {
+    ({ id, key, index, puzzles: puzzlesParam }) => {
       const nextSelectedPuzzle =
         puzzlesParam[(index + 1) % puzzlesParam.length];
-      removePuzzle(id);
+      removePuzzle(key, id);
       setSelectedItem({ type: "puzzle", ...nextSelectedPuzzle });
       setPopover();
     },
@@ -72,17 +72,17 @@ function PuzzleShowcase() {
               showRemoveId={showRemoveId}
               setShowRemoveId={setShowRemoveId}
               onSelect={() => setSelectedItem({ type: "puzzle", ...puzzle })}
-              onRemove={() => handleRemove({ id, index, puzzles })}
+              onRemove={() => handleRemove({ id, key, index, puzzles })}
               onClick={(event: MouseEvent) => {
-                const shouldRemove = !!(event.target as HTMLElement).closest<HTMLElement>(
-                  '[data-action="remove"]'
-                );
-                const iconContainer = (event.target as HTMLElement).closest<HTMLElement>(
-                  "[data-id]"
-                );
+                const shouldRemove = !!(
+                  event.target as HTMLElement
+                ).closest<HTMLElement>('[data-action="remove"]');
+                const iconContainer = (
+                  event.target as HTMLElement
+                ).closest<HTMLElement>("[data-id]");
                 if (iconContainer) {
                   if (shouldRemove) {
-                    handleRemove({ id, index, puzzles });
+                    handleRemove({ id, key, index, puzzles });
                     return;
                   }
                   setSelectedItem({ type: "puzzle", ...puzzle });

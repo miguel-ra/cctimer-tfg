@@ -8,4 +8,5 @@ export interface TimesRepository {
     time: Time
   ): Promise<PuzzleTime>;
   getAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId): Promise<PuzzleTime[]>;
+  deleteAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId): Promise<void>;
 }

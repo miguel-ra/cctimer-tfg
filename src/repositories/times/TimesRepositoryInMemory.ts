@@ -1,4 +1,4 @@
-import { openDB, IDBPDatabase } from "idb";
+import { openDB, IDBPDatabase } from "idb/with-async-ittr.js";
 import { PuzzleId, PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import { PuzzleTime, Time } from "models/times/Time";
 import { TimesRepository } from "models/times/TimesRepository";
@@ -53,6 +53,17 @@ class TimesRepositoryInMemory implements TimesRepository {
   async getAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {
     const db = await this.dbPromise;
     return await db.getAllFromIndex(puzzleKey, "puzzleId", puzzleId);
+  }
+
+  async deleteAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {
+    const db = await this.dbPromise;
+    const index = db
+      .transaction(puzzleKey, "readwrite")
+      .store.index("puzzleId");
+
+    for await (const cursor of index.iterate(puzzleId)) {
+      cursor.delete();
+    }
   }
 }
 

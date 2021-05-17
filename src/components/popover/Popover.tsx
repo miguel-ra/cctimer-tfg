@@ -20,6 +20,7 @@ function Popover({ containerId, children }: PopoverProps) {
 
   useEventListener(window, "keydown", (event: KeyboardEvent) => {
     if (event.key === "Escape") {
+      event.stopPropagation();
       setPopover();
     }
   });

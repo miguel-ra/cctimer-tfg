@@ -26,7 +26,7 @@ function Stopwatch({ onSave }: StopwatchProps) {
     elapsedTime,
     remainingTime,
   } = useStopwatch();
-  const ready = useRef(!settings.timer.holdToStart);
+  const ready = useRef<boolean | null>(!settings.timer.holdToStart);
   const [status, setStatus] = useState("idle"); // TODO: Create status constats
   const [color, setColor] = useState("inherit");
   const holdStartedAt = useRef<number | null>(null);
@@ -77,7 +77,7 @@ function Stopwatch({ onSave }: StopwatchProps) {
 
   const handlePress = useCallback(() => {
     if (status === "running") {
-      ready.current = false;
+      ready.current = null;
       stopStopwatch();
       setStatus("idle");
       saveTime();
@@ -127,7 +127,6 @@ function Stopwatch({ onSave }: StopwatchProps) {
       if (status !== "running" && event.key !== " ") {
         return false;
       }
-
       handlePress();
       return true;
     },
@@ -136,13 +135,14 @@ function Stopwatch({ onSave }: StopwatchProps) {
 
   const keyUpHandler = useCallback(
     (event) => {
-      if (event.key !== " ") {
+      if (ready.current === null || event.key !== " ") {
+        ready.current = !settings.timer.holdToStart;
         return false;
       }
       handleRelease();
       return true;
     },
-    [handleRelease]
+    [handleRelease, settings.timer.holdToStart]
   );
 
   const bind = useDrag(
