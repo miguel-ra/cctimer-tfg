@@ -8,7 +8,7 @@ type UseStorageStateOptions<T> = {
 
 function useStorageState<T>(
   key: string,
-  defaultValue: () => T | T,
+  defaultValue: (() => T) | T,
   {
     storage = global.localStorage,
     serialize = JSON.stringify,
@@ -20,7 +20,9 @@ function useStorageState<T>(
     if (valueInLocalStorage) {
       return deserialize(valueInLocalStorage);
     }
-    return typeof defaultValue === "function" ? defaultValue() : defaultValue;
+    return typeof defaultValue === "function"
+      ? (defaultValue as () => T)()
+      : defaultValue;
   });
 
   const prevKeyRef = useRef(key);

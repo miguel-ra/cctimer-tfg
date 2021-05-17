@@ -4,14 +4,19 @@ import {
   millisecondsToSeconds,
   millisecondsToClock,
 } from "shared/format/number";
-import useStopwatch from "./useStopwatch";
+import { Time } from "models/times/Time";
 import { useSettings } from "store/settingsContext";
+import useStopwatch from "./useStopwatch";
 import Pressable from "./Pressable";
 import useStyles from "./Stopwatch.styles";
 
 // TODO: Refactor to avoid use useCallback
 
-function Stopwatch() {
+type StopwatchProps = {
+  onSave: (time: Time) => void;
+};
+
+function Stopwatch({ onSave }: StopwatchProps) {
   const classes = useStyles();
   const { settings } = useSettings();
   const {
@@ -43,9 +48,9 @@ function Stopwatch() {
   }, [elapsedTime, status]);
 
   const saveTime = useCallback(() => {
-    console.log("save time", dataToSave.current);
+    onSave({ ...dataToSave.current });
     dataToSave.current = {};
-  }, []);
+  }, [onSave]);
 
   const setDNF = useCallback(() => {
     ready.current = false;

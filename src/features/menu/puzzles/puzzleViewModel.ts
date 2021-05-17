@@ -17,10 +17,10 @@ function usePuzzleView() {
   }, [refreshPuzzles]);
 
   const addPuzzle = useCallback(
-    async (key: PuzzleKey): Promise<PuzzleId> => {
-      const addedId = await puzzlesRepository.add(key);
+    async (key: PuzzleKey): Promise<UserPuzzle> => {
+      const addedPuzzle = await puzzlesRepository.add(key);
       refreshPuzzles();
-      return addedId;
+      return addedPuzzle;
     },
     [puzzlesRepository, refreshPuzzles]
   );

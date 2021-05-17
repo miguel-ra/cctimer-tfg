@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
 import theme from "styles/theme";
+import { useTimerViewModel } from "./timerViewModel";
 
 const useStyles = createUseStyles({
   sessionContainer: {
@@ -24,17 +25,18 @@ const useStyles = createUseStyles({
 });
 
 function Timer() {
-  const { t } = useTranslation();
   const classes = useStyles();
+  const { t } = useTranslation();
+  const { puzzleTimes, addTime } = useTimerViewModel();
 
   return (
     <Box flexDirection="column" flex={1}>
       <Box flex={1} placeContent="center">
-        <Stopwatch />
+        <Stopwatch onSave={addTime} />
       </Box>
       <div className={classes.sessionContainer}>
         <Box flex={1} placeContent="center">
-          {t("Times")}
+          {puzzleTimes.map((time) => time.elapsedTime).join(", ")}
         </Box>
         <div className={classes.stats}>{t("Stats and grahps")}</div>
         <Box flex={1} placeContent="center">

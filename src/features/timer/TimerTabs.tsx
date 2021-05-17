@@ -4,6 +4,7 @@ import theme from "styles/theme";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
+import { useTimerViewModel } from "./timerViewModel";
 
 const useStyles = createUseStyles({
   header: {
@@ -33,6 +34,7 @@ const useStyles = createUseStyles({
 function TimerTabs() {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { addTime } = useTimerViewModel();
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
@@ -41,7 +43,7 @@ function TimerTabs() {
       </div>
       <Box flexDirection="column" flex={1}>
         <Box flex={1}>
-          <Stopwatch />
+          <Stopwatch onSave={addTime} />
         </Box>
         <div className={classes.tabs}>
           <Box flex={1} placeContent="center" padding="1rem">

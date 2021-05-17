@@ -4,6 +4,7 @@ import { ColorModeProvider } from "./colorModeContext";
 import { SettingsProvider } from "./settingsContext";
 import { ModalProvider } from "./modalContext";
 import { PopoverProvider } from "./popoverContext";
+import { MenuProvider } from "./menuContext";
 
 type ProvidersProps = {
   children?: ReactNode;
@@ -15,6 +16,7 @@ const providers = [
   SettingsProvider,
   ModalProvider,
   PopoverProvider,
+  MenuProvider,
 ];
 
 function Providers({ children }: ProvidersProps) {

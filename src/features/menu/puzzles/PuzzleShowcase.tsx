@@ -1,7 +1,9 @@
 import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
+import { useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
+import { usePopover } from "store/popoverContext";
 import isTouchDevice from "shared/browser/isTouchDevice";
 import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
@@ -12,16 +14,15 @@ import Tooltip from "components/tooltip/Tooltip";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./PuzzleShowcase.styles";
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
-import { usePuzzleView } from "./puzzleViewModel";
-import { usePopover } from "store/popoverContext";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";
+import { usePuzzleView } from "./puzzleViewModel";
 
 function PuzzleShowcase() {
   const { t } = useTranslation();
   const { openModal } = useModal();
   const { setPopover } = usePopover();
   const { puzzles, addPuzzle, removePuzzle } = usePuzzleView();
-  const [selectedPuzzle, setSelectedPuzzle] = useState<number | null>(null);
+  const { selectedItem, setSelectedItem } = useMenu();
   const [showRemoveId, setShowRemoveId] = useState<number | null>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const classes = useStyles();
@@ -30,20 +31,20 @@ function PuzzleShowcase() {
     if (!puzzles.length) {
       return;
     }
-    if (selectedPuzzle === null) {
-      setSelectedPuzzle(puzzles[0].id);
+    if (selectedItem === null) {
+      setSelectedItem({ type: "puzzle", ...puzzles[0] });
     }
-  }, [puzzles, selectedPuzzle]);
+  }, [puzzles, selectedItem, setSelectedItem]);
 
   const handleRemove = useCallback(
     ({ id, index, puzzles: puzzlesParam }) => {
       const nextSelectedPuzzle =
-        puzzlesParam[(index + 1) % puzzlesParam.length].id;
+        puzzlesParam[(index + 1) % puzzlesParam.length];
       removePuzzle(id);
-      setSelectedPuzzle(nextSelectedPuzzle);
+      setSelectedItem({ type: "puzzle", ...nextSelectedPuzzle });
       setPopover();
     },
-    [removePuzzle, setPopover]
+    [removePuzzle, setPopover, setSelectedItem]
   );
 
   return (
@@ -57,19 +58,20 @@ function PuzzleShowcase() {
       gap="2rem"
       justifyContent="center"
     >
-      {puzzles.map(({ id, key }, index) => {
+      {puzzles.map((puzzle, index) => {
+        const { id, key } = puzzle;
         const { label, Icon } = puzzlesData[key];
         return (
           <Tooltip key={id} label={t(label)}>
             <PuzzleIconWrapper
               data-id={id}
               className={clsx(classes.puzzleWrapper, {
-                selected: id === selectedPuzzle,
+                selected: id === selectedItem?.id,
               })}
               timeoutId={timeoutId}
               showRemoveId={showRemoveId}
               setShowRemoveId={setShowRemoveId}
-              onSelect={() => setSelectedPuzzle(id)}
+              onSelect={() => setSelectedItem({ type: "puzzle", ...puzzle })}
               onRemove={() => handleRemove({ id, index, puzzles })}
               onClick={(event: MouseEvent) => {
                 const shouldRemove = !!(event.target as HTMLElement).closest<HTMLElement>(
@@ -83,7 +85,7 @@ function PuzzleShowcase() {
                     handleRemove({ id, index, puzzles });
                     return;
                   }
-                  setSelectedPuzzle(id);
+                  setSelectedItem({ type: "puzzle", ...puzzle });
                 }
               }}
             >
@@ -110,8 +112,8 @@ function PuzzleShowcase() {
               openModal(
                 <ModalPuzzleSelector
                   onAddPuzzle={async (key: PuzzleKey) => {
-                    const addedId = await addPuzzle(key);
-                    setSelectedPuzzle(addedId);
+                    const addedPuzzle = await addPuzzle(key);
+                    setSelectedItem({ type: "puzzle", ...addedPuzzle });
                   }}
                 />
               )

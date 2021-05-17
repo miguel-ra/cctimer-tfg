@@ -1,13 +1,13 @@
-import { openDB, IDBPDatabase, DBSchema } from "idb";
+import { openDB, IDBPDatabase } from "idb";
 import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
 
-interface PuzzlesDB extends DBSchema {
+type PuzzlesDB = {
   puzzles: {
     key: number;
     value: UserPuzzle;
   };
-}
+};
 
 const DB_NAME = "puzzles";
 const DB_VERSION = 1;
@@ -27,9 +27,10 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
     });
   }
 
-  async add(puzzleKey: PuzzleKey): Promise<PuzzleId> {
+  async add(puzzleKey: PuzzleKey): Promise<UserPuzzle> {
     const db = await this.dbPromise;
-    return await db.add("puzzles", { key: puzzleKey } as UserPuzzle);
+    const addedId = await db.add("puzzles", { key: puzzleKey } as UserPuzzle);
+    return { key: puzzleKey, id: addedId };
   }
 
   async remove(puzzleId: PuzzleId) {
