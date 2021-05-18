@@ -1,6 +1,8 @@
 import { createUseStyles } from "react-jss";
 import { useTranslation } from "react-i18next";
 import theme from "styles/theme";
+import { useMenu } from "store/menuContext";
+import { puzzlesData } from "models/puzzles/Puzzle";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
@@ -34,12 +36,17 @@ const useStyles = createUseStyles({
 function TimerTabs() {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { selectedItem } = useMenu();
   const { addTime } = useTimerViewModel();
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
       <div className={classes.header}>
-        <Typography variant="subtitle1">3x3 Cube</Typography>
+        <Typography variant="subtitle1">
+          {selectedItem?.key
+            ? t(puzzlesData[selectedItem.key].label)
+            : "CCTimer.com"}
+        </Typography>
       </div>
       <Box flexDirection="column" flex={1}>
         <Box flex={1}>

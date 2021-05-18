@@ -44,7 +44,9 @@ function ModalProvider({ children }: ModalProviderProps) {
   const closeModal = useCallback(() => {
     setContent(null);
     if (prevActiveElement.current) {
-      prevActiveElement.current?.focus();
+      if (!document.body.classList.contains("mousedown")) {
+        prevActiveElement.current?.focus();
+      }
       prevActiveElement.current = undefined;
     }
   }, []);

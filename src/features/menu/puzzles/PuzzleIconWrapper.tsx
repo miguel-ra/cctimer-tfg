@@ -75,13 +75,14 @@ function PuzzleIconWrapper({
           setShowRemoveId(null);
         }, 500);
       }}
-      onClick={(event: MouseEvent) => {
+      onMouseDown={(event: MouseEvent) => {
         if (isTouchDevice()) {
           timeoutId.current = setTimeout(() => {
             setShowRemoveId(dataId);
           }, 500);
         }
         onClick(event);
+        event.preventDefault();
       }}
       onKeyDown={(event) => {
         if (["Enter", " "].includes(event.key)) {

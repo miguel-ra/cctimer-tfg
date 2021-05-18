@@ -42,7 +42,9 @@ function Modal({
 
       if (!modalElement?.contains(document.activeElement)) {
         event?.preventDefault();
-        firstFocusable?.focus();
+        if (!document.body.classList.contains("mousedown")) {
+          firstFocusable?.focus();
+        }
         return;
       }
 

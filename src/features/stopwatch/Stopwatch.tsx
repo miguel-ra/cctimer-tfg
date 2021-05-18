@@ -9,6 +9,7 @@ import { useSettings } from "store/settingsContext";
 import useStopwatch from "./useStopwatch";
 import Pressable from "./Pressable";
 import useStyles from "./Stopwatch.styles";
+import { useMenu } from "store/menuContext";
 
 // TODO: Refactor to avoid use useCallback
 
@@ -29,8 +30,14 @@ function Stopwatch({ onSave }: StopwatchProps) {
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
   const [status, setStatus] = useState("idle"); // TODO: Create status constats
   const [color, setColor] = useState("inherit");
+  const { selectedItem } = useMenu();
   const holdStartedAt = useRef<number | null>(null);
   const dataToSave = useRef<any>();
+
+  useEffect(() => {
+    resetStopwatch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem]);
 
   useEffect(() => {
     ready.current = !settings.timer.holdToStart;
@@ -76,6 +83,7 @@ function Stopwatch({ onSave }: StopwatchProps) {
   }, [startStopwatch, settings.inspection.time, startPlusTwo]);
 
   const handlePress = useCallback(() => {
+    (document.activeElement as HTMLElement)?.blur?.();
     if (status === "running") {
       ready.current = null;
       stopStopwatch();
