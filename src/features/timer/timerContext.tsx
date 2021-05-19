@@ -57,7 +57,7 @@ function TimerProvider({ children }: TimerProviderProps) {
         .then(({ default: generator }) => {
           scramblePuzzleKey.current = selectedItem?.key;
           scrambleGenerator.current = generator;
-          refreshScramble();
+          // refreshScramble();
         });
     }
   }, [refreshScramble, selectedItem?.key]);

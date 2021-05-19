@@ -8,7 +8,7 @@ function useTimerViewModel() {
   const { selectedItem } = useMenu();
   const [puzzleTimes, setPuzzleTimes] = useState<PuzzleTime[]>([]);
   const timesRepository = useTimesRepository();
-  const { scramble } = useTimer();
+  const { scramble, refreshScramble } = useTimer();
 
   const refreshPuzzles = useCallback(() => {
     if (selectedItem?.id) {
@@ -34,12 +34,18 @@ function useTimerViewModel() {
               ...prevPuzzleTimes,
               addedTime,
             ]);
-            // refreshScramble();
+            refreshScramble();
           });
       }
       //TODO: Else show an error message
     },
-    [scramble, selectedItem?.id, selectedItem?.key, timesRepository]
+    [
+      refreshScramble,
+      scramble,
+      selectedItem?.id,
+      selectedItem?.key,
+      timesRepository,
+    ]
   );
 
   return { puzzleTimes, addTime };
