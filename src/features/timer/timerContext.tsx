@@ -52,7 +52,7 @@ function TimerProvider({ children }: TimerProviderProps) {
   useEffect(() => {
     if (selectedItem?.key && scramblePuzzleKey.current !== selectedItem?.key) {
       scrambleGenerator.current = null;
-      window.requestAnimationFrame(() => {
+      setTimeout(() => {
         puzzlesData[selectedItem.key]
           ?.loadScramble?.()
           .then(({ default: generator }) => {
@@ -60,7 +60,7 @@ function TimerProvider({ children }: TimerProviderProps) {
             scrambleGenerator.current = generator;
             refreshScramble();
           });
-      });
+      }, 0);
     }
   }, [refreshScramble, selectedItem?.key]);
 
