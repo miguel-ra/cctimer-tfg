@@ -7,6 +7,7 @@ import Stopwatch from "features/stopwatch/Stopwatch";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
 import { useTimerViewModel } from "./timerViewModel";
+import { TimerProvider } from "./timerContext";
 
 const useStyles = createUseStyles({
   header: {
@@ -65,5 +66,10 @@ function TimerTabs() {
     </Box>
   );
 }
-
-export default TimerTabs;
+export default function TimerTabsWithProvider() {
+  return (
+    <TimerProvider>
+      <TimerTabs />
+    </TimerProvider>
+  );
+}
