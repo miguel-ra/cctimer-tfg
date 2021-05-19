@@ -52,15 +52,13 @@ function TimerProvider({ children }: TimerProviderProps) {
   useEffect(() => {
     if (selectedItem?.key && scramblePuzzleKey.current !== selectedItem?.key) {
       scrambleGenerator.current = null;
-      setTimeout(() => {
-        puzzlesData[selectedItem.key]
-          ?.loadScramble?.()
-          .then(({ default: generator }) => {
-            scramblePuzzleKey.current = selectedItem?.key;
-            scrambleGenerator.current = generator;
-            refreshScramble();
-          });
-      }, 0);
+      puzzlesData[selectedItem.key]
+        ?.loadScramble?.()
+        .then(({ default: generator }) => {
+          scramblePuzzleKey.current = selectedItem?.key;
+          scrambleGenerator.current = generator;
+          refreshScramble();
+        });
     }
   }, [refreshScramble, selectedItem?.key]);
 
