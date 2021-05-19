@@ -54,11 +54,20 @@ function Timer() {
         </section>
         <section className={classes.stats}>{t("Stats and grahps")}</section>
         <section className={classes.section}>
-          {ScrambleImage && (
+          {ScrambleImage ? (
             <ScrambleImage
               className={classes.scramble}
               randomScramble={scramble}
             />
+          ) : (
+            <Box
+              height="100%"
+              padding="2rem"
+              display="grid"
+              placeContent="center"
+            >
+              {t("No image")}
+            </Box>
           )}
           {/* {ScrambleImage == null && (
             <Box display="flex" placeContent="center" height="100%">

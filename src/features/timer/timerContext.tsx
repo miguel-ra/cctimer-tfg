@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from "react";
-import cube3ScrambleGenerator from "cctimer-scrambles/cube3";
 import {
   Scramble,
   ScrambleGenerator,
@@ -39,13 +38,9 @@ function useTimer() {
 }
 
 function TimerProvider({ children }: TimerProviderProps) {
-  const [scramble, setScramble] = useState<Scramble>(
-    cube3ScrambleGenerator.getRandomScramble()
-  );
-  const scramblePuzzleKey = useRef<PuzzleKey | null>("cube3");
-  const scrambleGenerator = useRef<ScrambleGenerator | null>(
-    cube3ScrambleGenerator
-  );
+  const [scramble, setScramble] = useState<Scramble>({ string: "", state: "" });
+  const scramblePuzzleKey = useRef<PuzzleKey>();
+  const scrambleGenerator = useRef<ScrambleGenerator | null>(null);
   const { selectedItem } = useMenu();
 
   const refreshScramble = useCallback(() => {
