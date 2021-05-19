@@ -13,7 +13,7 @@ import {
   ScrambleImageProps,
 } from "cctimer-scrambles";
 import { useMenu } from "store/menuContext";
-import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
+import { PuzzleKey } from "models/puzzles/Puzzle";
 
 type MenuState = {
   // isLoading: boolean;
