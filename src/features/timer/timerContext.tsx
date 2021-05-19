@@ -13,7 +13,7 @@ import {
   ScrambleImageProps,
 } from "cctimer-scrambles";
 import { useMenu } from "store/menuContext";
-import { PuzzleKey } from "models/puzzles/Puzzle";
+import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 
 type MenuState = {
   // isLoading: boolean;
@@ -52,13 +52,15 @@ function TimerProvider({ children }: TimerProviderProps) {
   useEffect(() => {
     if (selectedItem?.key && scramblePuzzleKey.current !== selectedItem?.key) {
       scrambleGenerator.current = null;
-      // puzzlesData[selectedItem.key]
-      //   ?.loadScramble?.()
-      //   .then(({ default: generator }) => {
-      //     scramblePuzzleKey.current = selectedItem?.key;
-      //     scrambleGenerator.current = generator;
-      //     refreshScramble();
-      //   });
+      window.requestAnimationFrame(() => {
+        puzzlesData[selectedItem.key]
+          ?.loadScramble?.()
+          .then(({ default: generator }) => {
+            scramblePuzzleKey.current = selectedItem?.key;
+            scrambleGenerator.current = generator;
+            refreshScramble();
+          });
+      });
     }
   }, [refreshScramble, selectedItem?.key]);
 
