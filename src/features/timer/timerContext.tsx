@@ -45,7 +45,11 @@ function TimerProvider({ children }: TimerProviderProps) {
 
   const refreshScramble = useCallback(() => {
     if (scrambleGenerator.current) {
-      setScramble(scrambleGenerator.current.getRandomScramble());
+      Promise.resolve(scrambleGenerator.current.getRandomScramble()).then(
+        (randomScramble) => {
+          setScramble(randomScramble);
+        }
+      );
     }
   }, []);
 
