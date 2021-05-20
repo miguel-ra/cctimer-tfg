@@ -1,4 +1,4 @@
-import { ScrambleGenerator } from "cctimer-scrambles";
+// import { ScrambleGenerator } from "cctimer-scrambles";
 import ClockIcon from "components/icon/ClockIcon";
 import Cube2Icon from "components/icon/Cube2Icon";
 import Cube3Icon from "components/icon/Cube3Icon";
