@@ -55,7 +55,7 @@ export const puzzlesData: PuzzlesData = {
   cube2: {
     label: "2x2 Cube",
     Icon: Cube2Icon,
-    loadScramble: () => import("cctimer-scrambles/cube2"),
+    loadScramble: () => import("components/scramble/cube2"),
   },
   cube3: {
     label: "Cube 3x3",
