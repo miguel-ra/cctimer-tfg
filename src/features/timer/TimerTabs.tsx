@@ -1,44 +1,21 @@
-import { createUseStyles } from "react-jss";
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import theme from "styles/theme";
 import { useMenu } from "store/menuContext";
 import { puzzlesData } from "models/puzzles/Puzzle";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Typography from "components/typography/Typography";
+import Spinner from "components/spinner/Spinner";
 import Box from "components/flexboxgrid/Box";
 import { useTimerViewModel } from "./timerViewModel";
-import { TimerProvider } from "./timerContext";
-
-const useStyles = createUseStyles({
-  header: {
-    display: "flex",
-    padding: "1rem",
-    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
-    background: theme.palette.background.paper,
-    borderBottom: `1px solid ${theme.palette.border.primary}`,
-  },
-  tabs: {
-    display: "flex",
-    background: theme.palette.background.paper,
-    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
-    borderTop: `1px solid ${theme.palette.border.primary}`,
-  },
-  stats: {
-    flex: 1,
-    display: "flex",
-    flexWrap: "wrap",
-    placeContent: "center",
-    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
-    border: `0 solid ${theme.palette.border.primary}`,
-    borderWidth: "0 1px 0 1px",
-  },
-});
+import { TimerProvider, useTimer } from "./timerContext";
+import useStyles from "./TimerTabs.styles";
 
 function TimerTabs() {
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
   const { addTime } = useTimerViewModel();
+  const { scramble, ScrambleImage } = useTimer();
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
@@ -50,8 +27,35 @@ function TimerTabs() {
         </Typography>
       </div>
       <Box flexDirection="column" flex={1}>
-        <Box flex={1}>
+        <Box flex={1} position="relative">
+          <Typography
+            variant="h6"
+            style={{
+              position: "absolute",
+              width: "100%",
+              padding: "2rem",
+              textAlign: "center",
+            }}
+          >
+            {scramble?.string}
+          </Typography>
           <Stopwatch onSave={addTime} />
+          <Box>
+            {ScrambleImage && (
+              <Suspense
+                fallback={
+                  <Box display="flex" placeContent="center" height="100%">
+                    <Spinner delay={0} />
+                  </Box>
+                }
+              >
+                <ScrambleImage
+                  className={classes.scramble}
+                  randomScramble={scramble}
+                />
+              </Suspense>
+            )}
+          </Box>
         </Box>
         <div className={classes.tabs}>
           <Box flex={1} placeContent="center" padding="1rem">

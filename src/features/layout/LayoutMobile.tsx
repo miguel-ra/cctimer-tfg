@@ -74,7 +74,7 @@ function LayoutMobile() {
     return { ...component, ...overlay };
   }, []);
 
-  const [springs, set] = useSprings(items.length, computeSpring as any);
+  const [springs, api] = useSprings(items.length, computeSpring as any);
 
   const bind = useDrag(
     ({ swipe, last, active, movement: [mx], distance }) => {
@@ -105,7 +105,7 @@ function LayoutMobile() {
         }
       }
 
-      set((i) => {
+      api.start((i) => {
         if (i < activeIndex.current - 1 || i > activeIndex.current + 1) {
           return;
         }
@@ -142,14 +142,14 @@ function LayoutMobile() {
           item.width = item.computeWidth();
         }
       });
-      set(computeSpring);
+      api.start(computeSpring);
     }
-    set(computeSpring);
+    api.start(computeSpring);
     window.addEventListener("resize", handler);
     return () => {
       window.removeEventListener("resize", handler);
     };
-  }, [computeSpring, set]);
+  }, [computeSpring, api]);
 
   return (
     <Box position="absolute" width="100%" height="100%" overflow="hidden">
@@ -180,7 +180,7 @@ function LayoutMobile() {
                 componentProps={{
                   onClick: () => {
                     activeIndex.current = i;
-                    set(computeSpring);
+                    api.start(computeSpring);
                   },
                   style: {
                     backgroundColor: theme.palette.background.default,

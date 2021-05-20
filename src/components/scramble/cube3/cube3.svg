@@ -1,70 +1,70 @@
 <svg width="100%" viewBox="0 0 98 73" height="100%" xmlns="http://www.w3.org/2000/svg">
 	<g fill="none" fill-rule="evenodd" stroke="#000" stroke-width=".5">
-		<g fill="#95d99f">
-			<path d="m25.25.25h7.5v7.5h-7.5z" />
-			<path d="m32.75.25h7.5v7.5h-7.5z" />
-			<path d="m40.25.25h7.5v7.5h-7.5z" />
-			<path d="m25.25 7.75h7.5v7.5h-7.5z" />
-			<path d="m32.75 7.75h7.5v7.5h-7.5z" />
-			<path d="m40.25 7.75h7.5v7.5h-7.5z" />
-			<path d="m25.25 15.25h7.5v7.5h-7.5z" />
-			<path d="m32.75 15.25h7.5v7.5h-7.5z" />
-			<path d="m40.25 15.25h7.5v7.5h-7.5z" />
+		<g fill="var(--colors-white-main)">
+			<path d="m25.25.25h7.5v7.5h-7.5z" fill="var(--sticker-0)" />
+			<path d="m32.75.25h7.5v7.5h-7.5z" fill="var(--sticker-1)" />
+			<path d="m40.25.25h7.5v7.5h-7.5z" fill="var(--sticker-2)" />
+			<path d="m25.25 7.75h7.5v7.5h-7.5z" fill="var(--sticker-3)" />
+			<path d="m32.75 7.75h7.5v7.5h-7.5z" fill="var(--sticker-4)" />
+			<path d="m40.25 7.75h7.5v7.5h-7.5z" fill="var(--sticker-5)" />
+			<path d="m25.25 15.25h7.5v7.5h-7.5z" fill="var(--sticker-6)" />
+			<path d="m32.75 15.25h7.5v7.5h-7.5z" fill="var(--sticker-7)" />
+			<path d="m40.25 15.25h7.5v7.5h-7.5z" fill="var(--sticker-8)" />
 		</g>
-		<g fill="#fc9f9b">
-			<path d="m.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m7.75 25.25h7.5v7.5h-7.5z" />
-			<path d="m15.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m7.75 32.75h7.5v7.5h-7.5z" />
-			<path d="m15.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m.25 40.25h7.5v7.5h-7.5z" />
-			<path d="m7.75 40.25h7.5v7.5h-7.5z" />
-			<path d="m15.25 40.25h7.5v7.5h-7.5z" />
+		<g fill="var(--colors-orange-main)">
+			<path d="m.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-36)" />
+			<path d="m7.75 25.25h7.5v7.5h-7.5z" fill="var(--sticker-37)" />
+			<path d="m15.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-38)" />
+			<path d="m.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-39)" />
+			<path d="m7.75 32.75h7.5v7.5h-7.5z" fill="var(--sticker-40)" />
+			<path d="m15.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-41)" />
+			<path d="m.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-42)" />
+			<path d="m7.75 40.25h7.5v7.5h-7.5z" fill="var(--sticker-43)" />
+			<path d="m15.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-44)" />
 		</g>
-		<g fill="#f7efa4">
-			<path d="m25.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m32.75 25.25h7.5v7.5h-7.5z" />
-			<path d="m40.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m25.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m32.75 32.75h7.5v7.5h-7.5z" />
-			<path d="m40.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m25.25 40.25h7.5v7.5h-7.5z" />
-			<path d="m32.75 40.25h7.5v7.5h-7.5z" />
-			<path d="m40.25 40.25h7.5v7.5h-7.5z" />
+		<g fill="var(--colors-green-main)">
+			<path d="m25.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-18)" />
+			<path d="m32.75 25.25h7.5v7.5h-7.5z" fill="var(--sticker-19)" />
+			<path d="m40.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-20)" />
+			<path d="m25.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-21)" />
+			<path d="m32.75 32.75h7.5v7.5h-7.5z" fill="var(--sticker-22)" />
+			<path d="m40.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-23)" />
+			<path d="m25.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-24)" />
+			<path d="m32.75 40.25h7.5v7.5h-7.5z" fill="var(--sticker-25)" />
+			<path d="m40.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-26)" />
 		</g>
-		<g fill="#91bffe">
-			<path d="m25.25 50.25h7.5v7.5h-7.5z" />
-			<path d="m32.75 50.25h7.5v7.5h-7.5z" />
-			<path d="m40.25 50.25h7.5v7.5h-7.5z" />
-			<path d="m25.25 57.75h7.5v7.5h-7.5z" />
-			<path d="m32.75 57.75h7.5v7.5h-7.5z" />
-			<path d="m40.25 57.75h7.5v7.5h-7.5z" />
-			<path d="m25.25 65.25h7.5v7.5h-7.5z" />
-			<path d="m32.75 65.25h7.5v7.5h-7.5z" />
-			<path d="m40.25 65.25h7.5v7.5h-7.5z" />
+		<g fill="var(--colors-yellow-main)">
+			<path d="m25.25 50.25h7.5v7.5h-7.5z" fill="var(--sticker-27)" />
+			<path d="m32.75 50.25h7.5v7.5h-7.5z" fill="var(--sticker-28)" />
+			<path d="m40.25 50.25h7.5v7.5h-7.5z" fill="var(--sticker-29)" />
+			<path d="m25.25 57.75h7.5v7.5h-7.5z" fill="var(--sticker-30)" />
+			<path d="m32.75 57.75h7.5v7.5h-7.5z" fill="var(--sticker-31)" />
+			<path d="m40.25 57.75h7.5v7.5h-7.5z" fill="var(--sticker-32)" />
+			<path d="m25.25 65.25h7.5v7.5h-7.5z" fill="var(--sticker-33)" />
+			<path d="m32.75 65.25h7.5v7.5h-7.5z" fill="var(--sticker-34)" />
+			<path d="m40.25 65.25h7.5v7.5h-7.5z" fill="var(--sticker-35)" />
 		</g>
-		<g fill="#f7be95">
-			<path d="m50.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m57.75 25.25h7.5v7.5h-7.5z" />
-			<path d="m65.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m50.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m57.75 32.75h7.5v7.5h-7.5z" />
-			<path d="m65.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m50.25 40.25h7.5v7.5h-7.5z" />
-			<path d="m57.75 40.25h7.5v7.5h-7.5z" />
-			<path d="m65.25 40.25h7.5v7.5h-7.5z" />
+		<g fill="var(--colors-red-main)">
+			<path d="m50.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-9)" />
+			<path d="m57.75 25.25h7.5v7.5h-7.5z" fill="var(--sticker-10)" />
+			<path d="m65.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-11)" />
+			<path d="m50.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-12)" />
+			<path d="m57.75 32.75h7.5v7.5h-7.5z" fill="var(--sticker-13)" />
+			<path d="m65.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-14)" />
+			<path d="m50.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-15)" />
+			<path d="m57.75 40.25h7.5v7.5h-7.5z" fill="var(--sticker-16)" />
+			<path d="m65.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-17)" />
 		</g>
-		<g fill="#fff">
-			<path d="m75.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m82.75 25.25h7.5v7.5h-7.5z" />
-			<path d="m90.25 25.25h7.5v7.5h-7.5z" />
-			<path d="m75.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m82.75 32.75h7.5v7.5h-7.5z" />
-			<path d="m90.25 32.75h7.5v7.5h-7.5z" />
-			<path d="m75.25 40.25h7.5v7.5h-7.5z" />
-			<path d="m82.75 40.25h7.5v7.5h-7.5z" />
-			<path d="m90.25 40.25h7.5v7.5h-7.5z" />
+		<g fill="var(--colors-blue-main)">
+			<path d="m75.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-45)" />
+			<path d="m82.75 25.25h7.5v7.5h-7.5z" fill="var(--sticker-46)" />
+			<path d="m90.25 25.25h7.5v7.5h-7.5z" fill="var(--sticker-47)" />
+			<path d="m75.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-48)" />
+			<path d="m82.75 32.75h7.5v7.5h-7.5z" fill="var(--sticker-49)" />
+			<path d="m90.25 32.75h7.5v7.5h-7.5z" fill="var(--sticker-50)" />
+			<path d="m75.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-51)" />
+			<path d="m82.75 40.25h7.5v7.5h-7.5z" fill="var(--sticker-52)" />
+			<path d="m90.25 40.25h7.5v7.5h-7.5z" fill="var(--sticker-53)" />
 		</g>
 	</g>
 </svg>
