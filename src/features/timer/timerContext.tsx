@@ -12,6 +12,7 @@ import {
   ScrambleGenerator,
   ScrambleImageProps,
 } from "cctimer-scrambles";
+import cube3Scramble from "components/scramble/cube3";
 import { useMenu } from "store/menuContext";
 import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 
@@ -38,9 +39,11 @@ function useTimer() {
 }
 
 function TimerProvider({ children }: TimerProviderProps) {
-  const [scramble, setScramble] = useState<Scramble>({ string: "", state: "" });
-  const scramblePuzzleKey = useRef<PuzzleKey>();
-  const scrambleGenerator = useRef<ScrambleGenerator | null>(null);
+  const [scramble, setScramble] = useState<Scramble>(
+    cube3Scramble.getRandomScramble()
+  );
+  const scramblePuzzleKey = useRef<PuzzleKey>("cube3");
+  const scrambleGenerator = useRef<ScrambleGenerator | null>(cube3Scramble);
   const { selectedItem } = useMenu();
 
   const refreshScramble = useCallback(() => {
