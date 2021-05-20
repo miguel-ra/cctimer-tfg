@@ -45,7 +45,7 @@ function TimerTabs() {
       <div className={classes.header}>
         <Typography variant="subtitle1">
           {selectedItem?.key
-            ? t(puzzlesData[selectedItem.key].label)
+            ? t(puzzlesData?.[selectedItem?.key]?.label)
             : "CCTimer.com"}
         </Typography>
       </div>

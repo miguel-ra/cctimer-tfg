@@ -18,7 +18,7 @@ import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 type MenuState = {
   // isLoading: boolean;
   scramble: Scramble;
-  ScrambleImage?: (props: ScrambleImageProps) => JSX.Element;
+  ScrambleImage?: (props: ScrambleImageProps) => JSX.Element | null;
   refreshScramble: () => void;
 };
 

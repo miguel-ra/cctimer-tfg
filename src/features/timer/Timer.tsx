@@ -6,6 +6,8 @@ import Typography from "components/typography/Typography";
 import { TimerProvider, useTimer } from "./timerContext";
 import { useTimerViewModel } from "./timerViewModel";
 import useStyles from "./Timer.styles";
+import { Suspense } from "react";
+import Spinner from "components/spinner/Spinner";
 
 function Timer() {
   const classes = useStyles();
@@ -55,10 +57,18 @@ function Timer() {
         <section className={classes.stats}>{t("Stats and grahps")}</section>
         <section className={classes.section}>
           {ScrambleImage ? (
-            <ScrambleImage
-              className={classes.scramble}
-              randomScramble={scramble}
-            />
+            <Suspense
+              fallback={
+                <Box display="flex" placeContent="center" height="100%">
+                  <Spinner delay={0} />
+                </Box>
+              }
+            >
+              <ScrambleImage
+                className={classes.scramble}
+                randomScramble={scramble}
+              />
+            </Suspense>
           ) : (
             <Box
               height="100%"

@@ -44,7 +44,7 @@ export type UserPuzzle = {
 export type Puzzle = {
   label: string;
   Icon: typeof Cube2Icon;
-  loadScramble?: () => Promise<{ default: ScrambleGenerator }>;
+  loadScramble?: () => Promise<{ default: any }>;
 };
 
 export type PuzzlesData = {
