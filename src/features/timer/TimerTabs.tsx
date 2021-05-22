@@ -13,9 +13,13 @@ import useStyles from "./TimerTabs.styles";
 function TimerTabs() {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { scramble } = useTimer();
   const { selectedItem } = useMenu();
   const { addTime } = useTimerViewModel();
-  const { scramble, ScrambleImage } = useTimer();
+
+  const ScrambleImage = selectedItem?.key
+    ? puzzlesData[selectedItem?.key].Image
+    : null;
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
@@ -37,7 +41,7 @@ function TimerTabs() {
               textAlign: "center",
             }}
           >
-            {scramble?.string}
+            {scramble.string}
           </Typography>
           <Stopwatch onSave={addTime} />
           <Box>
@@ -51,7 +55,7 @@ function TimerTabs() {
               >
                 <ScrambleImage
                   className={classes.scramble}
-                  randomScramble={scramble}
+                  scramble={scramble.state}
                 />
               </Suspense>
             )}

@@ -1,19 +1,26 @@
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import Stopwatch from "features/stopwatch/Stopwatch";
 import { millisecondsToClock } from "shared/format/number";
+import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
+import Spinner from "components/spinner/Spinner";
 import Typography from "components/typography/Typography";
 import { TimerProvider, useTimer } from "./timerContext";
 import { useTimerViewModel } from "./timerViewModel";
 import useStyles from "./Timer.styles";
-import { Suspense } from "react";
-import Spinner from "components/spinner/Spinner";
+import { useMenu } from "store/menuContext";
+import { puzzlesData } from "models/puzzles/Puzzle";
 
 function Timer() {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { scramble, ScrambleImage } = useTimer();
+  const { scramble } = useTimer();
+  const { selectedItem } = useMenu();
   const { puzzleTimes, addTime } = useTimerViewModel();
+
+  const ScrambleImage = selectedItem?.key
+    ? puzzlesData[selectedItem?.key].Image
+    : null;
 
   return (
     <Box flexDirection="column" flex={1} position="relative">
@@ -26,7 +33,7 @@ function Timer() {
           textAlign: "center",
         }}
       >
-        {scramble?.string}
+        {scramble.string}
       </Typography>
       <Box flex={1} placeContent="center">
         <Stopwatch onSave={addTime} />
@@ -66,7 +73,7 @@ function Timer() {
             >
               <ScrambleImage
                 className={classes.scramble}
-                randomScramble={scramble}
+                scramble={scramble.state}
               />
             </Suspense>
           ) : (

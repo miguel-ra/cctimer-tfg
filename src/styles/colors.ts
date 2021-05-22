@@ -8,6 +8,7 @@ const colors = {
     contrastText: "var(--colors-white-contrastText)",
   },
   blue: {
+    light: "var(--colors-blue-light)",
     main: "var(--colors-blue-main)",
   },
   green: {
@@ -15,6 +16,7 @@ const colors = {
   },
   yellow: {
     main: "var(--colors-yellow-main)",
+    dark: "var(--colors-yellow-dark)",
   },
   orange: {
     main: "var(--colors-orange-main)",

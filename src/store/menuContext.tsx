@@ -47,4 +47,6 @@ function MenuProvider({ children }: MenuProviderProps) {
   );
 }
 
+export type { SelectedItem };
+
 export { MenuProvider, useMenu };

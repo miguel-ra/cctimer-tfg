@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import palette from "styles/palette";
+import { ScrambleImageProps } from "../Scramble";
 import { ReactComponent as Cube3Template } from "./cube3.svg";
 
 type FaceKey = "U" | "R" | "F" | "L" | "B" | "D";
@@ -13,19 +14,22 @@ const colorScheme: { [key in FaceKey]: string } = {
   D: palette.colors.yellow.main,
 };
 
-function Cube3Image({ randomScramble, ...props }: any) {
-  const elementRef = useRef<HTMLElement | null>();
+function Cube3Image({ scramble, ...props }: ScrambleImageProps) {
+  const elementRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
     const element = elementRef.current;
 
-    if (!element) {
+    if (!element || !scramble) {
       return;
     }
-    [...randomScramble.state].forEach((char: FaceKey, index) => {
-      element.style.setProperty(`--sticker-${index}`, colorScheme[char]);
+    ([...scramble] as FaceKey[]).forEach((char, index) => {
+      element.style.setProperty(
+        `--sticker-${index}`,
+        colorScheme[char as FaceKey]
+      );
     });
-  }, [randomScramble.state]);
+  }, [scramble]);
 
   return <Cube3Template ref={elementRef} {...props} />;
 }

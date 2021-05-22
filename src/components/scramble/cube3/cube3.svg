@@ -1,5 +1,5 @@
 <svg width="100%" viewBox="0 0 98 73" height="100%" xmlns="http://www.w3.org/2000/svg">
-	<g fill="none" fill-rule="evenodd" stroke="#000" stroke-width=".5">
+	<g fill="none" fill-rule="evenodd" stroke="var(--colors-grey-main)" stroke-width=".5">
 		<g fill="var(--colors-white-main)">
 			<path d="m25.25.25h7.5v7.5h-7.5z" fill="var(--sticker-0)" />
 			<path d="m32.75.25h7.5v7.5h-7.5z" fill="var(--sticker-1)" />

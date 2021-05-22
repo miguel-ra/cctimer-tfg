@@ -4,25 +4,25 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   // useRef,
   useState,
 } from "react";
 import {
   Scramble,
   // ScrambleGenerator,
-  ScrambleImageProps,
 } from "cctimer-scrambles";
 import { useMenu } from "store/menuContext";
 // import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
-import Cube3Image from "components/scramble/cube3/Cube3Image";
 // eslint-disable-next-line import/no-webpack-loader-syntax
-import GetRandomScrambleWorker from "worker-loader!./workers/getRandomScramble.worker.ts";
+import GenerateScrambleWorker from "worker-loader!./workers/generateScramble.worker.ts";
+import { PuzzleKey } from "models/puzzles/Puzzle";
+import { GenerateScrambleResponse } from "./workers/generateScramble.worker";
 
 type MenuState = {
-  // isLoading: boolean;
   scramble: Scramble;
-  ScrambleImage?: (props: ScrambleImageProps) => JSX.Element | null;
   refreshScramble: () => void;
+  scramblePuzzleKey?: PuzzleKey;
 };
 
 type TimerProviderProps = {
@@ -30,9 +30,7 @@ type TimerProviderProps = {
 };
 
 const TimerContext = createContext<MenuState | null>(null);
-const getRandomScrambleWorker = new GetRandomScrambleWorker();
-
-// console.log(GetRandomScrambleWorker);
+const generateScrambleWorker = new GenerateScrambleWorker();
 
 function useTimer() {
   const context = useContext(TimerContext);
@@ -43,53 +41,40 @@ function useTimer() {
   return context;
 }
 
+const emptyScramble = { string: "", state: "" };
+
 function TimerProvider({ children }: TimerProviderProps) {
-  const [scramble, setScramble] = useState<Scramble>({ string: "", state: "" });
-  // const scramblePuzzleKey = useRef<PuzzleKey>();
-  // const scrambleGenerator = useRef<ScrambleGenerator | null>(null);
+  const [scramble, setScramble] = useState<Scramble>(emptyScramble);
+  const scramblePuzzleKey = useRef<PuzzleKey>();
   const { selectedItem } = useMenu();
 
   const refreshScramble = useCallback(() => {
-    getRandomScrambleWorker.postMessage({});
-    // if (scrambleGenerator.current) {
-    // console.log(getRandomScrambleWorker);
-
-    // const generator = scrambleGenerator.current;
-    // setTimeout(() => {
-    //   Promise.resolve(generator.getRandomScramble()).then(
-    //     (randomScramble) => {
-    //       setScramble(randomScramble);
-    //     }
-    //   );
-    // }, 100);
-    // }
-  }, []);
+    if (selectedItem?.key) {
+      scramblePuzzleKey.current = selectedItem?.key;
+      generateScrambleWorker.postMessage(selectedItem.key);
+    } else {
+      scramblePuzzleKey.current = undefined;
+    }
+  }, [selectedItem?.key]);
 
   useEffect(() => {
-    getRandomScrambleWorker.onmessage = ({ data }: any) => {
-      setScramble(data);
+    generateScrambleWorker.onmessage = ({
+      data: { puzzleKey, randomScramble },
+    }: GenerateScrambleResponse) => {
+      if (puzzleKey === scramblePuzzleKey.current) {
+        setScramble(randomScramble);
+      }
     };
     refreshScramble();
   }, [refreshScramble]);
 
-  useEffect(() => {
-    // if (selectedItem?.key && scramblePuzzleKey.current !== selectedItem?.key) {
-    //   scrambleGenerator.current = null;
-    //   puzzlesData[selectedItem.key]
-    //     ?.loadScramble?.()
-    //     .then(({ default: generator }) => {
-    //       scramblePuzzleKey.current = selectedItem?.key;
-    //       scrambleGenerator.current = generator;
-    //       refreshScramble();
-    //     });
-    // }
-  }, [refreshScramble, selectedItem?.key]);
-
   return (
     <TimerContext.Provider
       value={{
-        scramble,
-        ScrambleImage: Cube3Image,
+        scramble:
+          scramblePuzzleKey.current === selectedItem?.key
+            ? scramble
+            : emptyScramble,
         refreshScramble,
       }}
     >

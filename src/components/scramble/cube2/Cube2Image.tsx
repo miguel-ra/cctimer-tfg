@@ -1,29 +1,32 @@
 import { useEffect, useRef } from "react";
 import palette from "styles/palette";
+import { ScrambleImageProps } from "../Scramble";
 import { ReactComponent as Cube2Template } from "./cube2.svg";
 
-const colorScheme = [
-  palette.colors.green.main,
-  palette.colors.yellow.main,
-  palette.colors.orange.main,
-  palette.colors.red.main,
-  palette.colors.white.main,
-  palette.colors.blue.main,
-];
+type FaceKey = "0" | "1" | "2" | "3" | "4" | "5";
 
-function Cube2Image({ randomScramble, ...props }: any) {
-  const elementRef = useRef<HTMLElement | null>();
+const colorScheme: { [key in FaceKey]: string } = {
+  "0": palette.colors.green.main,
+  "1": palette.colors.yellow.main,
+  "2": palette.colors.orange.main,
+  "3": palette.colors.red.main,
+  "4": palette.colors.white.main,
+  "5": palette.colors.blue.main,
+};
+
+function Cube2Image({ scramble, ...props }: ScrambleImageProps) {
+  const elementRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
     const element = elementRef.current;
 
-    if (!element) {
+    if (!element || !scramble) {
       return;
     }
-    [...randomScramble.state].forEach((colorKey: number, index) => {
+    ([...scramble] as FaceKey[]).forEach((colorKey, index) => {
       element.style.setProperty(`--sticker-${index}`, colorScheme[colorKey]);
     });
-  }, [randomScramble.state]);
+  }, [scramble]);
 
   return <Cube2Template ref={elementRef} {...props} />;
 }
