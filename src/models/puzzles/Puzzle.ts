@@ -5,7 +5,7 @@ import ClockIcon from "components/icon/ClockIcon";
 import Cube2Icon from "components/icon/Cube2Icon";
 import Cube3Icon from "components/icon/Cube3Icon";
 import Cube4Icon from "components/icon/Cube4Icon";
-// import Cube5Icon from "components/icon/Cube5Icon";
+import Cube5Icon from "components/icon/Cube5Icon";
 // import Cube6Icon from "components/icon/Cube6Icon";
 // import Cube7Icon from "components/icon/Cube7Icon";
 // import Cube8Icon from "components/icon/Cube8Icon";
@@ -22,8 +22,7 @@ export type PuzzleId = number;
 
 export type PuzzleKey =
   // | "skewb"
-  "clock" | "cube2" | "cube3" | "cube4";
-// | "cube5"
+  "clock" | "cube2" | "cube3" | "cube4" | "cube5";
 // | "cube6"
 // | "cube7"
 // | "cube8"
@@ -66,10 +65,11 @@ export const puzzlesData: PuzzlesData = {
     Icon: Cube4Icon,
     Image: lazy(() => import("components/scramble/cube4/Cube4Image")),
   },
-  // cube5: {
-  //   label: "5x5 Cube",
-  //   Icon: Cube5Icon,
-  // },
+  cube5: {
+    label: "5x5 Cube",
+    Icon: Cube5Icon,
+    Image: lazy(() => import("components/scramble/cube5/Cube5Image")),
+  },
   // cube6: {
   //   label: "6x6 Cube",
   //   Icon: Cube6Icon,

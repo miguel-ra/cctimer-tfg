@@ -14,6 +14,7 @@ const scrambleGenerators: ScrambleGenerators = {
   cube2: () => import("cctimer-scrambles/cube2"),
   cube3: () => import("cctimer-scrambles/cube3"),
   cube4: () => import("cctimer-scrambles/cube4"),
+  cube5: () => import("cctimer-scrambles/cube5"),
 };
 
 async function generateScramble(puzzleKey: PuzzleKey) {

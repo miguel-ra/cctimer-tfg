@@ -1,0 +1,166 @@
+<svg height="75" viewBox="0 0 100 75" width="100" xmlns="http://www.w3.org/2000/svg">
+	<g fill="none" stroke="#000" stroke-width=".5">
+		<g fill="#95d99f" transform="translate(26.25 1.25)">
+			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-75)" />
+			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-76)" />
+			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-77)" />
+			<path d="m13.5 0v4.5h4.5v-4.5z" fill="var(--sticker-78)" />
+			<path d="m18 0v4.5h4.5v-4.5z" fill="var(--sticker-79)" />
+			<path d="m0 4.5v4.5h4.5v-4.5z" fill="var(--sticker-80)" />
+			<path d="m4.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-81)" />
+			<path d="m9 4.5v4.5h4.5v-4.5z" fill="var(--sticker-82)" />
+			<path d="m13.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-83)" />
+			<path d="m18 4.5v4.5h4.5v-4.5z" fill="var(--sticker-84)" />
+			<path d="m0 9v4.5h4.5v-4.5z" fill="var(--sticker-85)" />
+			<path d="m4.5 9v4.5h4.5v-4.5z" fill="var(--sticker-86)" />
+			<path d="m9 9v4.5h4.5v-4.5z" fill="var(--sticker-87)" />
+			<path d="m13.5 9v4.5h4.5v-4.5z" fill="var(--sticker-88)" />
+			<path d="m18 9v4.5h4.5v-4.5z" fill="var(--sticker-89)" />
+			<path d="m0 13.5v4.5h4.5v-4.5z" fill="var(--sticker-90)" />
+			<path d="m4.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-91)" />
+			<path d="m9 13.5v4.5h4.5v-4.5z" fill="var(--sticker-92)" />
+			<path d="m13.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-93)" />
+			<path d="m18 13.5v4.5h4.5v-4.5z" fill="var(--sticker-94)" />
+			<path d="m0 18v4.5h4.5v-4.5z" fill="var(--sticker-95)" />
+			<path d="m4.5 18v4.5h4.5v-4.5z" fill="var(--sticker-96)" />
+			<path d="m9 18v4.5h4.5v-4.5z" fill="var(--sticker-97)" />
+			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-98)" />
+			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-99)" />
+		</g>
+		<g fill="#fc9f9b" transform="translate(1.25 26.25)">
+			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-29)" />
+			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-28)" />
+			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-27)" />
+			<path d="m13.5 0v4.5h4.5v-4.5z" fill="var(--sticker-26)" />
+			<path d="m18 0v4.5h4.5v-4.5z" fill="var(--sticker-25)" />
+			<path d="m0 4.5v4.5h4.5v-4.5z" fill="var(--sticker-34)" />
+			<path d="m4.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-33)" />
+			<path d="m9 4.5v4.5h4.5v-4.5z" fill="var(--sticker-32)" />
+			<path d="m13.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-31)" />
+			<path d="m18 4.5v4.5h4.5v-4.5z" fill="var(--sticker-30)" />
+			<path d="m0 9v4.5h4.5v-4.5z" fill="var(--sticker-39)" />
+			<path d="m4.5 9v4.5h4.5v-4.5z" fill="var(--sticker-38)" />
+			<path d="m9 9v4.5h4.5v-4.5z" fill="var(--sticker-37)" />
+			<path d="m13.5 9v4.5h4.5v-4.5z" fill="var(--sticker-36)" />
+			<path d="m18 9v4.5h4.5v-4.5z" fill="var(--sticker-35)" />
+			<path d="m0 13.5v4.5h4.5v-4.5z" fill="var(--sticker-44)" />
+			<path d="m4.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-43)" />
+			<path d="m9 13.5v4.5h4.5v-4.5z" fill="var(--sticker-42)" />
+			<path d="m13.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-41)" />
+			<path d="m18 13.5v4.5h4.5v-4.5z" fill="var(--sticker-40)" />
+			<path d="m0 18v4.5h4.5v-4.5z" fill="var(--sticker-49)" />
+			<path d="m4.5 18v4.5h4.5v-4.5z" fill="var(--sticker-48)" />
+			<path d="m9 18v4.5h4.5v-4.5z" fill="var(--sticker-47)" />
+			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-46)" />
+			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-45)" />
+		</g>
+		<g fill="#f7efa4" transform="translate(26.25 26.25)">
+			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-125)" />
+			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-126)" />
+			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-127)" />
+			<path d="m13.5 0v4.5h4.5v-4.5z" fill="var(--sticker-128)" />
+			<path d="m18 0v4.5h4.5v-4.5z" fill="var(--sticker-129)" />
+			<path d="m0 4.5v4.5h4.5v-4.5z" fill="var(--sticker-130)" />
+			<path d="m4.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-131)" />
+			<path d="m9 4.5v4.5h4.5v-4.5z" fill="var(--sticker-132)" />
+			<path d="m13.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-133)" />
+			<path d="m18 4.5v4.5h4.5v-4.5z" fill="var(--sticker-134)" />
+			<path d="m0 9v4.5h4.5v-4.5z" fill="var(--sticker-135)" />
+			<path d="m4.5 9v4.5h4.5v-4.5z" fill="var(--sticker-136)" />
+			<path d="m9 9v4.5h4.5v-4.5z" fill="var(--sticker-137)" />
+			<path d="m13.5 9v4.5h4.5v-4.5z" fill="var(--sticker-138)" />
+			<path d="m18 9v4.5h4.5v-4.5z" fill="var(--sticker-139)" />
+			<path d="m0 13.5v4.5h4.5v-4.5z" fill="var(--sticker-140)" />
+			<path d="m4.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-141)" />
+			<path d="m9 13.5v4.5h4.5v-4.5z" fill="var(--sticker-142)" />
+			<path d="m13.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-143)" />
+			<path d="m18 13.5v4.5h4.5v-4.5z" fill="var(--sticker-144)" />
+			<path d="m0 18v4.5h4.5v-4.5z" fill="var(--sticker-145)" />
+			<path d="m4.5 18v4.5h4.5v-4.5z" fill="var(--sticker-146)" />
+			<path d="m9 18v4.5h4.5v-4.5z" fill="var(--sticker-147)" />
+			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-148)" />
+			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-149)" />
+		</g>
+		<g fill="#f7be95" transform="translate(51.25 26.25)">
+			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-100)" />
+			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-101)" />
+			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-102)" />
+			<path d="m13.5 0v4.5h4.5v-4.5z" fill="var(--sticker-103)" />
+			<path d="m18 0v4.5h4.5v-4.5z" fill="var(--sticker-104)" />
+			<path d="m0 4.5v4.5h4.5v-4.5z" fill="var(--sticker-105)" />
+			<path d="m4.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-106)" />
+			<path d="m9 4.5v4.5h4.5v-4.5z" fill="var(--sticker-107)" />
+			<path d="m13.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-108)" />
+			<path d="m18 4.5v4.5h4.5v-4.5z" fill="var(--sticker-109)" />
+			<path d="m0 9v4.5h4.5v-4.5z" fill="var(--sticker-110)" />
+			<path d="m4.5 9v4.5h4.5v-4.5z" fill="var(--sticker-111)" />
+			<path d="m9 9v4.5h4.5v-4.5z" fill="var(--sticker-112)" />
+			<path d="m13.5 9v4.5h4.5v-4.5z" fill="var(--sticker-113)" />
+			<path d="m18 9v4.5h4.5v-4.5z" fill="var(--sticker-114)" />
+			<path d="m0 13.5v4.5h4.5v-4.5z" fill="var(--sticker-115)" />
+			<path d="m4.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-116)" />
+			<path d="m9 13.5v4.5h4.5v-4.5z" fill="var(--sticker-117)" />
+			<path d="m13.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-118)" />
+			<path d="m18 13.5v4.5h4.5v-4.5z" fill="var(--sticker-119)" />
+			<path d="m0 18v4.5h4.5v-4.5z" fill="var(--sticker-120)" />
+			<path d="m4.5 18v4.5h4.5v-4.5z" fill="var(--sticker-121)" />
+			<path d="m9 18v4.5h4.5v-4.5z" fill="var(--sticker-122)" />
+			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-123)" />
+			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-124)" />
+		</g>
+		<g fill="#fff" transform="translate(76.25 26.25)">
+			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-54)" />
+			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-53)" />
+			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-52)" />
+			<path d="m13.5 0v4.5h4.5v-4.5z" fill="var(--sticker-51)" />
+			<path d="m18 0v4.5h4.5v-4.5z" fill="var(--sticker-50)" />
+			<path d="m0 4.5v4.5h4.5v-4.5z" fill="var(--sticker-59)" />
+			<path d="m4.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-58)" />
+			<path d="m9 4.5v4.5h4.5v-4.5z" fill="var(--sticker-57)" />
+			<path d="m13.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-56)" />
+			<path d="m18 4.5v4.5h4.5v-4.5z" fill="var(--sticker-55)" />
+			<path d="m0 9v4.5h4.5v-4.5z" fill="var(--sticker-64)" />
+			<path d="m4.5 9v4.5h4.5v-4.5z" fill="var(--sticker-63)" />
+			<path d="m9 9v4.5h4.5v-4.5z" fill="var(--sticker-62)" />
+			<path d="m13.5 9v4.5h4.5v-4.5z" fill="var(--sticker-61)" />
+			<path d="m18 9v4.5h4.5v-4.5z" fill="var(--sticker-60)" />
+			<path d="m0 13.5v4.5h4.5v-4.5z" fill="var(--sticker-69)" />
+			<path d="m4.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-68)" />
+			<path d="m9 13.5v4.5h4.5v-4.5z" fill="var(--sticker-67)" />
+			<path d="m13.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-66)" />
+			<path d="m18 13.5v4.5h4.5v-4.5z" fill="var(--sticker-65)" />
+			<path d="m0 18v4.5h4.5v-4.5z" fill="var(--sticker-74)" />
+			<path d="m4.5 18v4.5h4.5v-4.5z" fill="var(--sticker-73)" />
+			<path d="m9 18v4.5h4.5v-4.5z" fill="var(--sticker-72)" />
+			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-71)" />
+			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-70)" />
+		</g>
+		<g fill="#91bffe" transform="translate(26.25 51.25)">
+			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-20)" />
+			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-21)" />
+			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-22)" />
+			<path d="m13.5 0v4.5h4.5v-4.5z" fill="var(--sticker-23)" />
+			<path d="m18 0v4.5h4.5v-4.5z" fill="var(--sticker-24)" />
+			<path d="m0 4.5v4.5h4.5v-4.5z" fill="var(--sticker-15)" />
+			<path d="m4.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-16)" />
+			<path d="m9 4.5v4.5h4.5v-4.5z" fill="var(--sticker-17)" />
+			<path d="m13.5 4.5v4.5h4.5v-4.5z" fill="var(--sticker-18)" />
+			<path d="m18 4.5v4.5h4.5v-4.5z" fill="var(--sticker-19)" />
+			<path d="m0 9v4.5h4.5v-4.5z" fill="var(--sticker-10)" />
+			<path d="m4.5 9v4.5h4.5v-4.5z" fill="var(--sticker-11)" />
+			<path d="m9 9v4.5h4.5v-4.5z" fill="var(--sticker-12)" />
+			<path d="m13.5 9v4.5h4.5v-4.5z" fill="var(--sticker-13)" />
+			<path d="m18 9v4.5h4.5v-4.5z" fill="var(--sticker-14)" />
+			<path d="m0 13.5v4.5h4.5v-4.5z" fill="var(--sticker-5)" />
+			<path d="m4.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-6)" />
+			<path d="m9 13.5v4.5h4.5v-4.5z" fill="var(--sticker-7)" />
+			<path d="m13.5 13.5v4.5h4.5v-4.5z" fill="var(--sticker-8)" />
+			<path d="m18 13.5v4.5h4.5v-4.5z" fill="var(--sticker-9)" />
+			<path d="m0 18v4.5h4.5v-4.5z" fill="var(--sticker-0)" />
+			<path d="m4.5 18v4.5h4.5v-4.5z" fill="var(--sticker-1)" />
+			<path d="m9 18v4.5h4.5v-4.5z" fill="var(--sticker-2)" />
+			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-3)" />
+			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-4)" />
+		</g>
+	</g>
+</svg>
