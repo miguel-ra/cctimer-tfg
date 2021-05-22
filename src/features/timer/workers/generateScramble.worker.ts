@@ -13,12 +13,15 @@ const scrambleGenerators: ScrambleGenerators = {
   clock: () => import("cctimer-scrambles/clock"),
   cube2: () => import("cctimer-scrambles/cube2"),
   cube3: () => import("cctimer-scrambles/cube3"),
+  cube4: () => import("cctimer-scrambles/cube4"),
 };
 
 async function generateScramble(puzzleKey: PuzzleKey) {
   const generator = (await scrambleGenerators[puzzleKey]())?.default;
 
-  return { puzzleKey, randomScramble: generator() };
+  const response = { puzzleKey, randomScramble: generator() };
+  console.log(response);
+  return response;
 }
 
 // eslint-disable-next-line no-restricted-globals

@@ -1,10 +1,10 @@
 import { ComponentType, lazy, LazyExoticComponent } from "react";
 // import { ScrambleGenerator } from "cctimer-scrambles";
+import { ScrambleImageProps } from "components/scramble/Scramble";
 import ClockIcon from "components/icon/ClockIcon";
 import Cube2Icon from "components/icon/Cube2Icon";
 import Cube3Icon from "components/icon/Cube3Icon";
-import { ScrambleImageProps } from "components/scramble/Scramble";
-// import Cube4Icon from "components/icon/Cube4Icon";
+import Cube4Icon from "components/icon/Cube4Icon";
 // import Cube5Icon from "components/icon/Cube5Icon";
 // import Cube6Icon from "components/icon/Cube6Icon";
 // import Cube7Icon from "components/icon/Cube7Icon";
@@ -22,8 +22,7 @@ export type PuzzleId = number;
 
 export type PuzzleKey =
   // | "skewb"
-  "clock" | "cube2" | "cube3";
-// | "cube4"
+  "clock" | "cube2" | "cube3" | "cube4";
 // | "cube5"
 // | "cube6"
 // | "cube7"
@@ -58,14 +57,15 @@ export const puzzlesData: PuzzlesData = {
     Image: lazy(() => import("components/scramble/cube2/Cube2Image")),
   },
   cube3: {
-    label: "Cube 3x3",
+    label: "3x3 Cube",
     Icon: Cube3Icon,
     Image: lazy(() => import("components/scramble/cube3/Cube3Image")),
   },
-  // cube4: {
-  //   label: "4x4 Cube",
-  //   Icon: Cube4Icon,
-  // },
+  cube4: {
+    label: "4x4 Cube",
+    Icon: Cube4Icon,
+    Image: lazy(() => import("components/scramble/cube4/Cube4Image")),
+  },
   // cube5: {
   //   label: "5x5 Cube",
   //   Icon: Cube5Icon,
