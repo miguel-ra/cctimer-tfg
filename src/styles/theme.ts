@@ -11,6 +11,7 @@ const theme = {
   },
   transition: {
     duration: {
+      scrambleColor: "0.5s",
       colorMode: "var(--transition-duration-colorMode)",
     },
   },

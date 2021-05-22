@@ -1,20 +1,31 @@
+import clsx from "clsx";
 import { useEffect, useRef } from "react";
-import palette from "styles/palette";
+import { createUseStyles } from "react-jss";
+import theme from "styles/theme";
 import { ScrambleImageProps } from "../Scramble";
 import { ReactComponent as Cube4Template } from "./cube4.svg";
 
 type FaceKey = "0" | "1" | "2" | "3" | "4" | "5";
 
 const colorScheme: { [key in FaceKey]: string } = {
-  "0": palette.colors.yellow.main,
-  "1": palette.colors.orange.main,
-  "2": palette.colors.blue.main,
-  "3": palette.colors.white.main,
-  "4": palette.colors.red.main,
-  "5": palette.colors.green.main,
+  "0": theme.palette.colors.yellow.main,
+  "1": theme.palette.colors.orange.main,
+  "2": theme.palette.colors.blue.main,
+  "3": theme.palette.colors.white.main,
+  "4": theme.palette.colors.red.main,
+  "5": theme.palette.colors.green.main,
 };
 
-function Cube4Image({ scramble, ...props }: ScrambleImageProps) {
+const useStyles = createUseStyles({
+  root: {
+    "& path": {
+      transition: `fill ${theme.transition.duration.scrambleColor} ease-in-out`,
+    },
+  },
+});
+
+function Cube4Image({ scramble, className, ...props }: ScrambleImageProps) {
+  const classes = useStyles();
   const elementRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
@@ -28,7 +39,13 @@ function Cube4Image({ scramble, ...props }: ScrambleImageProps) {
     });
   }, [scramble]);
 
-  return <Cube4Template ref={elementRef} {...props} />;
+  return (
+    <Cube4Template
+      className={clsx(classes.root, className)}
+      ref={elementRef}
+      {...props}
+    />
+  );
 }
 
 export default Cube4Image;

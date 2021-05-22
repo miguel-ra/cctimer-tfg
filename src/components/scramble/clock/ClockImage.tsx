@@ -1,11 +1,28 @@
 import { useEffect, useRef } from "react";
-import palette from "styles/palette";
+import { createUseStyles } from "react-jss";
+import clsx from "clsx";
+import theme from "styles/theme";
 import { ScrambleImageProps } from "../Scramble";
 import { ReactComponent as ClockTemplate } from "./clock.svg";
 
-const pegColors = [palette.colors.yellow.dark, palette.colors.yellow.main];
+const pegColors = [
+  theme.palette.colors.yellow.dark,
+  theme.palette.colors.yellow.main,
+];
 
-function ClockImage({ scramble, ...props }: ScrambleImageProps) {
+const useStyles = createUseStyles({
+  root: {
+    "& g[class^='clock']": {
+      transition: `transform ${theme.transition.duration.scrambleColor} ease-in-out`,
+    },
+    "& circle": {
+      transition: `fill ${theme.transition.duration.scrambleColor} ease-in-out`,
+    },
+  },
+});
+
+function ClockImage({ scramble, className, ...props }: ScrambleImageProps) {
+  const classes = useStyles();
   const elementRef = useRef<SVGSVGElement | null>(null);
 
   useEffect(() => {
@@ -33,7 +50,13 @@ function ClockImage({ scramble, ...props }: ScrambleImageProps) {
     });
   }, [scramble]);
 
-  return <ClockTemplate ref={elementRef} {...props} />;
+  return (
+    <ClockTemplate
+      className={clsx(classes.root, className)}
+      ref={elementRef}
+      {...props}
+    />
+  );
 }
 
 export default ClockImage;
