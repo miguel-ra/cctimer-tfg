@@ -12,6 +12,7 @@ import useStyles from "./Stopwatch.styles";
 import { useMenu } from "store/menuContext";
 
 // TODO: Refactor to avoid use useCallback
+// TODO: Refactor status to use an ENUM
 
 type StopwatchProps = {
   onSave: (time: Time) => void;
@@ -32,7 +33,7 @@ function Stopwatch({ onSave }: StopwatchProps) {
   const [color, setColor] = useState("inherit");
   const { selectedItem } = useMenu();
   const holdStartedAt = useRef<number | null>(null);
-  const dataToSave = useRef<any>();
+  const dataToSave = useRef<Time>();
 
   useEffect(() => {
     resetStopwatch();
@@ -46,17 +47,19 @@ function Stopwatch({ onSave }: StopwatchProps) {
   useEffect(() => {
     let penalty = dataToSave?.current?.penalty;
     if (penalty !== "dnf" && ["plus-two", "dnf"].includes(status)) {
-      penalty = status;
+      penalty = status as Time["penalty"];
     }
     dataToSave.current = {
       penalty,
       elapsedTime: penalty === "dnf" ? 0 : elapsedTime,
-    };
+    } as Time;
   }, [elapsedTime, status]);
 
   const saveTime = useCallback(() => {
-    onSave({ ...dataToSave.current });
-    dataToSave.current = {};
+    if (dataToSave.current) {
+      onSave({ ...dataToSave.current });
+    }
+    dataToSave.current = undefined;
   }, [onSave]);
 
   const setDNF = useCallback(() => {

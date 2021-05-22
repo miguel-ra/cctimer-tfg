@@ -12,6 +12,10 @@ type UseStylesProps = {
   breakpointsStyles?: BreakpointsStyles;
 };
 
+type BreakpointsCSSProperties = {
+  [key in string]?: { box?: CSSProperties };
+};
+
 function useStyles({ propStyles, breakpointsStyles = {} }: UseStylesProps) {
   return createUseStyles({
     box: {
@@ -23,7 +27,7 @@ function useStyles({ propStyles, breakpointsStyles = {} }: UseStylesProps) {
       ...propStyles,
     },
     ...(Object.keys(breakpointsStyles) as Array<BreakpointKey>).reduce(
-      (accu: any, key) => {
+      (accu: BreakpointsCSSProperties, key) => {
         accu[breakpoints.up(key)] = {
           box: breakpointsStyles[key],
         };

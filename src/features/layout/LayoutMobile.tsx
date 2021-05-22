@@ -7,6 +7,13 @@ import SideMenuExpanded from "features/menu/SideMenuExpanded";
 import TimerTabs from "features/timer/TimerTabs";
 import Box from "components/flexboxgrid/Box";
 
+type UseSpringProps = {
+  x: number;
+  width: string;
+  immediate: boolean;
+  opacity: number;
+};
+
 const items = [
   {
     width: window.innerWidth > 500 ? 400 / window.innerWidth : 0.9,
@@ -64,9 +71,14 @@ function LayoutMobile() {
   const activeIndex = useRef(1);
   const isImmediate = useRef(false);
 
-  const computeSpring = useCallback((i) => {
+  const computeSpring = useCallback((i: number) => {
     if (i < activeIndex.current - 1 || i > activeIndex.current + 1) {
-      return;
+      return {
+        x: 0,
+        width: "100vw",
+        immediate: isImmediate.current,
+        opacity: 1,
+      };
     }
     const component = computeComponent(i, { activeIndex, isImmediate });
     const overlay = computeOverlay(i, { x: component.x });
@@ -74,7 +86,10 @@ function LayoutMobile() {
     return { ...component, ...overlay };
   }, []);
 
-  const [springs, api] = useSprings(items.length, computeSpring as any);
+  const [springs, api] = useSprings<UseSpringProps>(
+    items.length,
+    computeSpring
+  );
 
   const bind = useDrag(
     ({ swipe, last, active, movement: [mx], distance }) => {
@@ -153,7 +168,7 @@ function LayoutMobile() {
 
   return (
     <Box position="absolute" width="100%" height="100%" overflow="hidden">
-      {springs.map(({ opacity, backgroundColor, ...style }, i) => {
+      {springs.map(({ opacity, ...style }, i) => {
         const Component = items[i].component;
 
         return (

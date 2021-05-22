@@ -1,5 +1,6 @@
 import { ElementType, HTMLProps } from "react";
 import clsx from "clsx";
+import get from "lodash/get";
 import { TypographyKey } from "styles/typography";
 import useStyles from "./Typography.styles";
 
@@ -33,14 +34,9 @@ function Typography({
 
   return (
     <Component
-      className={clsx(
-        classes.typography,
-        (classes as any)?.[variant],
-        className,
-        {
-          [classes.gutterBottom]: gutterBottom,
-        }
-      )}
+      className={clsx(classes.typography, get(classes, variant), className, {
+        [classes.gutterBottom]: gutterBottom,
+      })}
       {...props}
     />
   );
