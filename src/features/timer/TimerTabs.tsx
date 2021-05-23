@@ -17,17 +17,13 @@ function TimerTabs() {
   const { selectedItem } = useMenu();
   const { addTime } = useTimerViewModel();
 
-  const ScrambleImage = selectedItem?.key
-    ? puzzlesData[selectedItem?.key].Image
-    : null;
+  const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
       <div className={classes.header}>
         <Typography variant="subtitle1">
-          {selectedItem?.key
-            ? t(puzzlesData?.[selectedItem?.key]?.label)
-            : "CCTimer.com"}
+          {selectedItem?.key ? t(puzzlesData?.[selectedItem?.key]?.label) : "CCTimer.com"}
         </Typography>
       </div>
       <Box flexDirection="column" flex={1}>
@@ -41,7 +37,7 @@ function TimerTabs() {
               textAlign: "center",
             }}
           >
-            {scramble.string}
+            {scramble.text}
           </Typography>
           <Stopwatch onSave={addTime} />
           <Box>
@@ -53,10 +49,7 @@ function TimerTabs() {
                   </Box>
                 }
               >
-                <ScrambleImage
-                  className={classes.scramble}
-                  scramble={scramble.state}
-                />
+                <ScrambleImage className={classes.scramble} scramble={scramble.state} />
               </Suspense>
             )}
           </Box>

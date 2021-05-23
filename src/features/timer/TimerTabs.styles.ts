@@ -32,10 +32,6 @@ const useStyles = createUseStyles({
     position: "absolute",
     bottom: 0,
     left: 0,
-    "& > canvas": {
-      alignSelf: "center",
-      justifySelf: "center",
-    },
   },
 });
 

@@ -2,9 +2,9 @@ import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 
 const useStyles = createUseStyles({
+  withoutScramble: {},
   sectionContainer: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
+    display: "flex",
     height: "30vh",
     background: theme.palette.background.paper,
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
@@ -13,6 +13,7 @@ const useStyles = createUseStyles({
   section: {
     maxHeight: "100%",
     overflow: "auto",
+    flex: 1,
   },
   stats: {
     flex: 1,
@@ -22,9 +23,16 @@ const useStyles = createUseStyles({
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     border: `0 solid ${theme.palette.border.primary}`,
     borderWidth: "0 1px 0 1px",
+    "$withoutScramble &": {
+      borderWidth: "0 0 0 1px",
+    },
   },
   times: {
     display: "grid",
+    gap: "2rem",
+    padding: "2rem",
+    overflow: "auto",
+    justifyContent: "space-between",
     gridTemplateColumns: "repeat(2, 1fr)",
     [theme.breakpoints.up("lg")]: {
       gridTemplateColumns: "repeat(3, 1fr)",
@@ -32,10 +40,15 @@ const useStyles = createUseStyles({
     [theme.breakpoints.up("xl")]: {
       gridTemplateColumns: "repeat(5, 1fr)",
     },
-    padding: "2rem",
-    gap: "2rem",
-    justifyContent: "space-between",
-    overflow: "auto",
+    "$withoutScramble &": {
+      gridTemplateColumns: "repeat(3, 1fr)",
+      [theme.breakpoints.up("lg")]: {
+        gridTemplateColumns: "repeat(4, 1fr)",
+      },
+      [theme.breakpoints.up("xl")]: {
+        gridTemplateColumns: "repeat(6, 1fr)",
+      },
+    },
   },
   time: {
     borderRadius: theme.shape.borderRadius,
@@ -49,10 +62,6 @@ const useStyles = createUseStyles({
     height: "100%",
     width: "100%",
     padding: "3rem",
-    "& > canvas": {
-      alignSelf: "center",
-      justifySelf: "center",
-    },
   },
 });
 

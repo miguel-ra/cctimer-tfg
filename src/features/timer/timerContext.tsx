@@ -1,22 +1,9 @@
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  // useRef,
-  useState,
-} from "react";
-import {
-  Scramble,
-  // ScrambleGenerator,
-} from "cctimer-scrambles";
+import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { Scramble } from "cctimer-scrambles";
 import { useMenu } from "store/menuContext";
-// import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
+import { PuzzleKey } from "models/puzzles/Puzzle";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import GenerateScrambleWorker from "worker-loader!./workers/generateScramble.worker.ts";
-import { PuzzleKey } from "models/puzzles/Puzzle";
 import { GenerateScrambleResponse } from "./workers/generateScramble.worker";
 
 type MenuState = {
@@ -41,7 +28,7 @@ function useTimer() {
   return context;
 }
 
-const emptyScramble = { string: "", state: "" };
+const emptyScramble = { text: "", state: "" };
 
 function TimerProvider({ children }: TimerProviderProps) {
   const [scramble, setScramble] = useState<Scramble>(emptyScramble);
@@ -71,10 +58,7 @@ function TimerProvider({ children }: TimerProviderProps) {
   return (
     <TimerContext.Provider
       value={{
-        scramble:
-          scramblePuzzleKey.current === selectedItem?.key
-            ? scramble
-            : emptyScramble,
+        scramble: scramblePuzzleKey.current === selectedItem?.key ? scramble : emptyScramble,
         refreshScramble,
       }}
     >

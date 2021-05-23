@@ -10,23 +10,20 @@ type Resources = {
   [key in LangKey]?: Resource;
 };
 
-const supportedLngs: Array<LangKey> = ["en", "es", "pr"];
+const supportedLngs: LangKey[] = ["en", "es", "pr"];
 
-const languages: Array<[LangKey, string]> = [
+const languages: [LangKey, string][] = [
   ["en", "English"],
   ["es", "Spanish"],
   ["pr", "Portuguese"],
 ];
 
-const resources = supportedLngs.reduce(
-  (accu: Resources, languageKey: LangKey) => {
-    accu[languageKey] = {
-      translation: require(`./locales/${languageKey}/translation.json`),
-    } as Resource;
-    return accu;
-  },
-  {}
-);
+const resources = supportedLngs.reduce((accu: Resources, languageKey: LangKey) => {
+  accu[languageKey] = {
+    translation: require(`./locales/${languageKey}/translation.json`),
+  } as Resource;
+  return accu;
+}, {});
 
 i18n.on("languageChanged", (lngWithContry) => {
   const lng = lngWithContry.slice(0, 2);

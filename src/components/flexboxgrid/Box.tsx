@@ -13,9 +13,9 @@ type ObjectStyles = CSSProperties | BreakpointsStyles;
 
 function splitBreakpointsStyles(
   object: CSSProperties | BreakpointsStyles,
-  keys: Array<CSSProperties | BreakpointKey>
+  keys: (CSSProperties | BreakpointKey)[]
 ) {
-  return (Object.keys(object) as Array<keyof ObjectStyles>).reduce(
+  return (Object.keys(object) as (keyof ObjectStyles)[]).reduce(
     (accu: [BreakpointsStyles, CSSProperties], key: keyof ObjectStyles) => {
       const accuKey = keys.includes(key) ? 0 : 1;
       accu[accuKey][key] = object[key];
@@ -25,16 +25,8 @@ function splitBreakpointsStyles(
   );
 }
 
-function Box({
-  as: Component = "div",
-  componentProps,
-  children,
-  ...props
-}: BoxProps) {
-  const [breakpointsStyles, propStyles] = splitBreakpointsStyles(
-    props,
-    breakpoints.keys
-  );
+function Box({ as: Component = "div", componentProps, children, ...props }: BoxProps) {
+  const [breakpointsStyles, propStyles] = splitBreakpointsStyles(props, breakpoints.keys);
   const classes = useStyles({ propStyles, breakpointsStyles });
 
   return (

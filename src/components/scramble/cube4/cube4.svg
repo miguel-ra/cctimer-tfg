@@ -1,5 +1,5 @@
 <svg height="74" viewBox="0 0 99 74" width="99" xmlns="http://www.w3.org/2000/svg">
-	<g fill="none" stroke="var(--colors-grey-main)" stroke-width=".5">
+	<g fill="none" stroke="var(--colors-black-main)" stroke-width=".5">
 		<g fill="var(--colors-green-main)" transform="translate(25.25 .25)">
 			<path d="m0 0v5.5h5.5v-5.5z" fill="var(--sticker-48)" />
 			<path d="m5.5 0v5.5h5.5v-5.5z" fill="var(--sticker-49)" />

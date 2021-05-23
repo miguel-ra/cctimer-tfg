@@ -26,15 +26,12 @@ function useStyles({ propStyles, breakpointsStyles = {} }: UseStylesProps) {
       flexWrap: "wrap",
       ...propStyles,
     },
-    ...(Object.keys(breakpointsStyles) as Array<BreakpointKey>).reduce(
-      (accu: BreakpointsCSSProperties, key) => {
-        accu[breakpoints.up(key)] = {
-          box: breakpointsStyles[key],
-        };
-        return accu;
-      },
-      {}
-    ),
+    ...(Object.keys(breakpointsStyles) as BreakpointKey[]).reduce((accu: BreakpointsCSSProperties, key) => {
+      accu[breakpoints.up(key)] = {
+        box: breakpointsStyles[key],
+      };
+      return accu;
+    }, {}),
   })();
 }
 

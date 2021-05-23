@@ -15,6 +15,17 @@ const scrambleGenerators: ScrambleGenerators = {
   cube3: () => import("cctimer-scrambles/cube3"),
   cube4: () => import("cctimer-scrambles/cube4"),
   cube5: () => import("cctimer-scrambles/cube5"),
+  cube6: () => import("cctimer-scrambles/cube6"),
+  cube7: () => import("cctimer-scrambles/cube7"),
+  cube8: () => import("cctimer-scrambles/cube8"),
+  cube9: () => import("cctimer-scrambles/cube9"),
+  cube10: () => import("cctimer-scrambles/cube10"),
+  cube11: () => import("cctimer-scrambles/cube11"),
+  square1: () => import("cctimer-scrambles/square1"),
+  skewb: () => import("cctimer-scrambles/skewb"),
+  megaminx: () => import("cctimer-scrambles/megaminx"),
+  gigaminx: () => import("cctimer-scrambles/gigaminx"),
+  pyraminx: () => import("cctimer-scrambles/pyraminx"),
 };
 
 async function generateScramble(puzzleKey: PuzzleKey) {

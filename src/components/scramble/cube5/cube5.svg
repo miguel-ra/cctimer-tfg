@@ -1,6 +1,6 @@
 <svg height="75" viewBox="0 0 100 75" width="100" xmlns="http://www.w3.org/2000/svg">
-	<g fill="none" stroke="#000" stroke-width=".5">
-		<g fill="#95d99f" transform="translate(26.25 1.25)">
+	<g fill="none" stroke="var(--colors-black-main)" stroke-width=".4">
+		<g fill="var(--colors-green-main)" transform="translate(26.25 1.25)">
 			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-75)" />
 			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-76)" />
 			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-77)" />
@@ -27,7 +27,7 @@
 			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-98)" />
 			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-99)" />
 		</g>
-		<g fill="#fc9f9b" transform="translate(1.25 26.25)">
+		<g fill="var(--colors-red-main)" transform="translate(1.25 26.25)">
 			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-29)" />
 			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-28)" />
 			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-27)" />
@@ -54,7 +54,7 @@
 			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-46)" />
 			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-45)" />
 		</g>
-		<g fill="#f7efa4" transform="translate(26.25 26.25)">
+		<g fill="var(--colors-yellow-main)" transform="translate(26.25 26.25)">
 			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-125)" />
 			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-126)" />
 			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-127)" />
@@ -81,7 +81,7 @@
 			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-148)" />
 			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-149)" />
 		</g>
-		<g fill="#f7be95" transform="translate(51.25 26.25)">
+		<g fill="var(--colors-orange-main)" transform="translate(51.25 26.25)">
 			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-100)" />
 			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-101)" />
 			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-102)" />
@@ -108,7 +108,7 @@
 			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-123)" />
 			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-124)" />
 		</g>
-		<g fill="#fff" transform="translate(76.25 26.25)">
+		<g fill="var(--colors-white-main)" transform="translate(76.25 26.25)">
 			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-54)" />
 			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-53)" />
 			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-52)" />
@@ -135,7 +135,7 @@
 			<path d="m13.5 18v4.5h4.5v-4.5z" fill="var(--sticker-71)" />
 			<path d="m18 18v4.5h4.5v-4.5z" fill="var(--sticker-70)" />
 		</g>
-		<g fill="#91bffe" transform="translate(26.25 51.25)">
+		<g fill="var(--colors-blue-main)" transform="translate(26.25 51.25)">
 			<path d="m0 0v4.5h4.5v-4.5z" fill="var(--sticker-20)" />
 			<path d="m4.5 0v4.5h4.5v-4.5z" fill="var(--sticker-21)" />
 			<path d="m9 0v4.5h4.5v-4.5z" fill="var(--sticker-22)" />

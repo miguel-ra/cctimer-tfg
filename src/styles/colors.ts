@@ -1,7 +1,7 @@
 const colors = {
-  grey: {
-    main: "var(--colors-grey-main)",
-    contrastText: "var(--colors-grey-contrastText)",
+  black: {
+    main: "var(--colors-black-main)",
+    contrastText: "var(--colors-black-contrastText)",
   },
   white: {
     main: "var(--colors-white-main)",
@@ -13,10 +13,13 @@ const colors = {
   },
   green: {
     main: "var(--colors-green-main)",
+    dark: "var(--colors-green-dark)",
   },
   yellow: {
+    light: "var(--colors-yellow-light)",
     main: "var(--colors-yellow-main)",
     dark: "var(--colors-yellow-dark)",
+    darker: "var(--colors-yellow-darker)",
   },
   orange: {
     main: "var(--colors-orange-main)",
@@ -26,6 +29,12 @@ const colors = {
   },
   purple: {
     main: "var(--colors-purple-main)",
+  },
+  pink: {
+    main: "var(--colors-pink-main)",
+  },
+  grey: {
+    main: "var(--colors-grey-main)",
   },
 };
 

@@ -7,10 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
+    <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
@@ -64,14 +61,19 @@
         --colors-blue-light: #69bfff;
         --colors-blue-main: #388bfd;
         --colors-green-main: #3fb950;
+        --colors-green-dark: #238636;
+        --colors-yellow-light: #fff59d;
         --colors-yellow-main: #f0e159;
-        --colors-yellow-dark: #a19a5b;
+        --colors-yellow-dark: #e2cd14;
+        --colors-yellow-darker: #746805;
         --colors-orange-main: #f0883e;
         --colors-red-main: #f85149;
         --colors-purple-main: #8957e5;
+        --colors-pink-main: #f778ba;
+        --colors-grey-main: #8b949e;
 
-        --colors-grey-main: #0d1117;
-        --colors-grey-contrastText: #f0f6fc;
+        --colors-black-main: #0d1117;
+        --colors-black-contrastText: #f0f6fc;
 
         --colors-white-main: #ffffff;
         --colors-white-contrastText: #24292e;
@@ -88,8 +90,8 @@
 
       body[data-color-mode="dark"] {
         --palette-background-default: #060a0e;
-        --palette-background-paper: var(--colors-grey-main);
-        --palette-text-primary: var(--colors-grey-contrastText);
+        --palette-background-paper: var(--colors-black-main);
+        --palette-text-primary: var(--colors-black-contrastText);
         --palette-text-secondary: #8b949e;
         --palette-border-primary: #30363d;
         --palette-border-secondary: #959a9f;
@@ -112,9 +114,8 @@
         color: var(--palette-text-primary);
         background-color: var(--palette-background-default);
         margin: 0;
-        font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI",
-          "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-          "Helvetica Neue", sans-serif;
+        font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell",
+          "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         font-size: 1.6rem;
@@ -152,9 +153,7 @@
   </head>
   <body>
     <script>
-      const isDarkMode =
-        window.localStorage.colorMode &&
-        window.localStorage.colorMode.includes("dark");
+      const isDarkMode = window.localStorage.colorMode && window.localStorage.colorMode.includes("dark");
 
       if (
         (!window.localStorage.colorMode &&

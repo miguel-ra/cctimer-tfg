@@ -1,0 +1,46 @@
+<svg height="304" viewBox="0 0 350 304" width="350" xmlns="http://www.w3.org/2000/svg">
+	<g fill="none" stroke="var(--colors-black-main)" stroke-width="2">
+		<g fill="var(--colors-green-main)" transform="translate(88.60254 2)">
+			<path d="m129.90381 25v50h-86.60254v-50z" fill="var(--sticker-0)" />
+			<path d="m86.60254 0 43.30127 25h-86.60254z" fill="var(--sticker-1)" />
+			<path d="m173.20508 50-43.30127 25v-50z" fill="var(--sticker-2)" />
+			<path d="m0 50 43.30127-25v50z" fill="var(--sticker-3)" />
+			<path d="m86.60254 100-43.30127-25h86.60254z" fill="var(--sticker-4)" />
+		</g>
+		<g fill="var(--colors-yellow-main)" transform="translate(88.60254 52)">
+			<path d="m43.30127 25 43.30127 75-43.30127 25-43.30127-75z" fill="var(--sticker-5)" />
+			<path d="m0 0 43.30127 25-43.30127 25z" fill="var(--sticker-6)" />
+			<path d="m86.60254 50v50l-43.30127-75z" fill="var(--sticker-7)" />
+			<path d="m0 100v-50l43.30127 75z" fill="var(--sticker-8)" />
+			<path d="m86.60254 150-43.30127-25 43.30127-25z" fill="var(--sticker-9)" />
+		</g>
+		<g fill="var(--colors-orange-main)" transform="translate(175.20508 52)">
+			<path d="m43.30127 25 43.30127 25-43.30127 75-43.30127-25z" fill="var(--sticker-10)" />
+			<path d="m0 50 43.30127-25-43.30127 75z" fill="var(--sticker-11)" />
+			<path d="m86.60254 0v50l-43.30127-25z" fill="var(--sticker-12)" />
+			<path d="m0 150v-50l43.30127 25z" fill="var(--sticker-13)" />
+			<path d="m86.60254 100-43.30127 25 43.30127-75z" fill="var(--sticker-14)" />
+		</g>
+		<g fill="var(--colors-white-main)" transform="translate(261.80762 2)">
+			<path d="m43.30127 25 43.30127 25-43.30127 75-43.30127-25z" fill="var(--sticker-15)" />
+			<path d="m0 50 43.30127-25-43.30127 75z" fill="var(--sticker-16)" />
+			<path d="m86.60254 0v50l-43.30127-25z" fill="var(--sticker-17)" />
+			<path d="m0 150v-50l43.30127 25z" fill="var(--sticker-18)" />
+			<path d="m86.60254 100-43.30127 25 43.30127-75z" fill="var(--sticker-19)" />
+		</g>
+		<g fill="var(--colors-red-main)" transform="translate(2 2)">
+			<path d="m0 0 86.60254 50v100l-86.60254-50z" fill="var(--sticker-24)" />
+			<path d="m43.30127 25 43.30127 75-43.30127 25-43.30127-75z" fill="var(--sticker-20)" />
+			<path d="m0 0 43.30127 25-43.30127 25z" fill="var(--sticker-21)" />
+			<path d="m86.60254 50v50l-43.30127-75z" fill="var(--sticker-22)" />
+			<path d="m0 100v-50l43.30127 75z" fill="var(--sticker-23)" />
+		</g>
+		<g fill="var(--colors-blue-main)" transform="translate(88.60254 152)">
+			<path d="m43.30127 25 43.30127 75-43.30127 25-43.30127-75z" fill="var(--sticker-25)" />
+			<path d="m0 0 43.30127 25-43.30127 25z" fill="var(--sticker-26)" />
+			<path d="m86.60254 50v50l-43.30127-75z" fill="var(--sticker-27)" />
+			<path d="m0 100v-50l43.30127 75z" fill="var(--sticker-28)" />
+			<path d="m86.60254 150-43.30127-25 43.30127-25z" fill="var(--sticker-29)" />
+		</g>
+	</g>
+</svg>

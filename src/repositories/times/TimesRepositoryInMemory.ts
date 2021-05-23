@@ -23,7 +23,7 @@ class TimesRepositoryInMemory implements TimesRepository {
   constructor() {
     this.dbPromise = openDB<TimesDB>(DB_NAME, DB_VERSION, {
       upgrade(db) {
-        const puzzlesKeys = Object.keys(puzzlesData) as Array<PuzzleKey>;
+        const puzzlesKeys = Object.keys(puzzlesData) as PuzzleKey[];
         puzzlesKeys.forEach((puzzleKey) => {
           const store = db.createObjectStore(puzzleKey, {
             keyPath: "id",
@@ -35,11 +35,7 @@ class TimesRepositoryInMemory implements TimesRepository {
     });
   }
 
-  async add(
-    puzzleKey: PuzzleKey,
-    puzzleId: PuzzleId,
-    time: Time
-  ): Promise<PuzzleTime> {
+  async add(puzzleKey: PuzzleKey, puzzleId: PuzzleId, time: Time): Promise<PuzzleTime> {
     const db = await this.dbPromise;
     const puzzleTime = {
       ...time,
@@ -57,9 +53,7 @@ class TimesRepositoryInMemory implements TimesRepository {
 
   async deleteAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {
     const db = await this.dbPromise;
-    const index = db
-      .transaction(puzzleKey, "readwrite")
-      .store.index("puzzleId");
+    const index = db.transaction(puzzleKey, "readwrite").store.index("puzzleId");
 
     for await (const cursor of index.iterate(puzzleId)) {
       cursor.delete();
