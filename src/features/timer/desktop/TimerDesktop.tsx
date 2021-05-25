@@ -3,7 +3,6 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { useMenu } from "store/menuContext";
 import { puzzlesData } from "models/puzzles/Puzzle";
-import { millisecondsToClock } from "shared/format/number";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
@@ -11,13 +10,14 @@ import Typography from "components/typography/Typography";
 import { TimerProvider, useTimer } from "../timerContext";
 import { useTimerViewModel } from "../timerViewModel";
 import useStyles from "./TimerDesktop.styles";
+import Times from "features/times/Times";
 
 function TimerDesktop() {
   const classes = useStyles();
   const { t } = useTranslation();
   const { scramble } = useTimer();
   const { selectedItem } = useMenu();
-  const { puzzleTimes, addTime } = useTimerViewModel();
+  const { addTime } = useTimerViewModel();
 
   const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
 
@@ -39,21 +39,7 @@ function TimerDesktop() {
       </Box>
       <div className={clsx(classes.sectionContainer, { [classes.withoutScramble]: !ScrambleImage })}>
         <section className={classes.section}>
-          {puzzleTimes.length ? (
-            <div className={classes.times}>
-              {puzzleTimes
-                .map((time) => (
-                  <div key={time.id} className={classes.time}>
-                    {millisecondsToClock(time.elapsedTime)}
-                  </div>
-                ))
-                .reverse()}
-            </div>
-          ) : (
-            <Box height="100%" padding="2rem" display="grid" placeContent="center">
-              {t("You have not registered any time. Destroy it! 🤘")}
-            </Box>
-          )}
+          <Times />
         </section>
         <section className={classes.stats}>{t("Stats and grahps")}</section>
         {ScrambleImage && (

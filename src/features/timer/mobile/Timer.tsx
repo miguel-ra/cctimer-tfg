@@ -7,27 +7,34 @@ import Typography from "components/typography/Typography";
 import { TabComponentProps } from "./TimerMobile";
 import { createUseStyles } from "react-jss";
 import Spinner from "components/spinner/Spinner";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
+import clsx from "clsx";
 
 const useStyles = createUseStyles({
   scramble: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: "20vh",
+    height: "20%",
     width: "100%",
     position: "absolute",
     bottom: 0,
     left: 0,
-    padding: "3rem",
+    padding: "2rem",
+    transition: "height 0.5s ease-in-out",
+    outline: "none",
   },
   scrambleImage: {
     height: "100%",
     width: "100%",
   },
+  scrambleImageOpen: {
+    height: "100%",
+  },
 });
 
 function Timer({ addTime }: TabComponentProps) {
+  const [scrambleImageOpen, setScrambleImageOpen] = useState(false);
   const classes = useStyles();
   const { scramble } = useTimer();
   const { selectedItem } = useMenu();
@@ -49,7 +56,10 @@ function Timer({ addTime }: TabComponentProps) {
       </Typography>
       <Stopwatch onSave={addTime} />
       {ScrambleImage && (
-        <div className={classes.scramble}>
+        <div
+          className={clsx(classes.scramble, { [classes.scrambleImageOpen]: scrambleImageOpen })}
+          onClick={() => setScrambleImageOpen((prevState) => !prevState)}
+        >
           <Suspense
             fallback={
               <Box display="flex" placeContent="center" height="100%">

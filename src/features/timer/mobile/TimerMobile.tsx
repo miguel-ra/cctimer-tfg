@@ -1,4 +1,4 @@
-import { MutableRefObject, useRef } from "react";
+import { MutableRefObject, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
@@ -13,6 +13,7 @@ import { useTimerViewModel } from "../timerViewModel";
 import { TimerProvider } from "../timerContext";
 import useStyles from "./TimerMobile.styles";
 import Timer from "./Timer";
+import Times from "features/times/Times";
 
 type TabComponentProps = {
   addTime: (time: Time) => void;
@@ -32,12 +33,16 @@ const tabs: Tab[] = [
   {
     // t("Session")
     label: "Session",
-    Component: () => <div>Session</div>,
+    Component: Times,
   },
   {
     // t("Stats")
     label: "Stats",
-    Component: () => <div>Stats</div>,
+    Component: () => (
+      <Box display="grid" placeContent="center" width="100%" height="100%">
+        Stats
+      </Box>
+    ),
   },
 ];
 
@@ -45,17 +50,24 @@ type TimerMobileProps = {
   isParentDragDisabled: MutableRefObject<boolean>;
 };
 
+type ComputeSpringOptions = {
+  activeTab: MutableRefObject<number>;
+  isImmediate: MutableRefObject<boolean>;
+};
+
 const SPRING_DURATION = 250;
 
-function computeSpring(activeTab: MutableRefObject<number>) {
+function computeSpring({ activeTab, isImmediate }: ComputeSpringOptions) {
   return (i: number) => ({
     x: (i - activeTab.current) * window.innerWidth,
     opacity: activeTab.current !== i ? 0.4 : 1,
+    immediate: isImmediate.current,
   });
 }
 
 function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
   const activeTab = useRef(0);
+  const isImmediate = useRef(false);
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
@@ -79,7 +91,7 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
     }, SPRING_DURATION);
   }
 
-  const [props, api] = useSprings(tabs.length, computeSpring(activeTab));
+  const [props, api] = useSprings(tabs.length, computeSpring({ activeTab, isImmediate }));
 
   const bind = useDrag(({ last, active, movement: [mx], swipe, distance }: any) => {
     if (swipe[0] !== 0) {
@@ -104,6 +116,17 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
       return { x, opacity: activeTab.current !== i ? 0.4 : 1 };
     });
   });
+
+  useEffect(() => {
+    function handler() {
+      isImmediate.current = true;
+      api.start(computeSpring({ activeTab, isImmediate }));
+    }
+    window.addEventListener("resize", handler);
+    return () => {
+      window.removeEventListener("resize", handler);
+    };
+  }, [api]);
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
@@ -134,10 +157,6 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
               position="absolute"
               top={0}
               left={0}
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              flexDirection="column"
             >
               <Component addTime={addTime} />
             </Box>
@@ -151,7 +170,7 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
           const { index } = (event.target as HTMLElement).dataset;
           if (index) {
             activeTab.current = Number(index);
-            api.start(computeSpring(activeTab));
+            api.start(computeSpring({ activeTab, isImmediate }));
             updateLayout();
           }
         }}
