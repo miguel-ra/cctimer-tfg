@@ -9,29 +9,31 @@ const useStyles = createUseStyles({
     background: theme.palette.background.paper,
     borderBottom: `1px solid ${theme.palette.border.primary}`,
   },
-  tabs: {
+  sections: {
+    flex: 1,
+    position: "relative",
+    overflow: "hidden",
+  },
+  section: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    willChange: "transform",
+  },
+  buttons: {
     display: "flex",
     background: theme.palette.background.paper,
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     borderTop: `1px solid ${theme.palette.border.primary}`,
   },
-  stats: {
+  button: {
     flex: 1,
     display: "flex",
     flexWrap: "wrap",
     placeContent: "center",
-    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
-    border: `0 solid ${theme.palette.border.primary}`,
-    borderWidth: "0 1px 0 1px",
-  },
-  scramble: {
-    display: "grid",
-    height: "20vh",
-    width: "100%",
-    padding: "3rem",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
+    transition: `border ${theme.transition.duration.colorMode} linear`,
+    borderRight: `1px solid ${theme.palette.border.primary}`,
+    padding: "1rem",
   },
 });
 

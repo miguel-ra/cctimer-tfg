@@ -6,9 +6,7 @@ import Box from "components/flexboxgrid/Box";
 
 function Layout() {
   const isSmall = useMediaQuery(breakpoints.down("md"));
-  const SelectedLayout = lazy(() =>
-    isSmall ? import("./LayoutMobile") : import("./LayoutDesktop")
-  );
+  const SelectedLayout = lazy(() => (isSmall ? import("./LayoutMobile") : import("./LayoutDesktop")));
 
   return (
     <Suspense

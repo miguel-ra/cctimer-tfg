@@ -35,20 +35,13 @@ function Popover({ containerId, children }: PopoverProps) {
 
   return (
     <Portal containerId={containerId}>
-      {!popoverConfig.hideOnLeave && (
-        <div className={classes.overlay} onClick={() => setPopover()} />
-      )}
+      {!popoverConfig.hideOnLeave && <div className={classes.overlay} onClick={() => setPopover()} />}
       <div className={classes.container}>
         {cloneElement(children, {
-          className: clsx(
-            children.props.className,
-            classes.popover,
-            classes.position,
-            {
-              [classes.dark]: popoverConfig.appearance === "dark",
-              [classes.arrow]: popoverConfig.showArrow,
-            }
-          ),
+          className: clsx(children.props.className, classes.popover, classes.position, {
+            [classes.dark]: popoverConfig.appearance === "dark",
+            [classes.arrow]: popoverConfig.showArrow,
+          }),
         })}
       </div>
     </Portal>

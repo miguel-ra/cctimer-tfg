@@ -9,12 +9,7 @@ type ModalProps = {
   setPrevActiveElement: (element: HTMLElement) => void;
 };
 
-function Modal({
-  containerId,
-  closeModal,
-  children,
-  setPrevActiveElement,
-}: ModalProps) {
+function Modal({ containerId, closeModal, children, setPrevActiveElement }: ModalProps) {
   const [modalElement, setModalElement] = useState<HTMLElement>();
   const classes = useStyles();
 
@@ -31,9 +26,7 @@ function Modal({
         'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="number"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])'
       );
       const firstFocusable = focusableElements[0] as HTMLElement;
-      const lastFocusable = focusableElements[
-        focusableElements.length - 1
-      ] as HTMLElement;
+      const lastFocusable = focusableElements[focusableElements.length - 1] as HTMLElement;
 
       if (event?.key === "Escape") {
         event.stopPropagation();
@@ -79,11 +72,7 @@ function Modal({
 
   return (
     <Portal containerId={containerId}>
-      <div
-        data-testid="overlay"
-        className={classes.overlay}
-        onClick={() => closeModal()}
-      />
+      <div data-testid="overlay" className={classes.overlay} onClick={() => closeModal()} />
       <div
         ref={(element) => {
           if (element) {

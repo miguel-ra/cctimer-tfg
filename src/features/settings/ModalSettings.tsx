@@ -38,11 +38,7 @@ function ModalSettings() {
       </div>
       <form>
         <Box flexDirection="column" padding="1.5rem">
-          <Box
-            justifyContent="space-between"
-            alignItems="center"
-            paddingBottom="1rem"
-          >
+          <Box justifyContent="space-between" alignItems="center" paddingBottom="1rem">
             <label>{t("Theme")}</label>
             <ColorModeToggle />
           </Box>
@@ -50,11 +46,7 @@ function ModalSettings() {
             <LanguageSelector />
           </Box>
           <Box paddingBottom="1rem">{t("Inspection behaviour")}</Box>
-          <Box
-            justifyContent="space-between"
-            paddingLeft="1rem"
-            paddingBottom="0.5rem"
-          >
+          <Box justifyContent="space-between" paddingLeft="1rem" paddingBottom="0.5rem">
             <CheckboxField
               label={t("Enable")}
               name="settings.inspection.enabled"
@@ -64,11 +56,7 @@ function ModalSettings() {
               checked={settings.inspection.enabled}
             />
           </Box>
-          <Box
-            justifyContent="space-between"
-            paddingLeft="1rem"
-            paddingBottom="0.5rem"
-          >
+          <Box justifyContent="space-between" paddingLeft="1rem" paddingBottom="0.5rem">
             <Field
               type="number"
               label={t("Inspection time")}

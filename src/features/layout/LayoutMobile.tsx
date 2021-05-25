@@ -14,17 +14,27 @@ type UseSpringProps = {
   opacity: number;
 };
 
-const items = [
+type ItemComponentProps = {
+  isParentDragDisabled: MutableRefObject<boolean>;
+};
+
+type Item = {
+  width: number;
+  computeWidth?: () => number;
+  Component: (props: ItemComponentProps) => JSX.Element;
+  overlay: boolean;
+};
+
+const items: Item[] = [
   {
     width: window.innerWidth > 500 ? 400 / window.innerWidth : 0.9,
-    computeWidth: () =>
-      window.innerWidth > 500 ? 400 / window.innerWidth : 0.9,
-    component: SideMenuExpanded,
+    computeWidth: () => (window.innerWidth > 500 ? 400 / window.innerWidth : 0.9),
+    Component: SideMenuExpanded,
     overlay: false,
   },
   {
     width: 1,
-    component: TimerTabs,
+    Component: TimerTabs,
     overlay: true,
   },
 ];
@@ -70,6 +80,7 @@ function computeOverlay(currentIndex: number, { x }: { x: number }) {
 function LayoutMobile() {
   const activeIndex = useRef(1);
   const isImmediate = useRef(false);
+  const isDragDisabled = useRef(false);
 
   const computeSpring = useCallback((i: number) => {
     if (i < activeIndex.current - 1 || i > activeIndex.current + 1) {
@@ -86,21 +97,18 @@ function LayoutMobile() {
     return { ...component, ...overlay };
   }, []);
 
-  const [springs, api] = useSprings<UseSpringProps>(
-    items.length,
-    computeSpring
-  );
+  const [springs, api] = useSprings<UseSpringProps>(items.length, computeSpring);
 
   const bind = useDrag(
     ({ swipe, last, active, movement: [mx], distance }) => {
+      if (isDragDisabled.current) {
+        return;
+      }
+
       isImmediate.current = false;
 
       if (swipe[0] !== 0) {
-        activeIndex.current = clamp(
-          activeIndex.current - swipe[0],
-          0,
-          items.length - 1
-        );
+        activeIndex.current = clamp(activeIndex.current - swipe[0], 0, items.length - 1);
       } else if (last) {
         const movementDirection = mx > 0 ? -1 : 1;
         const autoChangeDistance =
@@ -112,15 +120,11 @@ function LayoutMobile() {
           2;
 
         if (distance > autoChangeDistance) {
-          activeIndex.current = clamp(
-            activeIndex.current + movementDirection,
-            0,
-            items.length - 1
-          );
+          activeIndex.current = clamp(activeIndex.current + movementDirection, 0, items.length - 1);
         }
       }
 
-      api.start((i) => {
+      api((i) => {
         if (i < activeIndex.current - 1 || i > activeIndex.current + 1) {
           return;
         }
@@ -169,7 +173,7 @@ function LayoutMobile() {
   return (
     <Box position="absolute" width="100%" height="100%" overflow="hidden">
       {springs.map(({ opacity, ...style }, i) => {
-        const Component = items[i].component;
+        const { Component } = items[i];
 
         return (
           <Box
@@ -206,7 +210,7 @@ function LayoutMobile() {
                 }}
               />
             )}
-            <Component />
+            <Component isParentDragDisabled={isDragDisabled} />
           </Box>
         );
       })}

@@ -2,6 +2,11 @@ import { useTranslation } from "react-i18next";
 import { useColorMode } from "store/colorModeContext";
 import Button from "components/button/Button";
 
+/*
+  t("Light mode")
+  t("Dark mode")
+*/
+
 function ColorModeToggle() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { t } = useTranslation();

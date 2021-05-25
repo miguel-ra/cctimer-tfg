@@ -38,8 +38,7 @@ function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
         <div
           className={classes.content}
           onClick={(event) => {
-            const key = (event.target as HTMLElement).closest("button")?.dataset
-              .key as PuzzleKey;
+            const key = (event.target as HTMLElement).closest("button")?.dataset.key as PuzzleKey;
             if (key) {
               handleAddPuzzle(key);
             }
@@ -51,7 +50,7 @@ function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
               <button key={key} className={classes.item} data-key={key}>
                 <Icon className={classes.icon} />
                 <Typography variant="body2" style={{ lineHeight: "1rem" }}>
-                  {label}
+                  {t(label)}
                 </Typography>
               </button>
             );

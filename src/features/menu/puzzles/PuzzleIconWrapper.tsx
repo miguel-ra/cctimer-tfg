@@ -4,6 +4,7 @@ import {
   MouseEvent,
   MutableRefObject,
   ReactNode,
+  SetStateAction,
   useCallback,
 } from "react";
 import isTouchDevice from "shared/browser/isTouchDevice";
@@ -15,7 +16,7 @@ type PuzzleIconWrapperProps = {
   onClick: (event: MouseEvent) => void;
   timeoutId: MutableRefObject<NodeJS.Timeout | null>;
   showRemoveId: number | null;
-  setShowRemoveId: Dispatch<React.SetStateAction<number | null>>;
+  setShowRemoveId: Dispatch<SetStateAction<number | null>>;
   onSelect: () => void;
   onRemove: () => void;
   children: ReactNode;
@@ -35,9 +36,7 @@ function PuzzleIconWrapper({
 
   const clickHandler = useCallback(
     (event: MouseEvent) => {
-      const container = (event.target as HTMLElement).closest<HTMLElement>(
-        "[data-id]"
-      );
+      const container = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
       if (!container) {
         setShowRemoveId(null);
       }

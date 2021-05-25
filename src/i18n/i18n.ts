@@ -13,8 +13,11 @@ type Resources = {
 const supportedLngs: LangKey[] = ["en", "es", "pr"];
 
 const languages: [LangKey, string][] = [
+  // t("English")
   ["en", "English"],
+  // t("Spanish")
   ["es", "Spanish"],
+  // t("Portuguese")
   ["pr", "Portuguese"],
 ];
 

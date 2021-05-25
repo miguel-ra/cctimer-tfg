@@ -1,9 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
-import {
-  millisecondsToSeconds,
-  millisecondsToClock,
-} from "shared/format/number";
+import { millisecondsToSeconds, millisecondsToClock } from "shared/format/number";
 import { Time } from "models/times/Time";
 import { useSettings } from "store/settingsContext";
 import useStopwatch from "./useStopwatch";
@@ -21,13 +18,7 @@ type StopwatchProps = {
 function Stopwatch({ onSave }: StopwatchProps) {
   const classes = useStyles();
   const { settings } = useSettings();
-  const {
-    startStopwatch,
-    stopStopwatch,
-    resetStopwatch,
-    elapsedTime,
-    remainingTime,
-  } = useStopwatch();
+  const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
   const [status, setStatus] = useState("idle"); // TODO: Create status constats
   const [color, setColor] = useState("inherit");
@@ -125,16 +116,13 @@ function Stopwatch({ onSave }: StopwatchProps) {
 
     startStopwatch();
     setStatus("running");
-  }, [
-    settings.inspection.enabled,
-    settings.timer.holdToStart,
-    startInspection,
-    startStopwatch,
-    status,
-  ]);
+  }, [settings.inspection.enabled, settings.timer.holdToStart, startInspection, startStopwatch, status]);
 
   const keyDownHandler = useCallback(
     (event) => {
+      if (status !== "idle") {
+        event.preventDefault();
+      }
       if (status !== "running" && event.key !== " ") {
         return false;
       }

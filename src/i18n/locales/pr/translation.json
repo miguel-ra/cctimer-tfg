@@ -2,6 +2,8 @@
   "Add puzzle": "Adicionar puzzle",
   "Close": "Fechar",
   "Settings": "Opções",
+  "Light mode": "Modo claro",
+  "Dark mode": "Modo escuro",
   "Language": "Idioma",
   "Theme": "Tema",
   "Inspection behaviour": "Tempo de inspeção",
@@ -19,11 +21,6 @@
   "English": "Inglês",
   "Spanish": "Espanhol",
   "Portuguese": "Português",
-  "Auto start after inspection ends": "Início automático quando o tempo de inspeção termina",
-  "Hide time during solve": "Ocultar o tempo durante a resolução",
-  "Hide UI during solve": "Ocultar interface durante a resolução",
-  "Dark mode": "Modo escuro",
-  "Light mode": "Modo claro",
   "2x2 Cube": "Cubo 2x2",
   "3x3 Cube": "Cubo 3x3",
   "4x4 Cube": "Cubo 4x4",
@@ -33,5 +30,10 @@
   "8x8 Cube": "Cubo 8x8",
   "9x9 Cube": "Cubo 9x9",
   "10x10 Cube": "Cubo 10x10",
-  "11x11 Cube": "Cubo 11x11"
+  "11x11 Cube": "Cubo 11x11",
+  "Rubik's clock": "Rubik's clock",
+  "Square-1": "Square-1",
+  "Auto start after inspection ends": "Início automático quando o tempo de inspeção termina",
+  "Hide time during solve": "Ocultar o tempo durante a resolução",
+  "Hide UI during solve": "Ocultar interface durante a resolução"
 }

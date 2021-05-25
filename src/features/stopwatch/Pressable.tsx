@@ -1,11 +1,4 @@
-import React, {
-  HTMLAttributes,
-  ReactNode,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { HTMLAttributes, ReactNode, useEffect, useLayoutEffect, useRef, useState, memo } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
@@ -15,7 +8,7 @@ type PressableProps = {
   onPointerDown?: (event: MouseEvent | TouchEvent) => void;
   onPointerUp?: (event: MouseEvent | TouchEvent) => void;
   onKeyDown?: (event: KeyboardEvent) => void;
-  onKeyUp?: (event: KeyboardEvent) => void;
+  onKeyUp?: (event?: KeyboardEvent) => void;
   bind?: () => void;
   listenOnWindow?: boolean;
 } & HTMLAttributes<HTMLElement>;
@@ -63,23 +56,30 @@ function Pressable({
     }
 
     function keyDownHandler(event: KeyboardEvent) {
-      if (document.activeElement !== document.body || event.repeat) {
-        return;
+      const activeElement = document.activeElement as HTMLElement;
+      if (event.repeat || ![document.body, domContainer.current].includes(activeElement)) {
+        if (document.body.classList.contains("mousedown") && event.key === " ") {
+          activeElement.blur();
+          event.preventDefault();
+          event.stopPropagation();
+        } else {
+          return;
+        }
       }
       setPressed(onKeyDown?.(event) || false);
     }
     function keyUpHandler(event: KeyboardEvent) {
-      if (document.activeElement !== document.body) {
+      if (!pressedRef.current) {
         return;
       }
       onKeyUp?.(event);
       setPressed(false);
     }
 
-    window.addEventListener("keydown", keyDownHandler);
+    window.addEventListener("keydown", keyDownHandler, true);
     window.addEventListener("keyup", keyUpHandler);
     return () => {
-      window.removeEventListener("keydown", keyDownHandler);
+      window.removeEventListener("keydown", keyDownHandler, true);
       window.removeEventListener("keyup", keyUpHandler);
     };
   }, [onKeyDown, onKeyUp]);
@@ -90,10 +90,7 @@ function Pressable({
     }
 
     function handlePointerDown(event: MouseEvent | TouchEvent) {
-      if (
-        listenOnWindowRef.current ||
-        domContainer.current?.contains(event.target as Node)
-      ) {
+      if (listenOnWindowRef.current || domContainer.current?.contains(event.target as Node)) {
         event.preventDefault();
         setPressed(true);
         onPointerDown?.(event);
@@ -121,6 +118,7 @@ function Pressable({
 
   return (
     <div
+      tabIndex={0}
       {...bind?.()}
       ref={domContainer}
       className={clsx(classes.root, className, { [classes.pressed]: pressed })}
@@ -131,4 +129,4 @@ function Pressable({
   );
 }
 
-export default React.memo(Pressable);
+export default memo(Pressable);

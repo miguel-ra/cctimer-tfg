@@ -47,8 +47,7 @@ function PuzzleShowcase() {
 
   const handleRemove = useCallback(
     ({ id, key, index, puzzles: puzzlesParam }) => {
-      const nextSelectedPuzzle =
-        puzzlesParam[(index + 1) % puzzlesParam.length];
+      const nextSelectedPuzzle = puzzlesParam[(index + 1) % puzzlesParam.length];
       removePuzzle(key, id);
       setSelectedItem({ type: "puzzle", ...nextSelectedPuzzle });
       setPopover();
@@ -83,12 +82,10 @@ function PuzzleShowcase() {
               onSelect={() => handleSelect({ type: "puzzle", ...puzzle })}
               onRemove={() => handleRemove({ id, key, index, puzzles })}
               onClick={(event: MouseEvent) => {
-                const shouldRemove = !!(
-                  event.target as HTMLElement
-                ).closest<HTMLElement>('[data-action="remove"]');
-                const iconContainer = (
-                  event.target as HTMLElement
-                ).closest<HTMLElement>("[data-id]");
+                const shouldRemove = !!(event.target as HTMLElement).closest<HTMLElement>(
+                  '[data-action="remove"]'
+                );
+                const iconContainer = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
                 if (iconContainer) {
                   if (shouldRemove) {
                     handleRemove({ id, key, index, puzzles });
@@ -100,15 +97,9 @@ function PuzzleShowcase() {
             >
               <PuzzleBorder className={classes.puzzleBorder} />
               <Icon className={classes.puzzleIcon} />
-              {puzzles.length > 1 &&
-                (isTouchDevice()
-                  ? showRemoveId === id
-                  : showRemoveId !== null) && (
-                  <RemoveIcon
-                    data-action="remove"
-                    className={classes.puzzleRemove}
-                  />
-                )}
+              {puzzles.length > 1 && (isTouchDevice() ? showRemoveId === id : showRemoveId !== null) && (
+                <RemoveIcon data-action="remove" className={classes.puzzleRemove} />
+              )}
             </PuzzleIconWrapper>
           </Tooltip>
         );

@@ -31,9 +31,7 @@ const scrambleGenerators: ScrambleGenerators = {
 async function generateScramble(puzzleKey: PuzzleKey) {
   const generator = (await scrambleGenerators[puzzleKey]())?.default;
 
-  const response = { puzzleKey, randomScramble: generator() };
-  console.log(response);
-  return response;
+  return { puzzleKey, randomScramble: generator() };
 }
 
 // eslint-disable-next-line no-restricted-globals
