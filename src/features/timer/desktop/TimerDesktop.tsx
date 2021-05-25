@@ -1,18 +1,18 @@
 import { Suspense } from "react";
+import clsx from "clsx";
 import { useTranslation } from "react-i18next";
+import { useMenu } from "store/menuContext";
+import { puzzlesData } from "models/puzzles/Puzzle";
 import { millisecondsToClock } from "shared/format/number";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
 import Typography from "components/typography/Typography";
-import { TimerProvider, useTimer } from "./timerContext";
-import { useTimerViewModel } from "./timerViewModel";
-import useStyles from "./Timer.styles";
-import { useMenu } from "store/menuContext";
-import { puzzlesData } from "models/puzzles/Puzzle";
-import clsx from "clsx";
+import { TimerProvider, useTimer } from "../timerContext";
+import { useTimerViewModel } from "../timerViewModel";
+import useStyles from "./TimerDesktop.styles";
 
-function Timer() {
+function TimerDesktop() {
   const classes = useStyles();
   const { t } = useTranslation();
   const { scramble } = useTimer();
@@ -77,7 +77,7 @@ function Timer() {
 export default function TimerWithProvider() {
   return (
     <TimerProvider>
-      <Timer />
+      <TimerDesktop />
     </TimerProvider>
   );
 }

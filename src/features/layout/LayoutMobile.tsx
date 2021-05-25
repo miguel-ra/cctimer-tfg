@@ -4,7 +4,7 @@ import { useSprings, animated } from "@react-spring/web";
 import theme from "styles/theme";
 import { clamp } from "shared/format/number";
 import SideMenuExpanded from "features/menu/SideMenuExpanded";
-import TimerTabs from "features/timer/TimerTabs";
+import TimerMobile from "features/timer/mobile/TimerMobile";
 import Box from "components/flexboxgrid/Box";
 
 type UseSpringProps = {
@@ -34,7 +34,7 @@ const items: Item[] = [
   },
   {
     width: 1,
-    Component: TimerTabs,
+    Component: TimerMobile,
     overlay: true,
   },
 ];

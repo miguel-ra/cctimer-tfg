@@ -39,6 +39,8 @@ const useStyles = createUseStyles({
     color: theme.palette.text.primary,
     fontSize: "1.6rem",
     transition: `border ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear`,
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
   },
 });
 

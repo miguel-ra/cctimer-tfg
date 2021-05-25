@@ -1,6 +1,6 @@
 import SideMenuCompact from "features/menu/SideMenuCompact";
 import Navbar from "features/menu/Navbar";
-import Timer from "features/timer/Timer";
+import TimerDesktop from "features/timer/desktop/TimerDesktop";
 import Box from "components/flexboxgrid/Box";
 
 function LayoutDesktop() {
@@ -9,7 +9,7 @@ function LayoutDesktop() {
       <SideMenuCompact />
       <Box flexDirection="column" flex={1}>
         <Navbar />
-        <Timer />
+        <TimerDesktop />
       </Box>
     </Box>
   );

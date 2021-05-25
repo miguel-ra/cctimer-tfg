@@ -7,12 +7,12 @@ import clsx from "clsx";
 import { Time } from "models/times/Time";
 import { puzzlesData } from "models/puzzles/Puzzle";
 import { useMenu } from "store/menuContext";
-import Stopwatch from "features/stopwatch/Stopwatch";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
-import { useTimerViewModel } from "./timerViewModel";
-import { TimerProvider } from "./timerContext";
-import useStyles from "./TimerTabs.styles";
+import { useTimerViewModel } from "../timerViewModel";
+import { TimerProvider } from "../timerContext";
+import useStyles from "./TimerMobile.styles";
+import Timer from "./Timer";
 
 type TabComponentProps = {
   addTime: (time: Time) => void;
@@ -27,11 +27,7 @@ const tabs: Tab[] = [
   {
     // t("Timer")
     label: "Timer",
-    Component: ({ addTime }: TabComponentProps) => (
-      <Box flex={1} width="100%" position="relative">
-        <Stopwatch onSave={addTime} />
-      </Box>
-    ),
+    Component: Timer,
   },
   {
     // t("Session")
@@ -45,7 +41,7 @@ const tabs: Tab[] = [
   },
 ];
 
-type TimerTabsProps = {
+type TimerMobileProps = {
   isParentDragDisabled: MutableRefObject<boolean>;
 };
 
@@ -58,12 +54,12 @@ function computeSpring(activeTab: MutableRefObject<number>) {
   });
 }
 
-function TimerTabs({ isParentDragDisabled }: TimerTabsProps) {
+function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
+  const activeTab = useRef(0);
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
   const { addTime } = useTimerViewModel();
-  const activeTab = useRef(0);
 
   function updateLayout() {
     document.querySelectorAll("[id^='timerTabs-panel-']").forEach((element) => {
@@ -181,10 +177,12 @@ function TimerTabs({ isParentDragDisabled }: TimerTabsProps) {
   );
 }
 
-export default function TimerTabsWithProvider(props: TimerTabsProps) {
+export type { TabComponentProps };
+
+export default function TimerMobileWithProvider(props: TimerMobileProps) {
   return (
     <TimerProvider>
-      <TimerTabs {...props} />
+      <TimerMobile {...props} />
     </TimerProvider>
   );
 }
