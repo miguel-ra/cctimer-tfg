@@ -28,7 +28,7 @@ const tabs: Tab[] = [
     // t("Timer")
     label: "Timer",
     Component: ({ addTime }: TabComponentProps) => (
-      <Box flex={1} position="relative">
+      <Box flex={1} width="100%" position="relative">
         <Stopwatch onSave={addTime} />
       </Box>
     ),
@@ -51,6 +51,13 @@ type TimerTabsProps = {
 
 const SPRING_DURATION = 250;
 
+function computeSpring(activeTab: MutableRefObject<number>) {
+  return (i: number) => ({
+    x: (i - activeTab.current) * window.innerWidth,
+    opacity: activeTab.current !== i ? 0.4 : 1,
+  });
+}
+
 function TimerTabs({ isParentDragDisabled }: TimerTabsProps) {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -58,31 +65,36 @@ function TimerTabs({ isParentDragDisabled }: TimerTabsProps) {
   const { addTime } = useTimerViewModel();
   const activeTab = useRef(0);
 
-  function computeSpring(i: number) {
-    return {
-      x: (i - activeTab.current) * window.innerWidth,
-      opacity: activeTab.current !== i ? 0.4 : 1,
-    };
-  }
-
-  function checkParentDisabled() {
+  function updateLayout() {
+    document.querySelectorAll("[id^='timerTabs-panel-']").forEach((element) => {
+      const { index } = (element as HTMLElement).dataset;
+      if (index) {
+        element.setAttribute("aria-selected", (activeTab.current === Number(index)).toString());
+      }
+    });
+    document.querySelectorAll("[id^='timerTabs-tab-']").forEach((element) => {
+      const { index } = (element as HTMLElement).dataset;
+      if (index) {
+        element.setAttribute("hidden", (activeTab.current !== Number(index)).toString());
+      }
+    });
     setTimeout(() => {
       isParentDragDisabled.current = activeTab.current !== 0;
     }, SPRING_DURATION);
   }
 
-  const [props, api] = useSprings(tabs.length, computeSpring);
+  const [props, api] = useSprings(tabs.length, computeSpring(activeTab));
 
   const bind = useDrag(({ last, active, movement: [mx], swipe, distance }: any) => {
     if (swipe[0] !== 0) {
       activeTab.current = clamp(activeTab.current - swipe[0], 0, tabs.length - 1);
-      checkParentDisabled();
+      updateLayout();
     } else if (last) {
       const movementDirection = mx > 0 ? -1 : 1;
       const autoChangeDistance = window.innerWidth / 2;
       if (distance > autoChangeDistance) {
         activeTab.current = clamp(activeTab.current + movementDirection, 0, tabs.length - 1);
-        checkParentDisabled();
+        updateLayout();
       }
     }
 
@@ -110,9 +122,17 @@ function TimerTabs({ isParentDragDisabled }: TimerTabsProps) {
 
           return (
             <Box
-              as={animated.div}
               key={i}
-              componentProps={{ ...bind(), style }}
+              as={animated.div}
+              componentProps={{
+                ...bind(),
+                style,
+                role: "tabpanel",
+                id: `timerTabs-panel-${i}`,
+                "data-index": i,
+                "aria-labelledby": `timerTabs-tab-${i}`,
+                "aria-selected": activeTab.current === i,
+              }}
               height="100%"
               width="100%"
               position="absolute"
@@ -128,22 +148,32 @@ function TimerTabs({ isParentDragDisabled }: TimerTabsProps) {
           );
         })}
       </div>
-      <div className={classes.buttons}>
+      <div
+        className={classes.buttons}
+        role="tablist"
+        onClick={(event) => {
+          const { index } = (event.target as HTMLElement).dataset;
+          if (index) {
+            activeTab.current = Number(index);
+            api.start(computeSpring(activeTab));
+            updateLayout();
+          }
+        }}
+      >
         {props.map(({ opacity }, i) => {
           const { label } = tabs[i];
           return (
-            <animated.div
+            <animated.button
               key={label}
+              data-index={i}
+              id={`timerTabs-tab-${i}`}
               className={clsx(classes.button)}
               style={{ opacity }}
-              onClick={() => {
-                activeTab.current = i;
-                api.start(computeSpring);
-                checkParentDisabled();
-              }}
+              aria-controls={`timerTabs-panel-${i}`}
+              hidden={activeTab.current !== i}
             >
               {t(label)}
-            </animated.div>
+            </animated.button>
           );
         })}
       </div>

@@ -31,9 +31,14 @@ const useStyles = createUseStyles({
     display: "flex",
     flexWrap: "wrap",
     placeContent: "center",
-    transition: `border ${theme.transition.duration.colorMode} linear`,
-    borderRight: `1px solid ${theme.palette.border.primary}`,
+    border: `1px solid ${theme.palette.border.primary}`,
+    borderWidth: "0 1px 0 1px",
+    background: "transparent",
     padding: "1rem",
+    cursor: "pointer",
+    color: theme.palette.text.primary,
+    fontSize: "1.6rem",
+    transition: `border ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear`,
   },
 });
 
