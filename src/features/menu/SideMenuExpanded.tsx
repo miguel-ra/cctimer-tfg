@@ -59,11 +59,7 @@ function SideMenuExpanded() {
           </Box>
           <Divider />
           <Box padding="1rem" width="100%">
-            <Button
-              startIcon={SettingsIcon}
-              onClick={() => openModal(<ModalSettings />)}
-              fullWidth
-            >
+            <Button startIcon={SettingsIcon} onClick={() => openModal(<ModalSettings />)} fullWidth>
               {t("Settings")}
             </Button>
           </Box>

@@ -73,6 +73,7 @@ function PuzzleShowcase() {
           <Tooltip key={id} label={t(label)}>
             <PuzzleIconWrapper
               data-id={id}
+              aria-label={t(label)}
               className={clsx(classes.puzzleWrapper, {
                 selected: id === selectedItem?.id,
               })}
@@ -108,6 +109,7 @@ function PuzzleShowcase() {
         <Tooltip label={t("Add puzzle")}>
           <IconButton
             size="small"
+            aria-label={t("Add puzzle")}
             onClick={() =>
               openModal(
                 <ModalPuzzleSelector

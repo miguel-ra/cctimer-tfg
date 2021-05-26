@@ -59,11 +59,12 @@ type ComputeSpringOptions = {
 };
 
 const SPRING_DURATION = 250;
+const DISABLED_OPACITY = 0.5;
 
 function computeSpring({ activeTab, isImmediate }: ComputeSpringOptions) {
   return (i: number) => ({
     x: (i - activeTab.current) * window.innerWidth,
-    opacity: activeTab.current !== i ? 0.4 : 1,
+    opacity: activeTab.current !== i ? DISABLED_OPACITY : 1,
     immediate: isImmediate.current,
   });
 }
@@ -128,7 +129,7 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
           x = 0;
         }
 
-        return { x, opacity: activeTab.current !== i ? 0.4 : 1 };
+        return { x, opacity: activeTab.current !== i ? DISABLED_OPACITY : 1 };
       });
     },
     { useTouch: true, lockDirection: true }
@@ -167,8 +168,8 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
                 role: "tabpanel",
                 id: `timerTabs-panel-${i}`,
                 "data-index": i,
-                "aria-labelledby": `timerTabs-tab-${i}`,
-                "aria-selected": activeTab.current === i,
+                "aria-controls": `timerTabs-tab-${i}`,
+                "aria-expanded": activeTab.current === i,
               }}
               height="100%"
               width="100%"
@@ -197,13 +198,13 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
           const { label } = computedTabs[i];
           return (
             <animated.button
+              role="tab"
+              aria-expanded={activeTab.current === i}
               key={`${label}-tab`}
               data-index={i}
               id={`timerTabs-tab-${i}`}
               className={clsx(classes.button)}
               style={{ opacity }}
-              aria-controls={`timerTabs-panel-${i}`}
-              hidden={activeTab.current !== i}
             >
               {t(label)}
             </animated.button>

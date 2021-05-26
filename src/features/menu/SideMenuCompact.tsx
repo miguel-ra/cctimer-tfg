@@ -39,6 +39,7 @@ function SideMenuCompact() {
       >
         <Tooltip label={t("Settings")}>
           <IconButton
+            aria-label={t("Settings")}
             onClick={() => {
               openModal(<ModalSettings />);
             }}

@@ -21,10 +21,7 @@ function Button({
   const classes = useStyles({ fullWidth });
 
   return (
-    <button
-      className={clsx(classes.button, className, classes[variant])}
-      {...props}
-    >
+    <button className={clsx(classes.button, className, classes[variant])} {...props}>
       {StartIcon && <StartIcon className={classes.icon} />}
       {children}
     </button>

@@ -2,7 +2,6 @@ import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 
 const useStyles = createUseStyles({
-  withoutScramble: {},
   sectionContainer: {
     display: "flex",
     height: "30vh",
@@ -31,6 +30,7 @@ const useStyles = createUseStyles({
     width: "100%",
     padding: "3rem",
   },
+  withoutScramble: {},
 });
 
 export default useStyles;
