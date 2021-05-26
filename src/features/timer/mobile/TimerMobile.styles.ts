@@ -27,6 +27,7 @@ const useStyles = createUseStyles({
     borderTop: `1px solid ${theme.palette.border.primary}`,
   },
   button: {
+    margin: 0,
     flex: 1,
     display: "flex",
     flexWrap: "wrap",

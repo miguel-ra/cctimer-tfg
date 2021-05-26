@@ -16,6 +16,8 @@ const useStyles = createUseStyles({
     lineHeight: "2rem",
     display: "inline-block",
     width: "100%",
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
   },
   input: {
     flex: 1,
@@ -27,6 +29,8 @@ const useStyles = createUseStyles({
     border: `1px solid ${theme.palette.border.primary}`,
     transition: `border ${theme.transition.duration.colorMode} linear`,
     fontSize: "1.4rem",
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
   },
 });
 

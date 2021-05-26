@@ -6,6 +6,7 @@ const useStyles = createUseStyles({
     appearance: "none",
     padding: "0.4rem 2.55rem 0.5rem 0.75rem",
     cursor: "pointer",
+    backgroundColor: theme.palette.colors.white.main,
     backgroundRepeat: "no-repeat",
     backgroundSize: "0.7rem auto",
     backgroundPosition: "calc(100% - 1rem) 0.45rem",

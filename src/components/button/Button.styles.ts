@@ -21,6 +21,8 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     cursor: "pointer",
     borderRadius: theme.shape.borderRadius,
     transition: `color ${theme.transition.duration.colorMode} linear, opacity 0.2s linear`,
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
   },
   icon: {
     width: "2rem",
@@ -33,8 +35,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
   },
   contained: {
     // TODO: Change this colors to CSS variables
-    background:
-      "linear-gradient(to bottom right, #69BFFF 0%, #1A8AFF 50%, #1A8AFF 100%)",
+    background: "linear-gradient(to bottom right, #69BFFF 0%, #1A8AFF 50%, #1A8AFF 100%)",
     backgroundSize: "200%",
     backgroundPositionX: "100%",
     color: theme.palette.colors.white.main,

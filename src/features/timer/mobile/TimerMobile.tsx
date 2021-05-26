@@ -4,19 +4,22 @@ import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash/clamp";
 import clsx from "clsx";
-import { Time } from "models/times/Time";
-import { puzzlesData } from "models/puzzles/Puzzle";
+import useMediaQuery from "shared/hooks/useMediaQuery";
 import { useMenu } from "store/menuContext";
+import { PuzzleTime, Time } from "models/times/Time";
+import { puzzlesData } from "models/puzzles/Puzzle";
+import Times from "features/times/Times";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
 import { useTimerViewModel } from "../timerViewModel";
 import { TimerProvider } from "../timerContext";
 import useStyles from "./TimerMobile.styles";
 import Timer from "./Timer";
-import Times from "features/times/Times";
+import Scramble from "./Scramble";
 
 type TabComponentProps = {
   addTime: (time: Time) => void;
+  puzzleTimes: PuzzleTime[];
 };
 
 type Tab = {
@@ -71,7 +74,18 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
-  const { addTime } = useTimerViewModel();
+  const { addTime, puzzleTimes } = useTimerViewModel();
+  const isSmall = useMediaQuery("@media (max-height:300px)");
+
+  const computedTabs = [...tabs];
+
+  if (isSmall) {
+    computedTabs.splice(1, 0, {
+      // t("Scramble")
+      label: "Scramble",
+      Component: Scramble,
+    });
+  }
 
   function updateLayout() {
     document.querySelectorAll("[id^='timerTabs-panel-']").forEach((element) => {
@@ -91,36 +105,40 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
     }, SPRING_DURATION);
   }
 
-  const [props, api] = useSprings(tabs.length, computeSpring({ activeTab, isImmediate }));
+  const [props, api] = useSprings(computedTabs.length, computeSpring({ activeTab, isImmediate }));
 
-  const bind = useDrag(({ last, active, movement: [mx], swipe, distance }: any) => {
-    if (swipe[0] !== 0) {
-      activeTab.current = clamp(activeTab.current - swipe[0], 0, tabs.length - 1);
-      updateLayout();
-    } else if (last) {
-      const movementDirection = mx > 0 ? -1 : 1;
-      const autoChangeDistance = window.innerWidth / 2;
-      if (distance > autoChangeDistance) {
-        activeTab.current = clamp(activeTab.current + movementDirection, 0, tabs.length - 1);
+  const bind = useDrag(
+    ({ last, active, movement: [mx], swipe, distance }: any) => {
+      if (swipe[0] !== 0) {
+        activeTab.current = clamp(activeTab.current - swipe[0], 0, computedTabs.length - 1);
         updateLayout();
+      } else if (last) {
+        const movementDirection = mx > 0 ? -1 : 1;
+        const autoChangeDistance = window.innerWidth / 2;
+        if (distance > autoChangeDistance) {
+          activeTab.current = clamp(activeTab.current + movementDirection, 0, computedTabs.length - 1);
+          updateLayout();
+        }
       }
-    }
 
-    api((i) => {
-      let x = (i - activeTab.current) * window.innerWidth + (active ? mx : 0);
-      // Avoid first and last element movement when new offset is beyond screen
-      if ((i === 0 && x > 0) || (i === tabs.length - 1 && x < 0)) {
-        x = 0;
-      }
+      api((i) => {
+        let x = (i - activeTab.current) * window.innerWidth + (active ? mx : 0);
+        // Avoid first and last element movement when new offset is beyond screen
+        if ((i === 0 && x > 0) || (i === computedTabs.length - 1 && x < 0)) {
+          x = 0;
+        }
 
-      return { x, opacity: activeTab.current !== i ? 0.4 : 1 };
-    });
-  });
+        return { x, opacity: activeTab.current !== i ? 0.4 : 1 };
+      });
+    },
+    { useTouch: true, lockDirection: true }
+  );
 
   useEffect(() => {
     function handler() {
       isImmediate.current = true;
       api.start(computeSpring({ activeTab, isImmediate }));
+      isImmediate.current = false;
     }
     window.addEventListener("resize", handler);
     return () => {
@@ -137,11 +155,11 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
       </div>
       <div className={classes.sections}>
         {props.map(({ opacity, ...style }, i) => {
-          const { Component } = tabs[i];
+          const { label, Component } = computedTabs[i];
 
           return (
             <Box
-              key={i}
+              key={`${label}-panel`}
               as={animated.div}
               componentProps={{
                 ...bind(),
@@ -158,7 +176,7 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
               top={0}
               left={0}
             >
-              <Component addTime={addTime} />
+              <Component addTime={addTime} puzzleTimes={puzzleTimes} />
             </Box>
           );
         })}
@@ -176,10 +194,10 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
         }}
       >
         {props.map(({ opacity }, i) => {
-          const { label } = tabs[i];
+          const { label } = computedTabs[i];
           return (
             <animated.button
-              key={label}
+              key={`${label}-tab`}
               data-index={i}
               id={`timerTabs-tab-${i}`}
               className={clsx(classes.button)}
@@ -195,8 +213,6 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
     </Box>
   );
 }
-
-export type { TabComponentProps };
 
 export default function TimerMobileWithProvider(props: TimerMobileProps) {
   return (

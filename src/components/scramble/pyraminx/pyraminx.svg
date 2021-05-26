@@ -1,6 +1,6 @@
 <svg height="64" viewBox="0 0 79 64" width="79" xmlns="http://www.w3.org/2000/svg">
-	<g fill="none" stroke="#000" stroke-width=".5">
-		<g fill="#3fb950" transform="translate(1.25 1.25)">
+	<g fill="none" stroke="var(--colors-black-main)" stroke-width=".5">
+		<g fill="var(--colors-green-main)" transform="translate(1.25 1.25)">
 			<path d="m5.5 9.5-5.5-9.5h11z" fill="var(--sticker-0)" />
 			<path d="m11 0-5.5 9.5h11z" fill="var(--sticker-1)" />
 			<path d="m16.5 9.5-5.5-9.5h10.5z" fill="var(--sticker-2)" />
@@ -11,7 +11,7 @@
 			<path d="m21.5 19-5-9.5h10.5z" fill="var(--sticker-13)" />
 			<path d="m16.5 28.5-5.5-9.5h10.5z" fill="var(--sticker-20)" />
 		</g>
-		<g fill="#f85149" transform="translate(22.75 1.25)">
+		<g fill="var(--colors-red-main)" transform="translate(22.75 1.25)">
 			<path d="m5.5 19-5.5 9.5h11z" fill="var(--sticker-21)" />
 			<path d="m16.5 0-5.5 9.5h11z" fill="var(--sticker-5)" />
 			<path d="m11 9.5-5.5 9.5h11z" fill="var(--sticker-14)" />
@@ -22,7 +22,7 @@
 			<path d="m22 28.5-5.5-9.5h10.5z" fill="var(--sticker-24)" />
 			<path d="m27 19-5 9.5h10.5z" fill="var(--sticker-25)" />
 		</g>
-		<g fill="#f0e159" transform="translate(44.75 1.25)">
+		<g fill="var(--colors-yellow-main)" transform="translate(44.75 1.25)">
 			<path d="m5 9.5-5-9.5h10.5z" fill="var(--sticker-6)" />
 			<path d="m10.5 0-5.5 9.5h11z" fill="var(--sticker-7)" />
 			<path d="m16 9.5-5.5-9.5h11z" fill="var(--sticker-8)" />
@@ -33,7 +33,7 @@
 			<path d="m21.5 19-5.5-9.5h11z" fill="var(--sticker-19)" />
 			<path d="m16 28.5-5.5-9.5h11z" fill="var(--sticker-26)" />
 		</g>
-		<g fill="#388bfd" transform="translate(22.75 34.25)">
+		<g fill="var(--colors-blue-main)" transform="translate(22.75 34.25)">
 			<path d="m5.5 9.5-5.5-9.5h11z" fill="var(--sticker-27)" />
 			<path d="m11 0-5.5 9.5h11z" fill="var(--sticker-28)" />
 			<path d="m16.5 9.5-5.5-9.5h11z" fill="var(--sticker-29)" />

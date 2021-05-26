@@ -19,6 +19,8 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
     "&:hover": {
       opacity: 0.5,
     },

@@ -105,8 +105,6 @@ function LayoutMobile() {
         return;
       }
 
-      isImmediate.current = false;
-
       if (swipe[0] !== 0) {
         activeIndex.current = clamp(activeIndex.current - swipe[0], 0, items.length - 1);
       } else if (last) {
@@ -150,7 +148,7 @@ function LayoutMobile() {
         return { ...component, ...overlay, x };
       });
     },
-    { useTouch: true }
+    { useTouch: true, lockDirection: true }
   );
 
   useEffect(() => {
@@ -162,6 +160,7 @@ function LayoutMobile() {
         }
       });
       api.start(computeSpring);
+      isImmediate.current = false;
     }
     api.start(computeSpring);
     window.addEventListener("resize", handler);

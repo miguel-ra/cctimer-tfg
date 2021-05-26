@@ -3,43 +3,33 @@ import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { useMenu } from "store/menuContext";
 import { puzzlesData } from "models/puzzles/Puzzle";
+import Times from "features/times/Times";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
-import Typography from "components/typography/Typography";
+import ScrambleText from "components/scramble/ScrambleText";
 import { TimerProvider, useTimer } from "../timerContext";
 import { useTimerViewModel } from "../timerViewModel";
 import useStyles from "./TimerDesktop.styles";
-import Times from "features/times/Times";
 
 function TimerDesktop() {
   const classes = useStyles();
   const { t } = useTranslation();
   const { scramble } = useTimer();
   const { selectedItem } = useMenu();
-  const { addTime } = useTimerViewModel();
+  const { addTime, puzzleTimes } = useTimerViewModel();
 
   const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
 
   return (
     <Box flexDirection="column" flex={1} position="relative">
-      <Typography
-        variant="h6"
-        style={{
-          position: "absolute",
-          width: "100%",
-          padding: "2rem",
-          textAlign: "center",
-        }}
-      >
-        {scramble.text}
-      </Typography>
+      <ScrambleText>{scramble.text}</ScrambleText>
       <Box flex={1} placeContent="center">
         <Stopwatch onSave={addTime} />
       </Box>
       <div className={clsx(classes.sectionContainer, { [classes.withoutScramble]: !ScrambleImage })}>
         <section className={classes.section}>
-          <Times />
+          <Times puzzleTimes={puzzleTimes} />
         </section>
         <section className={classes.stats}>{t("Stats and grahps")}</section>
         {ScrambleImage && (

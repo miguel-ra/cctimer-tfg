@@ -29,6 +29,9 @@ const useStyles = createUseStyles({
     [breakpoints.up("xl")]: {
       fontSize: "20rem",
     },
+    "@media (max-height:600px)": {
+      fontSize: "8rem",
+    },
   },
 });
 

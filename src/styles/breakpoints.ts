@@ -13,28 +13,15 @@ const keys = Object.keys(values) as BreakpointKey[];
 const unit = "px";
 
 function up(key: BreakpointKey) {
-  const value = typeof values[key] === "number" ? values[key] : key;
-  return `@media (min-width:${value}${unit})`;
+  return `@media (min-width:${values[key]}${unit})`;
 }
 
 function down(key: BreakpointKey) {
-  const value = typeof values[key] === "number" ? values[key] : key;
-  return `@media (max-width:${value}${unit})`;
+  return `@media (max-width:${values[key]}${unit})`;
 }
 
 function between(start: BreakpointKey, end: BreakpointKey) {
-  const endIndex = keys.indexOf(end);
-
-  return (
-    `@media (min-width:${
-      typeof values[start] === "number" ? values[start] : start
-    }${unit}) and ` +
-    `(max-width:${
-      endIndex !== -1 && typeof values[keys[endIndex]] === "number"
-        ? values[keys[endIndex]]
-        : end
-    }${unit})`
-  );
+  return `@media (min-width:${values[start]}${unit}) and (max-width:${values[end]}${unit})`;
 }
 
 function only(key: BreakpointKey) {
@@ -45,7 +32,7 @@ function only(key: BreakpointKey) {
   return up(key);
 }
 
-function width(key: BreakpointKey) {
+function value(key: BreakpointKey) {
   return values[key];
 }
 
@@ -57,7 +44,7 @@ const breakpoints = {
   down,
   between,
   only,
-  width,
+  value,
 };
 
 export type { BreakpointKey };

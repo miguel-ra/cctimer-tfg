@@ -2,12 +2,18 @@ import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 
 const useStyles = createUseStyles({
+  root: {
+    display: "grid",
+    alignItems: "flex-start",
+    overflowY: "auto",
+    width: "100%",
+    maxHeight: "100%",
+  },
   times: {
     width: "100%",
     display: "grid",
     gap: "2rem",
     padding: "2rem",
-    overflow: "auto",
     justifyContent: "space-between",
     gridTemplateColumns: "repeat(3, 1fr)",
     [theme.breakpoints.up("sm")]: {
@@ -34,8 +40,9 @@ const useStyles = createUseStyles({
   },
   time: {
     borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
     border: `1px solid ${theme.palette.border.primary}`,
-    transition: `border ${theme.transition.duration.colorMode} linear`,
+    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     padding: "1rem",
     textAlign: "center",
   },

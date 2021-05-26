@@ -1,64 +1,61 @@
-import { useTimer } from "../timerContext";
+import { Suspense } from "react";
+import clsx from "clsx";
+import { createUseStyles } from "react-jss";
 import { useMenu } from "store/menuContext";
+import { Time } from "models/times/Time";
 import { puzzlesData } from "models/puzzles/Puzzle";
+import useMediaQuery from "shared/hooks/useMediaQuery";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
-import Typography from "components/typography/Typography";
-import { TabComponentProps } from "./TimerMobile";
-import { createUseStyles } from "react-jss";
 import Spinner from "components/spinner/Spinner";
-import { Suspense, useState } from "react";
-import clsx from "clsx";
+import ScrambleText from "components/scramble/ScrambleText";
+import { useTimer } from "../timerContext";
+
+type TimerProps = {
+  addTime: (time: Time) => void;
+};
 
 const useStyles = createUseStyles({
   scramble: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
     height: "20%",
+    minHeight: "80px",
     width: "100%",
     position: "absolute",
     bottom: 0,
     left: 0,
     padding: "2rem",
-    transition: "height 0.5s ease-in-out",
+    transition: "height 0.25s ease-in-out",
     outline: "none",
+    willChange: "height",
   },
   scrambleImage: {
     height: "100%",
     width: "100%",
+    willChange: "height, width",
   },
   scrambleImageOpen: {
     height: "100%",
   },
 });
 
-function Timer({ addTime }: TabComponentProps) {
-  const [scrambleImageOpen, setScrambleImageOpen] = useState(false);
+function Timer({ addTime }: TimerProps) {
   const classes = useStyles();
   const { scramble } = useTimer();
   const { selectedItem } = useMenu();
+  const isSmall = useMediaQuery("@media (max-height:300px)");
 
   const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
 
   return (
     <Box flex={1} width="100%" position="relative">
-      <Typography
-        variant="h6"
-        style={{
-          position: "absolute",
-          width: "100%",
-          padding: "2rem",
-          textAlign: "center",
-        }}
-      >
-        {scramble.text}
-      </Typography>
+      {!isSmall && <ScrambleText>{scramble.text}</ScrambleText>}
       <Stopwatch onSave={addTime} />
-      {ScrambleImage && (
+      {!isSmall && ScrambleImage && (
         <div
-          className={clsx(classes.scramble, { [classes.scrambleImageOpen]: scrambleImageOpen })}
-          onClick={() => setScrambleImageOpen((prevState) => !prevState)}
+          className={clsx(classes.scramble)}
+          onClick={(event) =>
+            (event.currentTarget as HTMLElement).classList.toggle(classes.scrambleImageOpen)
+          }
         >
           <Suspense
             fallback={

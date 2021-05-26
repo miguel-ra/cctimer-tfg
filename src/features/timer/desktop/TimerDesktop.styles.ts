@@ -11,8 +11,6 @@ const useStyles = createUseStyles({
     borderTop: `1px solid ${theme.palette.border.primary}`,
   },
   section: {
-    maxHeight: "100%",
-    overflow: "auto",
     flex: 1,
   },
   stats: {

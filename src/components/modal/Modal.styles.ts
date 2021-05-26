@@ -26,7 +26,7 @@ const useStyles = createUseStyles({
     zIndex: "1",
     display: "flex",
     flexDirection: "column",
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       position: "relative",
       border: `1px solid ${theme.palette.border.primary}`,
       borderRadius: theme.shape.borderRadius,
