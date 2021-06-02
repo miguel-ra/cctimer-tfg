@@ -45,8 +45,6 @@ ctx.addEventListener("message", ({ data: puzzleKey }: { data: PuzzleKey }) => {
 
 export type { ScrambleGenerators, GenerateScrambleResponse };
 
-export { generateScramble };
-
 // We need to export anything otherwise typescript would complain that
 // it can't find a module
 export default null as any;

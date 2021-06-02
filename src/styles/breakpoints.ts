@@ -32,10 +32,6 @@ function only(key: BreakpointKey) {
   return up(key);
 }
 
-function value(key: BreakpointKey) {
-  return values[key];
-}
-
 const breakpoints = {
   values,
   keys,
@@ -44,7 +40,6 @@ const breakpoints = {
   down,
   between,
   only,
-  value,
 };
 
 export type { BreakpointKey };

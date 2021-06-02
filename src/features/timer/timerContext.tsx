@@ -45,14 +45,16 @@ function TimerProvider({ children }: TimerProviderProps) {
   }, [selectedItem?.key]);
 
   useEffect(() => {
-    generateScrambleWorker.onmessage = ({
-      data: { puzzleKey, randomScramble },
-    }: GenerateScrambleResponse) => {
+    function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: GenerateScrambleResponse) {
       if (puzzleKey === scramblePuzzleKey.current) {
         setScramble(randomScramble);
       }
-    };
+    }
+    generateScrambleWorker.addEventListener("message", handleWorkerMessage);
     refreshScramble();
+    return () => {
+      generateScrambleWorker.removeEventListener("message", handleWorkerMessage);
+    };
   }, [refreshScramble]);
 
   return (

@@ -217,24 +217,4 @@ function LayoutMobile() {
   );
 }
 
-// Mobile
-//   OffsetSection
-//     LeftMenu
-//       CubeSelector
-//     Menu
-//       Title
-//       Settings
-//       About us
-//   MainSection
-//     SelectedCube
-//     Content
-//       Tabs
-//         Timer
-//           ScrambleText
-//           Counter
-//           StatsMin | ScrambleImage
-//         Session
-//           SessionSelector
-//         Stats
-
 export default LayoutMobile;

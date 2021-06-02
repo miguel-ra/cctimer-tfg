@@ -15,20 +15,4 @@ function LayoutDesktop() {
   );
 }
 
-// Desktop
-//   LeftMenu
-//     CubeSelector
-//     Settings
-//     About us
-//   MainSection
-//     Header
-//       Title
-//       Toggle color mode
-//       Language selector
-//     Content
-//       ScrambleText
-//       Counter
-//       SessionSelector
-//       Times | StatsFull | ScrambleImage
-
 export default LayoutDesktop;
