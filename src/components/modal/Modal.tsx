@@ -14,6 +14,19 @@ function Modal({ containerId, closeModal, children, setPrevActiveElement }: Moda
   const classes = useStyles();
 
   useEffect(() => {
+    if (!children) {
+      return;
+    }
+    function handler() {
+      closeModal();
+    }
+    window.addEventListener("popstate", handler);
+    return () => {
+      window.removeEventListener("popstate", handler);
+    };
+  }, [children, closeModal]);
+
+  useEffect(() => {
     if (!modalElement || !children) {
       return;
     }

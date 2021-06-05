@@ -1,4 +1,5 @@
 {
+  "Tap here to see scramble": "Toca aquí para ver la mezcla",
   "Add puzzle": "Agregar puzzle",
   "Close": "Cerrar",
   "Settings": "Opciones",
@@ -11,13 +12,14 @@
   "Inspection time": "Tiempo de inspección",
   "Timer behaviour": "Comportamiento del cronómetro",
   "Hold to start": "Mantener pulsado para iniciar",
-  "You have not registered any time": {
-    " Destroy it! 🤘": "Aún no has agregado ningún tiempo. ¡Dale caña! 🤘"
-  },
   "Stats and grahps": "Estadísticas y gráficas",
   "Timer": "Cronómetro",
   "Session": "Sesión",
   "Stats": "Estadísticas",
+  "Scramble": "Mezcla",
+  "You have not registered any time": {
+    " Destroy it! 🤘": "Aún no has agregado ningún tiempo. ¡Dale caña! 🤘"
+  },
   "English": "Inglés",
   "Spanish": "Español",
   "Portuguese": "Portugués",

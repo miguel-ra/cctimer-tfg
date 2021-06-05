@@ -1,4 +1,5 @@
 {
+  "Tap here to see scramble": "Toque aqui para ver o embaralhamento",
   "Add puzzle": "Adicionar puzzle",
   "Close": "Fechar",
   "Settings": "Opções",
@@ -11,13 +12,14 @@
   "Inspection time": "Tempo de inspeção",
   "Timer behaviour": "Comportamento do cronômetro",
   "Hold to start": "Segure para começar",
-  "You have not registered any time": {
-    " Destroy it! 🤘": "Você ainda não adicionou nenhum tempo. Dê o seu melhor! 🤘"
-  },
   "Stats and grahps": "Estatísticas e gráficos",
   "Timer": "Cronômetro",
   "Session": "Sessão",
   "Stats": "Estatísticas",
+  "Scramble": "Embaralhamento",
+  "You have not registered any time": {
+    " Destroy it! 🤘": "Você ainda não adicionou nenhum tempo. Dê o seu melhor! 🤘"
+  },
   "English": "Inglês",
   "Spanish": "Espanhol",
   "Portuguese": "Português",

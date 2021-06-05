@@ -1,36 +1,61 @@
-import { createUseStyles } from "react-jss";
-import theme from "styles/theme";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import clsx from "clsx";
+import { useModal } from "store/modalContext";
+import Button from "components/button/Button";
 import Typography from "components/typography/Typography";
+import ModalScrambleText from "./ModalScrambleText";
+import useStyles from "./ScrambleText.styles";
 
 type ScrambleTextProps = {
   children: string;
 };
 
-const useStyles = createUseStyles({
-  root: {
-    position: "absolute",
-    width: "100%",
-    padding: "1.5rem",
-    textAlign: "center",
-    whiteSpace: "pre-wrap",
-    overflowWrap: "break-word",
-    fontSize: "1.6rem",
-    [theme.breakpoints.up("md")]: {
-      padding: "2rem",
-    },
-    [theme.breakpoints.up("lg")]: {
-      fontSize: "2rem",
-    },
-  },
-});
-
 function ScrambleText({ children }: ScrambleTextProps) {
   const classes = useStyles();
+  const { t } = useTranslation();
+  const { openModal } = useModal();
+  const [showMore, setShowMore] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  const checkScrambleHeight = useCallback(() => {
+    setShowMore(
+      (containerRef?.current && containerRef?.current.scrollHeight > containerRef?.current.clientHeight) ||
+        false
+    );
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", checkScrambleHeight);
+    return () => {
+      window.removeEventListener("resize", checkScrambleHeight);
+    };
+  }, [checkScrambleHeight]);
 
   return (
-    <Typography variant="h6" className={classes.root}>
-      {children}
-    </Typography>
+    <>
+      {showMore && (
+        <div className={classes.showScramble}>
+          <Button
+            variant="contained"
+            onClick={() => openModal(<ModalScrambleText>{children}</ModalScrambleText>)}
+          >
+            {t("Tap here to see scramble")}
+          </Button>
+        </div>
+      )}
+      <div
+        ref={(element) => {
+          containerRef.current = element;
+          checkScrambleHeight();
+        }}
+        className={clsx(classes.root, { [classes.hiddenScramble]: showMore })}
+      >
+        <Typography variant="h6" className={classes.text}>
+          {children}
+        </Typography>
+      </div>
+    </>
   );
 }
 

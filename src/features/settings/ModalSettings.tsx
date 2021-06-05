@@ -1,49 +1,29 @@
 import { useTranslation } from "react-i18next";
 import { createUseStyles } from "react-jss";
-import theme from "styles/theme";
-import { useModal } from "store/modalContext";
 import { useSettings } from "store/settingsContext";
-import Box from "components/flexboxgrid/Box";
-import Button from "components/button/Button";
-import CheckboxField from "components/field/CheckboxField";
 import Field from "components/field/Field";
-import Typography from "components/typography/Typography";
+import Box from "components/flexboxgrid/Box";
+import ModalBody from "components/modal/ModalBody";
+import ModalHeader from "components/modal/ModalHeader";
+import CheckboxField from "components/field/CheckboxField";
 import LanguageSelector from "./LanguageSelector";
 import ColorModeToggle from "./ColorModeToggle";
 
 const useStyles = createUseStyles({
-  header: {
-    display: "flex",
-    padding: "1rem 1.5rem",
-    alignItems: "center",
-    justifyContent: "space-between",
-    transition: ` border ${theme.transition.duration.colorMode} linear`,
-    borderBottom: `1px solid ${theme.palette.border.primary}`,
+  content: {
+    minWidth: "60vw",
   },
 });
 
 function ModalSettings() {
   const classes = useStyles();
-  const { closeModal } = useModal();
   const { settings, setSetting } = useSettings();
   const { t } = useTranslation();
 
   return (
     <>
-      <div className={classes.header}>
-        <Typography variant="h6">{t("Settings")}</Typography>
-        <Button variant="contained" onClick={closeModal}>
-          {t("Close")}
-        </Button>
-      </div>
-
-      <div
-        style={{
-          display: "grid",
-          alignItems: "flex-start",
-          overflow: "auto",
-        }}
-      >
+      <ModalHeader>{t("Settings")}</ModalHeader>
+      <ModalBody className={classes.content}>
         <form>
           <Box flexDirection="column" padding="1.5rem">
             <Box justifyContent="space-between" alignItems="center" paddingBottom="1rem">
@@ -127,7 +107,7 @@ function ModalSettings() {
             </Box>
           </Box>
         </form>
-      </div>
+      </ModalBody>
     </>
   );
 }

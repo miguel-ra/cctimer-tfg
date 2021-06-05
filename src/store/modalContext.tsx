@@ -1,13 +1,4 @@
-import {
-  createContext,
-  lazy,
-  ReactNode,
-  Suspense,
-  useCallback,
-  useContext,
-  useRef,
-  useState,
-} from "react";
+import { createContext, lazy, ReactNode, Suspense, useCallback, useContext, useRef, useState } from "react";
 
 type ModalState = {
   openModal: (content: ReactNode) => void;
@@ -37,11 +28,16 @@ function ModalProvider({ children }: ModalProviderProps) {
   const prevActiveElement = useRef<HTMLElement>();
 
   const openModal = useCallback((newContent) => {
+    const pathWithHash = `${window.location.href.split("#")[0]}#modal`;
+    window.history.pushState(null, "", pathWithHash);
     prevActiveElement.current = undefined;
     setContent(newContent);
   }, []);
 
   const closeModal = useCallback(() => {
+    if (window.location.hash === "#modal") {
+      window.history.back();
+    }
     setContent(null);
     if (prevActiveElement.current) {
       if (!document.body.classList.contains("mousedown")) {
@@ -60,11 +56,7 @@ function ModalProvider({ children }: ModalProviderProps) {
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       <Suspense fallback={null}>
-        <Modal
-          containerId={containerId}
-          closeModal={closeModal}
-          setPrevActiveElement={setPrevActiveElement}
-        >
+        <Modal containerId={containerId} closeModal={closeModal} setPrevActiveElement={setPrevActiveElement}>
           {content}
         </Modal>
       </Suspense>

@@ -4,7 +4,7 @@ import theme from "styles/theme";
 const useStyles = createUseStyles({
   header: {
     display: "flex",
-    padding: "1rem 1.5rem",
+    padding: "1rem",
     alignItems: "center",
     justifyContent: "space-between",
     transition: ` border ${theme.transition.duration.colorMode} linear`,
@@ -28,13 +28,13 @@ const useStyles = createUseStyles({
       gridTemplateColumns: "repeat(8, 1fr)",
     },
     [theme.breakpoints.up("xl")]: {
-      gridTemplateColumns: "repeat(11, 1fr)",
+      gridTemplateColumns: "repeat(10, 1fr)",
     },
   },
   item: {
     display: "flex",
     flexDirection: "column",
-    padding: "2rem 1rem",
+    padding: "2rem 1rem 1.7rem",
     alignItems: "center",
     justifyContent: "space-between",
     borderRadius: "6px",
