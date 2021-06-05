@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Layout from "features/layout/Layout";
 import useEventListener from "shared/hooks/useEventListener";
+import { useEffect } from "react";
 
 function getMetas() {
   const metas = [];
@@ -29,6 +30,13 @@ function keyDownHandler(event: KeyboardEvent) {
 
 function App() {
   const metas = getMetas();
+
+  useEffect(() => {
+    if (window.location.hash) {
+      const pathWithoutHash = window.location.href.split("#")[0];
+      window.history.replaceState(null, "", pathWithoutHash);
+    }
+  }, []);
 
   useEventListener(window, "load", loadHandler);
   useEventListener(window, "mousedown", mouseDownHandler);

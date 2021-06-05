@@ -4,6 +4,7 @@ import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
 import clamp from "lodash/clamp";
 import clsx from "clsx";
+import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 import { useMenu } from "store/menuContext";
 import { PuzzleTime, Time } from "models/times/Time";
@@ -51,6 +52,7 @@ const tabs: Tab[] = [
 
 type TimerMobileProps = {
   isParentDragDisabled: MutableRefObject<boolean>;
+  openMenu: () => void;
 };
 
 type ComputeSpringOptions = {
@@ -69,7 +71,7 @@ function computeSpring({ activeTab, isImmediate }: ComputeSpringOptions) {
   });
 }
 
-function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
+function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
   const activeTab = useRef(0);
   const isImmediate = useRef(false);
   const classes = useStyles();
@@ -149,7 +151,8 @@ function TimerMobile({ isParentDragDisabled }: TimerMobileProps) {
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
-      <div className={classes.header}>
+      <div role="button" className={classes.header} onClick={openMenu} tabIndex={0}>
+        <MenuIcon className={classes.icon} />
         <Typography variant="subtitle1">
           {selectedItem?.key ? t(puzzlesData?.[selectedItem?.key]?.label) : "CCTimer.com"}
         </Typography>

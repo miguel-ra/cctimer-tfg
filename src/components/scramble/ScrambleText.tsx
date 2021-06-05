@@ -36,11 +36,8 @@ function ScrambleText({ children }: ScrambleTextProps) {
     <>
       {showMore && (
         <div className={classes.showScramble}>
-          <Button
-            variant="contained"
-            onClick={() => openModal(<ModalScrambleText>{children}</ModalScrambleText>)}
-          >
-            {t("Tap here to see scramble")}
+          <Button onClick={() => openModal(<ModalScrambleText>{children}</ModalScrambleText>)}>
+            [ {t("Tap here to see scramble")} ]
           </Button>
         </div>
       )}

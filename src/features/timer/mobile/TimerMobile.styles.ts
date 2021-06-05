@@ -5,9 +5,16 @@ const useStyles = createUseStyles({
   header: {
     display: "flex",
     padding: "1rem",
-    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
+    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear, opacity 0.2s linear`,
     background: theme.palette.background.paper,
     borderBottom: `1px solid ${theme.palette.border.primary}`,
+    alignItems: "center",
+    cursor: "pointer",
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
+    "&:active": {
+      opacity: 0.5,
+    },
   },
   sections: {
     flex: 1,
@@ -42,6 +49,11 @@ const useStyles = createUseStyles({
     transition: `border ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear`,
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    marginRight: "1rem",
   },
 });
 

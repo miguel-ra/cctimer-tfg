@@ -16,6 +16,7 @@ type UseSpringProps = {
 
 type ItemComponentProps = {
   isParentDragDisabled: MutableRefObject<boolean>;
+  openMenu: () => void;
 };
 
 type Item = {
@@ -105,6 +106,8 @@ function LayoutMobile() {
         return;
       }
 
+      const prevActiveIndex = activeIndex.current;
+
       if (swipe[0] !== 0) {
         activeIndex.current = clamp(activeIndex.current - swipe[0], 0, items.length - 1);
       } else if (last) {
@@ -120,6 +123,10 @@ function LayoutMobile() {
         if (distance > autoChangeDistance) {
           activeIndex.current = clamp(activeIndex.current + movementDirection, 0, items.length - 1);
         }
+      }
+
+      if (prevActiveIndex !== activeIndex.current) {
+        checkMenuOpen();
       }
 
       api((i) => {
@@ -169,6 +176,34 @@ function LayoutMobile() {
     };
   }, [computeSpring, api]);
 
+  const checkMenuOpen = useCallback(() => {
+    if (window.location.hash !== "#menu") {
+      const pathWithHash = `${window.location.href.split("#")[0]}#menu`;
+      window.history.pushState(null, "", pathWithHash);
+    } else if (activeIndex.current !== 0) {
+      window.history.back();
+    }
+  }, []);
+
+  const openMenu = useCallback(() => {
+    activeIndex.current = 0;
+    api.start(computeSpring);
+    checkMenuOpen();
+  }, [api, checkMenuOpen, computeSpring]);
+
+  useEffect(() => {
+    function handler() {
+      if (!window.location.hash && activeIndex.current !== 1) {
+        activeIndex.current = 1;
+        api.start(computeSpring);
+      }
+    }
+    window.addEventListener("popstate", handler);
+    return () => {
+      window.removeEventListener("popstate", handler);
+    };
+  }, [api, computeSpring]);
+
   return (
     <Box position="absolute" width="100%" height="100%" overflow="hidden">
       {springs.map(({ opacity, ...style }, i) => {
@@ -199,6 +234,7 @@ function LayoutMobile() {
                   onClick: () => {
                     activeIndex.current = i;
                     api.start(computeSpring);
+                    checkMenuOpen();
                   },
                   style: {
                     backgroundColor: theme.palette.background.default,
@@ -209,7 +245,7 @@ function LayoutMobile() {
                 }}
               />
             )}
-            <Component isParentDragDisabled={isDragDisabled} />
+            <Component isParentDragDisabled={isDragDisabled} openMenu={openMenu} />
           </Box>
         );
       })}
