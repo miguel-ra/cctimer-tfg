@@ -1,26 +1,10 @@
-import { createContext, ReactNode, useCallback, useContext } from "react";
-import useStorageState from "shared/hooks/useStorageState";
-
-type Settings = {
-  inspection: {
-    enabled: boolean;
-    time: number;
-    autoStart: boolean;
-  };
-  timer: {
-    hideTime: boolean;
-    hideUI: boolean;
-    holdToStart: boolean;
-  };
-};
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { initialSettings, Settings } from "models/settings/Settings";
+import { useSettingsRepository } from "repositories/settings/settingsRepository";
 
 type SettingsState = {
   settings: Settings;
-  setSetting: <
-    C extends keyof Settings,
-    S extends keyof Settings[C],
-    V extends Settings[C][S]
-  >(
+  setSetting: <C extends keyof Settings, S extends keyof Settings[C], V extends Settings[C][S]>(
     category: C,
     setting: S,
     value: V
@@ -29,19 +13,6 @@ type SettingsState = {
 
 type SettingsProviderProps = {
   children: ReactNode;
-};
-
-const initialState: Settings = {
-  inspection: {
-    enabled: false,
-    time: 15,
-    autoStart: false,
-  },
-  timer: {
-    hideTime: false,
-    hideUI: false,
-    holdToStart: false,
-  },
 };
 
 const SettingsContext = createContext<SettingsState | null>(null);
@@ -56,37 +27,30 @@ function useSettings() {
 }
 
 function SettingsProvider({ children }: SettingsProviderProps) {
-  const [settings, setSettings] = useStorageState<Settings>(
-    "settings",
-    () => initialState
-  );
+  const settingsRepository = useSettingsRepository();
+  const [settings, setSettings] = useState(initialSettings);
 
   const setSetting = useCallback(
-    <
-      C extends keyof Settings,
-      S extends keyof Settings[C],
-      V extends Settings[C][S]
-    >(
+    async <C extends keyof Settings, S extends keyof Settings[C], V extends Settings[C][S]>(
       category: C,
       setting: S,
       value: V
     ) => {
-      setSettings((prevSettings: Settings) => ({
-        ...prevSettings,
-        [category]: {
-          ...prevSettings?.[category],
-          [setting]: value,
-        },
-      }));
+      const newSettings = await settingsRepository.update(category, setting, value);
+      setSettings(newSettings);
     },
-    [setSettings]
+    [settingsRepository]
   );
 
-  return (
-    <SettingsContext.Provider value={{ settings, setSetting }}>
-      {children}
-    </SettingsContext.Provider>
-  );
+  useEffect(() => {
+    settingsRepository.getAll().then((initialSettings) => {
+      if (initialSettings) {
+        setSettings(initialSettings);
+      }
+    });
+  }, [settingsRepository]);
+
+  return <SettingsContext.Provider value={{ settings, setSetting }}>{children}</SettingsContext.Provider>;
 }
 
 export { SettingsProvider, useSettings };
