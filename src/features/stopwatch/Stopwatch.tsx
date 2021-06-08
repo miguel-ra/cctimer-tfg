@@ -55,7 +55,7 @@ function Stopwatch({ onSave }: StopwatchProps) {
     dataToSave.current = {
       penalty,
       elapsedTime: penalty === TimePenalty.Dnf ? 0 : elapsedTime,
-    } as Time;
+    };
   }, [elapsedTime, status]);
 
   const saveTime = useCallback(() => {

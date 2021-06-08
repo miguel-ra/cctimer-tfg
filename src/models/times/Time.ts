@@ -11,15 +11,17 @@ type TimeId = number;
 type Time = {
   penalty?: TimePenalty;
   elapsedTime: number;
-  scramble: Scramble;
 };
 
 type PuzzleTime = Time & {
   id: TimeId;
   puzzleId: PuzzleId;
+  scramble: Scramble;
   createdAt: Date;
 };
 
-export type { PuzzleTime, Time };
+type UnsavedPuzzleTime = Omit<PuzzleTime, "id" | "puzzleId" | "createdAt">;
+
+export type { PuzzleTime, Time, UnsavedPuzzleTime };
 
 export { TimePenalty };

@@ -1,6 +1,6 @@
 import { openDB, IDBPDatabase } from "idb/with-async-ittr.js";
 import { PuzzleId, PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
-import { PuzzleTime, Time } from "models/times/Time";
+import { PuzzleTime, UnsavedPuzzleTime } from "models/times/Time";
 import { TimesRepository } from "models/times/TimesRepository";
 
 type TimesDB = {
@@ -35,9 +35,9 @@ class TimesRepositoryInMemory implements TimesRepository {
     });
   }
 
-  async add(puzzleKey: PuzzleKey, puzzleId: PuzzleId, time: Time): Promise<PuzzleTime> {
+  async add(puzzleKey: PuzzleKey, puzzleId: PuzzleId, time: UnsavedPuzzleTime): Promise<PuzzleTime> {
     const db = await this.dbPromise;
-    const puzzleTime = {
+    const puzzleTime: PuzzleTime = {
       ...time,
       puzzleId,
       createdAt: new Date(),
