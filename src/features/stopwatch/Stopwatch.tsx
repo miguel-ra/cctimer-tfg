@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 import { millisecondsToSeconds, millisecondsToClock } from "shared/format/number";
-import { Time } from "models/times/Time";
+import { Time, TimePenalty } from "models/times/Time";
 import { useSettings } from "store/settingsContext";
 import useStopwatch from "./useStopwatch";
 import Pressable from "./Pressable";
@@ -9,10 +9,22 @@ import useStyles from "./Stopwatch.styles";
 import { useMenu } from "store/menuContext";
 
 // TODO: Refactor to avoid use useCallback
-// TODO: Refactor status to use an ENUM
 
 type StopwatchProps = {
   onSave: (time: Time) => void;
+};
+
+enum Status {
+  Idle,
+  PlusTwo,
+  Dnf,
+  Inspection,
+  Running,
+}
+
+const statusPenalty: { [key in Status]?: TimePenalty } = {
+  [Status.PlusTwo]: TimePenalty.PlusTwo,
+  [Status.Dnf]: TimePenalty.Dnf,
 };
 
 function Stopwatch({ onSave }: StopwatchProps) {
@@ -20,7 +32,7 @@ function Stopwatch({ onSave }: StopwatchProps) {
   const { settings } = useSettings();
   const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
-  const [status, setStatus] = useState("idle"); // TODO: Create status constats
+  const [status, setStatus] = useState(Status.Idle); // TODO: Create status constats
   const [color, setColor] = useState("inherit");
   const { selectedItem } = useMenu();
   const holdStartedAt = useRef<number | null>(null);
@@ -37,12 +49,12 @@ function Stopwatch({ onSave }: StopwatchProps) {
 
   useEffect(() => {
     let penalty = dataToSave?.current?.penalty;
-    if (penalty !== "dnf" && ["plus-two", "dnf"].includes(status)) {
-      penalty = status as Time["penalty"];
+    if (penalty !== TimePenalty.Dnf && statusPenalty[status]) {
+      penalty = statusPenalty[status];
     }
     dataToSave.current = {
       penalty,
-      elapsedTime: penalty === "dnf" ? 0 : elapsedTime,
+      elapsedTime: penalty === TimePenalty.Dnf ? 0 : elapsedTime,
     } as Time;
   }, [elapsedTime, status]);
 
@@ -55,13 +67,13 @@ function Stopwatch({ onSave }: StopwatchProps) {
 
   const setDNF = useCallback(() => {
     ready.current = false;
-    setStatus("dnf");
+    setStatus(Status.Dnf);
     resetStopwatch();
     saveTime();
   }, [resetStopwatch, saveTime]);
 
   const startPlusTwo = useCallback(() => {
-    setStatus("plus-two");
+    setStatus(Status.PlusTwo);
     startStopwatch({
       countDown: 2000,
       onTimeout: setDNF,
@@ -69,7 +81,7 @@ function Stopwatch({ onSave }: StopwatchProps) {
   }, [setDNF, startStopwatch]);
 
   const startInspection = useCallback(() => {
-    setStatus("inspection");
+    setStatus(Status.Inspection);
     startStopwatch({
       countDown: settings.inspection.time * 1000 || 15000,
       onTimeout: startPlusTwo,
@@ -78,15 +90,15 @@ function Stopwatch({ onSave }: StopwatchProps) {
 
   const handlePress = useCallback(() => {
     (document.activeElement as HTMLElement)?.blur?.();
-    if (status === "running") {
+    if (status === Status.Running) {
       ready.current = null;
       stopStopwatch();
-      setStatus("idle");
+      setStatus(Status.Idle);
       saveTime();
       return;
     }
-    if (status === "dnf") {
-      setStatus("idle");
+    if (status === Status.Dnf) {
+      setStatus(Status.Idle);
     }
     if (settings.timer.holdToStart) {
       const beginningAt = Date.now();
@@ -108,22 +120,22 @@ function Stopwatch({ onSave }: StopwatchProps) {
       ready.current = !settings.timer.holdToStart;
       return;
     }
-    if (settings.inspection.enabled && ["idle", "dnf"].includes(status)) {
+    if (settings.inspection.enabled && [Status.Idle, Status.Dnf].includes(status)) {
       ready.current = !settings.timer.holdToStart;
       startInspection();
       return;
     }
 
     startStopwatch();
-    setStatus("running");
+    setStatus(Status.Running);
   }, [settings.inspection.enabled, settings.timer.holdToStart, startInspection, startStopwatch, status]);
 
   const keyDownHandler = useCallback(
     (event) => {
-      if (status !== "idle") {
+      if (status !== Status.Idle) {
         event.preventDefault();
       }
-      if (status !== "running" && event.key !== " ") {
+      if (status !== Status.Running && event.key !== " ") {
         return false;
       }
       handlePress();
@@ -149,9 +161,9 @@ function Stopwatch({ onSave }: StopwatchProps) {
       if (distance > 50) {
         ready.current = false;
         holdStartedAt.current = null;
-        setStatus("idle");
+        setStatus(Status.Idle);
         setColor("inherit");
-        if (status !== "idle") {
+        if (status !== Status.Idle) {
           stopStopwatch();
           saveTime();
           resetStopwatch();
@@ -171,14 +183,14 @@ function Stopwatch({ onSave }: StopwatchProps) {
       onPointerUp={handleRelease}
       onKeyDown={keyDownHandler}
       onKeyUp={keyUpHandler}
-      listenOnWindow={status !== "idle"}
+      listenOnWindow={status !== Status.Idle}
     >
       <div className={classes.display} style={{ color }}>
-        {status === "idle" && millisecondsToClock(elapsedTime)}
-        {status === "inspection" && millisecondsToSeconds(remainingTime) + 1}
-        {status === "plus-two" && "+2"}
-        {status === "dnf" && "DNF"}
-        {status === "running" && millisecondsToClock(elapsedTime)}
+        {status === Status.Idle && millisecondsToClock(elapsedTime)}
+        {status === Status.Inspection && millisecondsToSeconds(remainingTime) + 1}
+        {status === Status.PlusTwo && "+2"}
+        {status === Status.Dnf && "DNF"}
+        {status === Status.Running && millisecondsToClock(elapsedTime)}
       </div>
     </Pressable>
   );

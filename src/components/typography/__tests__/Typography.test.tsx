@@ -23,14 +23,14 @@ function UseStylesHookExample() {
   );
 }
 
-describe("Components/typography/Typography", () => {
-  test("Should render the text", () => {
+describe("components/typography/Typography", () => {
+  test("should render the text", () => {
     renderWithProviders(<Typography variant="h1">cctimer</Typography>);
 
     expect(screen.getByText("cctimer")).toBeInTheDocument();
   });
 
-  test("Should add custom variants styles", () => {
+  test("should add custom variants styles", () => {
     renderWithProviders(
       <>
         <UseStylesHookExample />
@@ -62,41 +62,17 @@ describe("Components/typography/Typography", () => {
     const caption = screen.getByText("caption");
     const overline = screen.getByText("overline");
 
-    expect(h1.classList).toContain(
-      screen.getByTestId("classes.h1").textContent
-    );
-    expect(h2.classList).toContain(
-      screen.getByTestId("classes.h2").textContent
-    );
-    expect(h3.classList).toContain(
-      screen.getByTestId("classes.h3").textContent
-    );
-    expect(h4.classList).toContain(
-      screen.getByTestId("classes.h4").textContent
-    );
-    expect(h5.classList).toContain(
-      screen.getByTestId("classes.h5").textContent
-    );
-    expect(h6.classList).toContain(
-      screen.getByTestId("classes.h6").textContent
-    );
-    expect(subtitle1.classList).toContain(
-      screen.getByTestId("classes.subtitle1").textContent
-    );
-    expect(subtitle2.classList).toContain(
-      screen.getByTestId("classes.subtitle2").textContent
-    );
-    expect(body1.classList).toContain(
-      screen.getByTestId("classes.body1").textContent
-    );
-    expect(body2.classList).toContain(
-      screen.getByTestId("classes.body2").textContent
-    );
-    expect(caption.classList).toContain(
-      screen.getByTestId("classes.caption").textContent
-    );
-    expect(overline.classList).toContain(
-      screen.getByTestId("classes.overline").textContent
-    );
+    expect(h1.classList).toContain(screen.getByTestId("classes.h1").textContent);
+    expect(h2.classList).toContain(screen.getByTestId("classes.h2").textContent);
+    expect(h3.classList).toContain(screen.getByTestId("classes.h3").textContent);
+    expect(h4.classList).toContain(screen.getByTestId("classes.h4").textContent);
+    expect(h5.classList).toContain(screen.getByTestId("classes.h5").textContent);
+    expect(h6.classList).toContain(screen.getByTestId("classes.h6").textContent);
+    expect(subtitle1.classList).toContain(screen.getByTestId("classes.subtitle1").textContent);
+    expect(subtitle2.classList).toContain(screen.getByTestId("classes.subtitle2").textContent);
+    expect(body1.classList).toContain(screen.getByTestId("classes.body1").textContent);
+    expect(body2.classList).toContain(screen.getByTestId("classes.body2").textContent);
+    expect(caption.classList).toContain(screen.getByTestId("classes.caption").textContent);
+    expect(overline.classList).toContain(screen.getByTestId("classes.overline").textContent);
   });
 });

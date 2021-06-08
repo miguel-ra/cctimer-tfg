@@ -1,10 +1,15 @@
 import { Scramble } from "cctimer-scrambles";
 import { PuzzleId } from "models/puzzles/Puzzle";
 
+enum TimePenalty {
+  PlusTwo = "plus-two",
+  Dnf = "dnf",
+}
+
 type TimeId = number;
 
 type Time = {
-  penalty?: "plus-two" | "dnf";
+  penalty?: TimePenalty;
   elapsedTime: number;
   scramble: Scramble;
 };
@@ -16,3 +21,5 @@ type PuzzleTime = Time & {
 };
 
 export type { PuzzleTime, Time };
+
+export { TimePenalty };

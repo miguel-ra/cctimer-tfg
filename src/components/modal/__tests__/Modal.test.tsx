@@ -6,6 +6,7 @@ const modalProps = {
   containerId: "containerId",
   closeModal: jest.fn(),
   children: "children",
+  setPrevActiveElement: jest.fn(),
 };
 
 describe("components/modal/Modal", () => {
@@ -13,13 +14,19 @@ describe("components/modal/Modal", () => {
     jest.clearAllMocks();
   });
 
-  test("Should render modal", () => {
+  test("should render modal", () => {
     render(<Modal {...modalProps} />);
 
     expect(screen.getByText(modalProps.children)).toBeInTheDocument();
   });
 
-  test("Should close modal if overlay is clicked", () => {
+  test("should call setPrevActiveElement", () => {
+    render(<Modal {...modalProps} />);
+
+    expect(modalProps.setPrevActiveElement).toBeCalled();
+  });
+
+  test("should close modal if overlay is clicked", () => {
     render(<Modal {...modalProps} />);
 
     expect(modalProps.closeModal).not.toBeCalled();

@@ -19,6 +19,9 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     transition: ` border ${theme.transition.duration.colorMode} linear`,
     borderBottom: `1px solid ${theme.palette.border.primary}`,
+    [theme.breakpoints.up("md")]: {
+      padding: "1rem 1.5rem",
+    },
   },
 });
 
