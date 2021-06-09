@@ -23,6 +23,9 @@ const useStyles = createUseStyles({
       padding: "1rem 1.5rem",
     },
   },
+  button: {
+    marginLeft: "3rem",
+  },
 });
 
 function ModalHeader({ children, className, ...props }: ModalHeaderProps) {
@@ -33,7 +36,7 @@ function ModalHeader({ children, className, ...props }: ModalHeaderProps) {
   return (
     <div className={clsx(classes.header, className)} {...props}>
       <Typography variant="subtitle1">{children}</Typography>
-      <Button variant="contained" onClick={closeModal}>
+      <Button className={classes.button} variant="contained" onClick={closeModal}>
         {t("Close")}
       </Button>
     </div>

@@ -1,3 +1,11 @@
+type Color = "black" | "white" | "blue" | "green" | "yellow" | "orange" | "red" | "purple" | "pink" | "grey";
+type Palette = "main" | "light" | "dark" | "darker" | "contrastText";
+type PaletteColor =
+  | Color
+  | {
+      [C in Color]: { [P in Palette]: `${C}.${P}` };
+    }[Color][Palette];
+
 const colors = {
   black: {
     main: "var(--colors-black-main)",
@@ -25,6 +33,7 @@ const colors = {
     main: "var(--colors-orange-main)",
   },
   red: {
+    light: "var(--colors-red-light)",
     main: "var(--colors-red-main)",
   },
   purple: {
@@ -36,6 +45,8 @@ const colors = {
   grey: {
     main: "var(--colors-grey-main)",
   },
-};
+} as { [key in Color]: { [key in Palette]: string } };
+
+export type { Color, PaletteColor };
 
 export default colors;

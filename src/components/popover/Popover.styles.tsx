@@ -1,9 +1,6 @@
 import { CSSProperties } from "react";
 import { createUseStyles } from "react-jss";
-import {
-  PopoverAnchorPosition,
-  PopoverTransformPostion,
-} from "store/popoverContext";
+import { PopoverAnchorPosition, PopoverTransformPostion } from "store/popoverContext";
 import theme from "styles/theme";
 
 type UseStylesProps = {
@@ -49,8 +46,7 @@ const arrow: {
       left: "-7px",
       marginTop: "-8px",
       borderWidth: "8px 8px 8px 0",
-      borderColor:
-        "transparent var(--background-color) transparent transparent",
+      borderColor: "transparent var(--background-color) transparent transparent",
     },
     border: {
       borderRightColor: "var(--border-color)",
@@ -63,8 +59,7 @@ const arrow: {
       left: "50%",
       marginLeft: "-8px",
       borderWidth: "8px 8px 0 8px",
-      borderColor:
-        "var(--background-color) transparent transparent transparent",
+      borderColor: "var(--background-color) transparent transparent transparent",
     },
     border: {
       borderTopColor: "var(--border-color)",
@@ -91,8 +86,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     cursor: "default",
     opacity: 0,
     willChange: "top, left, opacity",
-    transition:
-      "top 0.25s ease-in-out, left 0.25s ease-in-out, opacity 0.25s linear",
+    transition: "top 0.25s ease-in-out, left 0.25s ease-in-out, opacity 0.25s linear",
   },
   popover: {
     "--background-color": theme.palette.colors.white.main,

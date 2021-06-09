@@ -32,11 +32,16 @@ function Stopwatch({ onSave }: StopwatchProps) {
   const { settings } = useSettings();
   const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
-  const [status, setStatus] = useState(Status.Idle); // TODO: Create status constats
+  const [status, setStatus] = useState(Status.Idle);
   const [color, setColor] = useState("inherit");
   const { selectedItem } = useMenu();
   const holdStartedAt = useRef<number | null>(null);
   const dataToSave = useRef<Time>();
+
+  useEffect(() => {
+    return () => stopStopwatch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     resetStopwatch();

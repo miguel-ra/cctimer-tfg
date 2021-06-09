@@ -5,7 +5,7 @@ const useStyles = createUseStyles({
   divider: {
     width: "100%",
     border: "none",
-    margin: "1rem 0",
+    margin: "1.5rem 0",
     borderBottom: `1px solid ${theme.palette.border.primary}`,
     transition: ` border ${theme.transition.duration.colorMode} linear`,
   },

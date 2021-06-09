@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { ButtonHTMLAttributes, ElementType, ReactNode } from "react";
+import { Color } from "styles/colors";
 import useStyles from "./Button.styles";
 
 type ButtonProps = {
@@ -7,7 +8,8 @@ type ButtonProps = {
   fullWidth?: boolean;
   className?: string;
   children: ReactNode;
-  variant?: "text" | "contained";
+  variant?: "text" | "contained" | "outlined";
+  color?: Color;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Button({
@@ -16,9 +18,10 @@ function Button({
   className,
   children,
   variant = "text",
+  color = "blue",
   ...props
 }: ButtonProps) {
-  const classes = useStyles({ fullWidth });
+  const classes = useStyles({ fullWidth, color });
 
   return (
     <button className={clsx(classes.button, className, classes[variant])} {...props}>

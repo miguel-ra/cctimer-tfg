@@ -42,9 +42,17 @@ const useStyles = createUseStyles({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
     border: `1px solid ${theme.palette.border.primary}`,
-    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
+    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
     padding: "1rem",
     textAlign: "center",
+    cursor: "pointer",
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
+    "&:hover": {
+      backgroundColor: theme.palette.border.primary,
+      transform: "scale(.98)",
+      opacity: 0.8,
+    },
   },
 });
 

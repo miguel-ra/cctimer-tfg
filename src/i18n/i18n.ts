@@ -2,7 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import detector from "i18next-browser-languagedetector";
 
-type LangKey = "en" | "es" | "pr";
+type LangKey = "en" | "es" | "pt";
 
 type Resource = { translation: { [key: string]: string } };
 
@@ -10,7 +10,7 @@ type Resources = {
   [key in LangKey]?: Resource;
 };
 
-const supportedLngs: LangKey[] = ["en", "es", "pr"];
+const supportedLngs: LangKey[] = ["en", "es", "pt"];
 
 const languages: [LangKey, string][] = [
   // t("English")
@@ -18,7 +18,7 @@ const languages: [LangKey, string][] = [
   // t("Spanish")
   ["es", "Spanish"],
   // t("Portuguese")
-  ["pr", "Portuguese"],
+  ["pt", "Portuguese"],
 ];
 
 const resources = supportedLngs.reduce((accu: Resources, languageKey: LangKey) => {
@@ -66,6 +66,8 @@ i18n
       escapeValue: false, // react already safes from xss
     },
   });
+
+export type { LangKey };
 
 export { languages };
 

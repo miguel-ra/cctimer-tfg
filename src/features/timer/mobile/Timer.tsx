@@ -27,6 +27,7 @@ const useStyles = createUseStyles({
     transition: "height 0.25s ease-in-out",
     outline: "none",
     willChange: "height",
+    display: "flex",
   },
   scrambleImage: {
     height: "100%",

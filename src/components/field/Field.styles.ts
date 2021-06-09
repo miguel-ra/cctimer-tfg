@@ -5,7 +5,7 @@ const useStyles = createUseStyles({
   wrapper: {
     display: "grid",
     gridTemplateColumns: "1fr auto",
-    gap: "1.5rem",
+    gap: "1rem",
     width: "100%",
     flexDirection: "row",
     alignItems: "center",

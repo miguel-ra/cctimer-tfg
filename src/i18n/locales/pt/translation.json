@@ -1,7 +1,8 @@
 {
+  "Close": "Fechar",
+  "Scramble details": "Detalhes do embaralhamento",
   "Tap here to see scramble": "Toque aqui para ver o embaralhamento",
   "Add puzzle": "Adicionar puzzle",
-  "Close": "Fechar",
   "Settings": "Opções",
   "Light mode": "Modo claro",
   "Dark mode": "Modo escuro",
@@ -17,6 +18,12 @@
   "Session": "Sessão",
   "Stats": "Estatísticas",
   "Scramble": "Embaralhamento",
+  "Time details": "Detalhes do tempo",
+  "Comment": "Comentário",
+  "Remove": "Remover",
+  "No penalty": "Sem penalidade",
+  "+2": "+2",
+  "DNF": "DNF",
   "You have not registered any time": {
     " Destroy it! 🤘": "Você ainda não adicionou nenhum tempo. Dê o seu melhor! 🤘"
   },

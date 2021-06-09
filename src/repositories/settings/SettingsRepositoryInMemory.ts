@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import merge from "lodash/merge";
 import { initialSettings, Settings } from "models/settings/Settings";
 import { SettingsRepository } from "models/settings/SettingsRepository";
 

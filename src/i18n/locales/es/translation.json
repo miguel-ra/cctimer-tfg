@@ -1,7 +1,8 @@
 {
+  "Close": "Cerrar",
+  "Scramble details": "Detalles de la mezcla",
   "Tap here to see scramble": "Toca aquí para ver la mezcla",
   "Add puzzle": "Agregar puzzle",
-  "Close": "Cerrar",
   "Settings": "Opciones",
   "Light mode": "Modo claro",
   "Dark mode": "Modo oscuro",
@@ -17,6 +18,12 @@
   "Session": "Sesión",
   "Stats": "Estadísticas",
   "Scramble": "Mezcla",
+  "Time details": "Detalles del tiempo",
+  "Comment": "Comentario",
+  "Remove": "Eliminar",
+  "No penalty": "Sin penalización",
+  "+2": "+2",
+  "DNF": "DNF",
   "You have not registered any time": {
     " Destroy it! 🤘": "Aún no has agregado ningún tiempo. ¡Dale caña! 🤘"
   },

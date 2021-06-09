@@ -3,7 +3,9 @@ import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   wrapper: {
-    gap: 0,
+    "&&": {
+      gap: 0,
+    },
     "& $label, & $input": {
       cursor: "pointer",
       userSelect: "none",
@@ -40,8 +42,7 @@ const useStyles = createUseStyles({
       content: "''",
       width: "10px",
       height: "10px",
-      // TODO: Change this to CSS variables
-      background: "linear-gradient(to bottom right, #69BFFF, #388BFD)",
+      background: `linear-gradient(to bottom right, ${theme.palette.colors.blue.light}, ${theme.palette.colors.blue.main})`,
       position: "absolute",
       top: "4px",
       right: "4px",

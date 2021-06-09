@@ -11,6 +11,7 @@ const useStyles = createUseStyles({
   },
   section: {
     flex: 1,
+    display: "flex",
   },
   stats: {
     flex: 1,

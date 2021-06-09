@@ -27,7 +27,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test",
+    "test": "craco test --coverage --watchAll=false --ci",
+    "test:local": "craco test",
     "generate:locales": "i18next 'src/**/*.{ts,tsx}' --config=internals/i18n/parser.config.js"
   },
   "eslintConfig": {
