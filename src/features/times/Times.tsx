@@ -1,6 +1,5 @@
 import { KeyboardEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { millisecondsToClock } from "shared/format/number";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./Times.styles";
 import { useModal } from "store/modalContext";

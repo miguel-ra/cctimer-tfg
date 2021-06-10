@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LangKey } from "i18n/i18n";
-import { millisecondsToClock } from "shared/format/number";
 import { dateTimeToLocale } from "shared/format/date";
 import { PuzzleTime, TimeId, TimePenalty } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
