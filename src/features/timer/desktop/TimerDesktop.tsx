@@ -8,16 +8,14 @@ import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
 import ScrambleText from "components/scramble/ScrambleText";
-import { TimerProvider, useTimer } from "../timerContext";
-import { useTimerViewModel } from "../timerViewModel";
+import { TimerProvider, useTimer } from "../timerViewModel";
 import useStyles from "./TimerDesktop.styles";
 
 function TimerDesktop() {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { scramble } = useTimer();
   const { selectedItem } = useMenu();
-  const { addTime, puzzleTimes } = useTimerViewModel();
+  const { scramble, addTime } = useTimer();
 
   const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
 
@@ -29,14 +27,14 @@ function TimerDesktop() {
       </Box>
       <div className={clsx(classes.sectionContainer, { [classes.withoutScramble]: !ScrambleImage })}>
         <section className={classes.section}>
-          <Times puzzleTimes={puzzleTimes} />
+          <Times />
         </section>
         <section className={classes.stats}>{t("Stats and grahps")}</section>
         {ScrambleImage && (
           <section className={classes.section}>
             <Suspense
               fallback={
-                <Box display="flex" placeContent="center" height="100%">
+                <Box display="flex" placeContent="center" width="100%" height="100%">
                   <Spinner delay={0} />
                 </Box>
               }

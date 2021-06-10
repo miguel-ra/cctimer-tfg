@@ -40,7 +40,7 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
 
   async getAll() {
     const db = await this.dbPromise;
-    return await db.getAll("puzzles");
+    return db.getAll("puzzles");
   }
 }
 

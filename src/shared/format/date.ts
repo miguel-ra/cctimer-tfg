@@ -1,6 +1,6 @@
 import { LangKey } from "i18n/i18n";
 
-function dateTimeFormat(language: LangKey, date: Date) {
+function dateTimeToLocale(language: LangKey, date: Date) {
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
@@ -13,4 +13,4 @@ function dateTimeFormat(language: LangKey, date: Date) {
   return new Intl.DateTimeFormat(language, options).format(date);
 }
 
-export { dateTimeFormat };
+export { dateTimeToLocale };

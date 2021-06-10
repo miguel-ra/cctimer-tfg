@@ -1,15 +1,15 @@
 import { openDB, IDBPDatabase } from "idb/with-async-ittr.js";
 import { PuzzleId, PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
-import { PuzzleTime, UnsavedPuzzleTime } from "models/times/Time";
-import { TimesRepository } from "models/times/TimesRepository";
+import { TimeId, PuzzleTime, UnsavedPuzzleTime } from "models/times/Time";
+import { PuzzleTimeUpdate, TimesRepository } from "models/times/TimesRepository";
 
 type TimesDB = {
   [key in PuzzleKey]: {
     key: number;
     value: PuzzleTime;
     indexes: {
+      id: TimeId;
       puzzleId: PuzzleId;
-      createdAt: Date;
     };
   };
 };
@@ -29,13 +29,14 @@ class TimesRepositoryInMemory implements TimesRepository {
             keyPath: "id",
             autoIncrement: true,
           });
+          store.createIndex("id", "id");
           store.createIndex("puzzleId", "puzzleId");
         });
       },
     });
   }
 
-  async add(puzzleKey: PuzzleKey, puzzleId: PuzzleId, time: UnsavedPuzzleTime): Promise<PuzzleTime> {
+  async add(puzzleKey: PuzzleKey, puzzleId: PuzzleId, time: UnsavedPuzzleTime) {
     const db = await this.dbPromise;
     const puzzleTime: PuzzleTime = {
       ...time,
@@ -46,9 +47,24 @@ class TimesRepositoryInMemory implements TimesRepository {
     return { ...puzzleTime, id: addedId };
   }
 
+  async update(puzzleKey: PuzzleKey, timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) {
+    const db = await this.dbPromise;
+    const time = (await db.getFromIndex(puzzleKey, "id", timeId)) as PuzzleTime;
+    const timeUpdated = { ...time, ...dataToUpdate };
+
+    db.put(puzzleKey, timeUpdated);
+
+    return timeUpdated;
+  }
+
   async getAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {
     const db = await this.dbPromise;
-    return await db.getAllFromIndex(puzzleKey, "puzzleId", puzzleId);
+    return db.getAllFromIndex(puzzleKey, "puzzleId", puzzleId);
+  }
+
+  async delete(puzzleKey: PuzzleKey, timeId: number) {
+    const db = await this.dbPromise;
+    return db.delete(puzzleKey, timeId);
   }
 
   async deleteAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {

@@ -50,7 +50,6 @@ const useStyles = createUseStyles({
     WebkitTapHighlightColor: "transparent",
     "&:hover": {
       backgroundColor: theme.palette.border.primary,
-      transform: "scale(.98)",
       opacity: 0.8,
     },
   },

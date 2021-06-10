@@ -12,8 +12,7 @@ import { puzzlesData } from "models/puzzles/Puzzle";
 import Times from "features/times/Times";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
-import { useTimerViewModel } from "../timerViewModel";
-import { TimerProvider } from "../timerContext";
+import { TimerProvider, useTimer } from "../timerViewModel";
 import useStyles from "./TimerMobile.styles";
 import Timer from "./Timer";
 import Scramble from "./Scramble";
@@ -77,7 +76,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
-  const { addTime, puzzleTimes } = useTimerViewModel();
+  const { addTime, puzzleTimes } = useTimer();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 
   const computedTabs = [...tabs];

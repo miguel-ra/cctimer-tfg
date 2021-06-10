@@ -1,28 +1,33 @@
 import { KeyboardEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { millisecondsToClock } from "shared/format/number";
-import { PuzzleTime } from "models/times/Time";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./Times.styles";
 import { useModal } from "store/modalContext";
 import ModalTimeDetails from "./ModalTimeDetails";
 import { useMenu } from "store/menuContext";
+import { useTimer } from "features/timer/timerViewModel";
+import { elapsedTimeToClock } from "shared/format/puzzleTime";
 
-type TimesProps = {
-  puzzleTimes?: PuzzleTime[];
-};
-
-function Times({ puzzleTimes }: TimesProps) {
+function Times() {
   const classes = useStyles();
   const { openModal } = useModal();
   const { selectedItem } = useMenu();
+  const { puzzleTimes, updateTime, deleteTime } = useTimer();
   const { t } = useTranslation();
 
   function showTimeDetails(index: number) {
     if (!puzzleTimes || !puzzleTimes[index]) {
       return;
     }
-    openModal(<ModalTimeDetails puzzleKey={selectedItem?.key} time={puzzleTimes[index]} />);
+    openModal(
+      <ModalTimeDetails
+        puzzleKey={selectedItem?.key}
+        time={puzzleTimes[index]}
+        updateTime={updateTime}
+        deleteTime={deleteTime}
+      />
+    );
   }
 
   function handleTimesClick(event: MouseEvent) {
@@ -57,7 +62,7 @@ function Times({ puzzleTimes }: TimesProps) {
         {puzzleTimes
           .map((time, index) => (
             <div data-index={index} role="button" tabIndex={0} key={time.id} className={classes.time}>
-              {millisecondsToClock(time.elapsedTime)}
+              {elapsedTimeToClock(time.elapsedTime, time.penalty)}
             </div>
           ))
           .reverse()}

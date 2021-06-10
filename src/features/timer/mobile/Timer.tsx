@@ -9,7 +9,7 @@ import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
 import ScrambleText from "components/scramble/ScrambleText";
-import { useTimer } from "../timerContext";
+import { useTimer } from "../timerViewModel";
 
 type TimerProps = {
   addTime: (time: Time) => void;

@@ -17,11 +17,12 @@ type PuzzleTime = Time & {
   id: TimeId;
   puzzleId: PuzzleId;
   scramble: Scramble;
+  comment?: string;
   createdAt: Date;
 };
 
 type UnsavedPuzzleTime = Omit<PuzzleTime, "id" | "puzzleId" | "createdAt">;
 
-export type { PuzzleTime, Time, UnsavedPuzzleTime };
+export type { TimeId, PuzzleTime, Time, UnsavedPuzzleTime };
 
 export { TimePenalty };
