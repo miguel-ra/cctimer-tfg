@@ -22,7 +22,7 @@ function ModalSettings() {
 
   return (
     <>
-      <ModalHeader>{t("Settings")}</ModalHeader>
+      <ModalHeader label={t("Settings")} />
       <ModalBody className={classes.content}>
         <form>
           <Box flexDirection="column" padding="1.5rem">

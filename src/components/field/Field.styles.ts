@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
   input: {
     flex: 1,
     padding: "0.45rem 0.75rem",
-    minHeight: "2rem",
+    minHeight: "2.75rem",
     width: "auto",
     boxSizing: "border-box",
     borderRadius: theme.shape.borderRadius,

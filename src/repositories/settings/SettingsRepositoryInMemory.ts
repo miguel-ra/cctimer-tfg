@@ -21,6 +21,10 @@ class SettingsRepositoryInMemory implements SettingsRepository {
   }
 
   async getAll() {
+    const storedSettings = this.getLocalStorageItem();
+    if (!storedSettings) {
+      return;
+    }
     return merge({}, initialSettings, this.getLocalStorageItem());
   }
 

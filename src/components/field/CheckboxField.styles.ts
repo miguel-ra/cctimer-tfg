@@ -3,6 +3,7 @@ import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   wrapper: {
+    minHeight: "2.75rem",
     "&&": {
       gap: 0,
     },

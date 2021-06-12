@@ -1,7 +1,7 @@
 import { TimePenalty } from "models/times/Time";
 import { millisecondsToClock } from "./number";
 
-function elapsedTimeToClock(elapsedTime: number, penalty?: TimePenalty) {
+function elapsedTimeToClockCompact(elapsedTime: number, penalty?: TimePenalty) {
   if (penalty === TimePenalty.Dnf) {
     return "DNF";
   }
@@ -11,4 +11,11 @@ function elapsedTimeToClock(elapsedTime: number, penalty?: TimePenalty) {
   return millisecondsToClock(elapsedTime);
 }
 
-export { elapsedTimeToClock };
+function elapsedTimeToClock(elapsedTime: number, penalty?: TimePenalty) {
+  if (penalty === TimePenalty.Dnf && elapsedTime) {
+    return `DNF(${millisecondsToClock(elapsedTime)})`;
+  }
+  return elapsedTimeToClockCompact(elapsedTime, penalty);
+}
+
+export { elapsedTimeToClockCompact, elapsedTimeToClock };

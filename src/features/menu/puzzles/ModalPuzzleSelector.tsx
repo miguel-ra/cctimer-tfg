@@ -23,7 +23,7 @@ function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
 
   return (
     <>
-      <ModalHeader>{t("Add puzzle")}</ModalHeader>
+      <ModalHeader label={t("Add puzzle")} />
       <ModalBody>
         <div
           className={classes.content}

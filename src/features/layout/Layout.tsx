@@ -11,7 +11,7 @@ function Layout() {
   return (
     <Suspense
       fallback={
-        <Box minHeight="100%" placeContent="center" md={{ minHeight: "100%" }}>
+        <Box minHeight="100%" placeContent="center">
           <Spinner />
         </Box>
       }

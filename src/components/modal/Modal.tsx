@@ -49,7 +49,9 @@ function Modal({ containerId, closeModal, children, setPrevActiveElement }: Moda
       if (!modalElement?.contains(document.activeElement)) {
         event?.preventDefault();
         if (!document.body.classList.contains("mousedown")) {
-          firstFocusable?.focus();
+          const focusFirst =
+            (modalElementCopy.querySelector("[data-auto-focus]") as HTMLElement) || firstFocusable;
+          focusFirst?.focus();
         }
         return;
       }

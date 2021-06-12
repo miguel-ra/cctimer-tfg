@@ -34,7 +34,7 @@ function ModalScrambleText({ children }: ModalPuzzleSelectorProps) {
 
   return (
     <>
-      <ModalHeader>{t("Scramble details")}</ModalHeader>
+      <ModalHeader label={t("Scramble details")} />
       <ModalBody className={classes.content}>{children}</ModalBody>
     </>
   );

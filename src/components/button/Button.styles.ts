@@ -25,7 +25,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     transition: `color ${theme.transition.duration.colorMode} linear, opacity 0.2s linear, background 0.2s linear`,
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-    height: "3rem",
+    height: "2.75rem",
   },
   icon: {
     width: "2rem",
@@ -33,7 +33,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
   },
   text: {
     "&:not([disabled])": {
-      "&:hover, &:focus": {
+      "&:hover, body:not(.mousedown) &:focus": {
         opacity: 0.5,
       },
     },
@@ -48,7 +48,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
       color: theme.palette.colors.white.main,
       transition: `color ${theme.transition.duration.colorMode} linear, background-position-x 0.2s linear`,
       "&:not([disabled])": {
-        "&:hover, &:focus": {
+        "&:hover, body:not(.mousedown) &:focus": {
           backgroundPositionX: "0%",
         },
       },
@@ -57,7 +57,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
   outlined: {
     boxShadow: ({ color }) => `inset 0 0 0 2px ${theme.palette.getColor(`${color}.main` as PaletteColor)}`,
     "&:not([disabled])": {
-      "&:hover, &:focus": {
+      "&:hover, body:not(.mousedown) &:focus": {
         backgroundColor: theme.palette.border.primary,
       },
     },

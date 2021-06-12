@@ -63,7 +63,9 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
 
   return (
     <form className={classes.root} onSubmit={(event) => event.preventDefault()}>
-      <ModalHeader>{t("Time details")}</ModalHeader>
+      <ModalHeader label={t("Time details")}>
+        <Button>{t("Share")}</Button>
+      </ModalHeader>
       <ModalBody>
         <div className={classes.content}>
           <Box
@@ -82,7 +84,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
           </Box>
           <Divider />
           <ScrambleShowcase puzzleKey={puzzleKey} scramble={internalTime.scramble} />
-          <Divider />
+          <Divider disableTop />
           <TextField
             name="comment"
             label={t("Comment")}

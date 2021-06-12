@@ -44,5 +44,6 @@
   "Square-1": "Square-1",
   "Auto start after inspection ends": "Inicio automático cuando finalice el tiempo de inspección",
   "Hide time during solve": "Ocultar tiempo durante la resolución",
-  "Hide UI during solve": "Ocultar interfaz durante la resolución"
+  "Hide UI during solve": "Ocultar interfaz durante la resolución",
+  "Share": "Compartir"
 }

@@ -35,4 +35,27 @@ describe("components/modal/Modal", () => {
 
     expect(modalProps.closeModal).toBeCalled();
   });
+
+  test("should set focus frist focuseable element", () => {
+    render(
+      <Modal {...modalProps}>
+        <button>button1</button>
+        <button>button2</button>
+      </Modal>
+    );
+
+    expect(screen.getByRole("button", { name: /button1/i })).toBe(document.activeElement);
+  });
+
+  test("should set focus to first element with auto-focus", () => {
+    render(
+      <Modal {...modalProps}>
+        <button>button1</button>
+        <button data-auto-focus>button2</button>
+        <button data-auto-focus>button3</button>
+      </Modal>
+    );
+
+    expect(screen.getByRole("button", { name: /button2/i })).toBe(document.activeElement);
+  });
 });

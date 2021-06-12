@@ -48,7 +48,7 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-    "&:hover": {
+    "&:hover, body:not(.mousedown) &:focus": {
       backgroundColor: theme.palette.border.primary,
       opacity: 0.8,
     },
