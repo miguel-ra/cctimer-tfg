@@ -7,6 +7,7 @@ import ColorModeToggle from "features/settings/ColorModeToggle";
 import Button from "components/button/Button";
 import { useNotifications } from "store/notificationsContext";
 import Notification from "components/notification/Notification";
+import { useState } from "react";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -22,6 +23,7 @@ const useStyles = createUseStyles({
 function Navbar() {
   const classes = useStyles();
   const { addNotification } = useNotifications();
+  const [index, setIndex] = useState(1);
 
   return (
     <div className={classes.navbar}>
@@ -35,10 +37,11 @@ function Navbar() {
           style={{ marginLeft: "1.5rem" }}
           variant="contained"
           onClick={() => {
+            setIndex(index + 1);
             addNotification(
               ({ hideNotification }) => (
                 <Notification hideNotification={hideNotification}>
-                  No se ha podido guardar el tiempo
+                  {index} - No se ha podido guardar el tiempo
                 </Notification>
               )
               // { timeOut: 3000 }

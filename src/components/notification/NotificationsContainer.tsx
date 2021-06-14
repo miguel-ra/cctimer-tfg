@@ -26,6 +26,9 @@ const useStyles = createUseStyles({
     bottom: "1rem",
     width: "100%",
     padding: "0 1rem",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-end",
     [theme.breakpoints.up("md")]: {
       width: "auto",
     },
@@ -96,7 +99,7 @@ function NotificationsContainer({
           }
         }}
       >
-        {notifications.reverse().map(({ id, Component, visible }) => (
+        {notifications.map(({ id, Component, visible }) => (
           <div
             key={id}
             data-id={id}
