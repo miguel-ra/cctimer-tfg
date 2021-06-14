@@ -5,6 +5,7 @@ import { SettingsProvider } from "./settingsContext";
 import { ModalProvider } from "./modalContext";
 import { PopoverProvider } from "./popoverContext";
 import { MenuProvider } from "./menuContext";
+import { NotificationsProvider } from "./notificationsContext";
 
 type ProvidersProps = {
   children?: ReactNode;
@@ -17,6 +18,7 @@ const providers = [
   ModalProvider,
   PopoverProvider,
   MenuProvider,
+  NotificationsProvider,
 ];
 
 function Providers({ children }: ProvidersProps) {

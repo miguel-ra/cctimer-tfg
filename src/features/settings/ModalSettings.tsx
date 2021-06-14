@@ -9,6 +9,10 @@ import CheckboxField from "components/field/CheckboxField";
 import LanguageSelector from "./LanguageSelector";
 import ColorModeToggle from "./ColorModeToggle";
 
+// t("Auto start after inspection ends")
+// t("Hide time during solve")
+// t("Hide UI during solve")
+
 const useStyles = createUseStyles({
   content: {
     minWidth: "60vw",

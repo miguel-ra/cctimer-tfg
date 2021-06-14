@@ -12,7 +12,7 @@ function LanguageSelector() {
       onChange={(value: string) => {
         i18n.changeLanguage(value);
       }}
-      value={i18n.language}
+      value={i18n.language.slice(0, 2)}
     >
       {languages.map(([key, label]) => (
         <option key={key} value={key}>

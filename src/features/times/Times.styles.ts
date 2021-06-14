@@ -28,15 +28,16 @@ const useStyles = createUseStyles({
     [theme.breakpoints.up("xl")]: {
       gridTemplateColumns: "repeat(5, 1fr)",
     },
-    "$withoutScramble &": {
-      gridTemplateColumns: "repeat(3, 1fr)",
-      [theme.breakpoints.up("lg")]: {
-        gridTemplateColumns: "repeat(4, 1fr)",
-      },
-      [theme.breakpoints.up("xl")]: {
-        gridTemplateColumns: "repeat(6, 1fr)",
-      },
-    },
+    //TODO: fix this
+    // "$withoutScramble &": {
+    //   gridTemplateColumns: "repeat(3, 1fr)",
+    //   [theme.breakpoints.up("lg")]: {
+    //     gridTemplateColumns: "repeat(4, 1fr)",
+    //   },
+    //   [theme.breakpoints.up("xl")]: {
+    //     gridTemplateColumns: "repeat(6, 1fr)",
+    //   },
+    // },
   },
   time: {
     borderRadius: theme.shape.borderRadius,

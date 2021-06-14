@@ -1,9 +1,14 @@
 import { createUseStyles } from "react-jss";
-import typography from "styles/typography";
+import typography, { fontWeight, FontWeight } from "styles/typography";
 
-const useStyles = createUseStyles({
+type UseStylesProps = {
+  weight?: FontWeight;
+};
+
+const useStyles = createUseStyles<any, UseStylesProps>({
   typography: {
     margin: 0,
+    fontWeight: ({ weight }) => (weight ? fontWeight[weight] : undefined),
   },
   gutterBottom: {
     marginBottom: "0.35em",

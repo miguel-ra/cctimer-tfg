@@ -4,6 +4,9 @@ import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
 import LanguageSelector from "features/settings/LanguageSelector";
 import ColorModeToggle from "features/settings/ColorModeToggle";
+import Button from "components/button/Button";
+import { useNotifications } from "store/notificationsContext";
+import Notification from "components/notification/Notification";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -18,6 +21,7 @@ const useStyles = createUseStyles({
 
 function Navbar() {
   const classes = useStyles();
+  const { addNotification } = useNotifications();
 
   return (
     <div className={classes.navbar}>
@@ -27,6 +31,22 @@ function Navbar() {
           <LanguageSelector />
         </Box>
         <ColorModeToggle />
+        <Button
+          style={{ marginLeft: "1.5rem" }}
+          variant="contained"
+          onClick={() => {
+            addNotification(
+              ({ hideNotification }) => (
+                <Notification hideNotification={hideNotification}>
+                  No se ha podido guardar el tiempo
+                </Notification>
+              )
+              // { timeOut: 3000 }
+            );
+          }}
+        >
+          Agregar notificación
+        </Button>
       </Box>
     </div>
   );

@@ -1,13 +1,14 @@
 import { ElementType, HTMLProps } from "react";
 import clsx from "clsx";
 import get from "lodash/get";
-import { TypographyKey } from "styles/typography";
+import { FontWeight, TypographyKey } from "styles/typography";
 import useStyles from "./Typography.styles";
 
 type TypographyProps = {
   className?: string;
   variant?: TypographyKey;
   gutterBottom?: boolean;
+  weight?: FontWeight;
 } & HTMLProps<HTMLElement>;
 
 const componentMap: { [key in TypographyKey]?: ElementType } = {
@@ -27,9 +28,10 @@ function Typography({
   className,
   variant = "body1",
   gutterBottom = false,
+  weight,
   ...props
 }: TypographyProps) {
-  const classes = useStyles();
+  const classes = useStyles({ weight });
   const Component = componentMap[variant] || "span";
 
   return (

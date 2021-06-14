@@ -2,11 +2,18 @@
   "Close": "Cerrar",
   "Scramble details": "Detalles de la mezcla",
   "Tap here to see scramble": "Toca aquí para ver la mezcla",
+  "Professional speedcubing and trainer timer": "Cronómetro profesional para speedcubing y entrenamiento",
+  "Rubik's Cube online timer for speedcubing": {
+    " Simple but complete scramble generator, timer with sound, automatic averaging and much more!": "Cronómetro online de Cubo de Rubik para speedcubing. Simple pero completo: generador de aleatorización, temporizador con sonido, estadísticas ¡y mucho más!"
+  },
   "Add puzzle": "Agregar puzzle",
   "Settings": "Opciones",
   "Light mode": "Modo claro",
   "Dark mode": "Modo oscuro",
   "Language": "Idioma",
+  "Auto start after inspection ends": "Inicio automático cuando finalice el tiempo de inspección",
+  "Hide time during solve": "Ocultar tiempo durante la resolución",
+  "Hide UI during solve": "Ocultar interfaz durante la resolución",
   "Theme": "Tema",
   "Inspection behaviour": "Comportamiento de inspección",
   "Enable": "Habilitar",
@@ -19,6 +26,7 @@
   "Stats": "Estadísticas",
   "Scramble": "Mezcla",
   "Time details": "Detalles del tiempo",
+  "Share": "Compartir",
   "Comment": "Comentario",
   "Remove": "Eliminar",
   "No penalty": "Sin penalización",
@@ -41,9 +49,5 @@
   "10x10 Cube": "Cubo 10x10",
   "11x11 Cube": "Cubo 11x11",
   "Rubik's clock": "Rubik's clock",
-  "Square-1": "Square-1",
-  "Auto start after inspection ends": "Inicio automático cuando finalice el tiempo de inspección",
-  "Hide time during solve": "Ocultar tiempo durante la resolución",
-  "Hide UI during solve": "Ocultar interfaz durante la resolución",
-  "Share": "Compartir"
+  "Square-1": "Square-1"
 }

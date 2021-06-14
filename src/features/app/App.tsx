@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import Layout from "features/layout/Layout";
 import useEventListener from "shared/hooks/useEventListener";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 function getMetas() {
   const metas = [];
@@ -29,6 +30,7 @@ function keyDownHandler(event: KeyboardEvent) {
 }
 
 function App() {
+  const { t } = useTranslation();
   const metas = getMetas();
 
   useEffect(() => {
@@ -48,6 +50,13 @@ function App() {
         {metas.map((meta) => (
           <meta {...meta} />
         ))}
+        <title>{t("Professional speedcubing and trainer timer")} - CCTimer.com</title>
+        <meta
+          name="description"
+          content={t(
+            "Rubik's Cube online timer for speedcubing. Simple but complete scramble generator, timer with sound, automatic averaging and much more!"
+          )}
+        />
       </Helmet>
       <Layout />
     </>

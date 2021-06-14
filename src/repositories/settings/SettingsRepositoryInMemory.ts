@@ -25,7 +25,7 @@ class SettingsRepositoryInMemory implements SettingsRepository {
     if (!storedSettings) {
       return;
     }
-    return merge({}, initialSettings, this.getLocalStorageItem());
+    return merge({}, initialSettings, storedSettings);
   }
 
   async update<C extends keyof Settings, S extends keyof Settings[C], V extends Settings[C][S]>(
@@ -42,7 +42,7 @@ class SettingsRepositoryInMemory implements SettingsRepository {
       },
     };
     this.setLocalStorageItem(newSettings);
-    return newSettings;
+    return merge({}, initialSettings, newSettings);
   }
 }
 

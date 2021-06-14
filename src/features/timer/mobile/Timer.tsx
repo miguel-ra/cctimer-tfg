@@ -60,7 +60,7 @@ function Timer({ addTime }: TimerProps) {
         >
           <Suspense
             fallback={
-              <Box display="flex" placeContent="center" height="100%">
+              <Box display="flex" placeContent="center" width="100%" height="100%">
                 <Spinner delay={0} />
               </Box>
             }

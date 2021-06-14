@@ -26,12 +26,14 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
     height: "2.75rem",
+    willChange: "color, opacity",
   },
   icon: {
     width: "2rem",
     opacity: "0.9",
   },
   text: {
+    willChange: "opacity",
     "&:not([disabled])": {
       "&:hover, body:not(.mousedown) &:focus": {
         opacity: 0.5,

@@ -17,8 +17,10 @@ type TypographyKey =
 
 const fontFamily = '"Roboto", "Helvetica", "Arial", sans-serif';
 
-const fontWeight = {
-  ligth: 300,
+type FontWeight = "light" | "regular" | "medium" | "bold";
+
+const fontWeight: { [key in FontWeight]: number } = {
+  light: 300,
   regular: 400,
   medium: 500,
   bold: 700,
@@ -46,8 +48,8 @@ function buildVariant(
 }
 
 const typography: { [key in TypographyKey]: CSSProperties } = {
-  h1: buildVariant(fontWeight.ligth, "9.6rem", 1.167, -1.5),
-  h2: buildVariant(fontWeight.ligth, "6rem", 1.2, -0.5),
+  h1: buildVariant(fontWeight.light, "9.6rem", 1.167, -1.5),
+  h2: buildVariant(fontWeight.light, "6rem", 1.2, -0.5),
   h3: buildVariant(fontWeight.regular, "4.8rem", 1.167, 0),
   h4: buildVariant(fontWeight.regular, "3.4rem", 1.235, 0.25),
   h5: buildVariant(fontWeight.regular, "2.4rem", 1.334, 0),
@@ -61,6 +63,8 @@ const typography: { [key in TypographyKey]: CSSProperties } = {
   overline: buildVariant(fontWeight.regular, "1.2rem", 2.66, 1, caseAllCaps),
 };
 
-export type { TypographyKey };
+export type { TypographyKey, FontWeight };
+
+export { fontWeight };
 
 export default typography;
