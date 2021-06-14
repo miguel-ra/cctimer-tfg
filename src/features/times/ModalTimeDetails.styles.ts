@@ -24,7 +24,7 @@ const useStyles = createUseStyles({
   },
   buttons: {
     transition: ` border ${theme.transition.duration.colorMode} linear`,
-    borderTop: `1px solid ${theme.palette.border.primary}`,
+    borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     padding: "1.5rem",
     display: "flex",
     width: "100%",

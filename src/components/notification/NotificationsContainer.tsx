@@ -35,10 +35,12 @@ const useStyles = createUseStyles({
   },
   notification: {
     opacity: 0,
-    margin: "0.5rem 0",
-    backdropFilter: "blur(1.5rem)",
+    margin: "8px 0",
+    backdropFilter: "blur(1rem)",
     borderRadius: theme.shape.borderRadius,
     willChange: "opacity, max-height",
+    padding: theme.shape.borderWitdh,
+    overflow: "hidden",
   },
   fadeIn: {
     maxHeight: 0,
@@ -48,22 +50,19 @@ const useStyles = createUseStyles({
     animation: "$hide 0.5s ease-in-out forwards",
   },
   "@keyframes reveal": {
-    from: {
+    "0%": {
       opacity: 0,
       maxHeight: 0,
     },
-    to: {
+    "100%": {
       opacity: 1,
-      maxHeight: "100vh",
+      maxHeight: "30vh",
     },
   },
   "@keyframes hide": {
     "0%": {
       opacity: 1,
-      maxHeight: "100vh",
-    },
-    "25%": {
-      maxHeight: "100vh",
+      maxHeight: "30vh",
     },
     "100%": {
       opacity: 0,

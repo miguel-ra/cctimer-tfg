@@ -12,7 +12,7 @@ const useStyles = createUseStyles({
     width: "100%",
     border: "none",
     margin: "1.5rem 0",
-    borderBottom: `1px solid ${theme.palette.border.primary}`,
+    borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: ` border ${theme.transition.duration.colorMode} linear`,
   },
   disableTop: {

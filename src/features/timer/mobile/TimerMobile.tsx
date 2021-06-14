@@ -60,12 +60,10 @@ type ComputeSpringOptions = {
 };
 
 const SPRING_DURATION = 250;
-const DISABLED_OPACITY = 0.5;
 
 function computeSpring({ activeTab, isImmediate }: ComputeSpringOptions) {
   return (i: number) => ({
     x: (i - activeTab.current) * window.innerWidth,
-    opacity: activeTab.current !== i ? DISABLED_OPACITY : 1,
     immediate: isImmediate.current,
   });
 }
@@ -99,7 +97,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
     document.querySelectorAll("[id^='timerTabs-tab-']").forEach((element) => {
       const { index } = (element as HTMLElement).dataset;
       if (index) {
-        element.setAttribute("hidden", (activeTab.current !== Number(index)).toString());
+        element.setAttribute("aria-expanded", (activeTab.current === Number(index)).toString());
       }
     });
     setTimeout(() => {
@@ -130,7 +128,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
           x = 0;
         }
 
-        return { x, opacity: activeTab.current !== i ? DISABLED_OPACITY : 1 };
+        return { x };
       });
     },
     { useTouch: true, lockDirection: true }
@@ -157,7 +155,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
         </Typography>
       </div>
       <div className={classes.sections}>
-        {props.map(({ opacity, ...style }, i) => {
+        {props.map((style, i) => {
           const { label, Component } = computedTabs[i];
 
           return (
@@ -196,22 +194,18 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
           }
         }}
       >
-        {props.map(({ opacity }, i) => {
-          const { label } = computedTabs[i];
-          return (
-            <animated.button
-              role="tab"
-              aria-expanded={activeTab.current === i}
-              key={`${label}-tab`}
-              data-index={i}
-              id={`timerTabs-tab-${i}`}
-              className={clsx(classes.button)}
-              style={{ opacity }}
-            >
-              {t(label)}
-            </animated.button>
-          );
-        })}
+        {computedTabs.map(({ label }, i) => (
+          <div
+            role="tab"
+            aria-expanded={activeTab.current === i}
+            key={`${label}-tab`}
+            data-index={i}
+            id={`timerTabs-tab-${i}`}
+            className={clsx(classes.button)}
+          >
+            {t(label)}
+          </div>
+        ))}
       </div>
     </Box>
   );

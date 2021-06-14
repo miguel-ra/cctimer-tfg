@@ -15,14 +15,20 @@ const useStyles = createUseStyles({
     display: "flex",
     position: "relative",
     minHeight: "3rem",
-    border: `1px solid ${theme.palette.border.primary}`,
     backgroundColor: theme.palette.background.default,
     borderRadius: theme.shape.borderRadius,
+    boxShadow: `0 0 0 ${theme.shape.borderWitdh} ${theme.palette.border.primary}`,
     opacity: 0.95,
     willChange: "opacity",
-    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
+    transition: `box-shadow ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     "@supports (backdrop-filter: blur(1px))": {
       opacity: 0.85,
+    },
+    // Safari support
+    "@media not all and (min-resolution:.001dpcm)": {
+      "@media": {
+        opacity: 0.9,
+      },
     },
   },
   content: {
@@ -33,7 +39,9 @@ const useStyles = createUseStyles({
     padding: "1rem 1.5rem",
   },
   buttons: {
-    borderLeft: `1px solid ${theme.palette.border.primary}`,
+    position: "relative",
+    zIndex: 1,
+    borderLeft: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: `border ${theme.transition.duration.colorMode} linear`,
     display: "flex",
     flexDirection: "column",

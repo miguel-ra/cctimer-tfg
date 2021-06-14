@@ -26,7 +26,7 @@ const useStyles = createUseStyles({
     width: "auto",
     boxSizing: "border-box",
     borderRadius: theme.shape.borderRadius,
-    border: `1px solid ${theme.palette.border.primary}`,
+    border: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: `border ${theme.transition.duration.colorMode} linear`,
     fontSize: "1.4rem",
     userSelect: "none",

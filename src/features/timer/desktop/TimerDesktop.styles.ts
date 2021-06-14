@@ -7,7 +7,7 @@ const useStyles = createUseStyles({
     height: "30vh",
     background: theme.palette.background.paper,
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
-    borderTop: `1px solid ${theme.palette.border.primary}`,
+    borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
   },
   section: {
     flex: 1,
@@ -20,9 +20,9 @@ const useStyles = createUseStyles({
     placeContent: "center",
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     border: `0 solid ${theme.palette.border.primary}`,
-    borderWidth: "0 1px 0 1px",
+    borderWidth: `0 ${theme.shape.borderWitdh} 0 ${theme.shape.borderWitdh}`,
     "$withoutScramble &": {
-      borderWidth: "0 0 0 1px",
+      borderWidth: `0 0 0 ${theme.shape.borderWitdh}`,
     },
   },
   scramble: {

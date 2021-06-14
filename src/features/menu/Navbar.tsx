@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
     background: theme.palette.background.paper,
-    borderBottom: `1px solid ${theme.palette.border.primary}`,
+    borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
   },
 });
 
@@ -35,7 +35,7 @@ function Navbar() {
         <ColorModeToggle />
         <Button
           style={{ marginLeft: "1.5rem" }}
-          variant="contained"
+          // variant="contained"
           onClick={() => {
             setIndex(index + 1);
             addNotification(

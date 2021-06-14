@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
     transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
     background: theme.palette.background.paper,
-    borderRight: `1px solid ${theme.palette.border.primary}`,
+    borderRight: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
   },
 });
 
@@ -34,7 +34,7 @@ function SideMenuCompact() {
       <Box
         flexDirection="column"
         paddingTop="2rem"
-        borderTop={`1px solid ${theme.palette.border.primary}`}
+        borderTop={`${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`}
         transition={`border ${theme.transition.duration.colorMode} linear`}
       >
         <Tooltip label={t("Settings")}>

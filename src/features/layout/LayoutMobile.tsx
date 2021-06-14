@@ -82,6 +82,7 @@ function LayoutMobile() {
   const activeIndex = useRef(1);
   const isImmediate = useRef(false);
   const isDragDisabled = useRef(false);
+  const wasDragDisabled = useRef(false);
 
   const computeSpring = useCallback((i: number) => {
     if (i < activeIndex.current - 1 || i > activeIndex.current + 1) {
@@ -183,12 +184,20 @@ function LayoutMobile() {
     } else if (activeIndex.current !== 0) {
       window.history.back();
     }
+    if (wasDragDisabled.current) {
+      isDragDisabled.current = true;
+      wasDragDisabled.current = false;
+    }
   }, []);
 
   const openMenu = useCallback(() => {
     activeIndex.current = 0;
     api.start(computeSpring);
     checkMenuOpen();
+    if (isDragDisabled.current) {
+      isDragDisabled.current = false;
+      wasDragDisabled.current = true;
+    }
   }, [api, checkMenuOpen, computeSpring]);
 
   useEffect(() => {

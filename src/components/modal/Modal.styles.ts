@@ -29,7 +29,7 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     [theme.breakpoints.up("md")]: {
       position: "relative",
-      border: `1px solid ${theme.palette.border.primary}`,
+      border: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
       borderRadius: theme.shape.borderRadius,
       maxWidth: "70vw",
       maxHeight: "70vh",

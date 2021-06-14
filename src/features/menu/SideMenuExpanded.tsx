@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     flexDirection: "column",
     justifyContent: "space-between",
     background: theme.palette.background.paper,
-    borderRight: `1px solid ${theme.palette.border.primary}`,
+    borderRight: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
   },
   navbar: {
@@ -28,7 +28,7 @@ const useStyles = createUseStyles({
     height: "100%",
     flexDirection: "column",
     justifyContent: "center",
-    borderRight: `1px solid ${theme.palette.border.primary}`,
+    borderRight: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: `border ${theme.transition.duration.colorMode} linear`,
   },
   menu: {
