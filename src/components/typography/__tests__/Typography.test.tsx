@@ -1,10 +1,9 @@
-import React from "react";
 import { renderWithProviders, screen } from "../../../../internals/test";
 import Typography from "../Typography";
 import useStyles from "../Typography.styles";
 
 function UseStylesHookExample() {
-  const classes = useStyles();
+  const classes = useStyles({});
   return (
     <>
       <span data-testid="classes.h1">{classes.h1}</span>
@@ -74,5 +73,11 @@ describe("components/typography/Typography", () => {
     expect(body2.classList).toContain(screen.getByTestId("classes.body2").textContent);
     expect(caption.classList).toContain(screen.getByTestId("classes.caption").textContent);
     expect(overline.classList).toContain(screen.getByTestId("classes.overline").textContent);
+  });
+
+  test('should use "as" prop as element type', () => {
+    renderWithProviders(<Typography as="h6">children</Typography>);
+
+    expect(screen.getByRole("heading", { name: /children/i })).toBeInTheDocument();
   });
 });

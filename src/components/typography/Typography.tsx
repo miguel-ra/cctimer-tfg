@@ -9,6 +9,7 @@ type TypographyProps = {
   variant?: TypographyKey;
   gutterBottom?: boolean;
   weight?: FontWeight;
+  as?: ElementType;
 } & HTMLProps<HTMLElement>;
 
 const componentMap: { [key in TypographyKey]?: ElementType } = {
@@ -29,10 +30,11 @@ function Typography({
   variant = "body1",
   gutterBottom = false,
   weight,
+  as,
   ...props
 }: TypographyProps) {
   const classes = useStyles({ weight });
-  const Component = componentMap[variant] || "span";
+  const Component = as || componentMap[variant] || "span";
 
   return (
     <Component

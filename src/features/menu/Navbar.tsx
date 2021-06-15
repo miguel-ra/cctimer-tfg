@@ -1,13 +1,13 @@
+import { useState } from "react";
 import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
-import Box from "components/flexboxgrid/Box";
-import Typography from "components/typography/Typography";
+import { useNotifications } from "store/notificationsContext";
 import LanguageSelector from "features/settings/LanguageSelector";
 import ColorModeToggle from "features/settings/ColorModeToggle";
+import ErrorNotification from "components/notification/ErrorNotification";
+import Typography from "components/typography/Typography";
 import Button from "components/button/Button";
-import { useNotifications } from "store/notificationsContext";
-import Notification from "components/notification/Notification";
-import { useState } from "react";
+import Box from "components/flexboxgrid/Box";
 
 const useStyles = createUseStyles({
   navbar: {
@@ -40,9 +40,9 @@ function Navbar() {
             setIndex(index + 1);
             addNotification(
               ({ hideNotification }) => (
-                <Notification hideNotification={hideNotification}>
+                <ErrorNotification hideNotification={hideNotification}>
                   {index} - No se ha podido guardar el tiempo
-                </Notification>
+                </ErrorNotification>
               )
               // { timeOut: 3000 }
             );

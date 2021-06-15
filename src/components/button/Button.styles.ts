@@ -37,17 +37,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     "&:not([disabled])": {
       "&:hover, body:not(.mousedown) &:focus": {
         opacity: 0.5,
-        // Set animation to fix glith when it is used inside a notification
-        animation: "$hover 0.2s linear forwards",
       },
-    },
-  },
-  "@keyframes hover-in": {
-    from: {
-      opacity: 1,
-    },
-    to: {
-      opacity: 0.5,
     },
   },
   contained: ({ color }) => {
