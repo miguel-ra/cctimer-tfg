@@ -49,7 +49,10 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
   useEffect(() => {
     if (time) {
       setInternalTime(time);
+    } else {
+      closeModal();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
 
   function handleUpdate(dataToUpdate: PuzzleTimeUpdate) {

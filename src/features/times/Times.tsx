@@ -52,7 +52,6 @@ function Times() {
     if (index && event.key === "Enter") {
       event.stopPropagation();
       event.preventDefault();
-      console.log("enter");
       showTimeDetails(Number(index));
     }
   }

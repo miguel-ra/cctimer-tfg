@@ -1,10 +1,13 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Scramble } from "cctimer-scrambles";
+import { useTranslation } from "react-i18next";
 import { useMenu } from "store/menuContext";
+import { useNotifications } from "store/notificationsContext";
 import { PuzzleKey } from "models/puzzles/Puzzle";
 import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
+import ErrorNotification from "components/notification/ErrorNotification";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import GenerateScrambleWorker from "worker-loader!./workers/generateScramble.worker.ts";
 import { GenerateScrambleResponse } from "./workers/generateScramble.worker";
@@ -41,8 +44,10 @@ function TimerProvider({ children }: TimerProviderProps) {
   const [scramble, setScramble] = useState<Scramble>(emptyScramble);
   const [puzzleTimes, setPuzzleTimes] = useState<PuzzleTime[]>([]);
   const timesRepository = useTimesRepository();
+  const { addNotification } = useNotifications();
+  const { t } = useTranslation();
   const scramblePuzzleKey = useRef<PuzzleKey>();
-  const { selectedItem } = useMenu();
+  const { selectedItem, checkSelectedItem } = useMenu();
 
   const refreshScramble = useCallback(() => {
     if (selectedItem?.key) {
@@ -53,17 +58,21 @@ function TimerProvider({ children }: TimerProviderProps) {
     }
   }, [selectedItem?.key]);
 
-  const refreshPuzzles = useCallback(() => {
-    if (selectedItem?.id) {
-      timesRepository.getAll(selectedItem.key, selectedItem.id).then((response) => {
-        setPuzzleTimes(response);
-      });
+  const refreshPuzzleTimes = useCallback(async () => {
+    if (!selectedItem?.id) {
+      return setPuzzleTimes([]);
     }
-  }, [selectedItem, timesRepository]);
+    try {
+      const udpatedPuzzleTimes = await timesRepository.getAll(selectedItem.key, selectedItem.id);
+      setPuzzleTimes(udpatedPuzzleTimes);
+    } catch (error) {
+      setPuzzleTimes([]);
+    }
+  }, [selectedItem?.id, selectedItem?.key, timesRepository]);
 
   useEffect(() => {
-    refreshPuzzles();
-  }, [refreshPuzzles]);
+    refreshPuzzleTimes();
+  }, [refreshPuzzleTimes]);
 
   useEffect(() => {
     function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: GenerateScrambleResponse) {
@@ -79,45 +88,93 @@ function TimerProvider({ children }: TimerProviderProps) {
   }, [refreshScramble]);
 
   const addTime = useCallback(
-    (time: Time) => {
-      if (selectedItem?.id) {
-        timesRepository.add(selectedItem.key, selectedItem.id, { ...time, scramble }).then((addedTime) => {
-          setPuzzleTimes((prevPuzzleTimes) => [...prevPuzzleTimes, addedTime]);
-          refreshScramble();
-        });
+    async (time: Time) => {
+      if (!selectedItem?.id) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
+        ));
+        return;
       }
-      //TODO: Else show an error message
+      if (!checkSelectedItem(selectedItem)) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>
+            {t("Trying to save a time in a not selected puzzle")}
+          </ErrorNotification>
+        ));
+        return;
+      }
+      try {
+        const addedTime = await timesRepository.add(selectedItem.key, selectedItem.id, { ...time, scramble });
+        setPuzzleTimes((prevPuzzleTimes) => [...prevPuzzleTimes, addedTime]);
+        refreshScramble();
+      } catch (error) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>{t("Time could not be saved")}</ErrorNotification>
+        ));
+      }
     },
-    [refreshScramble, scramble, selectedItem?.id, selectedItem?.key, timesRepository]
+    [addNotification, checkSelectedItem, refreshScramble, scramble, selectedItem, t, timesRepository]
   );
 
   const updateTime = useCallback(
     async (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => {
-      let updatedTime;
-      if (selectedItem?.id) {
-        updatedTime = await timesRepository.update(selectedItem.key, timeId, dataToUpdate);
-        refreshPuzzles();
+      if (!selectedItem?.id) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
+        ));
+        return;
       }
-      //TODO: Else show an error message
+      if (!checkSelectedItem(selectedItem)) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>
+            {t("Trying to udpate a time in a not selected puzzle")}
+          </ErrorNotification>
+        ));
+        return;
+      }
+      let updatedTime;
+      try {
+        updatedTime = await timesRepository.update(selectedItem.key, timeId, dataToUpdate);
+        refreshPuzzleTimes();
+        if (updatedTime.id === undefined) {
+          throw new Error();
+        }
+      } catch (error) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>{t("Time could not be updated")}</ErrorNotification>
+        ));
+      }
       return updatedTime;
     },
-    [refreshPuzzles, selectedItem?.id, selectedItem?.key, timesRepository]
+    [addNotification, checkSelectedItem, refreshPuzzleTimes, selectedItem, t, timesRepository]
   );
 
   const deleteTime = useCallback(
     async (timeId: TimeId) => {
       if (!selectedItem?.id) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
+        ));
         return;
-        //TODO: Else show an error message
+      }
+      if (!checkSelectedItem(selectedItem)) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>
+            {t("Trying to delete a time in a not selected puzzle")}
+          </ErrorNotification>
+        ));
+        return;
       }
       try {
         await timesRepository.delete(selectedItem.key, timeId);
-        refreshPuzzles();
+        refreshPuzzleTimes();
       } catch (error) {
-        //TODO: Else show an error message
+        addNotification((props) => (
+          <ErrorNotification {...props}>{t("Time could not be deleted")}</ErrorNotification>
+        ));
       }
     },
-    [refreshPuzzles, selectedItem?.id, selectedItem?.key, timesRepository]
+    [addNotification, checkSelectedItem, refreshPuzzleTimes, selectedItem, t, timesRepository]
   );
 
   return (

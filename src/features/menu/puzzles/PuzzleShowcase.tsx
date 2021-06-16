@@ -74,6 +74,7 @@ function PuzzleShowcase() {
             <PuzzleIconWrapper
               data-id={id}
               aria-label={t(label)}
+              aria-expanded={id === selectedItem?.id}
               className={clsx(classes.puzzleWrapper, {
                 selected: id === selectedItem?.id,
               })}
@@ -115,7 +116,9 @@ function PuzzleShowcase() {
                 <ModalPuzzleSelector
                   onAddPuzzle={async (key: PuzzleKey) => {
                     const addedPuzzle = await addPuzzle(key);
-                    handleSelect({ type: "puzzle", ...addedPuzzle });
+                    if (addedPuzzle) {
+                      handleSelect({ type: "puzzle", ...addedPuzzle });
+                    }
                   }}
                 />
               )

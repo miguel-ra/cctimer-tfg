@@ -1,4 +1,4 @@
-import { openDB, IDBPDatabase } from "idb/with-async-ittr.js";
+import { openDB, IDBPDatabase } from "idb/with-async-ittr";
 import { PuzzleId, PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import { TimeId, PuzzleTime, UnsavedPuzzleTime } from "models/times/Time";
 import { PuzzleTimeUpdate, TimesRepository } from "models/times/TimesRepository";
@@ -18,9 +18,13 @@ const DB_NAME = "times";
 const DB_VERSION = 1;
 
 class TimesRepositoryInMemory implements TimesRepository {
-  private dbPromise: Promise<IDBPDatabase<TimesDB>>;
+  private dbPromise: Promise<IDBPDatabase<TimesDB>> | undefined;
 
-  constructor() {
+  private openDB() {
+    if (this.dbPromise) {
+      return this.dbPromise;
+    }
+
     this.dbPromise = openDB<TimesDB>(DB_NAME, DB_VERSION, {
       upgrade(db) {
         const puzzlesKeys = Object.keys(puzzlesData) as PuzzleKey[];
@@ -33,11 +37,16 @@ class TimesRepositoryInMemory implements TimesRepository {
           store.createIndex("puzzleId", "puzzleId");
         });
       },
+      terminated: () => {
+        this.dbPromise = undefined;
+      },
     });
+
+    return this.dbPromise;
   }
 
   async add(puzzleKey: PuzzleKey, puzzleId: PuzzleId, time: UnsavedPuzzleTime) {
-    const db = await this.dbPromise;
+    const db = await this.openDB();
     const puzzleTime: PuzzleTime = {
       ...time,
       puzzleId,
@@ -48,7 +57,7 @@ class TimesRepositoryInMemory implements TimesRepository {
   }
 
   async update(puzzleKey: PuzzleKey, timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) {
-    const db = await this.dbPromise;
+    const db = await this.openDB();
     const time = (await db.getFromIndex(puzzleKey, "id", timeId)) as PuzzleTime;
     const timeUpdated = { ...time, ...dataToUpdate };
 
@@ -58,17 +67,17 @@ class TimesRepositoryInMemory implements TimesRepository {
   }
 
   async getAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {
-    const db = await this.dbPromise;
+    const db = await this.openDB();
     return db.getAllFromIndex(puzzleKey, "puzzleId", puzzleId);
   }
 
   async delete(puzzleKey: PuzzleKey, timeId: number) {
-    const db = await this.dbPromise;
+    const db = await this.openDB();
     return db.delete(puzzleKey, timeId);
   }
 
   async deleteAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {
-    const db = await this.dbPromise;
+    const db = await this.openDB();
     const index = db.transaction(puzzleKey, "readwrite").store.index("puzzleId");
 
     for await (const cursor of index.iterate(puzzleId)) {

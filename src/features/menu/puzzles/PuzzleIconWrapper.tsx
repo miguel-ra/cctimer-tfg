@@ -12,7 +12,7 @@ import useEventListener from "shared/hooks/useEventListener";
 
 type PuzzleIconWrapperProps = {
   ["data-id"]: number;
-  className: string;
+  className?: string;
   onClick: (event: MouseEvent) => void;
   timeoutId: MutableRefObject<NodeJS.Timeout | null>;
   showRemoveId: number | null;

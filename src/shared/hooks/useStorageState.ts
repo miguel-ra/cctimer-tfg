@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect, useRef, useState } from "react";
 
 type UseStorageStateOptions<T> = {
   storage?: Storage;
@@ -15,15 +15,15 @@ function useStorageState<T>(
     deserialize = JSON.parse,
   }: UseStorageStateOptions<T> = {}
 ) {
-  const [state, setState] = useState<T>(() => {
+  const getValue = useCallback(() => {
     const valueInLocalStorage = storage?.getItem(key);
     if (valueInLocalStorage) {
       return deserialize(valueInLocalStorage);
     }
-    return typeof defaultValue === "function"
-      ? (defaultValue as () => T)()
-      : defaultValue;
-  });
+    return typeof defaultValue === "function" ? (defaultValue as () => T)() : defaultValue;
+  }, [defaultValue, deserialize, key, storage]);
+
+  const [state, setState] = useState<T>(getValue);
 
   const prevKeyRef = useRef(key);
 
@@ -36,7 +36,7 @@ function useStorageState<T>(
     storage?.setItem(key, serialize(state));
   }, [key, state, serialize, storage]);
 
-  return [state, setState] as [T, Dispatch<SetStateAction<T>>];
+  return [state, setState, getValue] as [T, Dispatch<SetStateAction<T>>, () => T];
 }
 
 export default useStorageState;

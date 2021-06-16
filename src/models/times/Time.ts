@@ -13,13 +13,13 @@ type Time = {
   elapsedTime: number;
 };
 
-type PuzzleTime = Time & {
+type PuzzleTime = {
   id: TimeId;
   puzzleId: PuzzleId;
   scramble: Scramble;
   comment?: string;
   createdAt: Date;
-};
+} & Time;
 
 type UnsavedPuzzleTime = Omit<PuzzleTime, "id" | "puzzleId" | "createdAt">;
 

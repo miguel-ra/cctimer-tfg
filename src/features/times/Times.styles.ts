@@ -28,7 +28,7 @@ const useStyles = createUseStyles({
     [theme.breakpoints.up("xl")]: {
       gridTemplateColumns: "repeat(5, 1fr)",
     },
-    //TODO: fix this
+    //TODO: Fix this
     // "$withoutScramble &": {
     //   gridTemplateColumns: "repeat(3, 1fr)",
     //   [theme.breakpoints.up("lg")]: {

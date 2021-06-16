@@ -1,10 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useContext,
-} from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useCallback, useContext } from "react";
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
 import useStorageState from "shared/hooks/useStorageState";
 
@@ -17,6 +11,7 @@ type SelectedItem = {
 type MenuState = {
   selectedItem: SelectedItem | null;
   setSelectedItem: Dispatch<SetStateAction<SelectedItem | null>>;
+  checkSelectedItem: (itemToCheck: SelectedItem) => boolean;
 };
 
 type MenuProviderProps = {
@@ -35,13 +30,25 @@ function useMenu() {
 }
 
 function MenuProvider({ children }: MenuProviderProps) {
-  const [selectedItem, setSelectedItem] = useStorageState<SelectedItem | null>(
+  const [selectedItem, setSelectedItem, getStoredSelectedItem] = useStorageState<SelectedItem | null>(
     "selectedItem",
     null
   );
 
+  const checkSelectedItem = useCallback(
+    (itemToCheck: SelectedItem) => {
+      const storedSelectedItem = getStoredSelectedItem();
+      if (!storedSelectedItem || !selectedItem) {
+        setSelectedItem(null);
+        return false;
+      }
+      return selectedItem.id === itemToCheck.id;
+    },
+    [getStoredSelectedItem, selectedItem, setSelectedItem]
+  );
+
   return (
-    <MenuContext.Provider value={{ selectedItem, setSelectedItem }}>
+    <MenuContext.Provider value={{ selectedItem, setSelectedItem, checkSelectedItem }}>
       {children}
     </MenuContext.Provider>
   );

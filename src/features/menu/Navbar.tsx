@@ -1,12 +1,8 @@
-import { useState } from "react";
 import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
-import { useNotifications } from "store/notificationsContext";
 import LanguageSelector from "features/settings/LanguageSelector";
 import ColorModeToggle from "features/settings/ColorModeToggle";
-import ErrorNotification from "components/notification/ErrorNotification";
 import Typography from "components/typography/Typography";
-import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 
 const useStyles = createUseStyles({
@@ -22,8 +18,6 @@ const useStyles = createUseStyles({
 
 function Navbar() {
   const classes = useStyles();
-  const { addNotification } = useNotifications();
-  const [index, setIndex] = useState(1);
 
   return (
     <div className={classes.navbar}>
@@ -33,23 +27,6 @@ function Navbar() {
           <LanguageSelector />
         </Box>
         <ColorModeToggle />
-        <Button
-          style={{ marginLeft: "1.5rem" }}
-          // variant="contained"
-          onClick={() => {
-            setIndex(index + 1);
-            addNotification(
-              ({ hideNotification }) => (
-                <ErrorNotification hideNotification={hideNotification}>
-                  {index} - No se ha podido guardar el tiempo
-                </ErrorNotification>
-              )
-              // { timeOut: 3000 }
-            );
-          }}
-        >
-          Agregar notificación
-        </Button>
       </Box>
     </div>
   );

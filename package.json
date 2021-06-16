@@ -37,6 +37,11 @@
       "react-app/jest"
     ]
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "!node_modules/"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -58,6 +63,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "i18next-parser": "^3.11.0",
+    "prettier": "^2.3.1",
     "worker-loader": "^3.0.8"
   }
 }
