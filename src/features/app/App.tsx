@@ -23,7 +23,10 @@ function mouseDownHandler() {
 }
 
 function keyDownHandler(event: KeyboardEvent) {
-  document.body.classList.remove("mousedown");
+  const tagName = (event.target as HTMLElement).tagName.toLowerCase();
+  if (!["input", "textarea"].includes(tagName)) {
+    document.body.classList.remove("mousedown");
+  }
   if (event.key === "Escape") {
     (document?.activeElement as HTMLElement)?.blur();
   }

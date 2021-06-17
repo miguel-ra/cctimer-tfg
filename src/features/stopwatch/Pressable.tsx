@@ -56,6 +56,9 @@ function Pressable({
     }
 
     function keyDownHandler(event: KeyboardEvent) {
+      if (window.location.hash) {
+        return;
+      }
       const activeElement = document.activeElement as HTMLElement;
       if (event.repeat || ![document.body, domContainer.current].includes(activeElement)) {
         if (document.body.classList.contains("mousedown") && event.key === " ") {
