@@ -27,6 +27,7 @@ const useStyles = createUseStyles({
   },
   buttons: {
     display: "flex",
+    alignItems: "center",
     "& > *": {
       marginLeft: "1.5rem",
     },

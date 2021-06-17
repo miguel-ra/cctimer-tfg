@@ -1,11 +1,10 @@
-import { KeyboardEvent, lazy, MouseEvent, Suspense } from "react";
+import { KeyboardEvent, lazy, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { useModal } from "store/modalContext";
 import { useMenu } from "store/menuContext";
 import { useTimer } from "features/timer/timerViewModel";
 import { elapsedTimeToClockCompact } from "shared/format/puzzleTime";
 import Box from "components/flexboxgrid/Box";
-import Spinner from "components/spinner/Spinner";
 import useStyles from "./Times.styles";
 
 const ModalTimeDetails = lazy(() => import("./ModalTimeDetails"));
@@ -22,20 +21,12 @@ function Times() {
       return;
     }
     openModal(
-      <Suspense
-        fallback={
-          <Box display="flex" placeContent="center" width="100%" height="100%">
-            <Spinner delay={0} />
-          </Box>
-        }
-      >
-        <ModalTimeDetails
-          puzzleKey={selectedItem?.key}
-          time={puzzleTimes[index]}
-          updateTime={updateTime}
-          deleteTime={deleteTime}
-        />
-      </Suspense>
+      <ModalTimeDetails
+        puzzleKey={selectedItem?.key}
+        time={puzzleTimes[index]}
+        updateTime={updateTime}
+        deleteTime={deleteTime}
+      />
     );
   }
 

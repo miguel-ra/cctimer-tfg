@@ -14,7 +14,6 @@ const useStyles = createUseStyles({
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "1rem",
-    padding: "1.5rem",
     marginBottom: "1.5rem",
     [theme.breakpoints.up("sm")]: {
       gridTemplateColumns: "repeat(4, 1fr)",

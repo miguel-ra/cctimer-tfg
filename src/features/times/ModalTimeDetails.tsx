@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LangKey } from "i18n/i18n";
+import { ReactComponent as ShareIcon } from "assets/icons/share.svg";
+import { useModal } from "store/modalContext";
 import { dateTimeToLocale } from "shared/format/date";
+import { elapsedTimeToClock } from "shared/format/puzzleTime";
 import { PuzzleTime, TimeId, TimePenalty } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { PuzzleKey } from "models/puzzles/Puzzle";
 import ModalHeader from "components/modal/ModalHeader";
 import ModalBody from "components/modal/ModalBody";
+import ModalFooter from "components/modal/ModalFooter";
 import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
@@ -14,9 +18,9 @@ import Divider from "components/divider/Divider";
 import ScrambleShowcase from "components/scramble/ScrambleShowcase";
 import TextField from "components/field/TextField";
 import ButtonGroup from "components/button/ButtonGroup";
+import IconButton from "components/button/IconButton";
 import useStyles from "./ModalTimeDetails.styles";
-import { useModal } from "store/modalContext";
-import { elapsedTimeToClock } from "shared/format/puzzleTime";
+import ModalShareTime from "./ModalShareTime";
 
 type ModalTimeDetailsProps = {
   puzzleKey?: PuzzleKey;
@@ -32,7 +36,6 @@ function getPenaltyButtonProps(
   if (penaltyToCheck === timePenalty) {
     return {
       variant: "contained",
-      disabled: true,
     };
   }
   return {
@@ -41,10 +44,17 @@ function getPenaltyButtonProps(
 }
 
 function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTimeDetailsProps) {
+  const isMounted = useRef(true);
   const [internalTime, setInternalTime] = useState(time);
   const { t, i18n } = useTranslation();
   const classes = useStyles();
-  const { closeModal } = useModal();
+  const { openModal, closeModal } = useModal();
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (time) {
@@ -57,19 +67,31 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
 
   function handleUpdate(dataToUpdate: PuzzleTimeUpdate) {
     updateTime(internalTime.id, dataToUpdate).then((updatedTime) => {
-      if (updatedTime) {
+      if (isMounted.current && updatedTime) {
         return setInternalTime(updatedTime);
       }
       closeModal();
     });
   }
 
+  function openTimeDetails() {
+    openModal(
+      <ModalTimeDetails puzzleKey={puzzleKey} time={time} updateTime={updateTime} deleteTime={deleteTime} />
+    );
+  }
+
   return (
-    <form className={classes.root} onSubmit={(event) => event.preventDefault()}>
+    <div className={classes.root}>
       <ModalHeader label={t("Time details")}>
-        <Button>{t("Share")}</Button>
+        <IconButton
+          size="small"
+          aria-label={t("Share")}
+          onClick={() => openModal(<ModalShareTime goBack={openTimeDetails} />)}
+        >
+          <ShareIcon />
+        </IconButton>
       </ModalHeader>
-      <ModalBody>
+      <ModalBody className={classes.modalBody}>
         <div className={classes.content}>
           <Box
             justifyContent="space-between"
@@ -99,7 +121,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
           />
         </div>
       </ModalBody>
-      <div className={classes.buttons}>
+      <ModalFooter>
         <Box>
           <Button
             variant="contained"
@@ -136,8 +158,8 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
             {t("DNF")}
           </Button>
         </ButtonGroup>
-      </div>
-    </form>
+      </ModalFooter>
+    </div>
   );
 }
 

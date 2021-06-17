@@ -11,6 +11,7 @@ const useStyles = createUseStyles({
     display: "grid",
     alignItems: "flex-start",
     overflow: "auto",
+    padding: "1.5rem",
     flex: 1,
   },
 });

@@ -29,7 +29,7 @@ function ModalSettings() {
       <ModalHeader label={t("Settings")} />
       <ModalBody className={classes.content}>
         <form>
-          <Box flexDirection="column" padding="1.5rem">
+          <Box flexDirection="column">
             <Box justifyContent="space-between" alignItems="center" paddingBottom="1rem">
               <label>{t("Theme")}</label>
               <ColorModeToggle />

@@ -33,7 +33,7 @@ class SettingsRepositoryInMemory implements SettingsRepository {
     setting: S,
     value: V
   ) {
-    const prevSettings = await this.getAll();
+    const prevSettings = await this.getLocalStorageItem();
     const newSettings = {
       ...prevSettings,
       [category]: {
