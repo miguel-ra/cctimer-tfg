@@ -15,10 +15,10 @@ const providers = [
   HelmetProvider,
   ColorModeProvider,
   SettingsProvider,
-  ModalProvider,
   PopoverProvider,
   MenuProvider,
   NotificationsProvider,
+  ModalProvider,
 ];
 
 function Providers({ children }: ProvidersProps) {

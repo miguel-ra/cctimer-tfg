@@ -8,7 +8,7 @@ const useStyles = createUseStyles({
     right: 0,
     bottom: 0,
     width: "100%",
-    padding: "0 1rem",
+    padding: "0.5rem 1rem",
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
   },
   notification: {
     opacity: 0,
-    margin: "8px 0",
+    margin: "0.5rem 0",
     backdropFilter: "blur(1rem)",
     borderRadius: theme.shape.borderRadius,
     willChange: "opacity, max-height",

@@ -13,4 +13,13 @@ function dateTimeToLocale(language: LangKey, date: Date) {
   return new Intl.DateTimeFormat(language, options).format(date);
 }
 
-export { dateTimeToLocale };
+function dateTimeToDayLocale(language: LangKey, date: Date) {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "2-digit",
+    day: "numeric",
+  };
+  return new Intl.DateTimeFormat(language, options).format(date);
+}
+
+export { dateTimeToLocale, dateTimeToDayLocale };

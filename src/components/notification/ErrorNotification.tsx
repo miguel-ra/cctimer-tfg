@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { ReactComponent as ErrorIcon } from "assets/icons/error.svg";
 import { NotificationComponentProps } from "./NotificationsContainer";
 import Notification from "./Notification";
-import { useTranslation } from "react-i18next";
 
 type ErrorNotificationProps = {
   children: ReactNode;

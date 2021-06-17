@@ -86,7 +86,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
         <IconButton
           size="small"
           aria-label={t("Share")}
-          onClick={() => openModal(<ModalShareTime goBack={openTimeDetails} />)}
+          onClick={() => openModal(<ModalShareTime time={time} goBack={openTimeDetails} />)}
         >
           <ShareIcon />
         </IconButton>

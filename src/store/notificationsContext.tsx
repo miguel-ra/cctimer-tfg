@@ -12,8 +12,10 @@ type Notification = {
   visible: boolean;
 };
 
+type AddNotification = (Component: NotificationComponent, options?: NotificationOptions) => Notification;
+
 type NotificationsState = {
-  addNotification: (Component: NotificationComponent, options?: NotificationOptions) => Notification;
+  addNotification: AddNotification;
   hideNotification: (notificationId: NotificationId) => void;
 };
 
@@ -92,6 +94,6 @@ function NotificationsProvider({ children }: NotificationsProviderProps) {
   );
 }
 
-export type { Notification, NotificationId };
+export type { Notification, NotificationId, AddNotification };
 
 export { NotificationsProvider, useNotifications };
