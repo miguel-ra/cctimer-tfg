@@ -23,6 +23,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
   subtitle2: typography.subtitle2,
   body1: typography.body1,
   body2: typography.body2,
+  button: typography.button,
   caption: typography.caption,
   overline: typography.overline,
 });

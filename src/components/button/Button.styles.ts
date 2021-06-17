@@ -10,12 +10,12 @@ type UseStylesProps = {
 
 const useStyles = createUseStyles<any, UseStylesProps>({
   button: {
+    ...theme.typography.button,
     border: "none",
     margin: 0,
     padding: "0.5rem 1rem",
     background: "none",
     width: ({ fullWidth }) => (fullWidth ? "100%" : "auto"),
-    fontSize: "1.4rem",
     display: "flex",
     alignItems: "center",
     gap: "1.5rem",
