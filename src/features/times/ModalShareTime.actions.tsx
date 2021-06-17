@@ -2,6 +2,10 @@ import { FunctionComponent, MutableRefObject, SVGProps } from "react";
 import { TFunction } from "i18next";
 import { AddNotification } from "store/notificationsContext";
 import { ReactComponent as CopyIcon } from "assets/icons/copy.svg";
+import { ReactComponent as FacebookIcon } from "assets/icons/facebook.svg";
+import { ReactComponent as TwitterIcon } from "assets/icons/twitter.svg";
+import { ReactComponent as WhatsappIcon } from "assets/icons/whatsapp.svg";
+import { ReactComponent as TelegramIcon } from "assets/icons/telegram.svg";
 import SuccessNotification from "components/notification/SuccessNotification";
 import ErrorNotification from "components/notification/ErrorNotification";
 
@@ -16,7 +20,8 @@ type ShareAction = {
   key: string;
   Icon: FunctionComponent<SVGProps<SVGSVGElement>>;
   label: string;
-  onClick: (data: ShareActionData) => void;
+  color?: string;
+  callback: (data: ShareActionData) => void;
 };
 
 const shareActions: ShareAction[] = [
@@ -24,7 +29,7 @@ const shareActions: ShareAction[] = [
     key: "copy",
     Icon: CopyIcon,
     label: "Copy",
-    onClick: ({ shareTextRef, addNotification, t }) => {
+    callback: ({ shareTextRef, addNotification, t }) => {
       if (shareTextRef.current) {
         shareTextRef.current.focus();
         document.execCommand("selectAll", false);
@@ -41,6 +46,48 @@ const shareActions: ShareAction[] = [
       addNotification((props) => (
         <ErrorNotification {...props}>{t("Text could not be copied")}</ErrorNotification>
       ));
+    },
+  },
+  {
+    key: "facebook",
+    Icon: FacebookIcon,
+    label: "Facebook",
+    color: "#2d88ff",
+    callback: ({ shareText }) => {
+      window.open(
+        `https://www.facebook.com/sharer/sharer.php?u=cctimer.com&quote=${encodeURI(shareText)}`,
+        "_blank"
+      );
+    },
+  },
+  {
+    key: "twitter",
+    Icon: TwitterIcon,
+    label: "Twitter",
+    color: "#1da1f2",
+    callback: ({ shareText }) => {
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURI(shareText)}`, "_blank");
+    },
+  },
+  {
+    key: "whatsapp",
+    Icon: WhatsappIcon,
+    label: "Whatsapp",
+    color: "#1BD741",
+    callback: ({ shareText }) => {
+      window.open(`https://api.whatsapp.com/send?text=${encodeURI(shareText)}`, "_blank");
+    },
+  },
+  {
+    key: "telegram",
+    Icon: TelegramIcon,
+    label: "Telegram",
+    color: "#3390EC",
+    callback: ({ shareText }) => {
+      window.open(
+        `https://telegram.me/share/url?url=${encodeURI(" ")}&text=${encodeURI(shareText)}`,
+        "_blank"
+      );
     },
   },
 ];

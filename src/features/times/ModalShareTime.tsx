@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { CSSProperties, useRef } from "react";
 import { LangKey } from "i18n/i18n";
 import { useTranslation } from "react-i18next";
 import { PuzzleTime } from "models/times/Time";
@@ -34,18 +34,29 @@ function ModalShareTime({ time, goBack }: ModalShareTimeProps) {
       <ModalHeader label={t("Share time")} />
       <ModalBody className={classes.content}>
         <div className={classes.shareButtons}>
-          {shareActions.map(({ key, Icon, label, onClick }) => (
-            <div
-              key={key}
-              role="button"
-              tabIndex={0}
-              className={classes.shareButton}
-              onClick={() => onClick({ shareText, shareTextRef, addNotification, t })}
-            >
-              <Icon className={classes.icon} />
-              <Typography variant="button">{t(label)}</Typography>
-            </div>
-          ))}
+          {shareActions.map(({ key, Icon, label, color, callback }) => {
+            const shareAction = () => {
+              callback({ shareText, shareTextRef, addNotification, t });
+            };
+            return (
+              <div
+                key={key}
+                role="button"
+                tabIndex={0}
+                className={classes.shareButton}
+                style={{ "--brand-color": color } as CSSProperties}
+                onClick={shareAction}
+                onKeyDown={(event) => {
+                  if (["Enter", " "].includes(event.key)) {
+                    shareAction();
+                  }
+                }}
+              >
+                <Icon className={classes.icon} />
+                <Typography variant="button">{t(label)}</Typography>
+              </div>
+            );
+          })}
         </div>
         <div
           ref={shareTextRef}
@@ -65,7 +76,7 @@ function ModalShareTime({ time, goBack }: ModalShareTimeProps) {
           {shareText}
         </div>
       </ModalBody>
-      <ModalFooter>
+      <ModalFooter style={{ justifyContent: "flex-end" }}>
         <Button variant="contained" onClick={goBack}>
           {t("Go back")}
         </Button>

@@ -1,10 +1,11 @@
-import { ReactNode } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 import { createUseStyles } from "react-jss";
+import clsx from "clsx";
 import theme from "styles/theme";
 
 type ModalFooterProps = {
   children: ReactNode;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
 const useStyles = createUseStyles({
   footer: {
@@ -20,10 +21,14 @@ const useStyles = createUseStyles({
   },
 });
 
-function ModalFooter({ children }: ModalFooterProps) {
+function ModalFooter({ children, className, ...props }: ModalFooterProps) {
   const classes = useStyles();
 
-  return <div className={classes.footer}>{children}</div>;
+  return (
+    <div className={clsx(classes.footer, className)} {...props}>
+      {children}
+    </div>
+  );
 }
 
 export default ModalFooter;
