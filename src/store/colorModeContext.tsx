@@ -1,10 +1,4 @@
-import {
-  createContext,
-  ReactNode,
-  useCallback,
-  useContext,
-  useEffect,
-} from "react";
+import { createContext, ReactNode, useCallback, useContext, useEffect } from "react";
 import useStorageState from "shared/hooks/useStorageState";
 
 type ColorModeKey = "light" | "dark";
@@ -36,9 +30,7 @@ function useColorMode() {
 
 function ColorModeProvider({ children }: ColorModeProviderProps) {
   const [colorMode, setColorMode] = useStorageState("colorMode", () =>
-    window?.matchMedia("(prefers-color-scheme: dark)").matches
-      ? COLOR_MODES.dark
-      : COLOR_MODES.light
+    window?.matchMedia("(prefers-color-scheme: dark)").matches ? COLOR_MODES.dark : COLOR_MODES.light
   );
 
   useEffect(() => {
@@ -65,14 +57,7 @@ function ColorModeProvider({ children }: ColorModeProviderProps) {
   }, [setColorMode]);
 
   return (
-    <ColorModeContext.Provider
-      value={{
-        colorMode,
-        toggleColorMode,
-      }}
-    >
-      {children}
-    </ColorModeContext.Provider>
+    <ColorModeContext.Provider value={{ colorMode, toggleColorMode }}>{children}</ColorModeContext.Provider>
   );
 }
 

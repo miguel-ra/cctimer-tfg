@@ -7,6 +7,7 @@ import {
   Suspense,
   useCallback,
   useContext,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -27,11 +28,7 @@ type PopoverConfig = {
 
 type PopoverState = {
   isVisible: boolean;
-  setPopover: (
-    target?: HTMLElement | null,
-    element?: ReactElement,
-    config?: PopoverConfig
-  ) => void;
+  setPopover: (target?: HTMLElement | null, element?: ReactElement, config?: PopoverConfig) => void;
   popoverConfig: PopoverConfig;
 };
 
@@ -101,39 +98,26 @@ function computePopoverPosition(triggerRect: DOMRect, config: PopoverConfig) {
 function PopoverProvider({ children }: PopoverProviderProps) {
   const tooltipRef = useRef<HTMLElement | null>(null);
   const [content, setContent] = useState<ReactElement | null>(null);
-  const [popoverConfig, setPopoverConfig] = useState<PopoverConfig>(
-    initialConfig
-  );
+  const [popoverConfig, setPopoverConfig] = useState<PopoverConfig>(initialConfig);
 
   const { setTarget: setTransitionEndTarget } = useEventListener(
     null,
     "transitionend",
     (event: TransitionEvent) => {
-      if (
-        event.propertyName === "opacity" &&
-        tooltipRef.current?.style.opacity === "0"
-      ) {
+      if (event.propertyName === "opacity" && tooltipRef.current?.style.opacity === "0") {
         setContent(null);
       }
     }
   );
 
-  const { setTarget: setMouseLeaveTarget } = useEventListener(
-    null,
-    "mouseleave",
-    () => {
-      if (content && popoverConfig.hideOnLeave) {
-        setPopover();
-      }
+  const { setTarget: setMouseLeaveTarget } = useEventListener(null, "mouseleave", () => {
+    if (content && popoverConfig.hideOnLeave) {
+      setPopover();
     }
-  );
+  });
 
   const setPopover = useCallback(
-    (
-      targetElement?: HTMLElement | null,
-      element?: ReactElement,
-      config?: PopoverConfig
-    ) => {
+    (targetElement?: HTMLElement | null, element?: ReactElement, config?: PopoverConfig) => {
       if (!targetElement || !element) {
         if (tooltipRef.current) {
           tooltipRef.current.style.opacity = "0";
@@ -167,13 +151,14 @@ function PopoverProvider({ children }: PopoverProviderProps) {
     [setMouseLeaveTarget, setTransitionEndTarget]
   );
 
+  const state = useMemo(
+    () => ({ isVisible: !!content, setPopover, popoverConfig }),
+    [content, popoverConfig, setPopover]
+  );
+
   return (
-    <PopoverContext.Provider
-      value={{ isVisible: !!content, setPopover, popoverConfig }}
-    >
-      <Suspense fallback={null}>
-        {content && <Popover containerId={containerId}>{content}</Popover>}
-      </Suspense>
+    <PopoverContext.Provider value={state}>
+      <Suspense fallback={null}>{content && <Popover containerId={containerId}>{content}</Popover>}</Suspense>
       {children}
     </PopoverContext.Provider>
   );

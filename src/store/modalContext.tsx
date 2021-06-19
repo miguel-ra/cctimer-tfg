@@ -1,6 +1,16 @@
-import { createContext, lazy, ReactNode, Suspense, useCallback, useContext, useRef, useState } from "react";
-import Box from "components/flexboxgrid/Box";
+import {
+  createContext,
+  lazy,
+  ReactNode,
+  Suspense,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Spinner from "components/spinner/Spinner";
+import useStyles from "components/modal/Modal.styles";
 
 type ModalState = {
   openModal: (content: ReactNode) => void;
@@ -28,6 +38,7 @@ function useModal() {
 function ModalProvider({ children }: ModalProviderProps) {
   const [content, setContent] = useState<ReactNode | null>(null);
   const prevActiveElement = useRef<HTMLElement>();
+  const classes = useStyles();
 
   const openModal = useCallback((newContent) => {
     if (window.location.hash !== "#modal") {
@@ -57,13 +68,15 @@ function ModalProvider({ children }: ModalProviderProps) {
     }
   }, []);
 
+  const state = useMemo(() => ({ openModal, closeModal }), [closeModal, openModal]);
+
   return (
-    <ModalContext.Provider value={{ openModal, closeModal }}>
+    <ModalContext.Provider value={state}>
       <Suspense
         fallback={
-          <Box display="flex" placeContent="center" width="100%" height="100%">
+          <div className={classes.overlay}>
             <Spinner delay={0} />
-          </Box>
+          </div>
         }
       >
         <Modal containerId={containerId} closeModal={closeModal} setPrevActiveElement={setPrevActiveElement}>

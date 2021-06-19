@@ -1,4 +1,4 @@
-import { createContext, lazy, ReactNode, Suspense, useCallback, useContext, useState } from "react";
+import { createContext, lazy, ReactNode, Suspense, useCallback, useContext, useMemo, useState } from "react";
 import uuid from "shared/uuid";
 import { NotificationComponent } from "components/notification/NotificationsContainer";
 
@@ -79,8 +79,10 @@ function NotificationsProvider({ children }: NotificationsProviderProps) {
     );
   }, []);
 
+  const state = useMemo(() => ({ addNotification, hideNotification }), [addNotification, hideNotification]);
+
   return (
-    <NotificationsContext.Provider value={{ addNotification, hideNotification }}>
+    <NotificationsContext.Provider value={state}>
       <Suspense fallback={null}>
         <NotificationsContainer
           notifications={notifications}
