@@ -7,24 +7,18 @@ import clsx from "clsx";
 import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 import { useMenu } from "store/menuContext";
-import { PuzzleTime, Time } from "models/times/Time";
 import { puzzlesData } from "models/puzzles/Puzzle";
 import Times from "features/times/Times";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
-import { TimerProvider, useTimer } from "../timerViewModel";
+import { TimerProvider } from "../timerViewModel";
 import useStyles from "./TimerMobile.styles";
 import Timer from "./Timer";
 import Scramble from "./Scramble";
 
-type TabComponentProps = {
-  addTime: (time: Time) => void;
-  puzzleTimes: PuzzleTime[];
-};
-
 type Tab = {
   label: string;
-  Component: (props: TabComponentProps) => JSX.Element;
+  Component: () => JSX.Element;
 };
 
 const tabs: Tab[] = [
@@ -74,7 +68,6 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
-  const { addTime, puzzleTimes } = useTimer();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 
   const computedTabs = [...tabs];
@@ -177,7 +170,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
               top={0}
               left={0}
             >
-              <Component addTime={addTime} puzzleTimes={puzzleTimes} />
+              <Component />
             </Box>
           );
         })}

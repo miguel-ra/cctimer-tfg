@@ -18,10 +18,6 @@ const useStyles = createUseStyles({
     userSelect: "none",
     cursor: "pointer",
     WebkitTapHighlightColor: "transparent",
-    transition: "tranlate 0.1s linear",
-  },
-  pressed: {
-    transform: "scale(0.95)",
   },
 });
 
@@ -124,7 +120,7 @@ function Pressable({
       tabIndex={0}
       {...bind?.()}
       ref={domContainer}
-      className={clsx(classes.root, className, { [classes.pressed]: pressed })}
+      className={clsx(classes.root, className, { pressed: pressed })}
       {...props}
     >
       {children}

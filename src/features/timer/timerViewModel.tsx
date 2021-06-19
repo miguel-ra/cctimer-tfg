@@ -14,7 +14,7 @@ import { GenerateScrambleResponse } from "./workers/generateScramble.worker";
 
 type MenuState = {
   puzzleTimes: PuzzleTime[];
-  addTime: (time: Time) => void;
+  addTime: (time: Time) => Promise<PuzzleTime | undefined>;
   updateTime: (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => Promise<PuzzleTime | undefined>;
   deleteTime: (timeId: TimeId) => Promise<void>;
   scramble: Scramble;
@@ -51,7 +51,6 @@ function TimerProvider({ children }: TimerProviderProps) {
 
   const refreshScramble = useCallback(() => {
     if (selectedItem?.key) {
-      scramblePuzzleKey.current = selectedItem?.key;
       generateScrambleWorker.postMessage(selectedItem.key);
     } else {
       scramblePuzzleKey.current = undefined;
@@ -76,9 +75,8 @@ function TimerProvider({ children }: TimerProviderProps) {
 
   useEffect(() => {
     function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: GenerateScrambleResponse) {
-      if (puzzleKey === scramblePuzzleKey.current) {
-        setScramble(randomScramble);
-      }
+      scramblePuzzleKey.current = puzzleKey;
+      setScramble(randomScramble);
     }
     generateScrambleWorker.addEventListener("message", handleWorkerMessage);
     refreshScramble();
@@ -107,6 +105,7 @@ function TimerProvider({ children }: TimerProviderProps) {
         const addedTime = await timesRepository.add(selectedItem.key, selectedItem.id, { ...time, scramble });
         setPuzzleTimes((prevPuzzleTimes) => [...prevPuzzleTimes, addedTime]);
         refreshScramble();
+        return addedTime;
       } catch (error) {
         addNotification((props) => (
           <ErrorNotification {...props}>{t("Time could not be saved")}</ErrorNotification>

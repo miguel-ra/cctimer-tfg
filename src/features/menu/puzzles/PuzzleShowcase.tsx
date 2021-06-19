@@ -7,7 +7,7 @@ import { usePopover } from "store/popoverContext";
 import isTouchDevice from "shared/browser/isTouchDevice";
 import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
-import { ReactComponent as RemoveIcon } from "assets/icons/remove.svg";
+import { ReactComponent as RemoveIcon } from "assets/icons/remove-bg.svg";
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
 import IconButton from "components/button/IconButton";
 import Tooltip from "components/tooltip/Tooltip";
@@ -15,7 +15,7 @@ import Box from "components/flexboxgrid/Box";
 import useStyles from "./PuzzleShowcase.styles";
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";
-import { usePuzzleView } from "./puzzleViewModel";
+import { usePuzzle } from "./puzzleViewModel";
 
 function PuzzleShowcase() {
   const classes = useStyles();
@@ -23,7 +23,7 @@ function PuzzleShowcase() {
   const { openModal } = useModal();
   const { setPopover } = usePopover();
   const { selectedItem, setSelectedItem } = useMenu();
-  const { puzzles, addPuzzle, removePuzzle } = usePuzzleView();
+  const { puzzles, addPuzzle, removePuzzle } = usePuzzle();
   const [showRemoveId, setShowRemoveId] = useState<number | null>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 

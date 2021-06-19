@@ -1,18 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 import { millisecondsToSeconds, millisecondsToClock } from "shared/format/number";
-import { Time, TimePenalty } from "models/times/Time";
+import { PuzzleTime, Time, TimePenalty } from "models/times/Time";
+import { useTimer } from "features/timer/timerViewModel";
 import { useSettings } from "store/settingsContext";
+import { useMenu } from "store/menuContext";
 import useStopwatch from "./useStopwatch";
 import Pressable from "./Pressable";
 import useStyles from "./Stopwatch.styles";
-import { useMenu } from "store/menuContext";
+import QuickActions from "./QuickActions";
 
 // TODO: Refactor to avoid use useCallback
-
-type StopwatchProps = {
-  onSave: (time: Time) => void;
-};
 
 enum Status {
   Idle,
@@ -27,21 +25,27 @@ const statusPenalty: { [key in Status]?: TimePenalty } = {
   [Status.Dnf]: TimePenalty.Dnf,
 };
 
-function Stopwatch({ onSave }: StopwatchProps) {
+function Stopwatch() {
   const classes = useStyles();
+  const { addTime } = useTimer();
+  const { selectedItem } = useMenu();
   const { settings } = useSettings();
   const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
-  const ready = useRef<boolean | null>(!settings.timer.holdToStart);
-  const [status, setStatus] = useState(Status.Idle);
-  const [color, setColor] = useState("inherit");
-  const { selectedItem } = useMenu();
   const holdStartedAt = useRef<number | null>(null);
   const dataToSave = useRef<Time>();
+  const ready = useRef<boolean | null>(!settings.timer.holdToStart);
+  const [lastTime, setLastTime] = useState<PuzzleTime | undefined>();
+  const [status, setStatus] = useState(Status.Idle);
+  const [color, setColor] = useState("inherit");
 
   useEffect(() => {
     return () => stopStopwatch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    setLastTime(undefined);
+  }, [status]);
 
   useEffect(() => {
     resetStopwatch();
@@ -63,12 +67,13 @@ function Stopwatch({ onSave }: StopwatchProps) {
     };
   }, [elapsedTime, status]);
 
-  const saveTime = useCallback(() => {
+  const saveTime = useCallback(async () => {
     if (dataToSave.current) {
-      onSave({ ...dataToSave.current });
+      const timeAdded = await addTime({ ...dataToSave.current });
+      setLastTime(timeAdded);
     }
     dataToSave.current = undefined;
-  }, [onSave]);
+  }, [addTime]);
 
   const setDNF = useCallback(() => {
     ready.current = false;
@@ -190,12 +195,15 @@ function Stopwatch({ onSave }: StopwatchProps) {
       onKeyUp={keyUpHandler}
       listenOnWindow={status !== Status.Idle}
     >
-      <div className={classes.display} style={{ color }}>
-        {status === Status.Idle && millisecondsToClock(elapsedTime)}
-        {status === Status.Inspection && millisecondsToSeconds(remainingTime) + 1}
-        {status === Status.PlusTwo && "+2"}
-        {status === Status.Dnf && "DNF"}
-        {status === Status.Running && millisecondsToClock(elapsedTime)}
+      <div className={classes.displayWrapper}>
+        <div className={classes.display} style={{ color }}>
+          {status === Status.Idle && millisecondsToClock(elapsedTime)}
+          {status === Status.Inspection && millisecondsToSeconds(remainingTime) + 1}
+          {status === Status.PlusTwo && "+2"}
+          {status === Status.Dnf && "DNF"}
+          {status === Status.Running && millisecondsToClock(elapsedTime)}
+        </div>
+        <QuickActions time={lastTime} setTime={setLastTime} />
       </div>
     </Pressable>
   );

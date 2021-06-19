@@ -14,6 +14,9 @@ const useStyles = createUseStyles({
     zIndex: "1",
     opacity: 0.9,
     cursor: "pointer",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   modal: {
     position: "absolute",

@@ -12,11 +12,17 @@ const useStyles = createUseStyles({
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
   },
+  displayWrapper: {
+    position: "relative",
+  },
   display: {
     fontWeight: "bold",
     textAlign: "center",
     fontSize: "8rem",
     transition: "color 0.1s linear",
+    ".pressed &": {
+      transform: "scale(0.95)",
+    },
     [breakpoints.up("sm")]: {
       fontSize: "12rem",
     },

@@ -94,8 +94,7 @@ function Modal({ containerId, closeModal, children, setPrevActiveElement }: Moda
             setModalElement(element);
           }
         }}
-        role="dialog"
-        aria-modal="true"
+        role="alert"
         tabIndex={-1}
         className={classes.modal}
       >

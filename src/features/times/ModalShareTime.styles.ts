@@ -18,13 +18,15 @@ const useStyles = createUseStyles({
     justifyContent: "center",
   },
   shareButton: {
-    outlineOffset: "1rem",
+    outlineOffset: "0.5rem",
     display: "flex",
     flexDirection: "column",
     cursor: "pointer",
     alignItems: "center",
     transition: `opacity 0.2s ease-in-out`,
     margin: "1rem",
+    userSelect: "none",
+    WebkitTapHighlightColor: "transparent",
     "&:hover": {
       opacity: 0.5,
     },

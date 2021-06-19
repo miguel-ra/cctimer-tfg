@@ -7,7 +7,7 @@ import { useNotifications } from "store/notificationsContext";
 import ErrorNotification from "components/notification/ErrorNotification";
 import { useTranslation } from "react-i18next";
 
-function usePuzzleView() {
+function usePuzzle() {
   const [puzzles, setPuzzles] = useState<UserPuzzle[]>([]);
   const puzzlesRepository = usePuzzlesRepository();
   const timesRepository = useTimesRepository();
@@ -76,4 +76,4 @@ function usePuzzleView() {
   return { puzzles, addPuzzle, removePuzzle };
 }
 
-export { usePuzzleView };
+export { usePuzzle };

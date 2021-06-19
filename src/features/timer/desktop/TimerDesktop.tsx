@@ -15,7 +15,7 @@ function TimerDesktop() {
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
-  const { scramble, addTime } = useTimer();
+  const { scramble } = useTimer();
 
   const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
 
@@ -23,7 +23,7 @@ function TimerDesktop() {
     <Box flexDirection="column" flex={1} position="relative">
       <ScrambleText>{scramble.text}</ScrambleText>
       <Box flex={1} placeContent="center">
-        <Stopwatch onSave={addTime} />
+        <Stopwatch />
       </Box>
       <div className={clsx(classes.sectionContainer, { [classes.withoutScramble]: !ScrambleImage })}>
         <section className={classes.section}>
