@@ -27,8 +27,11 @@ const useStyles = createUseStyles({
     margin: "1rem",
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-    "&:hover": {
-      opacity: 0.5,
+    "@media (hover: hover)": {
+      "&:hover, &:focus": { opacity: 0.5 },
+    },
+    "@media (hover: none)": {
+      "&:active": { opacity: 0.5 },
     },
   },
   icon: {

@@ -44,8 +44,8 @@ function App() {
   }, []);
 
   useEventListener(window, "load", loadHandler);
-  useEventListener(window, "mousedown", mouseDownHandler);
-  useEventListener(window, "keydown", keyDownHandler);
+  useEventListener(window, "mousedown", mouseDownHandler, { useCapture: true });
+  useEventListener(window, "keydown", keyDownHandler, { useCapture: true });
 
   return (
     <>

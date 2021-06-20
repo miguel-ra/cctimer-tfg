@@ -1,10 +1,15 @@
 import { useRef, useEffect, useState } from "react";
 
+type UseEventListenerOptions = {
+  attachListener?: boolean;
+  useCapture?: boolean;
+};
+
 function useEventListener(
   targetProp: Window | HTMLElement | null,
   eventNameProp: string | string[],
   handler: Function,
-  attachListener: boolean = true
+  { attachListener = true, useCapture }: UseEventListenerOptions | undefined = {}
 ) {
   const [target, setTarget] = useState<Window | HTMLElement | null>(targetProp);
   const savedHandler = useRef<Function | null>(null);
@@ -17,9 +22,7 @@ function useEventListener(
   }, [targetProp]);
 
   useEffect(() => {
-    const eventNames = Array.isArray(eventNameProp)
-      ? eventNameProp
-      : [eventNameProp];
+    const eventNames = Array.isArray(eventNameProp) ? eventNameProp : [eventNameProp];
     if (!target || !target.addEventListener || !attachListener) {
       return;
     }
@@ -33,14 +36,14 @@ function useEventListener(
     };
 
     eventNames.forEach((eventName) => {
-      target.addEventListener(eventName, eventListener);
+      target.addEventListener(eventName, eventListener, useCapture);
     });
     return () => {
       eventNames.forEach((eventName) => {
-        target.removeEventListener(eventName, eventListener);
+        target.removeEventListener(eventName, eventListener, useCapture);
       });
     };
-  }, [eventNameProp, target, handler, attachListener]);
+  }, [eventNameProp, target, handler, attachListener, useCapture]);
 
   return { setTarget };
 }

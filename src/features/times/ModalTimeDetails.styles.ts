@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
   date: {
     marginBottom: "1.5rem",
     [theme.breakpoints.up("sm")]: {
-      marginLeft: "1.5rem",
+      marginLeft: "2rem",
       marginBottom: "0",
     },
   },

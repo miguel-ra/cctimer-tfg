@@ -44,7 +44,7 @@ function PuzzleIconWrapper({
     [setShowRemoveId]
   );
 
-  useEventListener(window, "click", clickHandler, showRemoveId === dataId);
+  useEventListener(window, "click", clickHandler, { attachListener: showRemoveId === dataId });
 
   return (
     <div

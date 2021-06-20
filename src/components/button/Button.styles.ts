@@ -35,8 +35,11 @@ const useStyles = createUseStyles<any, UseStylesProps>({
   text: {
     willChange: "opacity",
     "&:not([disabled])": {
-      "&:hover, body:not(.mousedown) &:focus": {
-        opacity: 0.5,
+      "@media (hover: hover)": {
+        "&:hover, &:focus": { opacity: 0.5 },
+      },
+      "@media (hover: none)": {
+        "&:active": { opacity: 0.5 },
       },
     },
   },
@@ -50,8 +53,11 @@ const useStyles = createUseStyles<any, UseStylesProps>({
       color: theme.palette.colors.white.main,
       transition: `color ${theme.transition.duration.colorMode} linear, background-position-x 0.2s ease-in-out`,
       "&:not([disabled])": {
-        "&:hover, body:not(.mousedown) &:focus": {
-          backgroundPositionX: "0%",
+        "@media (hover: hover)": {
+          "&:hover, &:focus": { backgroundPositionX: "0%" },
+        },
+        "@media (hover: none)": {
+          "&:active": { backgroundPositionX: "0%" },
         },
       },
     };
@@ -59,8 +65,15 @@ const useStyles = createUseStyles<any, UseStylesProps>({
   outlined: {
     boxShadow: ({ color }) => `inset 0 0 0 2px ${theme.palette.getColor(`${color}.main` as PaletteColor)}`,
     "&:not([disabled])": {
-      "&:hover, body:not(.mousedown) &:focus": {
-        backgroundColor: theme.palette.border.primary,
+      "@media (hover: hover)": {
+        "&:hover, &:focus": {
+          backgroundColor: theme.palette.border.primary,
+        },
+      },
+      "@media (hover: none)": {
+        "&:active": {
+          backgroundColor: theme.palette.border.primary,
+        },
       },
     },
   },

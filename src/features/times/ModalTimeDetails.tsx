@@ -76,7 +76,12 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
 
   function openTimeDetails() {
     openModal(
-      <ModalTimeDetails puzzleKey={puzzleKey} time={time} updateTime={updateTime} deleteTime={deleteTime} />
+      <ModalTimeDetails
+        puzzleKey={puzzleKey}
+        time={internalTime}
+        updateTime={updateTime}
+        deleteTime={deleteTime}
+      />
     );
   }
 
@@ -86,7 +91,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
         <IconButton
           size="small"
           aria-label={t("Share")}
-          onClick={() => openModal(<ModalShareTime time={time} goBack={openTimeDetails} />)}
+          onClick={() => openModal(<ModalShareTime time={internalTime} goBack={openTimeDetails} />)}
         >
           <ShareIcon />
         </IconButton>
@@ -108,8 +113,12 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
             </Typography>
           </Box>
           <Divider />
-          <ScrambleShowcase puzzleKey={puzzleKey} scramble={internalTime.scramble} />
-          <Divider disableTop />
+          {internalTime.scramble.text && (
+            <>
+              <ScrambleShowcase puzzleKey={puzzleKey} scramble={internalTime.scramble} />
+              <Divider disableTop />
+            </>
+          )}
           <TextField
             name="comment"
             label={t("Comment")}

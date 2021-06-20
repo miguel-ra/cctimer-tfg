@@ -21,8 +21,11 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     alignItems: "center",
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-    "&:hover": {
-      opacity: 0.5,
+    "@media (hover: hover)": {
+      "&:hover, &:focus": { opacity: 0.5 },
+    },
+    "@media (hover: none)": {
+      "&:active": { opacity: 0.5 },
     },
     "& svg": {
       width: "75%",
