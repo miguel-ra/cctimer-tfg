@@ -1,17 +1,7 @@
-import {
-  Dispatch,
-  KeyboardEvent,
-  memo,
-  MouseEvent as ReactMouseEvent,
-  TouchEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-} from "react";
+import { KeyboardEvent, memo, MouseEvent as ReactMouseEvent, TouchEvent, useCallback, useMemo } from "react";
 import { createUseStyles } from "react-jss";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { useMenu } from "store/menuContext";
 import { useTimer } from "features/timer/timerViewModel";
 import { PuzzleTime, TimePenalty } from "models/times/Time";
 import Button from "components/button/Button";
@@ -27,7 +17,6 @@ type ActionCallbacks = { [key in Action]: (time: PuzzleTime) => Promise<PuzzleTi
 
 type QuickActionsProps = {
   time?: PuzzleTime;
-  setTime: Dispatch<React.SetStateAction<PuzzleTime | undefined>>;
   resetStopwatch: () => void;
 };
 
@@ -40,7 +29,9 @@ const useStyles = createUseStyles({
     opacity: 0,
     zIndex: -1,
     transition: "opacity 0.1s linear",
+    visibility: "hidden",
     "&.visible": {
+      visibility: "visible",
       opacity: 1,
       zIndex: 0,
       "@media (max-height:400px)": {
@@ -72,16 +63,10 @@ function handlePropagation(
   }
 }
 
-function QuickActions({ time, setTime, resetStopwatch }: QuickActionsProps) {
+function QuickActions({ resetStopwatch }: QuickActionsProps) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { updateTime, deleteTime } = useTimer();
-  const { selectedItem } = useMenu();
-
-  useEffect(() => {
-    setTime(undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
+  const { updateTime, deleteTime, lastTime, setLastTime } = useTimer();
 
   const actionCallback: ActionCallbacks = useMemo(
     () => ({
@@ -108,24 +93,24 @@ function QuickActions({ time, setTime, resetStopwatch }: QuickActionsProps) {
     async (event: ReactMouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent<HTMLDivElement>) => {
       const element = event.target as HTMLElement;
       const action = element.dataset.action as Action;
-      if (action && time) {
+      if (action && lastTime) {
         event.stopPropagation();
-        const timeUpdated = await actionCallback[action](time);
+        const timeUpdated = await actionCallback[action](lastTime);
         if (!timeUpdated) {
           resetStopwatch();
         }
         if (document.body.classList.contains("mousedown")) {
           (document.activeElement as HTMLElement)?.blur();
         }
-        setTime(timeUpdated);
+        setLastTime(timeUpdated);
       }
     },
-    [actionCallback, resetStopwatch, setTime, time]
+    [actionCallback, lastTime, resetStopwatch, setLastTime]
   );
 
   return (
     <div
-      className={clsx(classes.quickActions, { visible: !!time })}
+      className={clsx(classes.quickActions, { visible: !!lastTime })}
       onMouseDownCapture={handlePropagation}
       onTouchStartCapture={handlePropagation}
       onClickCapture={handleClick}
@@ -136,7 +121,7 @@ function QuickActions({ time, setTime, resetStopwatch }: QuickActionsProps) {
         }
       }}
     >
-      {!time?.penalty ? (
+      {!lastTime?.penalty ? (
         <>
           <Button variant="outlined" data-action={Action.PlusTwo} className={classes.quickAction}>
             {t("+2")}

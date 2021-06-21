@@ -4,7 +4,7 @@ import theme from "styles/theme";
 const useStyles = createUseStyles({
   sectionContainer: {
     display: "flex",
-    height: "30vh",
+    height: "33vh",
     background: theme.palette.background.paper,
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,

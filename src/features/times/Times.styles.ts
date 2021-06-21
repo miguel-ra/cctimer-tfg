@@ -4,16 +4,20 @@ import theme from "styles/theme";
 const useStyles = createUseStyles({
   root: {
     display: "grid",
-    alignItems: "flex-start",
-    overflowY: "auto",
     width: "100%",
     maxHeight: "100%",
+    gridTemplateRows: "1fr auto",
+  },
+  timesWrapper: {
+    display: "grid",
+    alignItems: "flex-start",
+    overflowY: "auto",
   },
   times: {
     width: "100%",
     display: "grid",
-    gap: "2rem",
-    padding: "2rem",
+    gap: "1rem",
+    padding: "1.25rem",
     justifyContent: "space-between",
     gridTemplateColumns: "repeat(3, 1fr)",
     [theme.breakpoints.up("sm")]: {
@@ -21,6 +25,8 @@ const useStyles = createUseStyles({
     },
     [theme.breakpoints.up("md")]: {
       gridTemplateColumns: "repeat(2, 1fr)",
+      gap: "1.5rem",
+      padding: "1.5rem",
     },
     [theme.breakpoints.up("lg")]: {
       gridTemplateColumns: "repeat(3, 1fr)",
@@ -42,17 +48,44 @@ const useStyles = createUseStyles({
   time: {
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
-    border: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
-    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
+    boxShadow: `inset 0 0 0 ${theme.shape.borderWitdh} ${theme.palette.border.primary}`,
+    transition: `box-shadow ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
     padding: "1rem",
     textAlign: "center",
     cursor: "pointer",
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-
-    "&:active, body:not(.mousedown) &:focus": {
-      backgroundColor: theme.palette.border.primary,
-      opacity: 0.8,
+    "@media (hover: hover)": {
+      "&:hover, &:focus": {
+        backgroundColor: theme.palette.border.primary,
+        opacity: 0.8,
+      },
+    },
+    "@media (hover: none)": {
+      "&:active": {
+        backgroundColor: theme.palette.border.primary,
+        opacity: 0.8,
+      },
+    },
+  },
+  actionBar: {
+    position: "relative",
+    padding: "1rem 1.25rem",
+    "&:after": {
+      content: '""',
+      position: "absolute",
+      top: `-${theme.shape.borderWitdh}`,
+      left: "50%",
+      width: "calc(100% - 2.5rem)",
+      transform: "translateX(-50%)",
+      borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
+      transition: `border ${theme.transition.duration.colorMode} linear`,
+    },
+    [theme.breakpoints.up("md")]: {
+      padding: "1.5rem",
+      "&:after": {
+        width: "100%",
+      },
     },
   },
 });

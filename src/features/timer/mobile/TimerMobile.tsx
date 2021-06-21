@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
@@ -80,7 +80,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
     });
   }
 
-  function updateLayout() {
+  const updateLayout = useCallback(() => {
     document.querySelectorAll("[id^='timerTabs-panel-']").forEach((element) => {
       const { index } = (element as HTMLElement).dataset;
       if (index) {
@@ -96,7 +96,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
     setTimeout(() => {
       isParentDragDisabled.current = activeTab.current !== 0;
     }, SPRING_DURATION);
-  }
+  }, [isParentDragDisabled]);
 
   const [props, api] = useSprings(computedTabs.length, computeSpring({ activeTab, isImmediate }));
 
@@ -130,14 +130,16 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
   useEffect(() => {
     function handler() {
       isImmediate.current = true;
+      activeTab.current = 0;
       api.start(computeSpring({ activeTab, isImmediate }));
       isImmediate.current = false;
+      updateLayout();
     }
     window.addEventListener("resize", handler);
     return () => {
       window.removeEventListener("resize", handler);
     };
-  }, [api]);
+  }, [api, updateLayout]);
 
   return (
     <Box width="100%" height="100%" flexDirection="column">

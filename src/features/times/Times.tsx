@@ -4,6 +4,7 @@ import { useModal } from "store/modalContext";
 import { useMenu } from "store/menuContext";
 import { useTimer } from "features/timer/timerViewModel";
 import { elapsedTimeToClockCompact } from "shared/format/puzzleTime";
+import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./Times.styles";
 
@@ -13,7 +14,7 @@ function Times() {
   const classes = useStyles();
   const { openModal } = useModal();
   const { selectedItem } = useMenu();
-  const { puzzleTimes, updateTime, deleteTime } = useTimer();
+  const { puzzleTimes, updateTime, deleteTime, deletePuzzleTimes } = useTimer();
   const { t } = useTranslation();
 
   function showTimeDetails(index: number) {
@@ -57,14 +58,28 @@ function Times() {
 
   return (
     <div className={classes.root}>
-      <div className={classes.times} onClick={handleTimesClick} onKeyDownCapture={handleTimesKeyDown}>
-        {puzzleTimes
-          .map((time, index) => (
-            <div data-index={index} role="button" tabIndex={0} key={time.id} className={classes.time}>
-              {elapsedTimeToClockCompact(time.elapsedTime, time.penalty)}
-            </div>
-          ))
-          .reverse()}
+      <div className={classes.timesWrapper}>
+        <div className={classes.times} onClick={handleTimesClick} onKeyDownCapture={handleTimesKeyDown}>
+          {puzzleTimes
+            .map((time, index) => (
+              <div data-index={index} role="button" tabIndex={0} key={time.id} className={classes.time}>
+                {elapsedTimeToClockCompact(time.elapsedTime, time.penalty)}
+              </div>
+            ))
+            .reverse()}
+        </div>
+      </div>
+      <div className={classes.actionBar}>
+        <Button
+          variant="contained"
+          size="large"
+          color="red"
+          fullWidth
+          center
+          onClick={() => deletePuzzleTimes()}
+        >
+          {t("Delete all times")}
+        </Button>
       </div>
     </div>
   );

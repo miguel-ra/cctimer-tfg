@@ -6,22 +6,26 @@ import useStyles from "./Button.styles";
 type ButtonProps = {
   startIcon?: ElementType;
   fullWidth?: boolean;
+  center?: boolean;
   className?: string;
   children: ReactNode;
   variant?: "text" | "contained" | "outlined";
-  color?: Color;
+  size?: "medium" | "large";
+  color?: Color | "currentColor";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 function Button({
   startIcon: StartIcon,
   fullWidth = false,
+  center = false,
   className,
   children,
   variant = "text",
   color = "blue",
+  size = "medium",
   ...props
 }: ButtonProps) {
-  const classes = useStyles({ fullWidth, color });
+  const classes = useStyles({ center, fullWidth, color, size });
 
   return (
     <button className={clsx(classes.button, className, classes[variant])} {...props}>

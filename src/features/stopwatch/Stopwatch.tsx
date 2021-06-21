@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 import { millisecondsToSeconds, millisecondsToClock } from "shared/format/number";
 import { elapsedTimeToClockCompact } from "shared/format/puzzleTime";
-import { PuzzleTime, Time, TimePenalty } from "models/times/Time";
+import { Time, TimePenalty } from "models/times/Time";
 import { useTimer } from "features/timer/timerViewModel";
 import { useSettings } from "store/settingsContext";
 import { useMenu } from "store/menuContext";
@@ -28,14 +28,13 @@ const statusPenalty: { [key in Status]?: TimePenalty } = {
 
 function Stopwatch() {
   const classes = useStyles();
-  const { addTime } = useTimer();
+  const { addTime, lastTime, setLastTime } = useTimer();
   const { selectedItem } = useMenu();
   const { settings } = useSettings();
   const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
   const holdStartedAt = useRef<number | null>(null);
   const dataToSave = useRef<Time>();
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
-  const [lastTime, setLastTime] = useState<PuzzleTime | undefined>();
   const [status, setStatus] = useState(Status.Idle);
   const [color, setColor] = useState("inherit");
 
@@ -46,7 +45,7 @@ function Stopwatch() {
 
   useEffect(() => {
     setLastTime(undefined);
-  }, [status]);
+  }, [setLastTime, status]);
 
   useEffect(() => {
     resetStopwatch();
@@ -74,7 +73,7 @@ function Stopwatch() {
       setLastTime(timeAdded);
     }
     dataToSave.current = undefined;
-  }, [addTime]);
+  }, [addTime, setLastTime]);
 
   const setDNF = useCallback(() => {
     ready.current = false;
@@ -204,7 +203,7 @@ function Stopwatch() {
           {status === Status.Dnf && "DNF"}
           {status === Status.Running && millisecondsToClock(elapsedTime)}
         </div>
-        <QuickActions time={lastTime} setTime={setLastTime} resetStopwatch={resetStopwatch} />
+        <QuickActions resetStopwatch={resetStopwatch} />
       </div>
     </Pressable>
   );

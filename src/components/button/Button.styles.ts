@@ -5,7 +5,9 @@ import theme from "styles/theme";
 
 type UseStylesProps = {
   fullWidth: boolean;
-  color: Color;
+  center: boolean;
+  color: Color | "currentColor";
+  size: "medium" | "large";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const useStyles = createUseStyles<any, UseStylesProps>({
@@ -13,10 +15,10 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     ...theme.typography.button,
     border: "none",
     margin: 0,
-    padding: "0.5rem 1rem",
     background: "none",
     width: ({ fullWidth }) => (fullWidth ? "100%" : "auto"),
     display: "flex",
+    justifyContent: ({ center }) => (center ? "center" : "flex-start"),
     alignItems: "center",
     gap: "1.5rem",
     color: theme.palette.text.primary,
@@ -25,7 +27,9 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     transition: `color ${theme.transition.duration.colorMode} linear, opacity 0.2s ease-in-out, background 0.2s linear`,
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-    height: "2.75rem",
+    padding: ({ size }) => (size === "large" ? "1rem 1.5rem" : "0.5rem 1rem"),
+    height: ({ size }) => (size === "large" ? "3.9rem" : "2.75rem"),
+    fontSize: ({ size }) => (size === "large" ? "1.6rem" : theme.typography.button.fontSize),
     willChange: "color, opacity",
   },
   icon: {
@@ -63,7 +67,16 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     };
   },
   outlined: {
-    boxShadow: ({ color }) => `inset 0 0 0 2px ${theme.palette.getColor(`${color}.main` as PaletteColor)}`,
+    boxShadow: ({ color }) =>
+      `inset 0 0 0 ${theme.shape.borderWitdh} ${
+        color !== "currentColor"
+          ? theme.palette.getColor(`${color}.main` as PaletteColor)
+          : theme.palette.border.primary
+      }`,
+    transition: ({ color }) =>
+      `color ${theme.transition.duration.colorMode} linear, background 0.2s linear ${
+        color === "currentColor" ? `box-shadow ${theme.transition.duration.colorMode} linear` : ""
+      }`,
     "&:not([disabled])": {
       "@media (hover: hover)": {
         "&:hover, &:focus": {

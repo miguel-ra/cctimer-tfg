@@ -33,7 +33,7 @@ function SideMenuCompact() {
       <PuzzleShowcase />
       <Box
         flexDirection="column"
-        paddingTop="2rem"
+        paddingTop="1.4rem"
         borderTop={`${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`}
         transition={`border ${theme.transition.duration.colorMode} linear`}
       >
