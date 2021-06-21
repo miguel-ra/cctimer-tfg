@@ -2,7 +2,7 @@ import { renderWithProviders, screen } from "../../../../../internals/test";
 import { UserPuzzle, puzzlesData } from "models/puzzles/Puzzle";
 import { useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
-import { usePuzzleView } from "../puzzleViewModel";
+import { usePuzzle } from "../puzzleViewModel";
 import PuzzleShowcase from "../PuzzleShowcase";
 import userEvent from "@testing-library/user-event";
 
@@ -25,7 +25,7 @@ jest.mock("store/modalContext", () => {
 const mockedUseModal = useModal as any;
 
 jest.mock("../puzzleViewModel");
-const mockedUsePuzzleView = usePuzzleView as jest.Mock;
+const mockedUsePuzzle = usePuzzle as jest.Mock;
 
 const puzzles: UserPuzzle[] = [
   { id: 1, key: "cube2" },
@@ -38,7 +38,7 @@ describe("features/menu/puzzles/PuzzleShowcase", () => {
   beforeEach(() => {
     mockedUseMenu.mockImplementation(() => menuContext);
     mockedUseModal.mockImplementation(() => modalContext);
-    mockedUsePuzzleView.mockImplementation(() => ({ puzzles }));
+    mockedUsePuzzle.mockImplementation(() => ({ puzzles }));
   });
   afterEach(() => {
     jest.clearAllMocks();

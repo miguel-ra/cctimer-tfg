@@ -146,7 +146,7 @@ function TimerProvider({ children }: TimerProviderProps) {
       if (!checkSelectedItem(selectedItem)) {
         addNotification((props) => (
           <ErrorNotification {...props}>
-            {t("Trying to udpate a time in a not selected puzzle")}
+            {t("Trying to update a time in a not selected puzzle")}
           </ErrorNotification>
         ));
         return;

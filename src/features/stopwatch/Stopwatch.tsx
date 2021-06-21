@@ -48,6 +48,13 @@ function Stopwatch() {
   }, [setLastTime, status]);
 
   useEffect(() => {
+    if (!lastTime && status === Status.Idle) {
+      resetStopwatch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastTime]);
+
+  useEffect(() => {
     resetStopwatch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);
