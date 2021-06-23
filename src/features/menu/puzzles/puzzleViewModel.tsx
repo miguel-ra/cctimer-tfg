@@ -51,10 +51,10 @@ function usePuzzle() {
     [addNotification, puzzlesRepository, refreshPuzzles, t]
   );
 
-  const removePuzzle = useCallback(
+  const deletePuzzle = useCallback(
     async (key: PuzzleKey, id: PuzzleId): Promise<void> => {
       try {
-        await puzzlesRepository.remove(id);
+        await puzzlesRepository.delete(id);
         refreshPuzzles();
         timesRepository.deleteAll(key, id);
       } catch (error) {
@@ -73,7 +73,7 @@ function usePuzzle() {
     [addNotification, puzzlesRepository, refreshPuzzles, t, timesRepository]
   );
 
-  return { puzzles, addPuzzle, removePuzzle };
+  return { puzzles, addPuzzle, deletePuzzle };
 }
 
 export { usePuzzle };

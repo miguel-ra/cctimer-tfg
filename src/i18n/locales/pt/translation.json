@@ -11,8 +11,8 @@
   },
   "Add puzzle": "Adicionar puzzle",
   "Puzzle could not be added": "Não foi possível adicionar o puzzle",
-  "Puzzle could not be deleted": "O puzzle não pôde ser excluído",
-  "Puzzle times could not be deleted": "Os tempos do puzzle não puderam ser excluídos",
+  "Puzzle could not be deleted": "O puzzle não pôde ser removido",
+  "Puzzle times could not be deleted": "Os tempos do puzzle não puderam ser removidos",
   "Settings": "Opções",
   "Light mode": "Modo claro",
   "Dark mode": "Modo escuro",
@@ -28,7 +28,7 @@
   "Hold to start": "Segure para começar",
   "+2": "+2",
   "DNF": "DNF",
-  "Remove": "Remover",
+  "Delete": "Remover",
   "Undo": "Desfazer",
   "Stats and grahps": "Estatísticas e gráficos",
   "Timer": "Cronômetro",
@@ -58,7 +58,7 @@
   "You have not registered any time": {
     " Destroy it! 🤘": "Você ainda não adicionou nenhum tempo. Dê o seu melhor! 🤘"
   },
-  "Delete all times": "Excluir todos os tempos",
+  "Delete all times": "Remover todos os tempos",
   "English": "Inglês",
   "Spanish": "Espanhol",
   "Portuguese": "Português",

@@ -7,7 +7,7 @@ import { usePopover } from "store/popoverContext";
 import isTouchDevice from "shared/browser/isTouchDevice";
 import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
-import { ReactComponent as RemoveIcon } from "assets/icons/remove-bg.svg";
+import { ReactComponent as DeleteIcon } from "assets/icons/delete.svg";
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
 import IconButton from "components/button/IconButton";
 import Tooltip from "components/tooltip/Tooltip";
@@ -23,8 +23,8 @@ function PuzzleShowcase() {
   const { openModal } = useModal();
   const { setPopover } = usePopover();
   const { selectedItem, setSelectedItem } = useMenu();
-  const { puzzles, addPuzzle, removePuzzle } = usePuzzle();
-  const [showRemoveId, setShowRemoveId] = useState<number | null>(null);
+  const { puzzles, addPuzzle, deletePuzzle } = usePuzzle();
+  const [showDeleteId, setShowDeleteId] = useState<number | null>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -45,14 +45,14 @@ function PuzzleShowcase() {
     [selectedItem?.id, setSelectedItem]
   );
 
-  const handleRemove = useCallback(
+  const handleDelete = useCallback(
     ({ id, key, index, puzzles: puzzlesParam }) => {
       const nextSelectedPuzzle = puzzlesParam[(index + 1) % puzzlesParam.length];
-      removePuzzle(key, id);
+      deletePuzzle(key, id);
       setSelectedItem({ type: "puzzle", ...nextSelectedPuzzle });
       setPopover();
     },
-    [removePuzzle, setPopover, setSelectedItem]
+    [deletePuzzle, setPopover, setSelectedItem]
   );
 
   return (
@@ -79,18 +79,18 @@ function PuzzleShowcase() {
                 selected: id === selectedItem?.id,
               })}
               timeoutId={timeoutId}
-              showRemoveId={showRemoveId}
-              setShowRemoveId={setShowRemoveId}
+              showDeleteId={showDeleteId}
+              setShowDeleteId={setShowDeleteId}
               onSelect={() => handleSelect({ type: "puzzle", ...puzzle })}
-              onRemove={() => handleRemove({ id, key, index, puzzles })}
+              onDelete={() => handleDelete({ id, key, index, puzzles })}
               onClick={(event: MouseEvent) => {
-                const shouldRemove = !!(event.target as HTMLElement).closest<HTMLElement>(
-                  '[data-action="remove"]'
+                const shouldDelete = !!(event.target as HTMLElement).closest<HTMLElement>(
+                  '[data-action="delete"]'
                 );
                 const iconContainer = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
                 if (iconContainer) {
-                  if (shouldRemove) {
-                    handleRemove({ id, key, index, puzzles });
+                  if (shouldDelete) {
+                    handleDelete({ id, key, index, puzzles });
                     return;
                   }
                   handleSelect({ type: "puzzle", ...puzzle });
@@ -99,8 +99,8 @@ function PuzzleShowcase() {
             >
               <PuzzleBorder className={classes.puzzleBorder} />
               <Icon className={classes.puzzleIcon} />
-              {puzzles.length > 1 && (isTouchDevice() ? showRemoveId === id : showRemoveId !== null) && (
-                <RemoveIcon data-action="remove" className={classes.puzzleRemove} />
+              {puzzles.length > 1 && (isTouchDevice() ? showDeleteId === id : showDeleteId !== null) && (
+                <DeleteIcon data-action="delete" className={classes.puzzleDelete} />
               )}
             </PuzzleIconWrapper>
           </Tooltip>

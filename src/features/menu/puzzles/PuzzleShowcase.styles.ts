@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
       opacity: 1,
       transform: "scale(1.322)",
     },
-    "&:hover $puzzleRemove": {
+    "&:hover $puzzleDelete": {
       display: "block",
     },
     "&.selected $puzzleBorder": {
@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
       color: theme.palette.text.primary,
       transform: "scale(1.322)",
     },
-    "&.selected $puzzleRemove": {
+    "&.selected $puzzleDelete": {
       color: theme.palette.text.primary,
     },
     "&:focus": {
@@ -49,7 +49,7 @@ const useStyles = createUseStyles({
     width: "100%",
     height: "100%",
   },
-  puzzleRemove: {
+  puzzleDelete: {
     display: "none",
     position: "absolute",
     width: 20,

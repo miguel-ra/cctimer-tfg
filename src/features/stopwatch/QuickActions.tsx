@@ -130,7 +130,7 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
             {t("DNF")}
           </Button>
           <Button variant="outlined" color="red" data-action={Action.Delete} className={classes.quickAction}>
-            {t("Remove")}
+            {t("Delete")}
           </Button>
         </>
       ) : (

@@ -47,19 +47,31 @@ function App() {
   useEventListener(window, "mousedown", mouseDownHandler, { useCapture: true });
   useEventListener(window, "keydown", keyDownHandler, { useCapture: true });
 
+  const title = `${t("Professional speedcubing and trainer timer")} - CCTimer.com`;
+  const description = t(
+    "Rubik's Cube online timer for speedcubing. Simple but complete scramble generator, timer with sound, automatic averaging and much more!"
+  );
+
   return (
     <>
       <Helmet>
         {metas.map((meta) => (
           <meta {...meta} />
         ))}
-        <title>{t("Professional speedcubing and trainer timer")} - CCTimer.com</title>
-        <meta
-          name="description"
-          content={t(
-            "Rubik's Cube online timer for speedcubing. Simple but complete scramble generator, timer with sound, automatic averaging and much more!"
-          )}
-        />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+
+        {/* <!-- Google / Search Engine Tags --> */}
+        <meta itemProp="name" content={title} />
+        <meta itemProp="description" content={description} />
+
+        {/* <!-- Facebook Meta Tags --> */}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+
+        {/* <!-- Twitter Meta Tags --> */}
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
       </Helmet>
       <Layout />
     </>

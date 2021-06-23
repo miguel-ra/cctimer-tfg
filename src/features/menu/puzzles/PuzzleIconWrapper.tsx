@@ -15,10 +15,10 @@ type PuzzleIconWrapperProps = {
   className?: string;
   onClick: (event: MouseEvent) => void;
   timeoutId: MutableRefObject<NodeJS.Timeout | null>;
-  showRemoveId: number | null;
-  setShowRemoveId: Dispatch<SetStateAction<number | null>>;
+  showDeleteId: number | null;
+  setShowDeleteId: Dispatch<SetStateAction<number | null>>;
   onSelect: () => void;
-  onRemove: () => void;
+  onDelete: () => void;
   children: ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -26,10 +26,10 @@ function PuzzleIconWrapper({
   onClick,
   children,
   timeoutId,
-  showRemoveId,
-  setShowRemoveId,
+  showDeleteId,
+  setShowDeleteId,
   onSelect,
-  onRemove,
+  onDelete,
   ...props
 }: PuzzleIconWrapperProps) {
   const dataId = props?.["data-id"];
@@ -38,13 +38,13 @@ function PuzzleIconWrapper({
     (event: MouseEvent) => {
       const container = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
       if (!container) {
-        setShowRemoveId(null);
+        setShowDeleteId(null);
       }
     },
-    [setShowRemoveId]
+    [setShowDeleteId]
   );
 
-  useEventListener(window, "click", clickHandler, { attachListener: showRemoveId === dataId });
+  useEventListener(window, "click", clickHandler, { attachListener: showDeleteId === dataId });
 
   return (
     <div
@@ -59,7 +59,7 @@ function PuzzleIconWrapper({
           return;
         }
         timeoutId.current = setTimeout(() => {
-          setShowRemoveId(dataId);
+          setShowDeleteId(dataId);
         }, 750);
       }}
       onMouseLeave={() => {
@@ -67,17 +67,17 @@ function PuzzleIconWrapper({
           clearTimeout(timeoutId.current);
         }
         if (isTouchDevice()) {
-          setShowRemoveId(null);
+          setShowDeleteId(null);
           return;
         }
         timeoutId.current = setTimeout(() => {
-          setShowRemoveId(null);
+          setShowDeleteId(null);
         }, 500);
       }}
       onMouseDown={(event: MouseEvent) => {
         if (isTouchDevice()) {
           timeoutId.current = setTimeout(() => {
-            setShowRemoveId(dataId);
+            setShowDeleteId(dataId);
           }, 500);
         }
         onClick(event);
@@ -87,7 +87,7 @@ function PuzzleIconWrapper({
         if (["Enter", " "].includes(event.key)) {
           onSelect();
         } else if (event.key === "Delete") {
-          onRemove();
+          onDelete();
         }
       }}
     >

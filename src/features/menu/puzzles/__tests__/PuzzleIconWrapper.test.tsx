@@ -1,4 +1,4 @@
-import { createRef, Dispatch, SetStateAction } from "react";
+import { createRef } from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import PuzzleIconWrapper from "../PuzzleIconWrapper";
 import userEvent from "@testing-library/user-event";
@@ -7,10 +7,10 @@ const puzzleIconWrapperProps = {
   "data-id": 1,
   onClick: jest.fn(),
   timeoutId: createRef<NodeJS.Timeout | null>(),
-  showRemoveId: null,
-  setShowRemoveId: jest.fn(),
+  showDeleteId: null,
+  setShowDeleteId: jest.fn(),
   onSelect: jest.fn(),
-  onRemove: jest.fn(),
+  onDelete: jest.fn(),
 };
 
 describe("features/puzzles/PuzzleIconWrapper", () => {
@@ -28,23 +28,23 @@ describe("features/puzzles/PuzzleIconWrapper", () => {
     ).toBeInTheDocument();
   });
 
-  test("should call setShowRemoveId on hover", async () => {
+  test("should call setShowDeleteId on hover", async () => {
     render(<PuzzleIconWrapper {...puzzleIconWrapperProps}>children</PuzzleIconWrapper>);
 
     const puzzleIconButton = screen.getByRole("button", {
       name: "children",
     });
 
-    expect(puzzleIconWrapperProps.setShowRemoveId).not.toHaveBeenCalled();
+    expect(puzzleIconWrapperProps.setShowDeleteId).not.toHaveBeenCalled();
 
     userEvent.hover(puzzleIconButton);
 
-    await waitFor(() => expect(puzzleIconWrapperProps.setShowRemoveId).toHaveBeenCalled());
+    await waitFor(() => expect(puzzleIconWrapperProps.setShowDeleteId).toHaveBeenCalled());
 
-    expect(puzzleIconWrapperProps.setShowRemoveId).toHaveBeenCalledWith(puzzleIconWrapperProps["data-id"]);
+    expect(puzzleIconWrapperProps.setShowDeleteId).toHaveBeenCalledWith(puzzleIconWrapperProps["data-id"]);
   });
 
-  test("should call setShowRemoveId on unhover", async () => {
+  test("should call setShowDeleteId on unhover", async () => {
     render(<PuzzleIconWrapper {...puzzleIconWrapperProps}>children</PuzzleIconWrapper>);
 
     const puzzleIconButton = screen.getByRole("button", {
@@ -54,13 +54,13 @@ describe("features/puzzles/PuzzleIconWrapper", () => {
     userEvent.hover(puzzleIconButton);
     jest.clearAllMocks();
 
-    expect(puzzleIconWrapperProps.setShowRemoveId).not.toHaveBeenCalled();
+    expect(puzzleIconWrapperProps.setShowDeleteId).not.toHaveBeenCalled();
 
     userEvent.unhover(puzzleIconButton);
 
-    await waitFor(() => expect(puzzleIconWrapperProps.setShowRemoveId).toHaveBeenCalled());
+    await waitFor(() => expect(puzzleIconWrapperProps.setShowDeleteId).toHaveBeenCalled());
 
-    expect(puzzleIconWrapperProps.setShowRemoveId).toHaveBeenCalledWith(null);
+    expect(puzzleIconWrapperProps.setShowDeleteId).toHaveBeenCalledWith(null);
   });
 
   test("should call onClick", async () => {
@@ -89,7 +89,7 @@ describe("features/puzzles/PuzzleIconWrapper", () => {
     });
 
     expect(puzzleIconWrapperProps.onSelect).not.toHaveBeenCalled();
-    expect(puzzleIconWrapperProps.onRemove).not.toHaveBeenCalled();
+    expect(puzzleIconWrapperProps.onDelete).not.toHaveBeenCalled();
 
     fireEvent.keyDown(puzzleIconButton, {
       key: "Enter",
@@ -101,6 +101,6 @@ describe("features/puzzles/PuzzleIconWrapper", () => {
       key: "Delete",
     });
 
-    await waitFor(() => expect(puzzleIconWrapperProps.onRemove).toHaveBeenCalled());
+    await waitFor(() => expect(puzzleIconWrapperProps.onDelete).toHaveBeenCalled());
   });
 });

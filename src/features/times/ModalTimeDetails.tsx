@@ -142,7 +142,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
               });
             }}
           >
-            {t("Remove")}
+            {t("Delete")}
           </Button>
         </Box>
         <ButtonGroup

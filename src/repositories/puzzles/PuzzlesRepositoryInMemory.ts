@@ -42,7 +42,7 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
     return { key: puzzleKey, id: addedId };
   }
 
-  async remove(puzzleId: PuzzleId) {
+  async delete(puzzleId: PuzzleId) {
     const db = await this.openDB();
     await db.delete("puzzles", puzzleId);
   }
