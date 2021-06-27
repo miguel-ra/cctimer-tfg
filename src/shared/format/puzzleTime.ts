@@ -1,7 +1,7 @@
-import { TimePenalty } from "models/times/Time";
+import { PuzzleTime, TimePenalty } from "models/times/Time";
 import { millisecondsToClock } from "./number";
 
-function elapsedTimeToClockCompact(elapsedTime: number, penalty?: TimePenalty) {
+function elapsedTimeWithPenaltyCompact(elapsedTime: number, penalty?: TimePenalty) {
   if (penalty === TimePenalty.Dnf) {
     return "DNF";
   }
@@ -11,11 +11,21 @@ function elapsedTimeToClockCompact(elapsedTime: number, penalty?: TimePenalty) {
   return millisecondsToClock(elapsedTime);
 }
 
-function elapsedTimeToClock(elapsedTime: number, penalty?: TimePenalty) {
+function elapsedTimeWithPenalty(elapsedTime: number, penalty?: TimePenalty) {
   if (penalty === TimePenalty.Dnf && elapsedTime) {
     return `DNF(${millisecondsToClock(elapsedTime)})`;
   }
-  return elapsedTimeToClockCompact(elapsedTime, penalty);
+  return elapsedTimeWithPenaltyCompact(elapsedTime, penalty);
 }
 
-export { elapsedTimeToClockCompact, elapsedTimeToClock };
+function puzzleTimeToFinalTime(puzzleTime: PuzzleTime) {
+  if (puzzleTime.penalty === TimePenalty.Dnf) {
+    return Infinity;
+  }
+  if (puzzleTime.penalty === TimePenalty.PlusTwo) {
+    return puzzleTime.elapsedTime + 2000;
+  }
+  return puzzleTime.elapsedTime;
+}
+
+export { elapsedTimeWithPenaltyCompact, elapsedTimeWithPenalty, puzzleTimeToFinalTime };

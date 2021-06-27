@@ -1,9 +1,10 @@
 import { KeyboardEvent, lazy, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
+import clsx from "clsx";
 import { useModal } from "store/modalContext";
 import { useMenu } from "store/menuContext";
 import { useTimer } from "features/timer/timerViewModel";
-import { elapsedTimeToClockCompact } from "shared/format/puzzleTime";
+import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
 import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./Times.styles";
@@ -14,7 +15,7 @@ function Times() {
   const classes = useStyles();
   const { openModal } = useModal();
   const { selectedItem } = useMenu();
-  const { puzzleTimes, updateTime, deleteTime, deletePuzzleTimes } = useTimer();
+  const { puzzleTimes, updateTime, deleteTime, deletePuzzleTimes, puzzleStats } = useTimer();
   const { t } = useTranslation();
 
   function showTimeDetails(index: number) {
@@ -62,8 +63,16 @@ function Times() {
         <div className={classes.times} onClick={handleTimesClick} onKeyDownCapture={handleTimesKeyDown}>
           {puzzleTimes
             .map((time, index) => (
-              <div data-index={index} role="button" tabIndex={0} key={time.id} className={classes.time}>
-                {elapsedTimeToClockCompact(time.elapsedTime, time.penalty)}
+              <div
+                data-index={index}
+                role="button"
+                tabIndex={0}
+                key={time.id}
+                className={clsx(classes.time, {
+                  [classes.bestTime]: time.id === puzzleStats.single.best?.ids?.[0],
+                })}
+              >
+                {elapsedTimeWithPenaltyCompact(time.elapsedTime, time.penalty)}
               </div>
             ))
             .reverse()}

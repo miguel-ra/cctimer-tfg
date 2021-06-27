@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 import { millisecondsToSeconds, millisecondsToClock } from "shared/format/number";
-import { elapsedTimeToClockCompact } from "shared/format/puzzleTime";
+import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
 import { Time, TimePenalty } from "models/times/Time";
 import { useTimer } from "features/timer/timerViewModel";
 import { useSettings } from "store/settingsContext";
@@ -204,7 +204,7 @@ function Stopwatch() {
     >
       <div className={classes.displayWrapper}>
         <div className={classes.display} style={{ color }}>
-          {status === Status.Idle && elapsedTimeToClockCompact(elapsedTime, lastTime?.penalty)}
+          {status === Status.Idle && elapsedTimeWithPenaltyCompact(elapsedTime, lastTime?.penalty)}
           {status === Status.Inspection && millisecondsToSeconds(remainingTime) + 1}
           {status === Status.PlusTwo && "+2"}
           {status === Status.Dnf && "DNF"}

@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import clsx from "clsx";
-import { useTranslation } from "react-i18next";
 import { useMenu } from "store/menuContext";
-import { puzzlesData } from "models/puzzles/Puzzle";
+import { puzzlesConfig } from "models/puzzles/Puzzle";
 import Times from "features/times/Times";
+import Stats from "features/stats/Stats";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
@@ -13,11 +13,10 @@ import useStyles from "./TimerDesktop.styles";
 
 function TimerDesktop() {
   const classes = useStyles();
-  const { t } = useTranslation();
   const { selectedItem } = useMenu();
   const { scramble } = useTimer();
 
-  const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
+  const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;
 
   return (
     <Box flexDirection="column" flex={1} position="relative">
@@ -29,7 +28,9 @@ function TimerDesktop() {
         <section className={classes.section}>
           <Times />
         </section>
-        <section className={classes.stats}>{t("Stats and grahps")}</section>
+        <section className={classes.stats}>
+          <Stats />
+        </section>
         {ScrambleImage && (
           <section className={classes.section}>
             <Suspense

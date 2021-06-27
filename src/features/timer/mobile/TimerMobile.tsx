@@ -7,8 +7,9 @@ import clsx from "clsx";
 import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 import { useMenu } from "store/menuContext";
-import { puzzlesData } from "models/puzzles/Puzzle";
+import { puzzlesConfig } from "models/puzzles/Puzzle";
 import Times from "features/times/Times";
+import Stats from "features/stats/Stats";
 import Typography from "components/typography/Typography";
 import Box from "components/flexboxgrid/Box";
 import { TimerProvider } from "../timerViewModel";
@@ -35,11 +36,7 @@ const tabs: Tab[] = [
   {
     // t("Stats")
     label: "Stats",
-    Component: () => (
-      <Box display="grid" placeContent="center" width="100%" height="100%">
-        Stats
-      </Box>
-    ),
+    Component: Stats,
   },
 ];
 
@@ -146,7 +143,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
       <div role="button" className={classes.header} onClick={openMenu} tabIndex={0}>
         <MenuIcon className={classes.icon} />
         <Typography variant="subtitle1">
-          {selectedItem?.key ? t(puzzlesData?.[selectedItem?.key]?.label) : "CCTimer.com"}
+          {selectedItem?.key ? t(puzzlesConfig?.[selectedItem?.key]?.label) : "CCTimer.com"}
         </Typography>
       </div>
       <div className={classes.sections}>

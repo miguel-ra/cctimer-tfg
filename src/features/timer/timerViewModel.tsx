@@ -6,6 +6,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -14,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useMenu } from "store/menuContext";
 import { useNotifications } from "store/notificationsContext";
 import { PuzzleKey } from "models/puzzles/Puzzle";
+import { PuzzleStats } from "models/stats/Stats";
 import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
@@ -21,6 +23,10 @@ import ErrorNotification from "components/notification/ErrorNotification";
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import GenerateScrambleWorker from "worker-loader!./workers/generateScramble.worker.ts";
 import { GenerateScrambleResponse } from "./workers/generateScramble.worker";
+import computePuzzleStats from "./computePuzzleStats";
+
+// TODO: create useTimes and move related operations
+// TODO: create useStats and move related operations
 
 type MenuState = {
   puzzleTimes: PuzzleTime[];
@@ -33,6 +39,7 @@ type MenuState = {
   scramblePuzzleKey?: PuzzleKey;
   lastTime?: PuzzleTime;
   setLastTime: Dispatch<SetStateAction<PuzzleTime | undefined>>;
+  puzzleStats: PuzzleStats;
 };
 
 type TimerProviderProps = {
@@ -62,6 +69,8 @@ function TimerProvider({ children }: TimerProviderProps) {
   const { t } = useTranslation();
   const scramblePuzzleKey = useRef<PuzzleKey>();
   const { selectedItem, checkSelectedItem } = useMenu();
+
+  const puzzleStats = useMemo(() => computePuzzleStats(puzzleTimes), [puzzleTimes]);
 
   const refreshScramble = useCallback(() => {
     if (selectedItem?.key) {
@@ -235,6 +244,7 @@ function TimerProvider({ children }: TimerProviderProps) {
         deletePuzzleTimes,
         scramble: scramblePuzzleKey.current === selectedItem?.key ? scramble : emptyScramble,
         refreshScramble,
+        puzzleStats,
       }}
     >
       {children}

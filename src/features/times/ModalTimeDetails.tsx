@@ -4,7 +4,7 @@ import { LangKey } from "i18n/i18n";
 import { ReactComponent as ShareIcon } from "assets/icons/share.svg";
 import { useModal } from "store/modalContext";
 import { dateTimeToLocale } from "shared/format/date";
-import { elapsedTimeToClock } from "shared/format/puzzleTime";
+import { elapsedTimeWithPenalty } from "shared/format/puzzleTime";
 import { PuzzleTime, TimeId, TimePenalty } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { PuzzleKey } from "models/puzzles/Puzzle";
@@ -106,7 +106,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
             sm={{ flexDirection: "row" }}
           >
             <Typography variant="h3">
-              {elapsedTimeToClock(internalTime.elapsedTime, internalTime.penalty)}
+              {elapsedTimeWithPenalty(internalTime.elapsedTime, internalTime.penalty)}
             </Typography>
             <Typography variant="caption" className={classes.date}>
               {dateTimeToLocale(i18n.language as LangKey, internalTime.createdAt)}

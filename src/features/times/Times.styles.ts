@@ -49,7 +49,7 @@ const useStyles = createUseStyles({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
     boxShadow: `inset 0 0 0 ${theme.shape.borderWitdh} ${theme.palette.border.primary}`,
-    transition: `box-shadow ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
+    transition: `box-shadow ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
     padding: "1rem",
     textAlign: "center",
     cursor: "pointer",
@@ -66,6 +66,13 @@ const useStyles = createUseStyles({
         backgroundColor: theme.palette.border.primary,
         opacity: 0.8,
       },
+    },
+  },
+  bestTime: {
+    "&, &:hover, &:active, &:focus": {
+      boxShadow: `inset 0 0 0 ${theme.shape.borderWitdh} ${theme.palette.colors.green.main}`,
+      backgroundColor: theme.palette.colors.green.main,
+      color: theme.palette.colors.green.contrastText,
     },
   },
   actionBar: {
