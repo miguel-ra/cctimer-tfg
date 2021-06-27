@@ -4,7 +4,7 @@ import { Scramble } from "cctimer-scrambles";
 import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
 import Typography from "components/typography/Typography";
-import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
+import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import theme from "styles/theme";
 
 type ScrambleShowcaseProps = {
@@ -61,7 +61,7 @@ const useStyles = createUseStyles({
 function ScrambleShowcase({ puzzleKey, scramble }: ScrambleShowcaseProps) {
   const classes = useStyles();
 
-  const ScrambleImage = puzzleKey ? puzzlesData[puzzleKey].Image : null;
+  const ScrambleImage = puzzleKey ? puzzlesConfig[puzzleKey].Image : null;
 
   return (
     <div className={classes.root}>

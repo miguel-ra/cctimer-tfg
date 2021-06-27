@@ -5,7 +5,7 @@ import { SelectedItem, useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
 import { usePopover } from "store/popoverContext";
 import isTouchDevice from "shared/browser/isTouchDevice";
-import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
+import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
 import { ReactComponent as DeleteIcon } from "assets/icons/delete.svg";
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
@@ -68,7 +68,7 @@ function PuzzleShowcase() {
     >
       {puzzles.map((puzzle, index) => {
         const { id, key } = puzzle;
-        const { label, Icon } = puzzlesData[key];
+        const { label, Icon } = puzzlesConfig[key];
         return (
           <Tooltip key={id} label={t(label)}>
             <PuzzleIconWrapper

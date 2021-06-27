@@ -30,7 +30,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     padding: ({ size }) => (size === "large" ? "1rem 1.5rem" : "0.5rem 1rem"),
     height: ({ size }) => (size === "large" ? "3.9rem" : "2.75rem"),
     fontSize: ({ size }) => (size === "large" ? "1.6rem" : theme.typography.button.fontSize),
-    willChange: "color, opacity",
+    willChange: "color, opacity, background",
   },
   icon: {
     width: "2rem",

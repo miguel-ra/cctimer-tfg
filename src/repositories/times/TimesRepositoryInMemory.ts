@@ -1,5 +1,5 @@
 import { openDB, IDBPDatabase } from "idb/with-async-ittr";
-import { PuzzleId, PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
+import { PuzzleId, PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import { TimeId, PuzzleTime, UnsavedPuzzleTime } from "models/times/Time";
 import { PuzzleTimeUpdate, TimesRepository } from "models/times/TimesRepository";
 
@@ -27,7 +27,7 @@ class TimesRepositoryInMemory implements TimesRepository {
 
     this.dbPromise = openDB<TimesDB>(DB_NAME, DB_VERSION, {
       upgrade(db) {
-        const puzzlesKeys = Object.keys(puzzlesData) as PuzzleKey[];
+        const puzzlesKeys = Object.keys(puzzlesConfig) as PuzzleKey[];
         puzzlesKeys.forEach((puzzleKey) => {
           const store = db.createObjectStore(puzzleKey, {
             keyPath: "id",

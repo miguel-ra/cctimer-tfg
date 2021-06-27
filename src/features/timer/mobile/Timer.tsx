@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
 import { useMenu } from "store/menuContext";
-import { puzzlesData } from "models/puzzles/Puzzle";
+import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Box from "components/flexboxgrid/Box";
@@ -56,7 +56,7 @@ function Timer() {
   const { selectedItem } = useMenu();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 
-  const ScrambleImage = selectedItem?.key ? puzzlesData[selectedItem?.key].Image : null;
+  const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;
 
   return (
     <Box flex={1} width="100%" position="relative">

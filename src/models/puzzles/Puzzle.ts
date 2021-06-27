@@ -17,9 +17,9 @@ import MegaminxIcon from "components/icon/MegaminxIcon";
 import GigaminxIcon from "components/icon/GigaminxIcon";
 import PyraminxIcon from "components/icon/PyraminxIcon";
 
-export type PuzzleId = number;
+type PuzzleId = number;
 
-export type PuzzleKey =
+type PuzzleKey =
   | "skewb"
   | "clock"
   | "cube2"
@@ -37,22 +37,22 @@ export type PuzzleKey =
   | "pyraminx"
   | "gigaminx";
 
-export type UserPuzzle = {
+type UserPuzzle = {
   id: PuzzleId;
   key: PuzzleKey;
 };
 
-export type Puzzle = {
+type Puzzle = {
   label: string;
   Icon: typeof Cube2Icon;
   Image?: LazyExoticComponent<ComponentType<ScrambleImageProps>>;
 };
 
-export type PuzzlesData = {
+type PuzzlesConfig = {
   [key in PuzzleKey]: Puzzle;
 };
 
-export const puzzlesData: PuzzlesData = {
+const puzzlesConfig: PuzzlesConfig = {
   cube2: {
     // t("2x2 Cube")
     label: "2x2 Cube",
@@ -126,26 +126,29 @@ export const puzzlesData: PuzzlesData = {
     Image: lazy(() => import("components/scramble/square1/Square1Image")),
   },
   skewb: {
-    // t "Skewb")
+    // t("Skewb")
     label: "Skewb",
     Icon: SkewbIcon,
     Image: lazy(() => import("components/scramble/skewb/SkewbImage")),
   },
   megaminx: {
-    // t "Megaminx")
+    // t("Megaminx")
     label: "Megaminx",
     Icon: MegaminxIcon,
     Image: lazy(() => import("components/scramble/megaminx/MegaminxImage")),
   },
   gigaminx: {
-    // t "Gigaminx")
+    // t("Gigaminx")
     label: "Gigaminx",
     Icon: GigaminxIcon,
   },
   pyraminx: {
-    // t "Pyraminx")
+    // t("Pyraminx")
     label: "Pyraminx",
     Icon: PyraminxIcon,
     Image: lazy(() => import("components/scramble/pyraminx/PyraminxImage")),
   },
 };
+
+export type { PuzzleId, PuzzleKey, UserPuzzle, Puzzle, PuzzlesConfig };
+export { puzzlesConfig };

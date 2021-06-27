@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useModal } from "store/modalContext";
 import Typography from "components/typography/Typography";
-import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
+import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import useStyles from "./ModalPuzzleSelector.styles";
 import ModalHeader from "components/modal/ModalHeader";
 import ModalBody from "components/modal/ModalBody";
@@ -34,8 +34,8 @@ function ModalPuzzleSelector({ onAddPuzzle }: ModalPuzzleSelectorProps) {
             }
           }}
         >
-          {(Object.keys(puzzlesData) as PuzzleKey[]).map((key) => {
-            const { label, Icon } = puzzlesData[key];
+          {(Object.keys(puzzlesConfig) as PuzzleKey[]).map((key) => {
+            const { label, Icon } = puzzlesConfig[key];
             return (
               <button key={key} className={classes.item} data-key={key}>
                 <Icon className={classes.icon} />
