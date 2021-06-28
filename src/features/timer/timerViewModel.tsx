@@ -32,7 +32,7 @@ type MenuState = {
   scramblePuzzleKey?: PuzzleKey;
   lastTime?: PuzzleTime;
   setLastTime: Dispatch<SetStateAction<PuzzleTime | undefined>>;
-  puzzleStats: PuzzleStats;
+  puzzleStats: PuzzleStats | null;
 };
 
 type TimerProviderProps = {

@@ -69,7 +69,7 @@ function Times() {
                 tabIndex={0}
                 key={time.id}
                 className={clsx(classes.time, {
-                  [classes.bestTime]: time.id === puzzleStats.single?.best?.ids?.[0],
+                  [classes.bestTime]: time.id === puzzleStats?.single?.best?.ids?.[0],
                 })}
               >
                 {elapsedTimeWithPenaltyCompact(time.elapsedTime, time.penalty)}
@@ -87,7 +87,7 @@ function Times() {
           center
           onClick={() => deletePuzzleTimes()}
         >
-          {t("Delete all times")}
+          {t("Delete all times")} ({puzzleTimes.length})
         </Button>
       </div>
     </div>

@@ -12,15 +12,21 @@ type UseStatsProps = {
 const loadComputeStatsWorker = new LoadComputeStats();
 
 function useStats({ puzzleTimes }: UseStatsProps) {
-  const [puzzleStats, setPuzzleStats] = useState<PuzzleStats>({ single: {} });
+  const [puzzleStats, setPuzzleStats] = useState<PuzzleStats | null>(null);
 
   useEffect(() => {
-    loadComputeStatsWorker.postMessage(puzzleTimes);
+    if (puzzleTimes.length >= 2) {
+      loadComputeStatsWorker.postMessage(puzzleTimes);
+    } else {
+      setPuzzleStats(null);
+    }
   }, [puzzleTimes]);
 
   useEffect(() => {
     function handleWorkerMessage({ data: computedPuzzleStats }: { data: LoadScrambleResponse }) {
-      setPuzzleStats(computedPuzzleStats);
+      if (computedPuzzleStats?.single) {
+        setPuzzleStats(computedPuzzleStats);
+      }
     }
     loadComputeStatsWorker.addEventListener("message", handleWorkerMessage);
     return () => {

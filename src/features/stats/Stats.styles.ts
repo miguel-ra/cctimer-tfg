@@ -15,21 +15,32 @@ const useStyles = createUseStyles({
     padding: "1rem 1.5rem",
     borderSpacing: 0,
     "& th, & td": {
-      ...theme.typography.caption,
-      fontSize: "1.3rem",
+      letterSpacing: "0.4px",
+      fontSize: "1.4rem",
       lineHeight: "1.4",
       padding: "0.75rem 0.5rem",
+      borderTop: `1px solid ${theme.palette.border.primary}`,
+      transition: `border ${theme.transition.duration.colorMode} linear`,
     },
     "& th": {
-      fontSize: "1.4rem",
-      borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
+      textTransform: "uppercase",
+      borderTop: "none",
+      borderBottom: `1px solid ${theme.palette.border.primary}`,
       transition: `border ${theme.transition.duration.colorMode} linear`,
       fontWeight: "bold",
       textAlign: "left",
     },
-    "& tr:nth-child(even)": {
-      backgroundColor: theme.palette.background.default,
-      transition: `background-color ${theme.transition.duration.colorMode} linear`,
+    [theme.breakpoints.down("md")]: {
+      "& tbody tr:nth-child(odd)": {
+        backgroundColor: theme.palette.background.paper,
+        transition: `background-color ${theme.transition.duration.colorMode} linear`,
+      },
+    },
+    [theme.breakpoints.up("md")]: {
+      "& tbody tr:nth-child(odd)": {
+        backgroundColor: theme.palette.background.default,
+        transition: `background-color ${theme.transition.duration.colorMode} linear`,
+      },
     },
   },
 });
