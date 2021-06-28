@@ -21,8 +21,13 @@ type PuzzleTime = {
   createdAt: Date;
 } & Time;
 
+type PuzzleTimeValue = {
+  id: TimeId;
+  value: number;
+};
+
 type UnsavedPuzzleTime = Omit<PuzzleTime, "id" | "puzzleId" | "createdAt">;
 
-export type { TimeId, PuzzleTime, Time, UnsavedPuzzleTime };
+export type { TimeId, PuzzleTime, Time, UnsavedPuzzleTime, PuzzleTimeValue };
 
 export { TimePenalty };

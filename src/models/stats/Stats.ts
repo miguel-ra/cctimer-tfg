@@ -1,5 +1,6 @@
-import { TimeId } from "models/times/Time";
-import { statToString } from "shared/format/stat";
+import { PuzzleTimeValue, TimeId } from "models/times/Time";
+import { statValueToString } from "./format/statValue";
+import computeSingle from "./metrics/computeSingle";
 
 type StatKey = "single";
 // | "mo3"
@@ -34,7 +35,8 @@ type PuzzleStats = {
 type StatsConfig = {
   [key in StatKey]: {
     label: string;
-    formatFn: (value?: StatValue) => string;
+    format: (value?: StatValue) => string;
+    compute: (timesValues: PuzzleTimeValue[]) => PuzzleStat;
   };
 };
 
@@ -42,7 +44,8 @@ const statsConfig: StatsConfig = {
   single: {
     // t("Single")
     label: "Single",
-    formatFn: statToString,
+    format: statValueToString,
+    compute: computeSingle,
   },
   // mo3: {
   //   // t("Mo3")

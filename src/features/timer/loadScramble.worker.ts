@@ -5,9 +5,7 @@ type ScrambleGenerators = {
   [key in PuzzleKey]: () => Promise<typeof import("cctimer-scrambles/cube2")>;
 };
 
-type GenerateScrambleResponse = {
-  data: { puzzleKey: PuzzleKey; randomScramble: Scramble };
-};
+type LoadScrambleResponse = { puzzleKey: PuzzleKey; randomScramble: Scramble };
 
 const scrambleGenerators: ScrambleGenerators = {
   clock: () => import("cctimer-scrambles/clock"),
@@ -28,7 +26,7 @@ const scrambleGenerators: ScrambleGenerators = {
   pyraminx: () => import("cctimer-scrambles/pyraminx"),
 };
 
-async function generateScramble(puzzleKey: PuzzleKey) {
+async function loadScramble(puzzleKey: PuzzleKey): Promise<LoadScrambleResponse> {
   const generator = (await scrambleGenerators[puzzleKey]())?.default;
 
   return { puzzleKey, randomScramble: generator() };
@@ -38,12 +36,12 @@ async function generateScramble(puzzleKey: PuzzleKey) {
 const ctx: Worker = self as any;
 
 ctx.addEventListener("message", ({ data: puzzleKey }: { data: PuzzleKey }) => {
-  generateScramble(puzzleKey).then((response) => {
+  loadScramble(puzzleKey).then((response) => {
     ctx.postMessage(response);
   });
 });
 
-export type { ScrambleGenerators, GenerateScrambleResponse };
+export type { ScrambleGenerators, LoadScrambleResponse };
 
 // We need to export anything otherwise typescript would complain that
 // it can't find a module

@@ -18,7 +18,7 @@ function elapsedTimeWithPenalty(elapsedTime: number, penalty?: TimePenalty) {
   return elapsedTimeWithPenaltyCompact(elapsedTime, penalty);
 }
 
-function puzzleTimeToFinalTime(puzzleTime: PuzzleTime) {
+function puzzleTimeToValue(puzzleTime: PuzzleTime) {
   if (puzzleTime.penalty === TimePenalty.Dnf) {
     return Infinity;
   }
@@ -28,4 +28,4 @@ function puzzleTimeToFinalTime(puzzleTime: PuzzleTime) {
   return puzzleTime.elapsedTime;
 }
 
-export { elapsedTimeWithPenaltyCompact, elapsedTimeWithPenalty, puzzleTimeToFinalTime };
+export { elapsedTimeWithPenaltyCompact, elapsedTimeWithPenalty, puzzleTimeToValue };

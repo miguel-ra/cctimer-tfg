@@ -1,9 +1,7 @@
 import { StatValue } from "models/stats/Stats";
-import { millisecondsToClock } from "./number";
+import { millisecondsToClock } from "shared/format/number";
 
-// TODO : Move this to the model folder
-
-function statToString(value?: StatValue) {
+function statValueToString(value?: StatValue) {
   if (!value) {
     return "-";
   }
@@ -13,4 +11,4 @@ function statToString(value?: StatValue) {
   return millisecondsToClock(value);
 }
 
-export { statToString };
+export { statValueToString };

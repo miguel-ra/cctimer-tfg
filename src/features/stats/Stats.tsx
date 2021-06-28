@@ -21,11 +21,14 @@ function Stats() {
         <tbody>
           {(Object.entries(puzzleStats) as [StatKey, PuzzleStat][]).map(([statKey, stat]) => {
             const statConfig = statsConfig[statKey as StatKey];
+            if (!statConfig) {
+              return null;
+            }
             return (
               <tr key={statKey}>
                 <td>{t(statConfig.label)}</td>
-                <td>{statConfig.formatFn(stat.current?.value)}</td>
-                <td>{statConfig.formatFn(stat.best?.value)}</td>
+                <td>{statConfig.format(stat.current?.value)}</td>
+                <td>{statConfig.format(stat.best?.value)}</td>
               </tr>
             );
           })}
