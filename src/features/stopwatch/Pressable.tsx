@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, useEffect, useLayoutEffect, useRef, useState, memo } from "react";
+import { HTMLAttributes, ReactNode, useEffect, useRef, useState, memo } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
@@ -36,6 +36,10 @@ function Pressable({
   const domContainer = useRef<HTMLDivElement | null>(null);
   const pressedRef = useRef(pressed);
   const listenOnWindowRef = useRef(listenOnWindow);
+  const onPointerDownRef = useRef(onPointerDown);
+  const onPointerUpRef = useRef(onPointerUp);
+  const onKeyDownRef = useRef(onKeyDown);
+  const onKeyUpRef = useRef(onKeyUp);
   const classes = useStyles();
 
   useEffect(() => {
@@ -43,11 +47,27 @@ function Pressable({
   }, [listenOnWindow]);
 
   useEffect(() => {
+    onPointerDownRef.current = onPointerDown;
+  }, [onPointerDown]);
+
+  useEffect(() => {
+    onPointerUpRef.current = onPointerUp;
+  }, [onPointerUp]);
+
+  useEffect(() => {
+    onKeyDownRef.current = onKeyDown;
+  }, [onKeyDown]);
+
+  useEffect(() => {
+    onKeyUpRef.current = onKeyUp;
+  }, [onKeyUp]);
+
+  useEffect(() => {
     pressedRef.current = pressed;
   }, [pressed]);
 
   useEffect(() => {
-    if (!onKeyDown && !onKeyUp) {
+    if (!onKeyDownRef.current && !onKeyUpRef.current) {
       return;
     }
 
@@ -65,13 +85,13 @@ function Pressable({
           return;
         }
       }
-      setPressed(onKeyDown?.(event) || false);
+      setPressed(onKeyDownRef.current?.(event) || false);
     }
     function keyUpHandler(event: KeyboardEvent) {
       if (!pressedRef.current) {
         return;
       }
-      onKeyUp?.(event);
+      onKeyUpRef.current?.(event);
       setPressed(false);
     }
 
@@ -81,10 +101,10 @@ function Pressable({
       window.removeEventListener("keydown", keyDownHandler, true);
       window.removeEventListener("keyup", keyUpHandler);
     };
-  }, [onKeyDown, onKeyUp]);
+  }, []);
 
-  useLayoutEffect(() => {
-    if (!onPointerDown && !onPointerUp) {
+  useEffect(() => {
+    if (!onPointerDownRef.current && !onPointerUpRef.current) {
       return;
     }
 
@@ -92,14 +112,14 @@ function Pressable({
       if (listenOnWindowRef.current || domContainer.current?.contains(event.target as Node)) {
         event.preventDefault();
         setPressed(true);
-        onPointerDown?.(event);
+        onPointerDownRef.current?.(event);
       }
     }
     function handlePointerUp(event: MouseEvent | TouchEvent) {
       if (pressedRef.current) {
         event.preventDefault();
         setPressed(false);
-        onPointerUp?.(event);
+        onPointerUpRef.current?.(event);
       }
     }
 
@@ -113,7 +133,7 @@ function Pressable({
       window.removeEventListener("touchend", handlePointerUp);
       window.removeEventListener("mouseup", handlePointerUp);
     };
-  }, [onPointerDown, onPointerUp]);
+  }, []);
 
   return (
     <div

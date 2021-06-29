@@ -51,6 +51,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
   const { openModal, closeModal } = useModal();
 
   useEffect(() => {
+    isMounted.current = true;
     return () => {
       isMounted.current = false;
     };
@@ -145,28 +146,30 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
             {t("Delete")}
           </Button>
         </Box>
-        <ButtonGroup
-          onClick={(event) => {
-            const { value } = (event.target as HTMLElement).dataset;
-            handleUpdate({ penalty: value as TimePenalty });
-          }}
-        >
-          <Button data-value={undefined} {...getPenaltyButtonProps(undefined, internalTime.penalty)}>
-            {t("No penalty")}
-          </Button>
-          <Button
-            data-value={TimePenalty.PlusTwo}
-            {...getPenaltyButtonProps(TimePenalty.PlusTwo, internalTime.penalty)}
+        {internalTime.elapsedTime > 0 && (
+          <ButtonGroup
+            onClick={(event) => {
+              const { value } = (event.target as HTMLElement).dataset;
+              handleUpdate({ penalty: value as TimePenalty });
+            }}
           >
-            {t("+2")}
-          </Button>
-          <Button
-            data-value={TimePenalty.Dnf}
-            {...getPenaltyButtonProps(TimePenalty.Dnf, internalTime.penalty)}
-          >
-            {t("DNF")}
-          </Button>
-        </ButtonGroup>
+            <Button data-value={undefined} {...getPenaltyButtonProps(undefined, internalTime.penalty)}>
+              {t("No penalty")}
+            </Button>
+            <Button
+              data-value={TimePenalty.PlusTwo}
+              {...getPenaltyButtonProps(TimePenalty.PlusTwo, internalTime.penalty)}
+            >
+              {t("+2")}
+            </Button>
+            <Button
+              data-value={TimePenalty.Dnf}
+              {...getPenaltyButtonProps(TimePenalty.Dnf, internalTime.penalty)}
+            >
+              {t("DNF")}
+            </Button>
+          </ButtonGroup>
+        )}
       </ModalFooter>
     </div>
   );

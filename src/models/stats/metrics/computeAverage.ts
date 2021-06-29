@@ -27,14 +27,14 @@ function computeAverage(timesValues: PuzzleTimeValue[], size: number, trimParam?
   const trim = trimParam ?? calculateTrim(size);
 
   const stats: Stat[] = sortedSlicedTimes.map((sortedSlice) => {
-    const [value, ids] = sortedSlice
+    const [total, ids] = sortedSlice
       .slice(trim, sortedSlice.length - trim)
       .reduce((accu, timeValue) => [accu[0] + timeValue.value, [...accu[1], timeValue.id]], [0, []] as [
         number,
         TimeId[]
       ]);
 
-    return { value, ids };
+    return { value: total / (size - trim), ids };
   });
 
   return {

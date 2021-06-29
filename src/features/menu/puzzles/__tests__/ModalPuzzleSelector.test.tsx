@@ -1,6 +1,6 @@
 import { renderWithProviders, screen, waitFor } from "../../../../../internals/test";
 import { useModal } from "store/modalContext";
-import { PuzzleKey, puzzlesData } from "models/puzzles/Puzzle";
+import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import ModalPuzzleSelector from "../ModalPuzzleSelector";
 import userEvent from "@testing-library/user-event";
 
@@ -37,9 +37,9 @@ describe("features/menu/puzzles/ModalPuzzleSelector", () => {
       })
     ).toBeInTheDocument();
 
-    (Object.keys(puzzlesData) as PuzzleKey[]).forEach((puzzleKey) => {
+    (Object.keys(puzzlesConfig) as PuzzleKey[]).forEach((puzzleKey) => {
       screen.getByRole("button", {
-        name: puzzlesData[puzzleKey].label,
+        name: puzzlesConfig[puzzleKey].label,
       });
     });
   });

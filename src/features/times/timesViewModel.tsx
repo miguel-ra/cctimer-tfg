@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useTimesRepository } from "repositories/times/timesRepository";
-import { PuzzleTime, Time, TimeId } from "models/times/Time";
+import { PuzzleTime, Time, TimeId, TimePenalty } from "models/times/Time";
 import { useMenu } from "store/menuContext";
 import { useNotifications } from "store/notificationsContext";
 import ErrorNotification from "components/notification/ErrorNotification";
@@ -56,7 +56,9 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
       try {
         const addedTime = await timesRepository.add(selectedItem.key, selectedItem.id, { ...time, scramble });
         setPuzzleTimes((prevPuzzleTimes) => [...prevPuzzleTimes, addedTime]);
-        setLastTime(addedTime);
+        if (addedTime.penalty !== TimePenalty.Dnf) {
+          setLastTime(addedTime);
+        }
         onTimeAdded();
         return addedTime;
       } catch (error) {

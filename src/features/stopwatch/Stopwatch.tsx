@@ -11,8 +11,6 @@ import Pressable from "./Pressable";
 import useStyles from "./Stopwatch.styles";
 import QuickActions from "./QuickActions";
 
-// TODO: Refactor to avoid use useCallback
-
 enum Status {
   Idle,
   PlusTwo,
@@ -20,6 +18,8 @@ enum Status {
   Inspection,
   Running,
 }
+
+const ACTIVATION_DELAY = 300;
 
 const statusPenalty: { [key in Status]?: TimePenalty } = {
   [Status.PlusTwo]: TimePenalty.PlusTwo,
@@ -36,6 +36,7 @@ function Stopwatch() {
   const dataToSave = useRef<Time>();
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
   const [status, setStatus] = useState(Status.Idle);
+  const statusRef = useRef(status);
   const [color, setColor] = useState("inherit");
 
   useEffect(() => {
@@ -44,6 +45,7 @@ function Stopwatch() {
   }, []);
 
   useEffect(() => {
+    statusRef.current = status;
     setLastTime(undefined);
   }, [setLastTime, status]);
 
@@ -74,13 +76,12 @@ function Stopwatch() {
     };
   }, [elapsedTime, status]);
 
-  const saveTime = useCallback(async () => {
+  const saveTime = useCallback(() => {
     if (dataToSave.current) {
-      const timeAdded = await addTime({ ...dataToSave.current });
-      setLastTime(timeAdded);
+      addTime({ ...dataToSave.current });
     }
     dataToSave.current = undefined;
-  }, [addTime, setLastTime]);
+  }, []);
 
   const setDNF = useCallback(() => {
     ready.current = false;
@@ -107,14 +108,14 @@ function Stopwatch() {
 
   const handlePress = useCallback(() => {
     (document.activeElement as HTMLElement)?.blur?.();
-    if (status === Status.Running) {
+    if (statusRef.current === Status.Running) {
       ready.current = null;
       stopStopwatch();
       setStatus(Status.Idle);
       saveTime();
       return;
     }
-    if (status === Status.Dnf) {
+    if (statusRef.current === Status.Dnf) {
       setStatus(Status.Idle);
     }
     if (settings.timer.holdToStart) {
@@ -126,9 +127,9 @@ function Stopwatch() {
           setColor("green");
           ready.current = true;
         }
-      }, 500);
+      }, ACTIVATION_DELAY);
     }
-  }, [saveTime, settings.timer.holdToStart, status, stopStopwatch]);
+  }, [saveTime, settings.timer.holdToStart, stopStopwatch]);
 
   const handleRelease = useCallback(() => {
     setColor("inherit");
@@ -137,7 +138,7 @@ function Stopwatch() {
       ready.current = !settings.timer.holdToStart;
       return;
     }
-    if (settings.inspection.enabled && [Status.Idle, Status.Dnf].includes(status)) {
+    if (settings.inspection.enabled && [Status.Idle, Status.Dnf].includes(statusRef.current)) {
       ready.current = !settings.timer.holdToStart;
       startInspection();
       return;
@@ -145,20 +146,20 @@ function Stopwatch() {
 
     startStopwatch();
     setStatus(Status.Running);
-  }, [settings.inspection.enabled, settings.timer.holdToStart, startInspection, startStopwatch, status]);
+  }, [settings.inspection.enabled, settings.timer.holdToStart, startInspection, startStopwatch]);
 
   const keyDownHandler = useCallback(
     (event) => {
-      if (status !== Status.Idle) {
+      if (statusRef.current !== Status.Idle) {
         event.preventDefault();
       }
-      if (status !== Status.Running && event.key !== " ") {
+      if (statusRef.current !== Status.Running && event.key !== " ") {
         return false;
       }
       handlePress();
       return true;
     },
-    [handlePress, status]
+    [handlePress]
   );
 
   const keyUpHandler = useCallback(
@@ -180,7 +181,7 @@ function Stopwatch() {
         holdStartedAt.current = null;
         setStatus(Status.Idle);
         setColor("inherit");
-        if (status !== Status.Idle) {
+        if (statusRef.current !== Status.Idle) {
           stopStopwatch();
           saveTime();
           resetStopwatch();

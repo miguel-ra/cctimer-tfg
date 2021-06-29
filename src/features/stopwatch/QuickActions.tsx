@@ -10,7 +10,7 @@ enum Action {
   Delete = "delete",
   Dnf = "dnf",
   PlusTwo = "plusTwo",
-  Undo = "undo",
+  NoPenalty = "NoPenalty",
 }
 
 type ActionCallbacks = { [key in Action]: (time: PuzzleTime) => Promise<PuzzleTime | undefined> };
@@ -82,7 +82,7 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
         (document.activeElement as HTMLElement)?.blur();
         return undefined;
       },
-      [Action.Undo]: (time: PuzzleTime) => {
+      [Action.NoPenalty]: (time: PuzzleTime) => {
         return updateTime(time.id, { penalty: undefined });
       },
     }),
@@ -134,8 +134,8 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
           </Button>
         </>
       ) : (
-        <Button variant="outlined" data-action={Action.Undo} className={classes.quickAction}>
-          {t("Undo")}
+        <Button variant="outlined" data-action={Action.NoPenalty} className={classes.quickAction}>
+          {t("Remove penalty")}
         </Button>
       )}
     </div>

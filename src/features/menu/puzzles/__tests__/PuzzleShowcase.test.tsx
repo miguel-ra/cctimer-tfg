@@ -1,5 +1,5 @@
 import { renderWithProviders, screen } from "../../../../../internals/test";
-import { UserPuzzle, puzzlesData } from "models/puzzles/Puzzle";
+import { UserPuzzle, puzzlesConfig } from "models/puzzles/Puzzle";
 import { useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
 import { usePuzzle } from "../puzzleViewModel";
@@ -50,7 +50,7 @@ describe("features/menu/puzzles/PuzzleShowcase", () => {
     puzzles.forEach((puzzle) => {
       expect(
         screen.getByRole("button", {
-          name: puzzlesData[puzzle.key].label,
+          name: puzzlesConfig[puzzle.key].label,
         })
       ).toBeInTheDocument();
     });
@@ -66,7 +66,7 @@ describe("features/menu/puzzles/PuzzleShowcase", () => {
 
     expect(
       screen.getByRole("button", {
-        name: puzzlesData[menuContext.selectedItem.key].label,
+        name: puzzlesConfig[menuContext.selectedItem.key].label,
         expanded: true,
       })
     ).toBeInTheDocument();
@@ -76,7 +76,7 @@ describe("features/menu/puzzles/PuzzleShowcase", () => {
     renderWithProviders(<PuzzleShowcase />);
 
     const puzzleButton = screen.getByRole("button", {
-      name: puzzlesData[puzzles[0].key].label,
+      name: puzzlesConfig[puzzles[0].key].label,
       expanded: false,
     });
 
