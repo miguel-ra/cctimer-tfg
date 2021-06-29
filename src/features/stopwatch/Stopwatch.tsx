@@ -81,7 +81,7 @@ function Stopwatch() {
       addTime({ ...dataToSave.current });
     }
     dataToSave.current = undefined;
-  }, []);
+  }, [addTime]);
 
   const setDNF = useCallback(() => {
     ready.current = false;

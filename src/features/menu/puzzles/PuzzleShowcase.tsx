@@ -99,9 +99,17 @@ function PuzzleShowcase() {
             >
               <PuzzleBorder className={classes.puzzleBorder} />
               <Icon className={classes.puzzleIcon} />
-              {puzzles.length > 1 && (isTouchDevice() ? showDeleteId === id : showDeleteId !== null) && (
-                <DeleteIcon data-action="delete" className={classes.puzzleDelete} />
-              )}
+              {puzzles.length > 1 &&
+                (isTouchDevice()
+                  ? showDeleteId === id || selectedItem?.id === id
+                  : showDeleteId !== null) && (
+                  <DeleteIcon
+                    tabIndex={0}
+                    role="button"
+                    data-action="delete"
+                    className={classes.puzzleDelete}
+                  />
+                )}
             </PuzzleIconWrapper>
           </Tooltip>
         );

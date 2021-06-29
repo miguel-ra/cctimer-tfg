@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-    outlineOffset: "0.5rem",
+    outlineOffset: "0.75rem",
     "& path, & circle, & rect": {
       transition: `all ${theme.transition.duration.colorMode} linear`,
     },
@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
       opacity: 1,
       transform: "scale(1.322)",
     },
-    "&:hover $puzzleDelete": {
+    "&:hover $puzzleDelete, &[aria-expanded=true] $puzzleDelete": {
       display: "block",
     },
     "&.selected $puzzleBorder": {
@@ -55,13 +55,15 @@ const useStyles = createUseStyles({
     width: 20,
     top: 0,
     right: 0,
+    opacity: 0,
     color: "var(--palette-border-secondary)",
     transform: "translate(50%, -45%)",
     transition: `color ${theme.transition.duration.colorMode} ease-in-out, transform ${theme.transition.duration.colorMode} ease-in-out`,
-    "&:hover": {
+    "&:hover, &:focus   ": {
       transform: "translate(50%, -45%) scale(1.22)",
     },
-    animation: "$reveal 0.15s ease-in-out forwards",
+    animation: "$reveal 0.2s ease-in-out forwards",
+    animationDelay: "0.2s",
   },
   "@keyframes reveal": {
     from: { opacity: 0 },

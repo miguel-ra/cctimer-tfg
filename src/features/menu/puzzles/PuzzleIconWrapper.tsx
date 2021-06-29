@@ -84,9 +84,16 @@ function PuzzleIconWrapper({
         event.preventDefault();
       }}
       onKeyDown={(event) => {
+        const element = event.target as HTMLElement;
+
         if (["Enter", " "].includes(event.key)) {
-          onSelect();
-        } else if (event.key === "Delete") {
+          if (element.dataset.action === "delete") {
+            return onDelete();
+          }
+          return onSelect();
+        }
+
+        if (event.key === "Delete") {
           onDelete();
         }
       }}
