@@ -6,7 +6,7 @@ type StopwatchState = {
   countDown?: number;
 };
 
-const REFRESH_RATE_MS = 79;
+const REFRESH_RATE_MS = 59;
 
 const initialState: StopwatchState = { startTime: 0, currentTime: 0 };
 

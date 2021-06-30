@@ -3,8 +3,8 @@ import { createUseStyles } from "react-jss";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { useTimer } from "features/timer/timerViewModel";
-import { PuzzleTime, TimePenalty } from "models/times/Time";
-import Button from "components/button/Button";
+import { PuzzleTime, Time, TimePenalty } from "models/times/Time";
+import Button, { ButtonVariant } from "components/button/Button";
 
 enum Action {
   Delete = "delete",
@@ -38,14 +38,14 @@ const useStyles = createUseStyles({
         position: "relative",
       },
     },
-  },
-  quickAction: {
-    margin: "0.5rem",
-    cursor: "pointer",
-    userSelect: "none",
-    WebkitTapHighlightColor: "transparent",
-    "@media (max-height:600px)": {
-      margin: "0 0.5rem",
+    "& > button": {
+      margin: "0.5rem",
+      cursor: "pointer",
+      userSelect: "none",
+      WebkitTapHighlightColor: "transparent",
+      "@media (max-height:600px)": {
+        margin: "0 0.5rem",
+      },
     },
   },
 });
@@ -61,6 +61,23 @@ function handlePropagation(
   if (action) {
     event.stopPropagation();
   }
+}
+
+function getPenaltyButtonProps(
+  action: Action,
+  hasPenalty?: boolean
+): { variant: ButtonVariant; "data-action": Action } {
+  if (hasPenalty) {
+    return {
+      variant: "contained",
+      "data-action": Action.NoPenalty,
+    };
+  }
+
+  return {
+    variant: "outlined",
+    "data-action": action,
+  };
 }
 
 function QuickActions({ resetStopwatch }: QuickActionsProps) {
@@ -121,23 +138,15 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
         }
       }}
     >
-      {!lastTime?.penalty ? (
-        <>
-          <Button variant="outlined" data-action={Action.PlusTwo} className={classes.quickAction}>
-            {t("+2")}
-          </Button>
-          <Button variant="outlined" data-action={Action.Dnf} className={classes.quickAction}>
-            {t("DNF")}
-          </Button>
-          <Button variant="outlined" color="red" data-action={Action.Delete} className={classes.quickAction}>
-            {t("Delete")}
-          </Button>
-        </>
-      ) : (
-        <Button variant="outlined" data-action={Action.NoPenalty} className={classes.quickAction}>
-          {t("Remove penalty")}
-        </Button>
-      )}
+      <Button {...getPenaltyButtonProps(Action.PlusTwo, lastTime?.penalty === TimePenalty.PlusTwo)}>
+        {t("+2")}
+      </Button>
+      <Button {...getPenaltyButtonProps(Action.Dnf, lastTime?.penalty === TimePenalty.Dnf)}>
+        {t("DNF")}
+      </Button>
+      <Button variant="outlined" color="red" data-action={Action.Delete}>
+        {t("Delete")}
+      </Button>
     </div>
   );
 }

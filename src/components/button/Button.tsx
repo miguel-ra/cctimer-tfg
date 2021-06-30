@@ -3,13 +3,15 @@ import { ButtonHTMLAttributes, ElementType, ReactNode } from "react";
 import { Color } from "styles/colors";
 import useStyles from "./Button.styles";
 
+type ButtonVariant = "text" | "contained" | "outlined";
+
 type ButtonProps = {
   startIcon?: ElementType;
   fullWidth?: boolean;
   center?: boolean;
   className?: string;
   children: ReactNode;
-  variant?: "text" | "contained" | "outlined";
+  variant?: ButtonVariant;
   size?: "medium" | "large";
   color?: Color | "currentColor";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
@@ -34,5 +36,7 @@ function Button({
     </button>
   );
 }
+
+export type { ButtonVariant };
 
 export default Button;
