@@ -19,8 +19,10 @@ const useStyles = createUseStyles({
       opacity: 1,
       transform: "scale(1.322)",
     },
-    "&:hover $puzzleDelete, &[aria-expanded=true] $puzzleDelete": {
-      display: "block",
+    "&:hover, &[aria-expanded=true], &:focus-within": {
+      "& $puzzleDelete": {
+        display: "block",
+      },
     },
     "&.selected $puzzleBorder": {
       opacity: 1,
@@ -59,8 +61,8 @@ const useStyles = createUseStyles({
     color: "var(--palette-border-secondary)",
     transform: "translate(50%, -45%)",
     transition: `color ${theme.transition.duration.colorMode} ease-in-out, transform ${theme.transition.duration.colorMode} ease-in-out`,
-    "&:hover, &:focus   ": {
-      transform: "translate(50%, -45%) scale(1.22)",
+    "&:hover, &:focus": {
+      transform: "translate(50%, -45%) scale(1.15)",
     },
     animation: "$reveal 0.2s ease-in-out forwards",
     animationDelay: "0.2s",

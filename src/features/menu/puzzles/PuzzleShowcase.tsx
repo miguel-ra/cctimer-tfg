@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { FocusEvent, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { SelectedItem, useMenu } from "store/menuContext";
@@ -16,6 +16,8 @@ import useStyles from "./PuzzleShowcase.styles";
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";
 import { usePuzzle } from "./puzzleViewModel";
+
+// TODO: Change this component to use event delegation
 
 function PuzzleShowcase() {
   const classes = useStyles();
@@ -65,6 +67,17 @@ function PuzzleShowcase() {
       display="grid"
       gap="2rem"
       justifyContent="center"
+      componentProps={{
+        onBlur: () => {
+          window.requestAnimationFrame(() => {
+            const focusedElement = document.querySelector(":focus") as HTMLElement;
+            const isPuzzleIcon = focusedElement?.dataset?.id || focusedElement?.dataset?.action;
+            if (!isPuzzleIcon) {
+              setShowDeleteId(null);
+            }
+          });
+        },
+      }}
     >
       {puzzles.map((puzzle, index) => {
         const { id, key } = puzzle;
@@ -100,13 +113,12 @@ function PuzzleShowcase() {
               <PuzzleBorder className={classes.puzzleBorder} />
               <Icon className={classes.puzzleIcon} />
               {puzzles.length > 1 &&
-                (isTouchDevice()
-                  ? showDeleteId === id || selectedItem?.id === id
-                  : showDeleteId !== null) && (
+                (isTouchDevice() ? showDeleteId === id || selectedItem?.id === id : showDeleteId === id) && (
                   <DeleteIcon
                     tabIndex={0}
                     role="button"
                     data-action="delete"
+                    aria-label={t("Delete")}
                     className={classes.puzzleDelete}
                   />
                 )}

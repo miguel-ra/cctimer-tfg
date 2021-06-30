@@ -60,7 +60,7 @@ function PuzzleIconWrapper({
         }
         timeoutId.current = setTimeout(() => {
           setShowDeleteId(dataId);
-        }, 750);
+        }, 500);
       }}
       onMouseLeave={() => {
         if (timeoutId.current) {
@@ -96,6 +96,9 @@ function PuzzleIconWrapper({
         if (event.key === "Delete") {
           onDelete();
         }
+      }}
+      onFocus={() => {
+        setShowDeleteId(dataId);
       }}
     >
       {children}
