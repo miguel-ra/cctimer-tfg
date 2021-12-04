@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
 import { useTimer } from "features/timer/timerViewModel";
-import { PuzzleTime, Time, TimePenalty } from "models/times/Time";
+import { PuzzleTime, TimePenalty } from "models/times/Time";
 import Button, { ButtonVariant } from "components/button/Button";
 
 enum Action {
@@ -83,7 +83,7 @@ function getPenaltyButtonProps(
 function QuickActions({ resetStopwatch }: QuickActionsProps) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { updateTime, deleteTime, lastTime, setLastTime } = useTimer();
+  const { updateTime, deleteTime, lastTime } = useTimer();
 
   const actionCallback: ActionCallbacks = useMemo(
     () => ({
@@ -119,10 +119,9 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
         if (document.body.classList.contains("mousedown")) {
           (document.activeElement as HTMLElement)?.blur();
         }
-        setLastTime(timeUpdated);
       }
     },
-    [actionCallback, lastTime, resetStopwatch, setLastTime]
+    [actionCallback, lastTime, resetStopwatch]
   );
 
   return (

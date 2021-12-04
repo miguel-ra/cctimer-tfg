@@ -90,8 +90,8 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
       try {
         updatedTime = await timesRepository.update(selectedItem.key, timeId, dataToUpdate);
         refreshPuzzleTimes();
-        if (updatedTime.id === undefined) {
-          throw new Error();
+        if (updatedTime.id === lastTime?.id) {
+          setLastTime(updatedTime);
         }
       } catch (error) {
         addNotification((props) => (
@@ -100,7 +100,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
       }
       return updatedTime;
     },
-    [addNotification, checkSelectedItem, refreshPuzzleTimes, selectedItem, t, timesRepository]
+    [addNotification, checkSelectedItem, lastTime?.id, refreshPuzzleTimes, selectedItem, t, timesRepository]
   );
 
   const deleteTime = useCallback(
@@ -131,16 +131,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
       }
     },
-    [
-      addNotification,
-      checkSelectedItem,
-      lastTime?.id,
-      refreshPuzzleTimes,
-      selectedItem,
-      setLastTime,
-      t,
-      timesRepository,
-    ]
+    [addNotification, checkSelectedItem, lastTime, refreshPuzzleTimes, selectedItem, t, timesRepository]
   );
 
   const deletePuzzleTimes = useCallback(async () => {
@@ -169,7 +160,6 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
 
   return {
     lastTime,
-    setLastTime,
     puzzleTimes,
     addTime,
     updateTime,

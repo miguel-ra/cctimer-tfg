@@ -28,7 +28,7 @@ const statusPenalty: { [key in Status]?: TimePenalty } = {
 
 function Stopwatch() {
   const classes = useStyles();
-  const { addTime, lastTime, setLastTime } = useTimer();
+  const { addTime, lastTime } = useTimer();
   const { selectedItem } = useMenu();
   const { settings } = useSettings();
   const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
@@ -46,17 +46,18 @@ function Stopwatch() {
 
   useEffect(() => {
     statusRef.current = status;
-    setLastTime(undefined);
-  }, [setLastTime, status]);
+  }, [status]);
 
   useEffect(() => {
     if (!lastTime && status === Status.Idle) {
+      // Reset stop watch when the last time is removed
       resetStopwatch();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastTime]);
 
   useEffect(() => {
+    // Reset stop watch when change the selected puzzle
     resetStopwatch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedItem]);

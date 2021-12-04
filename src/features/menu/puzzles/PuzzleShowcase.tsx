@@ -1,4 +1,4 @@
-import { FocusEvent, MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { useTranslation } from "react-i18next";
 import { SelectedItem, useMenu } from "store/menuContext";

@@ -1,14 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Scramble } from "cctimer-scrambles";
 import { useMenu } from "store/menuContext";
 import { PuzzleKey } from "models/puzzles/Puzzle";
@@ -31,7 +21,6 @@ type MenuState = {
   refreshScramble: () => void;
   scramblePuzzleKey?: PuzzleKey;
   lastTime?: PuzzleTime;
-  setLastTime: Dispatch<SetStateAction<PuzzleTime | undefined>>;
   puzzleStats: PuzzleStats | null;
 };
 
@@ -70,18 +59,10 @@ function TimerProvider({ children }: TimerProviderProps) {
     refreshScramble();
   }, [refreshScramble]);
 
-  const {
-    puzzleTimes,
-    lastTime,
-    addTime,
-    updateTime,
-    deleteTime,
-    deletePuzzleTimes,
-    refreshPuzzleTimes,
-    setLastTime,
-  } = useTimes({
-    onTimeAdded: refreshScramble,
-  });
+  const { puzzleTimes, lastTime, addTime, updateTime, deleteTime, deletePuzzleTimes, refreshPuzzleTimes } =
+    useTimes({
+      onTimeAdded: refreshScramble,
+    });
 
   const { puzzleStats } = useStats({ puzzleTimes });
 
@@ -109,7 +90,6 @@ function TimerProvider({ children }: TimerProviderProps) {
       value={{
         puzzleTimes,
         lastTime,
-        setLastTime,
         addTime: addTimeWithScramble,
         updateTime,
         deleteTime,

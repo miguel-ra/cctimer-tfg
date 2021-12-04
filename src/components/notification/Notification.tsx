@@ -1,10 +1,10 @@
 import { FunctionComponent, ReactNode, SVGProps } from "react";
 import { useTranslation } from "react-i18next";
+import { PaletteColor } from "styles/colors";
 import Button from "components/button/Button";
 import Typography from "components/typography/Typography";
 import { NotificationComponentProps } from "./NotificationsContainer";
 import useStyles from "./Notification.styles";
-import { PaletteColor } from "styles/colors";
 
 type NotificationIcon = FunctionComponent<SVGProps<SVGSVGElement> | { title?: string }>;
 
