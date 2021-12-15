@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LangKey } from "i18n/i18n";
 import { ReactComponent as ShareIcon } from "assets/icons/share.svg";
@@ -44,31 +44,14 @@ function getPenaltyButtonProps(
 }
 
 function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTimeDetailsProps) {
-  const isMounted = useRef(true);
   const [internalTime, setInternalTime] = useState(time);
+  const { openModal, closeModal } = useModal();
   const { t, i18n } = useTranslation();
   const classes = useStyles();
-  const { openModal, closeModal } = useModal();
-
-  useEffect(() => {
-    isMounted.current = true;
-    return () => {
-      isMounted.current = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (time) {
-      setInternalTime(time);
-    } else {
-      closeModal();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [time]);
 
   function handleUpdate(dataToUpdate: PuzzleTimeUpdate) {
     updateTime(internalTime.id, dataToUpdate).then((updatedTime) => {
-      if (isMounted.current && updatedTime) {
+      if (updatedTime) {
         return setInternalTime(updatedTime);
       }
       closeModal();

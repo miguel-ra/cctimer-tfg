@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode, useEffect, useRef, useState, memo } from "react";
+import { HTMLAttributes, ReactNode, useEffect, useRef, useState, memo, useCallback } from "react";
 import { createUseStyles } from "react-jss";
 import clsx from "clsx";
 
@@ -7,10 +7,10 @@ type PressableProps = {
   className?: string;
   onPointerDown?: (event: MouseEvent | TouchEvent) => void;
   onPointerUp?: (event: MouseEvent | TouchEvent) => void;
-  onKeyDown?: (event: KeyboardEvent) => void;
-  onKeyUp?: (event?: KeyboardEvent) => void;
+  onKeyDown?: (event: KeyboardEvent) => boolean;
+  onKeyUp?: (event?: KeyboardEvent) => boolean;
   bind?: () => void;
-  listenOnWindow?: boolean;
+  preventOutsideClicks?: boolean;
 } & HTMLAttributes<HTMLElement>;
 
 const useStyles = createUseStyles({
@@ -29,22 +29,29 @@ function Pressable({
   onKeyDown,
   onKeyUp,
   bind,
-  listenOnWindow,
+  preventOutsideClicks,
   ...props
 }: PressableProps) {
   const [pressed, setPressed] = useState(false);
-  const domContainer = useRef<HTMLDivElement | null>(null);
   const pressedRef = useRef(pressed);
-  const listenOnWindowRef = useRef(listenOnWindow);
+  const domContainer = useRef<HTMLDivElement | null>(null);
+  const preventOutsideClicksRef = useRef(preventOutsideClicks);
   const onPointerDownRef = useRef(onPointerDown);
   const onPointerUpRef = useRef(onPointerUp);
   const onKeyDownRef = useRef(onKeyDown);
   const onKeyUpRef = useRef(onKeyUp);
   const classes = useStyles();
 
+  // State is used to force a render and ref to avoid adding/removing the listeners everytime that it changes
+  // I do not use a useEffect to update the ref because in slow machines if a user stoped and started fast it would cause unexpected behaviours
+  const setPressedAndRef = useCallback((value) => {
+    setPressed(value);
+    pressedRef.current = value;
+  }, []);
+
   useEffect(() => {
-    listenOnWindowRef.current = listenOnWindow;
-  }, [listenOnWindow]);
+    preventOutsideClicksRef.current = preventOutsideClicks;
+  }, [preventOutsideClicks]);
 
   useEffect(() => {
     onPointerDownRef.current = onPointerDown;
@@ -61,10 +68,6 @@ function Pressable({
   useEffect(() => {
     onKeyUpRef.current = onKeyUp;
   }, [onKeyUp]);
-
-  useEffect(() => {
-    pressedRef.current = pressed;
-  }, [pressed]);
 
   useEffect(() => {
     if (!onKeyDownRef.current && !onKeyUpRef.current) {
@@ -85,14 +88,15 @@ function Pressable({
           return;
         }
       }
-      setPressed(onKeyDownRef.current?.(event) || false);
+      const isPressed = onKeyDownRef.current?.(event) || false;
+      setPressedAndRef(isPressed);
     }
     function keyUpHandler(event: KeyboardEvent) {
       if (!pressedRef.current) {
         return;
       }
       onKeyUpRef.current?.(event);
-      setPressed(false);
+      setPressedAndRef(false);
     }
 
     window.addEventListener("keydown", keyDownHandler, true);
@@ -101,7 +105,7 @@ function Pressable({
       window.removeEventListener("keydown", keyDownHandler, true);
       window.removeEventListener("keyup", keyUpHandler);
     };
-  }, []);
+  }, [setPressedAndRef]);
 
   useEffect(() => {
     if (!onPointerDownRef.current && !onPointerUpRef.current) {
@@ -109,16 +113,16 @@ function Pressable({
     }
 
     function handlePointerDown(event: MouseEvent | TouchEvent) {
-      if (listenOnWindowRef.current || domContainer.current?.contains(event.target as Node)) {
+      if (preventOutsideClicksRef.current || domContainer.current?.contains(event.target as Node)) {
         event.preventDefault();
-        setPressed(true);
+        setPressedAndRef(true);
         onPointerDownRef.current?.(event);
       }
     }
     function handlePointerUp(event: MouseEvent | TouchEvent) {
       if (pressedRef.current) {
         event.preventDefault();
-        setPressed(false);
+        setPressedAndRef(false);
         onPointerUpRef.current?.(event);
       }
     }
@@ -133,14 +137,14 @@ function Pressable({
       window.removeEventListener("touchend", handlePointerUp);
       window.removeEventListener("mouseup", handlePointerUp);
     };
-  }, []);
+  }, [setPressedAndRef]);
 
   return (
     <div
       tabIndex={0}
       {...bind?.()}
       ref={domContainer}
-      className={clsx(classes.root, className, { pressed: pressed })}
+      className={clsx(classes.root, className, { pressed })}
       {...props}
     >
       {children}

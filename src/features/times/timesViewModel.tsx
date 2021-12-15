@@ -54,8 +54,13 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         return;
       }
       try {
-        const addedTime = await timesRepository.add(selectedItem.key, selectedItem.id, { ...time, scramble });
-        setPuzzleTimes((prevPuzzleTimes) => [...prevPuzzleTimes, addedTime]);
+        // TODO: Check if is better to get times from repository or if is better concatenate it to the current list
+        const { addedTime, puzzleTimesUpdated } = await timesRepository.add(
+          selectedItem.key,
+          selectedItem.id,
+          { ...time, scramble }
+        );
+        setPuzzleTimes(puzzleTimesUpdated);
         if (addedTime.penalty !== TimePenalty.Dnf) {
           setLastTime(addedTime);
         }

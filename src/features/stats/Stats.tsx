@@ -18,6 +18,9 @@ function Stats() {
     );
   }
 
+  // TODO: Click on best/worst and highlight them in the list. Or maybe open the modal
+  // TODO: Make Stats column full width
+
   return (
     <div className={classes.root}>
       <table className={classes.stats}>

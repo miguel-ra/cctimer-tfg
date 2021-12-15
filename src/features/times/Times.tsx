@@ -1,53 +1,49 @@
-import { KeyboardEvent, lazy, MouseEvent } from "react";
+import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import clsx from "clsx";
-import { useModal } from "store/modalContext";
-import { useMenu } from "store/menuContext";
+import { TimeId } from "models/times/Time";
 import { useTimer } from "features/timer/timerViewModel";
 import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
 import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./Times.styles";
-
-const ModalTimeDetails = lazy(() => import("./ModalTimeDetails"));
+import useTimeDetailsModal from "./modals/useTimeDetailsModal";
 
 function Times() {
   const classes = useStyles();
-  const { openModal } = useModal();
-  const { selectedItem } = useMenu();
-  const { puzzleTimes, updateTime, deleteTime, deletePuzzleTimes, puzzleStats } = useTimer();
+  const { openTimeDetailsModal } = useTimeDetailsModal();
+  const { puzzleTimes, deletePuzzleTimes, puzzleStats } = useTimer();
   const { t } = useTranslation();
 
-  function showTimeDetails(index: number) {
-    if (!puzzleTimes || !puzzleTimes[index]) {
-      return;
-    }
-    openModal(
-      <ModalTimeDetails
-        puzzleKey={selectedItem?.key}
-        time={puzzleTimes[index]}
-        updateTime={updateTime}
-        deleteTime={deleteTime}
-      />
-    );
-  }
+  const showTimeDetails = useCallback(
+    (timeId: TimeId) => {
+      openTimeDetailsModal(timeId);
+    },
+    [openTimeDetailsModal]
+  );
 
-  function handleTimesClick(event: MouseEvent) {
-    const { index } = (event.target as HTMLElement).dataset;
-    if (index) {
-      event.stopPropagation();
-      showTimeDetails(Number(index));
-    }
-  }
+  const handleTimesClick = useCallback(
+    (event: MouseEvent) => {
+      const { id } = (event.target as HTMLElement).dataset;
+      if (id) {
+        event.stopPropagation();
+        showTimeDetails(Number(id));
+      }
+    },
+    [showTimeDetails]
+  );
 
-  function handleTimesKeyDown(event: KeyboardEvent) {
-    const { index } = (event.target as HTMLElement).dataset;
-    if (index && event.key === "Enter") {
-      event.stopPropagation();
-      event.preventDefault();
-      showTimeDetails(Number(index));
-    }
-  }
+  const handleTimesKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      const { id } = (event.target as HTMLElement).dataset;
+      if (id && event.key === "Enter") {
+        event.stopPropagation();
+        event.preventDefault();
+        showTimeDetails(Number(id));
+      }
+    },
+    [showTimeDetails]
+  );
 
   if (!puzzleTimes || !puzzleTimes.length) {
     return (
@@ -57,14 +53,16 @@ function Times() {
     );
   }
 
+  // TODO: Virtualizate this list (Only show visibles)
+
   return (
     <div className={classes.root}>
       <div className={classes.timesWrapper}>
         <div className={classes.times} onClick={handleTimesClick} onKeyDownCapture={handleTimesKeyDown}>
           {puzzleTimes
-            .map((time, index) => (
+            .map((time) => (
               <div
-                data-index={index}
+                data-id={time.id}
                 role="button"
                 tabIndex={0}
                 key={time.id}

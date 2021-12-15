@@ -16,6 +16,9 @@ const useStyles = createUseStyles({
   },
 });
 
+// TODO: A11y check if the user is navigating using the keyboard when space is pressed after changing the color or the language
+// Also check what happen if you have the focus in the Times or Stats component (and there is scroll)
+
 function Navbar() {
   const classes = useStyles();
 

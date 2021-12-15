@@ -202,7 +202,7 @@ function Stopwatch() {
       onPointerUp={handleRelease}
       onKeyDown={keyDownHandler}
       onKeyUp={keyUpHandler}
-      listenOnWindow={status !== Status.Idle}
+      preventOutsideClicks={status !== Status.Idle}
     >
       <div className={classes.displayWrapper}>
         <div className={classes.display} style={{ color }}>

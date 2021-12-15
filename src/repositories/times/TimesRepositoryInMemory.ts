@@ -53,7 +53,9 @@ class TimesRepositoryInMemory implements TimesRepository {
       createdAt: new Date(),
     } as PuzzleTime;
     const addedId = await db.add(puzzleKey, puzzleTime);
-    return { ...puzzleTime, id: addedId };
+    const addedTime = { ...puzzleTime, id: addedId } as PuzzleTime;
+    const puzzleTimesUpdated = await this.getAll(puzzleKey, puzzleId);
+    return { addedTime, puzzleTimesUpdated };
   }
 
   async update(puzzleKey: PuzzleKey, timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) {
