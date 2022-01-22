@@ -18,6 +18,7 @@
 
     <!-- TODO: Generate prerender version to avoid content flash on reload -->
     <!-- Added this styles to avoid white flash on reload -->
+
     <style>
       @font-face {
         font-family: "Roboto";
@@ -71,7 +72,8 @@
         --colors-pink-main: #f778ba;
         --colors-grey-main: #8b949e;
 
-        --colors-black-main: #0d1117;
+        --colors-black-light: #111;
+        --colors-black-main: #000;
         --colors-black-contrastText: #f0f6fc;
 
         --colors-white-main: #ffffff;
@@ -88,7 +90,7 @@
       }
 
       body[data-color-mode="dark"] {
-        --palette-background-default: #060a0e;
+        --palette-background-default: var(--colors-black-light);
         --palette-background-paper: var(--colors-black-main);
         --palette-text-primary: var(--colors-black-contrastText);
         --palette-text-secondary: #8b949e;

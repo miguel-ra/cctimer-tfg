@@ -21,7 +21,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "vercel dev",
+    "start": "vercel dev",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll=false --ci",
     "test:local": "react-scripts test",

@@ -3,7 +3,15 @@ import { StatKey, PuzzleStat, statsConfig } from "models/stats/Stats";
 import { statValueToString } from "models/stats/format/statValue";
 import { useTimer } from "features/timer/timerViewModel";
 import Box from "components/flexboxgrid/Box";
+import Table from "components/table/Table";
 import useStyles from "./Stats.styles";
+
+type Stat = {
+  key: string;
+  name: string;
+  current: string;
+  best: string;
+};
 
 function Stats() {
   const { t } = useTranslation();
@@ -20,35 +28,25 @@ function Stats() {
 
   // TODO: Click on best/worst and highlight them in the list. Or maybe open the modal
   // TODO: Make Stats column full width
+  const data: Stat[] = (Object.entries(puzzleStats) as [StatKey, PuzzleStat][])
+    .filter(([_, stat]) => stat?.current?.value)
+    .map(([statKey, stat]) => {
+      const statConfig = statsConfig[statKey as StatKey];
+      return {
+        key: statKey,
+        name: t(statConfig.label),
+        current: statValueToString(stat.current?.value),
+        best: statValueToString(stat.best?.value),
+      };
+    });
 
   return (
     <div className={classes.root}>
-      <table className={classes.stats}>
-        <thead>
-          <tr>
-            <th>{t("Stats")}</th>
-            <th>{t("Current")}</th>
-            <th>{t("Best")}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {(Object.entries(puzzleStats) as [StatKey, PuzzleStat][])
-            .filter(([_, stat]) => stat?.current?.value)
-            .map(([statKey, stat]) => {
-              const statConfig = statsConfig[statKey as StatKey];
-              if (!statConfig) {
-                return null;
-              }
-              return (
-                <tr key={statKey}>
-                  <td>{t(statConfig.label)}</td>
-                  <td>{statValueToString(stat.current?.value)}</td>
-                  <td>{statValueToString(stat.best?.value)}</td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+      <Table<Stat> data={data} className={classes.stats}>
+        <Table.Column<Stat> prop="name" label={t("Stats")} width="50%" />
+        <Table.Column<Stat> prop="current" label={t("Current")} />
+        <Table.Column<Stat> prop="best" label={t("Best")} />
+      </Table>
     </div>
   );
 }
