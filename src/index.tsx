@@ -5,22 +5,13 @@ import App from "features/app/App";
 import reportWebVitals from "./reportWebVitals";
 import "./i18n/i18n";
 
-let render;
-const rootElement = document.getElementById("root");
-
-if (rootElement?.hasChildNodes()) {
-  render = ReactDOM.hydrate;
-} else {
-  render = ReactDOM.render;
-}
-
-render(
+ReactDOM.render(
   <StrictMode>
     <Providers>
       <App />
     </Providers>
   </StrictMode>,
-  rootElement
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
