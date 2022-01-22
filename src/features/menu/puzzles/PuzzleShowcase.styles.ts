@@ -3,7 +3,7 @@ import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   puzzleWrapper: {
-    "--background-color": theme.palette.background.default,
+    "--background-color": theme.palette.background.primary,
     position: "relative",
     width: "3.5rem",
     height: "3.5rem",

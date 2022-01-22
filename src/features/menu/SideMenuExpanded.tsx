@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
     placeContent: "center",
     flexDirection: "column",
     justifyContent: "space-between",
-    background: theme.palette.background.paper,
+    background: theme.palette.background.secondary,
     borderRight: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
   },
@@ -37,7 +37,7 @@ const useStyles = createUseStyles({
     width: "100%",
     flexDirection: "column",
     justifyContent: "center",
-    background: `${theme.palette.background.default}AA`,
+    background: `${theme.palette.background.primary}AA`,
     transition: `background ${theme.transition.duration.colorMode} linear`,
   },
 });

@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
   },
   stats: {
     width: "100%",
-    padding: "1rem 1.5rem",
+    padding: "1.5rem 1.5rem",
     borderSpacing: 0,
   },
 });

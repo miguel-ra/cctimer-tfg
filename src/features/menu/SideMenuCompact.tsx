@@ -18,7 +18,7 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
-    background: theme.palette.background.paper,
+    background: theme.palette.background.secondary,
     borderRight: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
   },
 });

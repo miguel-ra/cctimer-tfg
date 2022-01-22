@@ -47,7 +47,7 @@ const useStyles = createUseStyles({
   },
   time: {
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.secondary,
     border: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: `box-shadow ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
     padding: "1rem",

@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
     padding: "1rem 1.5rem",
     justifyContent: "space-between",
     transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
-    background: theme.palette.background.paper,
+    background: theme.palette.background.secondary,
     borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
   },
 });

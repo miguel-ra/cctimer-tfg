@@ -5,7 +5,7 @@ const useStyles = createUseStyles({
   sectionContainer: {
     display: "flex",
     height: "33vh",
-    background: theme.palette.background.paper,
+    background: theme.palette.background.secondary,
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
     borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
   },

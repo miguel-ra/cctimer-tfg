@@ -11,7 +11,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     display: "flex",
     position: "relative",
     minHeight: "3rem",
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.primary,
     borderRadius: theme.shape.borderRadius,
     overflow: "hidden",
     boxShadow: `0 0 0 ${theme.shape.borderWitdh} ${theme.palette.border.primary}`,

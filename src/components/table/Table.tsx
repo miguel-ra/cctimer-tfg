@@ -18,20 +18,9 @@ type TableProps<T> = {
 const useStyles = createUseStyles({
   table: {
     "& th, & td": {
-      letterSpacing: "0.4px",
       fontSize: "1.4rem",
       lineHeight: "1.4",
-      padding: "0.75rem 0.5rem",
-      borderTop: `1px solid ${theme.palette.border.primary}`,
       transition: `border ${theme.transition.duration.colorMode} linear`,
-    },
-    "& th": {
-      textTransform: "uppercase",
-      borderTop: "none",
-      borderBottom: `1px solid ${theme.palette.border.primary}`,
-      transition: `border ${theme.transition.duration.colorMode} linear`,
-      fontWeight: "bold",
-      textAlign: "left",
     },
     "& tr": {
       height: "4rem",

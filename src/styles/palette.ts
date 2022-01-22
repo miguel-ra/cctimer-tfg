@@ -15,8 +15,8 @@ const palette = {
   colors,
   getColor,
   background: {
-    default: "var(--palette-background-default)",
-    paper: "var(--palette-background-paper)",
+    primary: "var(--palette-background-primary)",
+    secondary: "var(--palette-background-secondary)",
   },
   text: {
     primary: "var(--palette-text-primary)",

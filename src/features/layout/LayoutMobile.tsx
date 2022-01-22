@@ -246,7 +246,7 @@ function LayoutMobile() {
                     checkMenuOpen();
                   },
                   style: {
-                    backgroundColor: theme.palette.background.default,
+                    backgroundColor: theme.palette.background.primary,
                     transition: `background ${theme.transition.duration.colorMode} linear`,
                     opacity,
                     zIndex: opacity.to((value: number) => (value ? 1 : -1)),

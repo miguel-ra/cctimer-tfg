@@ -19,7 +19,7 @@ const colorScheme: { [key in FaceKey]: string } = {
   "8": theme.palette.colors.green.main,
   "9": theme.palette.colors.orange.main,
   "10": theme.palette.colors.blue.light,
-  "11": theme.palette.colors.grey.main,
+  "11": theme.palette.colors.gray.main,
 };
 
 const useStyles = createUseStyles({

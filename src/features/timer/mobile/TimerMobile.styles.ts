@@ -6,7 +6,7 @@ const useStyles = createUseStyles({
     display: "flex",
     padding: "1rem",
     transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear, opacity 0.2s linear`,
-    background: theme.palette.background.paper,
+    background: theme.palette.background.secondary,
     borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     alignItems: "center",
     cursor: "pointer",
@@ -29,7 +29,7 @@ const useStyles = createUseStyles({
   },
   buttons: {
     display: "flex",
-    background: theme.palette.background.paper,
+    background: theme.palette.background.secondary,
     transition: `background ${theme.transition.duration.colorMode} linear`,
   },
   button: {
