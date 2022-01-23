@@ -5,10 +5,10 @@ type UseStylesProps = {
   weight?: FontWeight;
 };
 
-const useStyles = createUseStyles<any, UseStylesProps>({
+const useStyles = createUseStyles({
   typography: {
     margin: 0,
-    fontWeight: ({ weight }) => (weight ? fontWeight[weight] : undefined),
+    fontWeight: ({ weight }: UseStylesProps) => (weight ? fontWeight[weight] : undefined),
   },
   gutterBottom: {
     marginBottom: "0.35em",

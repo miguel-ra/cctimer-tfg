@@ -102,7 +102,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
   const [props, api] = useSprings(computedTabs.length, computeSpring({ activeTab, isImmediate }));
 
   const bind = useDrag(
-    ({ last, active, movement: [mx], swipe, distance }: any) => {
+    ({ last, active, movement: [mx], swipe, distance }) => {
       if (swipe[0] !== 0) {
         activeTab.current = clamp(activeTab.current - swipe[0], 0, computedTabs.length - 1);
         updateLayout();

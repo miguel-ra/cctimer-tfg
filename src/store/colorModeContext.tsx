@@ -40,7 +40,7 @@ function ColorModeProvider({ children }: ColorModeProviderProps) {
   useEffect(() => {
     const queryList = window.matchMedia("(prefers-color-scheme: dark)");
     function handler() {
-      setColorMode(!!queryList.matches ? COLOR_MODES.dark : COLOR_MODES.light);
+      setColorMode(queryList.matches ? COLOR_MODES.dark : COLOR_MODES.light);
     }
 
     queryList.addEventListener("change", handler);

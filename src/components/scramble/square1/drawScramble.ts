@@ -20,14 +20,14 @@ function colorGet(col: string) {
   if (col === "x") return defaultColors.black;
 }
 
-var scalePoint = function (w: number, h: number, ptIn: number[]) {
-  var defaultWidth = 200;
-  var defaultHeight = 110;
+const scalePoint = function (w: number, h: number, ptIn: number[]) {
+  const defaultWidth = 200;
+  const defaultHeight = 110;
 
-  var scale = Math.min(w / defaultWidth, h / defaultHeight);
+  const scale = Math.min(w / defaultWidth, h / defaultHeight);
 
-  var x = Math.floor(ptIn[0] * scale + (w - defaultWidth * scale) / 2) + 0.5;
-  var y = Math.floor(ptIn[1] * scale + (h - defaultHeight * scale) / 2) + 0.5;
+  const x = Math.floor(ptIn[0] * scale + (w - defaultWidth * scale) / 2) + 0.5;
+  const y = Math.floor(ptIn[1] * scale + (h - defaultHeight * scale) / 2) + 0.5;
 
   return [x, y];
 };
@@ -40,9 +40,9 @@ function drawPolygon(
   arrx: number[],
   arry: number[]
 ) {
-  var pathString = "";
-  for (var i = 0; i < arrx.length; i++) {
-    var scaledPoint = scalePoint(w, h, [arrx[i], arry[i]]);
+  let pathString = "";
+  for (let i = 0; i < arrx.length; i++) {
+    const scaledPoint = scalePoint(w, h, [arrx[i], arry[i]]);
     pathString += (i === 0 ? "M" : "L") + scaledPoint[0] + "," + scaledPoint[1];
   }
   pathString += "z";
@@ -59,21 +59,21 @@ function drawSq(
   height: number,
   colorString: string
 ) {
-  var z = 1.366; // sqrt(2) / sqrt(1^2 + tan(15 degrees)^2)
-  var r = Raphael(parentElement, width, height).setViewBox(0, 0, width, height);
+  const z = 1.366; // sqrt(2) / sqrt(1^2 + tan(15 degrees)^2)
+  const r = Raphael(parentElement, width, height).setViewBox(0, 0, width, height);
   r.canvas.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
-  var arrx, arry;
+  let arrx, arry;
 
-  var margin = 1;
-  var sidewid = (0.15 * 100) / z;
-  var cx = 50;
-  var cy = 50;
-  var radius = (cx - margin - sidewid * z) / z;
-  var w = (sidewid + radius) / radius; // ratio btw total piece width and radius
+  const margin = 1;
+  const sidewid = (0.15 * 100) / z;
+  let cx = 50;
+  let cy = 50;
+  const radius = (cx - margin - sidewid * z) / z;
+  const w = (sidewid + radius) / radius; // ratio btw total piece width and radius
 
-  var angles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  var angles2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const angles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const angles2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
   //initialize angles
   for (let foo = 0; foo < 24; foo++) {
@@ -98,7 +98,7 @@ function drawSq(
     return Math.sin(angles2[index]) * radius;
   }
 
-  var h = sin1(1) * w * z - sin1(1) * z;
+  let h = sin1(1) * w * z - sin1(1) * z;
   if (middleIsSolved) {
     arrx = [cx + cos1(1) * w * z, cx + cos1(4) * w * z, cx + cos1(7) * w * z, cx + cos1(10) * w * z];
     arry = [cy - sin1(1) * w * z, cy - sin1(4) * w * z, cy - sin1(7) * w * z, cy - sin1(10) * w * z];
@@ -160,8 +160,9 @@ function drawSq(
   }
 
   //fill and outline first layer
-  var sc = 0;
-  for (var foo = 0; sc < 12; foo++) {
+  let sc = 0;
+  let foo = 0;
+  for (foo = 0; sc < 12; foo++) {
     if (shapes.length <= foo) sc = 12;
     if (shapes.charAt(foo) === "x") sc++;
     if (shapes.charAt(foo) === "c") {
@@ -290,17 +291,18 @@ function drawSq(
   }
 }
 
-function remove_duplicates(arr: any[]) {
-  var out = [];
-  var j = 0;
-  for (var i = 0; i < arr.length; i++) {
+function remove_duplicates(arr: number[]) {
+  const out = [];
+  let j = 0;
+  for (let i = 0; i < arr.length; i++) {
     if (i === 0 || arr[i] !== arr[i - 1]) out[j++] = arr[i];
   }
   return out;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function FullCube_pieceAt(obj: any, idx: number) {
-  var ret;
+  let ret;
   idx < 6
     ? (ret = ~~obj.ul >> ((5 - idx) << 2))
     : idx < 12
@@ -311,40 +313,39 @@ function FullCube_pieceAt(obj: any, idx: number) {
   return ~~((ret & 15) << 24) >> 24;
 }
 
-function drawScramble(parentElement: HTMLElement, stringState: string, w: number = 600, h: number = 330) {
+function drawScramble(parentElement: HTMLElement, stringState: string, w = 600, h = 330) {
   const sq1State = JSON.parse(stringState);
 
-  var colorString = "yobwrg"; //In dlburf order.
+  const colorString = "yobwrg"; //In dlburf order.
 
-  var posit = [];
-  var tb, ty, col, eido;
+  const posit = [];
 
-  var middleIsSolved = sq1State.ml === 0;
+  const middleIsSolved = sq1State.ml === 0;
 
-  var map = [5, 4, 3, 2, 1, 0, 11, 10, 9, 8, 7, 6, 17, 16, 15, 14, 13, 12, 23, 22, 21, 20, 19, 18];
+  const map = [5, 4, 3, 2, 1, 0, 11, 10, 9, 8, 7, 6, 17, 16, 15, 14, 13, 12, 23, 22, 21, 20, 19, 18];
 
   for (let j = 0; j < map.length; j++) {
     posit.push(FullCube_pieceAt(sq1State, map[j]));
   }
 
-  tb = ["3", "3", "3", "3", "3", "3", "3", "3", "0", "0", "0", "0", "0", "0", "0", "0"];
-  ty = ["e", "c", "e", "c", "e", "c", "e", "c", "e", "c", "e", "c", "e", "c", "e", "c"];
-  col = ["2", "12", "1", "51", "5", "45", "4", "24", "4", "42", "5", "54", "1", "15", "2", "21"];
+  const tb = ["3", "3", "3", "3", "3", "3", "3", "3", "0", "0", "0", "0", "0", "0", "0", "0"];
+  const ty = ["e", "c", "e", "c", "e", "c", "e", "c", "e", "c", "e", "c", "e", "c", "e", "c"];
+  const col = ["2", "12", "1", "51", "5", "45", "4", "24", "4", "42", "5", "54", "1", "15", "2", "21"];
 
-  var top_side = remove_duplicates(posit.slice(0, 12));
-  var bot_side = remove_duplicates(posit.slice(18, 24).concat(posit.slice(12, 18)));
-  eido = top_side.concat(bot_side);
+  const top_side = remove_duplicates(posit.slice(0, 12));
+  const bot_side = remove_duplicates(posit.slice(18, 24).concat(posit.slice(12, 18)));
+  const eido = top_side.concat(bot_side);
 
-  var a = "";
-  var b = "";
-  var c = "";
+  let a = "";
+  let b = "";
+  let c = "";
   for (let j = 0; j < 16; j++) {
     a += ty[eido[j]];
     b += tb[eido[j]];
     c += col[eido[j]];
   }
 
-  var stickers = b
+  const stickers = b
     .concat(c)
     .replace(/0/g, colorString[0])
     .replace(/1/g, colorString[1])

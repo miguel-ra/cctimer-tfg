@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { ReactNode } from "react";
 import uuid from "shared/uuid";
 import { Notification } from "store/notificationsContext";

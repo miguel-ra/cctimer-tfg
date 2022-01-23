@@ -17,6 +17,10 @@ const useStyles = createUseStyles({
     height: "100%",
     paddingBottom: "1.5rem",
   },
+  time: {
+    color: theme.palette.text.secondary,
+    transition: theme.transition.generate(["color"]),
+  },
   date: {
     marginBottom: "1.5rem",
     [theme.breakpoints.up("sm")]: {

@@ -35,7 +35,7 @@ function buildVariant(
   fontSize: string,
   lineHeight: number,
   letterSpacing: number,
-  casing?: object
+  casing?: Record<string, string>
 ) {
   return {
     fontFamily,

@@ -19,7 +19,8 @@ const useStyles = createUseStyles({
     padding: "1rem",
     alignItems: "center",
     justifyContent: "space-between",
-    transition: ` border ${theme.transition.duration.colorMode} linear`,
+    color: theme.palette.text.secondary,
+    transition: theme.transition.generate(["color", "border"]),
     borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     [theme.breakpoints.up("md")]: {
       padding: "1rem 1.5rem",

@@ -6,7 +6,7 @@ type UseStylesProps = {
   adornmentColor?: PaletteColor;
 };
 
-const useStyles = createUseStyles<any, UseStylesProps>({
+const useStyles = createUseStyles({
   root: {
     display: "flex",
     position: "relative",
@@ -32,7 +32,8 @@ const useStyles = createUseStyles<any, UseStylesProps>({
       position: "absolute",
       width: "0.5rem",
       height: "100%",
-      backgroundColor: ({ adornmentColor }) => (adornmentColor ? theme.palette.getColor(adornmentColor) : ""),
+      backgroundColor: ({ adornmentColor }: UseStylesProps) =>
+        adornmentColor ? theme.palette.getColor(adornmentColor) : "",
     },
   },
   icon: {

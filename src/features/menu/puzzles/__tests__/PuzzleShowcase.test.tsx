@@ -13,7 +13,7 @@ jest.mock("store/menuContext", () => {
     useMenu: jest.fn(),
   };
 });
-const mockedUseMenu = useMenu as any;
+const mockedUseMenu = useMenu as jest.Mock;
 
 jest.mock("store/modalContext", () => {
   const actualMenuContext = jest.requireActual("store/modalContext");
@@ -22,7 +22,7 @@ jest.mock("store/modalContext", () => {
     useModal: jest.fn(),
   };
 });
-const mockedUseModal = useModal as any;
+const mockedUseModal = useModal as jest.Mock;
 
 jest.mock("../puzzleViewModel");
 const mockedUsePuzzle = usePuzzle as jest.Mock;

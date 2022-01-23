@@ -5,7 +5,7 @@ type UseStylesProps = {
   mobile?: boolean;
 };
 
-const useStyles = createUseStyles<any, UseStylesProps>({
+const useStyles = createUseStyles({
   root: {
     display: "grid",
     width: "100%",
@@ -16,7 +16,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     padding: "1.5rem 0",
     position: "relative",
     overflow: "hidden",
-    background: ({ mobile }) => (mobile ? theme.palette.background.primary : ""),
+    background: ({ mobile }: UseStylesProps) => (mobile ? theme.palette.background.primary : ""),
     transition: theme.transition.generate(["background"]),
   },
   stats: {

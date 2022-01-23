@@ -3,7 +3,7 @@ import { Stat } from "../Stats";
 import { calculateTrim, getBest, getCurrent } from "./shared";
 
 function arrayWindowSlice(array: PuzzleTimeValue[], size: number) {
-  let result: PuzzleTimeValue[][] = [];
+  const result: PuzzleTimeValue[][] = [];
   array.forEach((_, i) => {
     if (i + size <= array.length) {
       result.push(array.slice(i, i + size));

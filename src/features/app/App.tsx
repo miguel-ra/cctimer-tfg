@@ -56,7 +56,7 @@ function App() {
     <>
       <Helmet>
         {metas.map((meta) => (
-          <meta {...meta} />
+          <meta key={meta.name} {...meta} />
         ))}
         <title>{title}</title>
         <meta name="description" content={description} />

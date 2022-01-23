@@ -7,7 +7,6 @@ import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import useTimes from "features/times/timesViewModel";
 import useStats from "features/stats/statsViewModel";
-// eslint-disable-next-line import/no-webpack-loader-syntax
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 import { LoadScrambleResponse } from "./loadScramble.worker";
 

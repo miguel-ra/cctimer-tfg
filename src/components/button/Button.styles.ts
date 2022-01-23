@@ -10,6 +10,7 @@ type UseStylesProps = {
   size: "medium" | "large";
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useStyles = createUseStyles<any, UseStylesProps>({
   button: {
     ...theme.typography.button,

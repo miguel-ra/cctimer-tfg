@@ -68,6 +68,7 @@ const arrow: {
   },
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const useStyles = createUseStyles<any, UseStylesProps>({
   overlay: {
     position: "absolute",

@@ -31,7 +31,7 @@ function TableProvider({ children }: TableProviderProps) {
 
   const updateColumn = useCallback((column: Column) => {
     setColumns((prevColumns) => {
-      let newColumns = [...prevColumns];
+      const newColumns = [...prevColumns];
       const columnIndex = newColumns.findIndex((element) => element.prop === column.prop);
       if (columnIndex === -1) {
         newColumns.push(column);

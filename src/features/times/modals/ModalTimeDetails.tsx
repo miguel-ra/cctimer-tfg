@@ -89,7 +89,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
             xs={{ flexDirection: "column-reverse" }}
             sm={{ flexDirection: "row" }}
           >
-            <Typography variant="h3">
+            <Typography className={classes.time} variant="h3">
               {elapsedTimeWithPenalty(internalTime.elapsedTime, internalTime.penalty)}
             </Typography>
             <Typography variant="caption" className={classes.date}>

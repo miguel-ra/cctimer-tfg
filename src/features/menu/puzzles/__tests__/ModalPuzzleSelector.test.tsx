@@ -11,7 +11,7 @@ jest.mock("store/modalContext", () => {
     useModal: jest.fn(),
   };
 });
-const mockedUseModal = useModal as any;
+const mockedUseModal = useModal as jest.Mock;
 const modalContext = { closeModal: jest.fn() };
 
 describe("features/menu/puzzles/ModalPuzzleSelector", () => {

@@ -2,7 +2,11 @@ import get from "lodash/get";
 import colors, { PaletteColor } from "./colors";
 
 function getColor(paletteColor?: PaletteColor, fallbackColor?: string) {
-  const colorPalette = get(colors, paletteColor as any);
+  let colorPalette;
+
+  if (paletteColor) {
+    colorPalette = get(colors, paletteColor);
+  }
 
   if (!colorPalette) {
     return fallbackColor;

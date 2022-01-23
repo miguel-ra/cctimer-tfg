@@ -5,14 +5,17 @@ type UseEventListenerOptions = {
   useCapture?: boolean;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type EventHandler = (event: any) => void;
+
 function useEventListener(
   targetProp: Window | HTMLElement | null,
   eventNameProp: string | string[],
-  handler: Function,
+  handler: EventHandler,
   { attachListener = true, useCapture }: UseEventListenerOptions | undefined = {}
 ) {
   const [target, setTarget] = useState<Window | HTMLElement | null>(targetProp);
-  const savedHandler = useRef<Function | null>(null);
+  const savedHandler = useRef<EventListener>();
 
   useEffect(() => {
     if (targetProp && targetProp !== target) {

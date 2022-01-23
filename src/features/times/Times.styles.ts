@@ -5,13 +5,13 @@ type UseStylesProps = {
   mobile?: boolean;
 };
 
-const useStyles = createUseStyles<any, UseStylesProps>({
+const useStyles = createUseStyles({
   root: {
     display: "grid",
     width: "100%",
     maxHeight: "100%",
     gridTemplateRows: "1fr auto",
-    background: ({ mobile }) => (mobile ? theme.palette.background.primary : ""),
+    background: ({ mobile }: UseStylesProps) => (mobile ? theme.palette.background.primary : ""),
     transition: theme.transition.generate(["background"]),
   },
   timesWrapper: {

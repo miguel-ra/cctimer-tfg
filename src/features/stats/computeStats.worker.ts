@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PuzzleTime } from "models/times/Time";
 import { statsConfig, PuzzleStats, StatKey } from "models/stats/Stats";
 import { puzzleTimeToValue } from "shared/format/puzzleTime";
@@ -19,7 +20,6 @@ async function computeStats(puzzleTimes: PuzzleTime[]): Promise<LoadScrambleResp
   return puzzleStats;
 }
 
-// eslint-disable-next-line no-restricted-globals
 const ctx: Worker = self as any;
 
 ctx.addEventListener("message", ({ data: puzzleKey }: { data: PuzzleTime[] }) => {

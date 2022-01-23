@@ -1,7 +1,6 @@
 import { PuzzleStats } from "models/stats/Stats";
 import { PuzzleTime } from "models/times/Time";
 import { useEffect, useState } from "react";
-// eslint-disable-next-line import/no-webpack-loader-syntax
 import LoadComputeStats from "workerize-loader!./computeStats.worker.ts";
 import { LoadScrambleResponse } from "./computeStats.worker";
 

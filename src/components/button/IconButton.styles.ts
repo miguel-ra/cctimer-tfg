@@ -5,9 +5,9 @@ type UseStylesProps = {
   size?: "small" | "medium";
 };
 
-const useStyles = createUseStyles<any, UseStylesProps>({
+const useStyles = createUseStyles({
   button: {
-    "--size": ({ size }) => (size === "small" ? "2.4rem" : "3.5rem"),
+    "--size": ({ size }: UseStylesProps) => (size === "small" ? "2.4rem" : "3.5rem"),
     background: "none",
     border: "none",
     padding: "0",
