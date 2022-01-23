@@ -21,7 +21,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     justifyContent: ({ center }) => (center ? "center" : "flex-start"),
     alignItems: "center",
     gap: "1.5rem",
-    color: theme.palette.text.primary,
+    color: theme.palette.text.secondary,
     cursor: "pointer",
     borderRadius: theme.shape.borderRadius,
     transition: `color ${theme.transition.duration.colorMode} linear, opacity 0.2s ease-in-out, background 0.2s linear`,

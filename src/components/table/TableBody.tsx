@@ -23,7 +23,7 @@ function TableBody<T>({ data }: TableBodyProps<T>) {
       {data.map((row, index) => (
         <tr key={index}>
           {columns.map((column) => (
-            <td>{row[column.prop as keyof T]}</td>
+            <td key={column.prop}>{row[column.prop as keyof T]}</td>
           ))}
         </tr>
       ))}

@@ -3,7 +3,7 @@ import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   puzzleWrapper: {
-    "--background-color": theme.palette.background.primary,
+    "--background-color": theme.palette.background.secondary,
     position: "relative",
     width: "3.5rem",
     height: "3.5rem",
@@ -26,11 +26,11 @@ const useStyles = createUseStyles({
     },
     "&.selected $puzzleBorder": {
       opacity: 1,
-      color: theme.palette.text.primary,
+      color: theme.palette.text.secondary,
       transform: "scale(1.322)",
     },
     "&.selected $puzzleDelete": {
-      color: theme.palette.text.primary,
+      color: theme.palette.text.secondary,
     },
     "&:focus": {
       outline: "5px auto -webkit-focus-ring-color",

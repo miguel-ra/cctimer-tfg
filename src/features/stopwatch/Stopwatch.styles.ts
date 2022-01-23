@@ -1,5 +1,5 @@
 import { createUseStyles } from "react-jss";
-import breakpoints from "styles/breakpoints";
+import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   container: {
@@ -11,6 +11,8 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
+    background: theme.palette.background.primary,
+    transition: `background ${theme.transition.duration.colorMode} linear`,
   },
   displayWrapper: {
     position: "relative",
@@ -19,20 +21,21 @@ const useStyles = createUseStyles({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: "8rem",
-    transition: "color 0.1s linear",
+    color: theme.palette.text.secondary,
+    transition: `color ${theme.transition.duration.colorMode} linear`,
     ".pressed &": {
       transform: "scale(0.95)",
     },
-    [breakpoints.up("sm")]: {
+    [theme.breakpoints.up("sm")]: {
       fontSize: "12rem",
     },
-    [breakpoints.up("md")]: {
+    [theme.breakpoints.up("md")]: {
       fontSize: "14rem",
     },
-    [breakpoints.up("lg")]: {
+    [theme.breakpoints.up("lg")]: {
       fontSize: "18rem",
     },
-    [breakpoints.up("xl")]: {
+    [theme.breakpoints.up("xl")]: {
       fontSize: "20rem",
     },
     "@media (max-height:600px)": {

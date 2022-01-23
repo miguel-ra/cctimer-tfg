@@ -9,6 +9,8 @@ const useStyles = createUseStyles({
     maxHeight: "calc(22vh - 2rem)",
   },
   text: {
+    color: theme.palette.text.secondary,
+    transition: `color ${theme.transition.duration.colorMode} linear`,
     textAlign: "center",
     whiteSpace: "pre-wrap",
     overflowWrap: "break-word",

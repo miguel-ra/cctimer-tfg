@@ -7,7 +7,7 @@ const theme = {
   breakpoints,
   typography,
   shape: {
-    borderWitdh: "1px",
+    borderWitdh: "2px",
     borderRadius: 6,
   },
   transition: {
