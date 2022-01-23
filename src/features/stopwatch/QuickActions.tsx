@@ -16,8 +16,8 @@ enum Action {
 type ActionCallbacks = { [key in Action]: (time: PuzzleTime) => Promise<PuzzleTime | undefined> };
 
 type QuickActionsProps = {
-  time?: PuzzleTime;
   resetStopwatch: () => void;
+  visible: boolean;
 };
 
 const useStyles = createUseStyles({
@@ -80,7 +80,7 @@ function getPenaltyButtonProps(
   };
 }
 
-function QuickActions({ resetStopwatch }: QuickActionsProps) {
+function QuickActions({ resetStopwatch, visible }: QuickActionsProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { updateTime, deleteTime, lastTime } = useTimer();
@@ -126,7 +126,7 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
 
   return (
     <div
-      className={clsx(classes.quickActions, { visible: !!lastTime })}
+      className={clsx(classes.quickActions, { visible: !!lastTime && visible })}
       onMouseDownCapture={handlePropagation}
       onTouchStartCapture={handlePropagation}
       onClickCapture={handleClick}

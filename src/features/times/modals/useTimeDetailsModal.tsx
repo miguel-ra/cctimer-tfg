@@ -18,7 +18,6 @@ function useTimeDetailsModal() {
 
   const openTimeDetailsModal = useCallback(
     (timeId: TimeId) => {
-      console.log({ timeId, puzzleTimes: puzzleTimesRef.current });
       const time = puzzleTimesRef.current.find((time) => time.id === timeId) as PuzzleTime;
 
       openModal(

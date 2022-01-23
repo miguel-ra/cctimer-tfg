@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import Providers from "store/Providers";
 import App from "features/app/App";
 import reportWebVitals from "./reportWebVitals";
@@ -8,7 +9,9 @@ import "./i18n/i18n";
 ReactDOM.render(
   <StrictMode>
     <Providers>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Providers>
   </StrictMode>,
   document.getElementById("root")

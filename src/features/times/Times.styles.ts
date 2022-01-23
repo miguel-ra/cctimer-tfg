@@ -1,12 +1,18 @@
 import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 
-const useStyles = createUseStyles({
+type UseStylesProps = {
+  mobile?: boolean;
+};
+
+const useStyles = createUseStyles<any, UseStylesProps>({
   root: {
     display: "grid",
     width: "100%",
     maxHeight: "100%",
     gridTemplateRows: "1fr auto",
+    background: ({ mobile }) => (mobile ? theme.palette.background.primary : ""),
+    transition: theme.transition.generate(["background"]),
   },
   timesWrapper: {
     display: "grid",

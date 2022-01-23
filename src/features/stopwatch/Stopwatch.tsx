@@ -213,7 +213,10 @@ function Stopwatch() {
           {status === Status.Dnf && "DNF"}
           {status === Status.Running && millisecondsToClock(elapsedTime)}
         </div>
-        <QuickActions resetStopwatch={resetStopwatch} />
+        <QuickActions
+          visible={[Status.Dnf, Status.Idle].includes(status) && !Boolean(color)}
+          resetStopwatch={resetStopwatch}
+        />
       </div>
     </Pressable>
   );

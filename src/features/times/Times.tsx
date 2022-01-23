@@ -8,9 +8,10 @@ import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import useStyles from "./Times.styles";
 import useTimeDetailsModal from "./modals/useTimeDetailsModal";
+import { ComponentProps } from "features/timer/mobile/TimerMobile";
 
-function Times() {
-  const classes = useStyles();
+function Times({ mobile }: ComponentProps) {
+  const classes = useStyles({ mobile });
   const { openTimeDetailsModal } = useTimeDetailsModal();
   const { puzzleTimes, deletePuzzleTimes, puzzleStats } = useTimer();
   const { t } = useTranslation();

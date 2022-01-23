@@ -1,7 +1,11 @@
 import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 
-const useStyles = createUseStyles({
+type UseStylesProps = {
+  mobile?: boolean;
+};
+
+const useStyles = createUseStyles<any, UseStylesProps>({
   root: {
     display: "grid",
     width: "100%",
@@ -12,6 +16,8 @@ const useStyles = createUseStyles({
     padding: "1.5rem 0",
     position: "relative",
     overflow: "hidden",
+    background: ({ mobile }) => (mobile ? theme.palette.background.primary : ""),
+    transition: theme.transition.generate(["background"]),
   },
   stats: {
     width: "100%",
@@ -29,7 +35,8 @@ const useStyles = createUseStyles({
         position: "absolute",
         top: `calc(-1.5rem - ${theme.shape.borderWitdh})`,
         left: "-1.5rem",
-        background: theme.palette.background.secondary,
+        background: ({ mobile }) =>
+          mobile ? theme.palette.background.primary : theme.palette.background.secondary,
         transition: theme.transition.generate(["background"]),
         zIndex: -1,
       },

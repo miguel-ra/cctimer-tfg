@@ -5,6 +5,7 @@ import { useTimer } from "features/timer/timerViewModel";
 import Box from "components/flexboxgrid/Box";
 import Table from "components/table/Table";
 import useStyles from "./Stats.styles";
+import { ComponentProps } from "features/timer/mobile/TimerMobile";
 
 type Stat = {
   key: string;
@@ -13,10 +14,10 @@ type Stat = {
   best: string;
 };
 
-function Stats() {
+function Stats({ mobile }: ComponentProps) {
   const { t } = useTranslation();
   const { puzzleStats } = useTimer();
-  const classes = useStyles();
+  const classes = useStyles({ mobile });
 
   if (!puzzleStats) {
     return (

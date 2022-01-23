@@ -17,9 +17,13 @@ import useStyles from "./TimerMobile.styles";
 import Timer from "./Timer";
 import Scramble from "./Scramble";
 
+type ComponentProps = {
+  mobile?: boolean;
+};
+
 type Tab = {
   label: string;
-  Component: () => JSX.Element;
+  Component: (props: ComponentProps) => JSX.Element;
 };
 
 const tabs: Tab[] = [
@@ -169,7 +173,7 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
               top={0}
               left={0}
             >
-              <Component />
+              <Component mobile />
             </Box>
           );
         })}
@@ -202,6 +206,8 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
     </Box>
   );
 }
+
+export type { ComponentProps };
 
 export default function TimerMobileWithProvider(props: TimerMobileProps) {
   return (

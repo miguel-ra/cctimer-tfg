@@ -46,7 +46,12 @@ const useStyles = createUseStyles({
     "&:hover": {
       color: theme.palette.text.secondary,
       background: theme.palette.border.primary,
-      transform: "translateY(-4px)",
+
+      "@media (hover: hover)": {
+        "&": {
+          transform: "translateY(-4px)",
+        },
+      },
     },
   },
   icon: {
