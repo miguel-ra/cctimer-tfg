@@ -6,7 +6,6 @@ import { TableProvider } from "./tableContext";
 import TableColumn from "./TableColumn";
 import TableHeader from "./TableHeader";
 import TableBody from "./TableBody";
-import theme from "styles/theme";
 
 type TableProps<T> = {
   data: T[];

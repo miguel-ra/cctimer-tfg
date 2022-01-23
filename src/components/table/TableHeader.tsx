@@ -18,7 +18,6 @@ const useStyles = createUseStyles({
       borderWidth: `${theme.shape.borderWitdh} 0px ${theme.shape.borderWitdh} 0px`,
       borderRadius: "0",
       transition: theme.transition.generate(["border", "color", "background"]),
-
       "&:first-child": {
         border,
         borderWidth: `${theme.shape.borderWitdh} 0px ${theme.shape.borderWitdh} ${theme.shape.borderWitdh}`,
