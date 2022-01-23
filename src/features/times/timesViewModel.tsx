@@ -1,12 +1,13 @@
+import { Scramble } from "cctimer-scrambles";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useTimesRepository } from "repositories/times/timesRepository";
+
+import ErrorNotification from "components/notification/ErrorNotification";
 import { PuzzleTime, Time, TimeId, TimePenalty } from "models/times/Time";
+import { PuzzleTimeUpdate } from "models/times/TimesRepository";
+import { useTimesRepository } from "repositories/times/timesRepository";
 import { useMenu } from "store/menuContext";
 import { useNotifications } from "store/notificationsContext";
-import ErrorNotification from "components/notification/ErrorNotification";
-import { Scramble } from "cctimer-scrambles";
-import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 
 type UseTimesProps = {
   onTimeAdded: () => void;

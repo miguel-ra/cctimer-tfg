@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import { ButtonHTMLAttributes, ElementType, ReactNode } from "react";
+
 import { Color } from "styles/colors";
+
 import useStyles from "./Button.styles";
 
 type ButtonVariant = "text" | "contained" | "outlined";

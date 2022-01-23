@@ -1,13 +1,15 @@
 import { useTranslation } from "react-i18next";
 import { createUseStyles } from "react-jss";
-import { useSettings } from "store/settingsContext";
+
+import CheckboxField from "components/field/CheckboxField";
 import Field from "components/field/Field";
 import Box from "components/flexboxgrid/Box";
 import ModalBody from "components/modal/ModalBody";
 import ModalHeader from "components/modal/ModalHeader";
-import CheckboxField from "components/field/CheckboxField";
-import LanguageSelector from "./LanguageSelector";
+import { useSettings } from "store/settingsContext";
+
 import ColorModeToggle from "./ColorModeToggle";
+import LanguageSelector from "./LanguageSelector";
 
 // t("Auto start after inspection ends")
 // t("Hide time during solve")

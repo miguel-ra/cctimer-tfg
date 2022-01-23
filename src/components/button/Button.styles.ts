@@ -1,5 +1,6 @@
 import { ButtonHTMLAttributes } from "react";
 import { createUseStyles } from "react-jss";
+
 import { Color, PaletteColor } from "styles/colors";
 import theme from "styles/theme";
 

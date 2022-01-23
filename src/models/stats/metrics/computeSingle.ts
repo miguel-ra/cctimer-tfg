@@ -1,5 +1,7 @@
 import { PuzzleTimeValue } from "models/times/Time";
+
 import { Stat } from "../Stats";
+
 import { getBest, getCurrent } from "./shared";
 
 function computeSingle(timesValues: PuzzleTimeValue[]) {

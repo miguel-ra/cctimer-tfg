@@ -1,4 +1,5 @@
 import { ReactNode, useRef, useState } from "react";
+
 import isTouchDevice from "shared/browser/isTouchDevice";
 import useEventListener from "shared/hooks/useEventListener";
 import { PopoverConfig, usePopover } from "store/popoverContext";

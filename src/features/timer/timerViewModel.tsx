@@ -1,13 +1,16 @@
-import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { Scramble } from "cctimer-scrambles";
-import { useMenu } from "store/menuContext";
+import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
+import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
+
+import useStats from "features/stats/statsViewModel";
+import useTimes from "features/times/timesViewModel";
 import { PuzzleKey } from "models/puzzles/Puzzle";
 import { PuzzleStats } from "models/stats/Stats";
 import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
-import useTimes from "features/times/timesViewModel";
-import useStats from "features/stats/statsViewModel";
-import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
+import { useMenu } from "store/menuContext";
+
+
 import { LoadScrambleResponse } from "./loadScramble.worker";
 
 type MenuState = {

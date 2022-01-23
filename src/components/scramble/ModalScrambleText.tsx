@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
-import { createUseStyles } from "react-jss";
 import { useTranslation } from "react-i18next";
-import theme from "styles/theme";
-import ModalHeader from "components/modal/ModalHeader";
+import { createUseStyles } from "react-jss";
+
 import ModalBody from "components/modal/ModalBody";
+import ModalHeader from "components/modal/ModalHeader";
+import theme from "styles/theme";
 
 type ModalPuzzleSelectorProps = {
   children: ReactNode;

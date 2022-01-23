@@ -1,5 +1,7 @@
 import { createUseStyles } from "react-jss";
+
 import theme from "styles/theme";
+
 import { useTable } from "./tableContext";
 
 type TableBodyProps<T> = {

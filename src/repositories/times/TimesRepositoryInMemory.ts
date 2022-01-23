@@ -1,6 +1,7 @@
-import { openDB, IDBPDatabase } from "idb/with-async-ittr";
+import { IDBPDatabase, openDB } from "idb/with-async-ittr";
+
 import { PuzzleId, PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
-import { TimeId, PuzzleTime, UnsavedPuzzleTime } from "models/times/Time";
+import { PuzzleTime, TimeId, UnsavedPuzzleTime } from "models/times/Time";
 import { PuzzleTimeUpdate, TimesRepository } from "models/times/TimesRepository";
 
 type TimesDB = {

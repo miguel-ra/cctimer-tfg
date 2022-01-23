@@ -1,5 +1,6 @@
-import { ButtonHTMLAttributes, ReactNode } from "react";
 import clsx from "clsx";
+import { ButtonHTMLAttributes, ReactNode } from "react";
+
 import useStyles from "./IconButton.styles";
 
 type IconButtonProps = {

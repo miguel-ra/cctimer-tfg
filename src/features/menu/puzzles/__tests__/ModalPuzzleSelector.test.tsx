@@ -1,8 +1,11 @@
-import { renderWithProviders, screen, waitFor } from "../../../../../internals/test";
-import { useModal } from "store/modalContext";
-import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
-import ModalPuzzleSelector from "../ModalPuzzleSelector";
 import userEvent from "@testing-library/user-event";
+
+import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
+import { useModal } from "store/modalContext";
+
+import { renderWithProviders, screen, waitFor } from "../../../../../internals/test";
+import ModalPuzzleSelector from "../ModalPuzzleSelector";
+
 
 jest.mock("store/modalContext", () => {
   const actualMenuContext = jest.requireActual("store/modalContext");

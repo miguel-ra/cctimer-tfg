@@ -1,4 +1,5 @@
 import { createUseStyles } from "react-jss";
+
 import typography, { fontWeight, FontWeight } from "styles/typography";
 
 type UseStylesProps = {

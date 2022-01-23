@@ -1,13 +1,15 @@
-import { FunctionComponent, MutableRefObject, SVGProps } from "react";
 import { TFunction } from "i18next";
+import { FunctionComponent, MutableRefObject, SVGProps } from "react";
+
+import ErrorNotification from "components/notification/ErrorNotification";
+import SuccessNotification from "components/notification/SuccessNotification";
 import { AddNotification } from "store/notificationsContext";
+
 import { ReactComponent as CopyIcon } from "assets/icons/copy.svg";
 import { ReactComponent as FacebookIcon } from "assets/icons/facebook.svg";
+import { ReactComponent as TelegramIcon } from "assets/icons/telegram.svg";
 import { ReactComponent as TwitterIcon } from "assets/icons/twitter.svg";
 import { ReactComponent as WhatsappIcon } from "assets/icons/whatsapp.svg";
-import { ReactComponent as TelegramIcon } from "assets/icons/telegram.svg";
-import SuccessNotification from "components/notification/SuccessNotification";
-import ErrorNotification from "components/notification/ErrorNotification";
 
 type ShareActionData = {
   shareText: string;

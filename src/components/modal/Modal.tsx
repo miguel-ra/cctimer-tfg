@@ -1,5 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
+
 import Portal from "components/portal/Portal";
+
 import useStyles from "./Modal.styles";
 
 type ModalProps = {

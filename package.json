@@ -27,7 +27,7 @@
     "test": "react-scripts test --coverage --watchAll=false --ci",
     "test:local": "react-scripts test",
     "generate:locales": "i18next 'src/**/*.{ts,tsx}' --config=internals/i18n/parser.config.js",
-    "lint": "eslint -c .eslintrc.json --ext .js,.jsx,.ts,.tsx .",
+    "lint": "eslint -c .eslintrc --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "npm run lint -- --fix"
   },
   "eslintConfig": {

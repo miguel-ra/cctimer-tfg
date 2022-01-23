@@ -1,9 +1,11 @@
+import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import clsx from "clsx";
-import { useModal } from "store/modalContext";
+
 import Button from "components/button/Button";
 import Typography from "components/typography/Typography";
+import { useModal } from "store/modalContext";
+
 import ModalScrambleText from "./ModalScrambleText";
 import useStyles from "./ScrambleText.styles";
 

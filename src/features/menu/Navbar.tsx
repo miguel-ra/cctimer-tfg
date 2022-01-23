@@ -1,9 +1,10 @@
 import { createUseStyles } from "react-jss";
-import theme from "styles/theme";
-import LanguageSelector from "features/settings/LanguageSelector";
-import ColorModeToggle from "features/settings/ColorModeToggle";
-import Typography from "components/typography/Typography";
+
 import Box from "components/flexboxgrid/Box";
+import Typography from "components/typography/Typography";
+import ColorModeToggle from "features/settings/ColorModeToggle";
+import LanguageSelector from "features/settings/LanguageSelector";
+import theme from "styles/theme";
 
 const useStyles = createUseStyles({
   navbar: {

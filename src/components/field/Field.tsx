@@ -1,3 +1,5 @@
+import clsx from "clsx";
+import debounce from "lodash/debounce";
 import {
   ChangeEvent,
   InputHTMLAttributes,
@@ -5,8 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import clsx from "clsx";
-import debounce from "lodash/debounce";
+
 import useStyles from "./Field.styles";
 
 type FieldProps = {

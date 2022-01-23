@@ -1,11 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { StatKey, PuzzleStat, statsConfig } from "models/stats/Stats";
-import { statValueToString } from "models/stats/format/statValue";
-import { useTimer } from "features/timer/timerViewModel";
+
 import Box from "components/flexboxgrid/Box";
 import Table from "components/table/Table";
-import useStyles from "./Stats.styles";
 import { ComponentProps } from "features/timer/mobile/TimerMobile";
+import { useTimer } from "features/timer/timerViewModel";
+import { statValueToString } from "models/stats/format/statValue";
+import { PuzzleStat, StatKey, statsConfig } from "models/stats/Stats";
+
+import useStyles from "./Stats.styles";
 
 type Stat = {
   key: string;

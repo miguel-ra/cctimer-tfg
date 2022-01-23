@@ -1,4 +1,4 @@
-import { useState, useEffect, ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 type PortalProps = {

@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {
   ChangeEvent,
   InputHTMLAttributes,
@@ -5,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import clsx from "clsx";
+
 import useStylesBase from "./Field.styles";
 import useStyles from "./SelectField.styles";
 

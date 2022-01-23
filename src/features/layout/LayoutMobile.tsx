@@ -1,11 +1,12 @@
-import { useRef, useEffect, useCallback, MutableRefObject } from "react";
+import { animated, useSprings } from "@react-spring/web";
+import { MutableRefObject, useCallback, useEffect, useRef } from "react";
 import { useDrag } from "react-use-gesture";
-import { useSprings, animated } from "@react-spring/web";
-import theme from "styles/theme";
-import { clamp } from "shared/format/number";
+
+import Box from "components/flexboxgrid/Box";
 import SideMenuExpanded from "features/menu/SideMenuExpanded";
 import TimerMobile from "features/timer/mobile/TimerMobile";
-import Box from "components/flexboxgrid/Box";
+import { clamp } from "shared/format/number";
+import theme from "styles/theme";
 
 type UseSpringProps = {
   x: number;

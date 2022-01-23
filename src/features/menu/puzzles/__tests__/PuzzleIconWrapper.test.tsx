@@ -1,7 +1,9 @@
-import { createRef } from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import PuzzleIconWrapper from "../PuzzleIconWrapper";
 import userEvent from "@testing-library/user-event";
+import { createRef } from "react";
+
+import PuzzleIconWrapper from "../PuzzleIconWrapper";
+
 
 const puzzleIconWrapperProps = {
   "data-id": 1,

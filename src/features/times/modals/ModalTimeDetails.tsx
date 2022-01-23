@@ -1,26 +1,29 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LangKey } from "i18n/i18n";
-import { ReactComponent as ShareIcon } from "assets/icons/share.svg";
-import { useModal } from "store/modalContext";
-import { dateTimeToLocale } from "shared/format/date";
-import { elapsedTimeWithPenalty } from "shared/format/puzzleTime";
-import { PuzzleTime, TimeId, TimePenalty } from "models/times/Time";
-import { PuzzleTimeUpdate } from "models/times/TimesRepository";
-import { PuzzleKey } from "models/puzzles/Puzzle";
-import ModalHeader from "components/modal/ModalHeader";
-import ModalBody from "components/modal/ModalBody";
-import ModalFooter from "components/modal/ModalFooter";
+
 import Button from "components/button/Button";
-import Box from "components/flexboxgrid/Box";
-import Typography from "components/typography/Typography";
-import Divider from "components/divider/Divider";
-import ScrambleShowcase from "components/scramble/ScrambleShowcase";
-import TextField from "components/field/TextField";
 import ButtonGroup from "components/button/ButtonGroup";
 import IconButton from "components/button/IconButton";
-import useStyles from "./ModalTimeDetails.styles";
+import Divider from "components/divider/Divider";
+import TextField from "components/field/TextField";
+import Box from "components/flexboxgrid/Box";
+import ModalBody from "components/modal/ModalBody";
+import ModalFooter from "components/modal/ModalFooter";
+import ModalHeader from "components/modal/ModalHeader";
+import ScrambleShowcase from "components/scramble/ScrambleShowcase";
+import Typography from "components/typography/Typography";
+import { LangKey } from "i18n/i18n";
+import { PuzzleKey } from "models/puzzles/Puzzle";
+import { PuzzleTime, TimeId, TimePenalty } from "models/times/Time";
+import { PuzzleTimeUpdate } from "models/times/TimesRepository";
+import { dateTimeToLocale } from "shared/format/date";
+import { elapsedTimeWithPenalty } from "shared/format/puzzleTime";
+import { useModal } from "store/modalContext";
+
+import { ReactComponent as ShareIcon } from "assets/icons/share.svg";
+
 import ModalShareTime from "./ModalShareTime";
+import useStyles from "./ModalTimeDetails.styles";
 
 type ModalTimeDetailsProps = {
   puzzleKey?: PuzzleKey;

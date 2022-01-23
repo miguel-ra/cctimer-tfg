@@ -1,8 +1,9 @@
-import { memo, lazy, Suspense } from "react";
-import breakpoints from "styles/breakpoints";
-import useMediaQuery from "shared/hooks/useMediaQuery";
-import Spinner from "components/spinner/Spinner";
+import { lazy, memo, Suspense } from "react";
+
 import Box from "components/flexboxgrid/Box";
+import Spinner from "components/spinner/Spinner";
+import useMediaQuery from "shared/hooks/useMediaQuery";
+import breakpoints from "styles/breakpoints";
 
 function Layout() {
   const isSmall = useMediaQuery(breakpoints.down("md"));

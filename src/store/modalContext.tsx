@@ -9,8 +9,9 @@ import {
   useRef,
   useState,
 } from "react";
-import Spinner from "components/spinner/Spinner";
+
 import useStyles from "components/modal/Modal.styles";
+import Spinner from "components/spinner/Spinner";
 
 type ModalState = {
   openModal: (content: ReactNode) => void;

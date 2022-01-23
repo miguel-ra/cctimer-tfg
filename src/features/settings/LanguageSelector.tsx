@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { languages } from "i18n/i18n";
+
 import SelectField from "components/field/SelectField";
+import { languages } from "i18n/i18n";
 
 function LanguageSelector() {
   const { t, i18n } = useTranslation();

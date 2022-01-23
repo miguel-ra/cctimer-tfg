@@ -1,8 +1,9 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
+
 import Layout from "features/layout/Layout";
 import useEventListener from "shared/hooks/useEventListener";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 
 function getMetas() {
   const metas = [];

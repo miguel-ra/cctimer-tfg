@@ -1,9 +1,11 @@
-import { ChangeEvent, InputHTMLAttributes, useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import debounce from "lodash/debounce";
-import useStylesBase from "./Field.styles";
+import { ChangeEvent, InputHTMLAttributes, useCallback, useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
+
 import theme from "styles/theme";
+
+import useStylesBase from "./Field.styles";
 
 type TextFieldProps = {
   label: string;

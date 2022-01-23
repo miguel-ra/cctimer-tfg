@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 import { HelmetProvider } from "react-helmet-async";
+
 import { ColorModeProvider } from "./colorModeContext";
-import { SettingsProvider } from "./settingsContext";
-import { ModalProvider } from "./modalContext";
-import { PopoverProvider } from "./popoverContext";
 import { MenuProvider } from "./menuContext";
+import { ModalProvider } from "./modalContext";
 import { NotificationsProvider } from "./notificationsContext";
+import { PopoverProvider } from "./popoverContext";
+import { SettingsProvider } from "./settingsContext";
 
 type ProvidersProps = {
   children?: ReactNode;

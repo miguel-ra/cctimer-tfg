@@ -1,4 +1,5 @@
-import { openDB, IDBPDatabase } from "idb";
+import { IDBPDatabase, openDB } from "idb";
+
 import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
 

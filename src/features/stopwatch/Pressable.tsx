@@ -1,6 +1,6 @@
-import { HTMLAttributes, ReactNode, useEffect, useRef, useState, memo, useCallback } from "react";
-import { createUseStyles } from "react-jss";
 import clsx from "clsx";
+import { HTMLAttributes, memo, ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { createUseStyles } from "react-jss";
 
 type PressableProps = {
   children: ReactNode;

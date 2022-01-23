@@ -1,10 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { useModal } from "store/modalContext";
+
+import ModalBody from "components/modal/ModalBody";
+import ModalHeader from "components/modal/ModalHeader";
 import Typography from "components/typography/Typography";
 import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
+import { useModal } from "store/modalContext";
+
 import useStyles from "./ModalPuzzleSelector.styles";
-import ModalHeader from "components/modal/ModalHeader";
-import ModalBody from "components/modal/ModalBody";
+
 
 type ModalPuzzleSelectorProps = {
   onAddPuzzle: (key: PuzzleKey) => Promise<void>;

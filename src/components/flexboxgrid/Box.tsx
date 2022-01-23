@@ -1,6 +1,8 @@
 import { CSSProperties, ElementType, ReactNode } from "react";
+
 import { BreakpointKey } from "styles/breakpoints";
 import breakpoints from "styles/breakpoints";
+
 import useStyles, { BreakpointsStyles } from "./Box.styles";
 
 interface BoxProps extends BreakpointsStyles, CSSProperties {

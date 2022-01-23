@@ -1,4 +1,5 @@
 import userEvent from "@testing-library/user-event";
+
 import { render, screen } from "../../../../internals/test";
 import Modal from "../Modal";
 

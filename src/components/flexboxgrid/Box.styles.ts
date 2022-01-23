@@ -1,5 +1,6 @@
 import { CSSProperties } from "react";
 import { createUseStyles } from "react-jss";
+
 import { BreakpointKey } from "styles/breakpoints";
 import breakpoints from "styles/breakpoints";
 

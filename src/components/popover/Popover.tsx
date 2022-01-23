@@ -1,9 +1,11 @@
-import { cloneElement, ReactElement } from "react";
-import PropTypes from "prop-types";
 import clsx from "clsx";
+import PropTypes from "prop-types";
+import { cloneElement, ReactElement } from "react";
+
 import Portal from "components/portal/Portal";
 import useEventListener from "shared/hooks/useEventListener";
 import { usePopover } from "store/popoverContext";
+
 import useStyles from "./Popover.styles";
 
 type PopoverProps = {

@@ -1,10 +1,11 @@
-import { KeyboardEvent, memo, MouseEvent as ReactMouseEvent, TouchEvent, useCallback, useMemo } from "react";
-import { createUseStyles } from "react-jss";
-import { useTranslation } from "react-i18next";
 import clsx from "clsx";
+import { KeyboardEvent, memo, MouseEvent as ReactMouseEvent, TouchEvent, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { createUseStyles } from "react-jss";
+
+import Button, { ButtonVariant } from "components/button/Button";
 import { useTimer } from "features/timer/timerViewModel";
 import { PuzzleTime, TimePenalty } from "models/times/Time";
-import Button, { ButtonVariant } from "components/button/Button";
 
 enum Action {
   Delete = "delete",

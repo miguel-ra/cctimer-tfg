@@ -1,4 +1,5 @@
 import { PuzzleTime, TimePenalty } from "models/times/Time";
+
 import { millisecondsToClock } from "./number";
 
 function elapsedTimeWithPenaltyCompact(elapsedTime: number, penalty?: TimePenalty) {

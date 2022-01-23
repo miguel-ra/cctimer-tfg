@@ -1,4 +1,5 @@
 import { SVGProps } from "react";
+
 import generateUniqueId from "./generateUniqueId";
 
 function PyraminxIcon(props: SVGProps<SVGSVGElement>) {

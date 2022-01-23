@@ -1,7 +1,9 @@
-import { ReactElement } from "react";
 import clsx from "clsx";
-import { Notification, NotificationId } from "store/notificationsContext";
+import { ReactElement } from "react";
+
 import Portal from "components/portal/Portal";
+import { Notification, NotificationId } from "store/notificationsContext";
+
 import useStyles from "./NotificationsContainer.styles";
 
 type NotificationComponentProps = {

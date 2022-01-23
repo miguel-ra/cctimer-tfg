@@ -1,14 +1,17 @@
+import clsx from "clsx";
 import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import clsx from "clsx";
-import { TimeId } from "models/times/Time";
-import { useTimer } from "features/timer/timerViewModel";
-import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
+
 import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
-import useStyles from "./Times.styles";
-import useTimeDetailsModal from "./modals/useTimeDetailsModal";
 import { ComponentProps } from "features/timer/mobile/TimerMobile";
+import { useTimer } from "features/timer/timerViewModel";
+import { TimeId } from "models/times/Time";
+import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
+
+import useTimeDetailsModal from "./modals/useTimeDetailsModal";
+import useStyles from "./Times.styles";
+
 
 function Times({ mobile }: ComponentProps) {
   const classes = useStyles({ mobile });

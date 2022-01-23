@@ -1,4 +1,5 @@
 import { SVGProps } from "react";
+
 import generateUniqueId from "./generateUniqueId";
 
 function Cube5Icon(props: SVGProps<SVGSVGElement>) {

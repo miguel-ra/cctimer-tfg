@@ -1,6 +1,7 @@
 import { createContext, lazy, ReactNode, Suspense, useCallback, useContext, useMemo, useState } from "react";
-import uuid from "shared/uuid";
+
 import { NotificationComponent } from "components/notification/NotificationsContainer";
+import uuid from "shared/uuid";
 
 type NotificationId = string;
 

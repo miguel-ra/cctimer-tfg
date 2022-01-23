@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+
 import IconButton from "../IconButton";
 
 describe("components/button/IconButton", () => {

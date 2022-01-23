@@ -1,6 +1,7 @@
+import clsx from "clsx";
 import { HTMLAttributes, ReactNode } from "react";
 import { createUseStyles } from "react-jss";
-import clsx from "clsx";
+
 import theme from "styles/theme";
 
 type ModalFooterProps = {

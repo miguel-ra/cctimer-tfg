@@ -1,7 +1,8 @@
-import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
 import clsx from "clsx";
-import useStylesBase from "./Field.styles";
+import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
+
 import useStyles from "./CheckboxField.styles";
+import useStylesBase from "./Field.styles";
 
 type CheckboxFieldProps = {
   label: string;

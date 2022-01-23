@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
-import { millisecondsToSeconds, millisecondsToClock } from "shared/format/number";
-import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
-import { Time, TimePenalty } from "models/times/Time";
+
 import { useTimer } from "features/timer/timerViewModel";
-import { useSettings } from "store/settingsContext";
+import { Time, TimePenalty } from "models/times/Time";
+import { millisecondsToClock, millisecondsToSeconds } from "shared/format/number";
+import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
 import { useMenu } from "store/menuContext";
-import useStopwatch from "./useStopwatch";
-import Pressable from "./Pressable";
-import useStyles from "./Stopwatch.styles";
-import QuickActions from "./QuickActions";
+import { useSettings } from "store/settingsContext";
 import palette from "styles/palette";
+
+import Pressable from "./Pressable";
+import QuickActions from "./QuickActions";
+import useStyles from "./Stopwatch.styles";
+import useStopwatch from "./useStopwatch";
+
 
 enum Status {
   Idle,

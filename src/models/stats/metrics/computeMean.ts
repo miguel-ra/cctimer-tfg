@@ -1,4 +1,5 @@
 import { PuzzleTimeValue } from "models/times/Time";
+
 import computeAverage from "./computeAverage";
 
 function computeMean(timesValues: PuzzleTimeValue[], size: number) {

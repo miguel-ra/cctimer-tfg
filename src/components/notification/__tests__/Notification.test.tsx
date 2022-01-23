@@ -1,7 +1,9 @@
+import userEvent from "@testing-library/user-event";
+
+import { ReactComponent as ErrorIcon } from "assets/icons/error.svg";
+
 import { renderWithProviders, screen, waitFor } from "../../../../internals/test";
 import Notification from "../Notification";
-import { ReactComponent as ErrorIcon } from "assets/icons/error.svg";
-import userEvent from "@testing-library/user-event";
 
 const notificationProps = {
   title: "title",

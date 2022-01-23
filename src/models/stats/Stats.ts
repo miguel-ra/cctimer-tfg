@@ -1,9 +1,10 @@
 import { PuzzleTimeValue, TimeId } from "models/times/Time";
-import computeSingle from "./metrics/computeSingle";
-import computeMean from "./metrics/computeMean";
+
 import computeAverage from "./metrics/computeAverage";
-import { filterDnf } from "./metrics/shared";
+import computeMean from "./metrics/computeMean";
+import computeSingle from "./metrics/computeSingle";
 import computeStandardDeviation from "./metrics/computeStandardDeviation";
+import { filterDnf } from "./metrics/shared";
 
 type StatKey =
   | "single"

@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { createUseStyles } from "react-jss";
+
 import theme from "styles/theme";
 
 type DividerProps = {

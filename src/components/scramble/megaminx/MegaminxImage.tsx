@@ -1,8 +1,11 @@
+import clsx from "clsx";
 import { useEffect, useRef } from "react";
 import { createUseStyles } from "react-jss";
-import clsx from "clsx";
+
 import theme from "styles/theme";
+
 import { ScrambleImageProps } from "../Scramble";
+
 import { ReactComponent as MegaminxTemplate } from "./megaminx.svg";
 
 type FaceKey = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11";

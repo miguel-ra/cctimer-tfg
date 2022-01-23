@@ -1,6 +1,8 @@
 import { ComponentType, lazy, LazyExoticComponent } from "react";
-import { ScrambleImageProps } from "components/scramble/Scramble";
+
 import ClockIcon from "components/icon/ClockIcon";
+import Cube10Icon from "components/icon/Cube10Icon";
+import Cube11Icon from "components/icon/Cube11Icon";
 import Cube2Icon from "components/icon/Cube2Icon";
 import Cube3Icon from "components/icon/Cube3Icon";
 import Cube4Icon from "components/icon/Cube4Icon";
@@ -9,13 +11,12 @@ import Cube6Icon from "components/icon/Cube6Icon";
 import Cube7Icon from "components/icon/Cube7Icon";
 import Cube8Icon from "components/icon/Cube8Icon";
 import Cube9Icon from "components/icon/Cube9Icon";
-import Cube10Icon from "components/icon/Cube10Icon";
-import Cube11Icon from "components/icon/Cube11Icon";
-import SquareIcon from "components/icon/SquareIcon";
-import SkewbIcon from "components/icon/SkewbIcon";
-import MegaminxIcon from "components/icon/MegaminxIcon";
 import GigaminxIcon from "components/icon/GigaminxIcon";
+import MegaminxIcon from "components/icon/MegaminxIcon";
 import PyraminxIcon from "components/icon/PyraminxIcon";
+import SkewbIcon from "components/icon/SkewbIcon";
+import SquareIcon from "components/icon/SquareIcon";
+import { ScrambleImageProps } from "components/scramble/Scramble";
 
 type PuzzleId = number;
 

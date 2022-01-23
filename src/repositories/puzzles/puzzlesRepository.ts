@@ -1,5 +1,7 @@
 import { useState } from "react";
+
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
+
 import PuzzlesRepositoryInMemory from "./PuzzlesRepositoryInMemory";
 
 function usePuzzlesRepository() {

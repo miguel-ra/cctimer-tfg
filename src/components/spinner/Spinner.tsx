@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
+
 import { ReactComponent as IconSpinner } from "assets/icons/spinner.svg";
 
 type SpinnerProps = {

@@ -1,14 +1,17 @@
-import { Suspense } from "react";
 import clsx from "clsx";
-import { useMenu } from "store/menuContext";
-import { puzzlesConfig } from "models/puzzles/Puzzle";
-import Times from "features/times/Times";
+import { Suspense } from "react";
+
+import Box from "components/flexboxgrid/Box";
+import ScrambleText from "components/scramble/ScrambleText";
+import Spinner from "components/spinner/Spinner";
 import Stats from "features/stats/Stats";
 import Stopwatch from "features/stopwatch/Stopwatch";
-import Box from "components/flexboxgrid/Box";
-import Spinner from "components/spinner/Spinner";
-import ScrambleText from "components/scramble/ScrambleText";
+import Times from "features/times/Times";
+import { puzzlesConfig } from "models/puzzles/Puzzle";
+import { useMenu } from "store/menuContext";
+
 import { TimerProvider, useTimer } from "../timerViewModel";
+
 import useStyles from "./TimerDesktop.styles";
 
 function TimerDesktop() {

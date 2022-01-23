@@ -1,8 +1,10 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import Providers from "store/Providers";
+
 import App from "features/app/App";
+import Providers from "store/Providers";
+
 import reportWebVitals from "./reportWebVitals";
 import "./i18n/i18n";
 

@@ -1,4 +1,5 @@
 import { Scramble } from "cctimer-scrambles";
+
 import { PuzzleId } from "models/puzzles/Puzzle";
 
 enum TimePenalty {

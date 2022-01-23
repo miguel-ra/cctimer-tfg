@@ -1,7 +1,9 @@
-import { PuzzleStats } from "models/stats/Stats";
-import { PuzzleTime } from "models/times/Time";
 import { useEffect, useState } from "react";
 import LoadComputeStats from "workerize-loader!./computeStats.worker.ts";
+
+import { PuzzleStats } from "models/stats/Stats";
+import { PuzzleTime } from "models/times/Time";
+
 import { LoadScrambleResponse } from "./computeStats.worker";
 
 type UseStatsProps = {

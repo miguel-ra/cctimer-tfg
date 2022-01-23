@@ -7,6 +7,7 @@ import {
   SetStateAction,
   useCallback,
 } from "react";
+
 import isTouchDevice from "shared/browser/isTouchDevice";
 import useEventListener from "shared/hooks/useEventListener";
 

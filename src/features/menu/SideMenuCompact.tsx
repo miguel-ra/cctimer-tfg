@@ -1,12 +1,15 @@
 import { useTranslation } from "react-i18next";
 import { createUseStyles } from "react-jss";
-import theme from "styles/theme";
-import { useModal } from "store/modalContext";
-import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
-import ModalSettings from "features/settings/ModalSettings";
+
 import IconButton from "components/button/IconButton";
-import Tooltip from "components/tooltip/Tooltip";
 import Box from "components/flexboxgrid/Box";
+import Tooltip from "components/tooltip/Tooltip";
+import ModalSettings from "features/settings/ModalSettings";
+import { useModal } from "store/modalContext";
+import theme from "styles/theme";
+
+import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
+
 import PuzzleShowcase from "./puzzles/PuzzleShowcase";
 
 const useStyles = createUseStyles({

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Scramble } from "cctimer-scrambles";
+
 import { PuzzleKey } from "models/puzzles/Puzzle";
 
 type ScrambleGenerators = {

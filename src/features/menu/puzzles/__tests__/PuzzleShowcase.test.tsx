@@ -1,10 +1,12 @@
-import { renderWithProviders, screen } from "../../../../../internals/test";
-import { UserPuzzle, puzzlesConfig } from "models/puzzles/Puzzle";
+import userEvent from "@testing-library/user-event";
+
+import { puzzlesConfig, UserPuzzle } from "models/puzzles/Puzzle";
 import { useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
-import { usePuzzle } from "../puzzleViewModel";
+
+import { renderWithProviders, screen } from "../../../../../internals/test";
 import PuzzleShowcase from "../PuzzleShowcase";
-import userEvent from "@testing-library/user-event";
+import { usePuzzle } from "../puzzleViewModel";
 
 jest.mock("store/menuContext", () => {
   const actualMenuContext = jest.requireActual("store/menuContext");

@@ -1,8 +1,11 @@
+import clsx from "clsx";
 import { useEffect, useRef } from "react";
 import { createUseStyles } from "react-jss";
-import clsx from "clsx";
+
 import theme from "styles/theme";
+
 import { ScrambleImageProps } from "../Scramble";
+
 import { ReactComponent as Cube3Template } from "./cube3.svg";
 
 type FaceKey = "U" | "R" | "F" | "L" | "B" | "D";

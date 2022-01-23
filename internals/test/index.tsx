@@ -1,5 +1,6 @@
-import { FC, ReactElement } from "react";
 import { render as rtlRender } from "@testing-library/react";
+import { FC, ReactElement } from "react";
+
 import Providers from "store/Providers";
 
 function renderWithProviders(ui: ReactElement) {

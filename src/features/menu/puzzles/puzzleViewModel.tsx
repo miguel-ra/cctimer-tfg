@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
+import ErrorNotification from "components/notification/ErrorNotification";
 import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
 import { useMenu } from "store/menuContext";
 import { useNotifications } from "store/notificationsContext";
-import ErrorNotification from "components/notification/ErrorNotification";
-import { useTranslation } from "react-i18next";
 
 function usePuzzle() {
   const [puzzles, setPuzzles] = useState<UserPuzzle[]>([]);

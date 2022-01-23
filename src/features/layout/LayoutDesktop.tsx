@@ -1,7 +1,7 @@
-import SideMenuCompact from "features/menu/SideMenuCompact";
-import Navbar from "features/menu/Navbar";
-import TimerDesktop from "features/timer/desktop/TimerDesktop";
 import Box from "components/flexboxgrid/Box";
+import Navbar from "features/menu/Navbar";
+import SideMenuCompact from "features/menu/SideMenuCompact";
+import TimerDesktop from "features/timer/desktop/TimerDesktop";
 
 function LayoutDesktop() {
   return (

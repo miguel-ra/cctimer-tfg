@@ -1,8 +1,10 @@
-import { useEffect, useRef } from "react";
 import clsx from "clsx";
+import { useEffect, useRef } from "react";
 import { createUseStyles } from "react-jss";
-import drawScramble from "./drawScramble";
+
 import { ScrambleImageProps } from "../Scramble";
+
+import drawScramble from "./drawScramble";
 
 const useStyles = createUseStyles({
   root: {

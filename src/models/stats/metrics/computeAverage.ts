@@ -1,5 +1,7 @@
 import { PuzzleTimeValue, TimeId } from "models/times/Time";
+
 import { Stat } from "../Stats";
+
 import { calculateTrim, getBest, getCurrent } from "./shared";
 
 function arrayWindowSlice(array: PuzzleTimeValue[], size: number) {

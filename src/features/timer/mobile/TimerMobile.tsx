@@ -1,21 +1,25 @@
+import { animated, useSprings } from "@react-spring/web";
+import clsx from "clsx";
+import clamp from "lodash/clamp";
 import { MutableRefObject, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useSprings, animated } from "@react-spring/web";
 import { useDrag } from "react-use-gesture";
-import clamp from "lodash/clamp";
-import clsx from "clsx";
-import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
+
+import Box from "components/flexboxgrid/Box";
+import Typography from "components/typography/Typography";
+import Stats from "features/stats/Stats";
+import Times from "features/times/Times";
+import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 import { useMenu } from "store/menuContext";
-import { puzzlesConfig } from "models/puzzles/Puzzle";
-import Times from "features/times/Times";
-import Stats from "features/stats/Stats";
-import Typography from "components/typography/Typography";
-import Box from "components/flexboxgrid/Box";
+
+import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
+
 import { TimerProvider } from "../timerViewModel";
-import useStyles from "./TimerMobile.styles";
-import Timer from "./Timer";
+
 import Scramble from "./Scramble";
+import Timer from "./Timer";
+import useStyles from "./TimerMobile.styles";
 
 type ComponentProps = {
   mobile?: boolean;

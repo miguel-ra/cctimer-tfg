@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { PuzzleStats, StatKey, statsConfig } from "models/stats/Stats";
 import { PuzzleTime } from "models/times/Time";
-import { statsConfig, PuzzleStats, StatKey } from "models/stats/Stats";
 import { puzzleTimeToValue } from "shared/format/puzzleTime";
 
 type LoadScrambleResponse = PuzzleStats;

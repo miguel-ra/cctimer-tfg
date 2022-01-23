@@ -1,15 +1,17 @@
 import { CSSProperties, useRef } from "react";
-import { LangKey } from "i18n/i18n";
 import { useTranslation } from "react-i18next";
+
+import Button from "components/button/Button";
+import ModalBody from "components/modal/ModalBody";
+import ModalFooter from "components/modal/ModalFooter";
+import ModalHeader from "components/modal/ModalHeader";
+import Typography from "components/typography/Typography";
+import { LangKey } from "i18n/i18n";
 import { PuzzleTime } from "models/times/Time";
 import { dateTimeToDayLocale } from "shared/format/date";
 import { elapsedTimeWithPenalty } from "shared/format/puzzleTime";
 import { useNotifications } from "store/notificationsContext";
-import ModalHeader from "components/modal/ModalHeader";
-import Button from "components/button/Button";
-import ModalBody from "components/modal/ModalBody";
-import ModalFooter from "components/modal/ModalFooter";
-import Typography from "components/typography/Typography";
+
 import shareActions from "./ModalShareTime.actions";
 import useStyles from "./ModalShareTime.styles";
 

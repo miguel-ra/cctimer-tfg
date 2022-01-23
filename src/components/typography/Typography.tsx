@@ -1,7 +1,9 @@
-import { ElementType, HTMLProps } from "react";
 import clsx from "clsx";
 import get from "lodash/get";
+import { ElementType, HTMLProps } from "react";
+
 import { FontWeight, TypographyKey } from "styles/typography";
+
 import useStyles from "./Typography.styles";
 
 type TypographyProps = {

@@ -1,4 +1,5 @@
 import { PuzzleTimeValue } from "models/times/Time";
+
 import { filterDnf } from "./shared";
 
 function computeStandardDeviation(timesValues: PuzzleTimeValue[]) {

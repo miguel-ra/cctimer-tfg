@@ -1,4 +1,5 @@
 import { PuzzleTimeValue } from "models/times/Time";
+
 import { Stat } from "../Stats";
 
 const TRIM_PERCENTAGE = 0.05;

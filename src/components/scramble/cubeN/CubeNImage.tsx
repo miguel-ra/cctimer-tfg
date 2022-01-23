@@ -1,7 +1,9 @@
 import clsx from "clsx";
 import { FunctionComponent, SVGProps, useEffect, useRef } from "react";
 import { createUseStyles } from "react-jss";
+
 import theme from "styles/theme";
+
 import { ScrambleImageProps } from "../Scramble";
 
 type FaceKey = "0" | "1" | "2" | "3" | "4" | "5";

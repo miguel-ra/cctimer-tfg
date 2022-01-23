@@ -1,20 +1,24 @@
-import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+
+import IconButton from "components/button/IconButton";
+import Box from "components/flexboxgrid/Box";
+import Tooltip from "components/tooltip/Tooltip";
+import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
+import isTouchDevice from "shared/browser/isTouchDevice";
 import { SelectedItem, useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
 import { usePopover } from "store/popoverContext";
-import isTouchDevice from "shared/browser/isTouchDevice";
-import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
-import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
+
 import { ReactComponent as DeleteIcon } from "assets/icons/delete.svg";
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
-import IconButton from "components/button/IconButton";
-import Tooltip from "components/tooltip/Tooltip";
-import Box from "components/flexboxgrid/Box";
-import useStyles from "./PuzzleShowcase.styles";
+import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
+
+
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";
+import useStyles from "./PuzzleShowcase.styles";
 import { usePuzzle } from "./puzzleViewModel";
 
 // TODO: Change this component to use event delegation

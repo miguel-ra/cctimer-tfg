@@ -1,8 +1,9 @@
 import { lazy, useCallback, useEffect, useMemo, useRef } from "react";
+
+import { useTimer } from "features/timer/timerViewModel";
+import { PuzzleTime, TimeId } from "models/times/Time";
 import { useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
-import { PuzzleTime, TimeId } from "models/times/Time";
-import { useTimer } from "features/timer/timerViewModel";
 
 const ModalTimeDetails = lazy(() => import("./ModalTimeDetails"));
 

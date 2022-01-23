@@ -1,13 +1,17 @@
-import { createUseStyles } from "react-jss";
 import { useTranslation } from "react-i18next";
-import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
+import { createUseStyles } from "react-jss";
+
+
+import Button from "components/button/Button";
+import Divider from "components/divider/Divider";
+import Box from "components/flexboxgrid/Box";
+import Typography from "components/typography/Typography";
 import ModalSettings from "features/settings/ModalSettings";
 import { useModal } from "store/modalContext";
 import theme from "styles/theme";
-import Box from "components/flexboxgrid/Box";
-import Button from "components/button/Button";
-import Divider from "components/divider/Divider";
-import Typography from "components/typography/Typography";
+
+import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
+
 import PuzzleShowcase from "./puzzles/PuzzleShowcase";
 
 const useStyles = createUseStyles({

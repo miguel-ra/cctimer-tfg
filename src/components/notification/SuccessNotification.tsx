@@ -1,8 +1,10 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+
 import { ReactComponent as SuccessIcon } from "assets/icons/success.svg";
-import { NotificationComponentProps } from "./NotificationsContainer";
+
 import Notification from "./Notification";
+import { NotificationComponentProps } from "./NotificationsContainer";
 
 type SuccessNotificationProps = {
   children: ReactNode;

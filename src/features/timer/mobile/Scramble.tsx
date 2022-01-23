@@ -1,5 +1,6 @@
 import ScrambleShowcase from "components/scramble/ScrambleShowcase";
 import { useMenu } from "store/menuContext";
+
 import { useTimer } from "../timerViewModel";
 
 function Scramble() {

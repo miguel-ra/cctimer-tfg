@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { useColorMode } from "store/colorModeContext";
+
 import Button from "components/button/Button";
+import { useColorMode } from "store/colorModeContext";
 
 /*
   t("Light mode")

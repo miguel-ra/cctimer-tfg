@@ -1,11 +1,12 @@
-import { HTMLAttributes, ReactNode } from "react";
 import clsx from "clsx";
-import { createUseStyles } from "react-jss";
+import { HTMLAttributes, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import theme from "styles/theme";
-import { useModal } from "store/modalContext";
+import { createUseStyles } from "react-jss";
+
 import Button from "components/button/Button";
 import Typography from "components/typography/Typography";
+import { useModal } from "store/modalContext";
+import theme from "styles/theme";
 
 type ModalHeaderProps = {
   label: string;

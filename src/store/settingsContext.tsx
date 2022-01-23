@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+
 import { initialSettings, Settings } from "models/settings/Settings";
 import { useSettingsRepository } from "repositories/settings/settingsRepository";
 

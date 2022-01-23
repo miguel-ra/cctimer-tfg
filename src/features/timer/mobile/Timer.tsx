@@ -1,13 +1,15 @@
-import { Suspense } from "react";
 import clsx from "clsx";
+import { Suspense } from "react";
 import { createUseStyles } from "react-jss";
-import { useMenu } from "store/menuContext";
+
+import Box from "components/flexboxgrid/Box";
+import ScrambleText from "components/scramble/ScrambleText";
+import Spinner from "components/spinner/Spinner";
+import Stopwatch from "features/stopwatch/Stopwatch";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
-import Stopwatch from "features/stopwatch/Stopwatch";
-import Box from "components/flexboxgrid/Box";
-import Spinner from "components/spinner/Spinner";
-import ScrambleText from "components/scramble/ScrambleText";
+import { useMenu } from "store/menuContext";
+
 import { useTimer } from "../timerViewModel";
 
 const useStyles = createUseStyles({

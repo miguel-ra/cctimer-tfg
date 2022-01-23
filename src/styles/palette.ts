@@ -1,4 +1,5 @@
 import get from "lodash/get";
+
 import colors, { PaletteColor } from "./colors";
 
 function getColor(paletteColor?: PaletteColor, fallbackColor?: string) {

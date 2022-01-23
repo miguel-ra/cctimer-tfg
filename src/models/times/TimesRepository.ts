@@ -1,4 +1,5 @@
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
+
 import { PuzzleTime, TimeId, UnsavedPuzzleTime } from "./Time";
 
 type PuzzleTimeUpdate = Pick<PuzzleTime, "penalty" | "comment">;

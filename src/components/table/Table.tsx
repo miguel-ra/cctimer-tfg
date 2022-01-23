@@ -1,11 +1,13 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { createUseStyles } from "react-jss";
+
 import VisuallyHidden from "components/visually-hidden/VisuallyHidden";
-import { TableProvider } from "./tableContext";
-import TableColumn from "./TableColumn";
-import TableHeader from "./TableHeader";
+
 import TableBody from "./TableBody";
+import TableColumn from "./TableColumn";
+import { TableProvider } from "./tableContext";
+import TableHeader from "./TableHeader";
 
 type TableProps<T> = {
   data: T[];
