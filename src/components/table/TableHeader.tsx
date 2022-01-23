@@ -3,42 +3,41 @@ import theme from "styles/theme";
 
 import { useTable } from "./tableContext";
 
+const border = `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`;
+
 const useStyles = createUseStyles({
   thead: {
     borderCollapse: "separate",
     borderSpacing: "0",
     fontSize: "inherit",
     "& th": {
-      ...theme.typography.caption,
-      minHeight: "4rem",
-      padding: "0.8rem 1.2rem",
-      color: "#888",
+      padding: "0 1.2rem",
+      color: theme.palette.text.primary,
       background: theme.palette.background.primary,
-      borderBottom: "1px solid #333",
-      borderTop: "1px solid #333",
+      border,
+      borderWidth: `${theme.shape.borderWitdh} 0px ${theme.shape.borderWitdh} 0px`,
       borderRadius: "0",
+      transition: theme.transition.generate(["border", "color", "background"]),
 
       "&:first-child": {
-        borderBottom: "1px solid #333",
-        borderLeft: "1px solid #333",
-        borderTop: "1px solid #333",
-        borderTopLeftRadius: "5px",
-        borderBottomLeftRadius: "5px",
+        border,
+        borderWidth: `${theme.shape.borderWitdh} 0px ${theme.shape.borderWitdh} ${theme.shape.borderWitdh}`,
+        borderTopLeftRadius: theme.shape.borderRadius,
+        borderBottomLeftRadius: theme.shape.borderRadius,
       },
       "&:last-child": {
-        borderBottom: "1px solid #333",
-        borderRight: "1px solid #333",
-        borderTop: "1px solid #333",
-        borderTopRightRadius: "5px",
-        borderBottomRightRadius: "5px",
+        borderWidth: `${theme.shape.borderWitdh} ${theme.shape.borderWitdh} ${theme.shape.borderWitdh} 0px `,
+        borderTopRightRadius: theme.shape.borderRadius,
+        borderBottomRightRadius: theme.shape.borderRadius,
       },
     },
   },
   label: {
     display: "flex",
     alignItems: "center",
-    minHeight: "calc(2.5 * var(--table-font-size))",
     textTransform: "uppercase",
+    ...theme.typography.caption,
+    lineHeight: 0,
   },
 });
 

@@ -10,6 +10,7 @@ import useStopwatch from "./useStopwatch";
 import Pressable from "./Pressable";
 import useStyles from "./Stopwatch.styles";
 import QuickActions from "./QuickActions";
+import palette from "styles/palette";
 
 enum Status {
   Idle,
@@ -37,7 +38,7 @@ function Stopwatch() {
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
   const [status, setStatus] = useState(Status.Idle);
   const statusRef = useRef(status);
-  const [color, setColor] = useState("inherit");
+  const [color, setColor] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     return () => stopStopwatch();
@@ -122,10 +123,10 @@ function Stopwatch() {
     if (settings.timer.holdToStart) {
       const beginningAt = Date.now();
       holdStartedAt.current = beginningAt;
-      setColor("red");
+      setColor(palette.colors.red.main);
       setTimeout(() => {
         if (beginningAt === holdStartedAt.current) {
-          setColor("green");
+          setColor(palette.colors.green.main);
           ready.current = true;
         }
       }, ACTIVATION_DELAY);
@@ -133,7 +134,7 @@ function Stopwatch() {
   }, [saveTime, settings.timer.holdToStart, stopStopwatch]);
 
   const handleRelease = useCallback(() => {
-    setColor("inherit");
+    setColor(undefined);
     holdStartedAt.current = null;
     if (!ready.current) {
       ready.current = !settings.timer.holdToStart;
@@ -181,7 +182,7 @@ function Stopwatch() {
         ready.current = false;
         holdStartedAt.current = null;
         setStatus(Status.Idle);
-        setColor("inherit");
+        setColor(undefined);
         if (statusRef.current !== Status.Idle) {
           stopStopwatch();
           saveTime();

@@ -49,6 +49,7 @@ const useStyles = createUseStyles({
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.secondary,
     border: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
+    color: theme.palette.text.secondary,
     transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
     padding: "0.8rem 1rem",
     textAlign: "center",
@@ -57,13 +58,13 @@ const useStyles = createUseStyles({
     WebkitTapHighlightColor: "transparent",
     "@media (hover: hover)": {
       "&:hover, &:focus": {
-        backgroundColor: theme.palette.border.primary,
+        backgroundColor: theme.palette.background.primary,
         opacity: 0.8,
       },
     },
     "@media (hover: none)": {
       "&:active": {
-        backgroundColor: theme.palette.border.primary,
+        backgroundColor: theme.palette.background.primary,
         opacity: 0.8,
       },
     },

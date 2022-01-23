@@ -89,9 +89,9 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     transition: "top 0.25s ease-in-out, left 0.25s ease-in-out, opacity 0.25s linear",
   },
   popover: {
-    "--background-color": theme.palette.colors.white.main,
-    "--border-color": "transparent",
-    "--color": theme.palette.colors.white.contrastText,
+    "--background-color": theme.palette.background.secondary,
+    "--border-color": theme.palette.border.primary,
+    "--color": theme.palette.text.secondary,
     display: "block",
     fontSize: "1.4rem",
     color: "var(--color)",

@@ -12,7 +12,6 @@ import {
   useState,
 } from "react";
 import useEventListener from "shared/hooks/useEventListener";
-import { ColorModeKey } from "./colorModeContext";
 
 type PopoverAnchorPosition = "top" | "right" | "bottom" | "left";
 type PopoverTransformPostion = "start" | "center" | "end";
@@ -20,7 +19,6 @@ type PopoverTransformPostion = "start" | "center" | "end";
 type PopoverConfig = {
   anchorPosition: PopoverAnchorPosition;
   transformPosition: PopoverTransformPostion;
-  appearance: ColorModeKey;
   showArrow: boolean;
   hideOnLeave: boolean;
   offset: number;
@@ -45,7 +43,6 @@ const containerId = "root-popover";
 const initialConfig: PopoverConfig = {
   anchorPosition: "right",
   transformPosition: "center",
-  appearance: "light",
   showArrow: false,
   hideOnLeave: true,
   offset: 10,

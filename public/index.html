@@ -56,6 +56,12 @@
         box-sizing: border-box;
       }
 
+      ::selection {
+        color: var(--palette-text-selection);
+        background: var(--palette-background-selection);
+        transition: all 0.2s linear;
+      }
+
       body {
         --colors-blue-light: #69bfff;
         --colors-blue-main: #388bfd;
@@ -70,10 +76,11 @@
         --colors-red-main: #f85149;
         --colors-purple-main: #8957e5;
         --colors-pink-main: #f778ba;
+        --colors-pink-dark: #f81ce5;
 
         --colors-gray-light: #666;
         --colors-grey-main: #8b949e;
-        --colors-gray-dark: #888;
+        --colors-gray-dark: #999;
         --colors-gray-darker: #333;
 
         --colors-black-light: #111;
@@ -85,9 +92,11 @@
 
         --palette-background-primary: var(--colors-white-dark);
         --palette-background-secondary: var(--colors-white-main);
+        --palette-background-selection: #79ffe1;
 
         --palette-text-primary: var(--colors-gray-light);
         --palette-text-secondary: var(--colors-black-main);
+        --palette-text-selection: var(--colors-black-main);
 
         --palette-border-primary: var(--colors-white-darker);
         --palette-border-secondary: var(--colors-black-main);
@@ -98,9 +107,11 @@
       body[data-color-mode="dark"] {
         --palette-background-primary: var(--colors-black-light);
         --palette-background-secondary: var(--colors-black-main);
+        --palette-background-selection: #f81ce5;
 
         --palette-text-primary: var(--colors-gray-dark);
         --palette-text-secondary: var(--colors-white-main);
+        --palette-text-selection: var(--colors-white-main);
 
         --palette-border-primary: var(--colors-gray-darker);
         --palette-border-secondary: var(--colors-white-main);

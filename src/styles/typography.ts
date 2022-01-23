@@ -59,7 +59,7 @@ const typography: { [key in TypographyKey]: CSSProperties } = {
   body1: buildVariant(fontWeight.regular, "1.6rem", 1.5, 0.15),
   body2: buildVariant(fontWeight.regular, "1.4rem", 1.43, 0.15),
   button: buildVariant(fontWeight.regular, "1.4rem", 1.1, 0.4),
-  caption: buildVariant(fontWeight.regular, "1.2rem", 1.66, 0.4, caseAllCaps),
+  caption: buildVariant(fontWeight.regular, "1.2rem", 1.4, 0.4, caseAllCaps),
   overline: buildVariant(fontWeight.regular, "1.2rem", 2.66, 1, caseAllCaps),
 };
 

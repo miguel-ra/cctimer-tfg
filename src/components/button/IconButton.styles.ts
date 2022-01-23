@@ -14,7 +14,7 @@ const useStyles = createUseStyles<any, UseStylesProps>({
     cursor: "pointer",
     width: "var(--size)",
     height: "var(--size)",
-    color: theme.palette.text.primary,
+    color: theme.palette.text.secondary,
     transition: `opacity 0.2s linear`,
     display: "flex",
     justifyContent: "center",

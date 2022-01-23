@@ -37,8 +37,9 @@ const useStyles = createUseStyles({
     width: "100%",
     flexDirection: "column",
     justifyContent: "center",
+    color: theme.palette.text.secondary,
     background: `${theme.palette.background.primary}AA`,
-    transition: `background ${theme.transition.duration.colorMode} linear`,
+    transition: `background ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear`,
   },
 });
 

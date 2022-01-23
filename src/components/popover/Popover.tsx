@@ -39,7 +39,6 @@ function Popover({ containerId, children }: PopoverProps) {
       <div className={classes.container}>
         {cloneElement(children, {
           className: clsx(children.props.className, classes.popover, classes.position, {
-            [classes.dark]: popoverConfig.appearance === "dark",
             [classes.arrow]: popoverConfig.showArrow,
           }),
         })}

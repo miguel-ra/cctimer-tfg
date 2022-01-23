@@ -10,9 +10,10 @@ const useStyles = createUseStyles({
     display: "flex",
     padding: "1rem 1.5rem",
     justifyContent: "space-between",
-    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
+    transition: theme.transition.generate(["background", "border", "color"]),
     background: theme.palette.background.secondary,
     borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
+    color: theme.palette.text.secondary,
   },
 });
 

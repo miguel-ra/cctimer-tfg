@@ -25,6 +25,7 @@ const useStyles = createUseStyles({
     transition: `color ${theme.transition.duration.colorMode} linear`,
     ".pressed &": {
       transform: "scale(0.95)",
+      transition: "none",
     },
     [theme.breakpoints.up("sm")]: {
       fontSize: "12rem",

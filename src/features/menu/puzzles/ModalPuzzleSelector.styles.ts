@@ -42,9 +42,11 @@ const useStyles = createUseStyles({
     color: theme.palette.text.primary,
     border: "none",
     appearance: "none",
-    transition: "background 0.1s linear",
+    transition: `${theme.transition.generate(["color", "background"])}, transform 0.1s ease-in`,
     "&:hover": {
-      backgroundColor: theme.palette.border.primary,
+      color: theme.palette.text.secondary,
+      background: theme.palette.border.primary,
+      transform: "translateY(-4px)",
     },
   },
   icon: {

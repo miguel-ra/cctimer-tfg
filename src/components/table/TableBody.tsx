@@ -1,4 +1,5 @@
 import { createUseStyles } from "react-jss";
+import theme from "styles/theme";
 import { useTable } from "./tableContext";
 
 type TableBodyProps<T> = {
@@ -8,8 +9,13 @@ type TableBodyProps<T> = {
 const useStyles = createUseStyles({
   tbody: {
     "& td": {
-      height: "4rem",
-      padding: "1.2rem",
+      padding: "1rem 1.2rem",
+      borderTop: `1px solid ${theme.palette.border.primary}`,
+      transition: theme.transition.generate(["border"]),
+    },
+    "& tr:first-child td": {
+      border: "none",
+      paddingTop: "1rem",
     },
   },
 });

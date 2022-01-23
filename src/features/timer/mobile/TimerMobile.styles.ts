@@ -5,12 +5,13 @@ const useStyles = createUseStyles({
   header: {
     display: "flex",
     padding: "1rem",
-    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear, opacity 0.2s linear`,
+    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear, opacity 0.2s linear`,
     background: theme.palette.background.secondary,
     borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     alignItems: "center",
     cursor: "pointer",
     userSelect: "none",
+    color: theme.palette.text.secondary,
     WebkitTapHighlightColor: "transparent",
     "&:active": {
       opacity: 0.5,

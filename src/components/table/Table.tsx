@@ -19,11 +19,9 @@ const useStyles = createUseStyles({
   table: {
     "& th, & td": {
       fontSize: "1.4rem",
-      lineHeight: "1.4",
-      transition: `border ${theme.transition.duration.colorMode} linear`,
     },
     "& tr": {
-      height: "4rem",
+      height: "3.9rem",
     },
   },
 });
