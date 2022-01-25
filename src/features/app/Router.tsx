@@ -23,9 +23,10 @@ function Router() {
   return (
     <Routes>
       <Route path="/:lang" element={<Layout />}>
+        <Route index element={<LazyElement Component={Timer} />} />
         <Route path="puzzle/:puzzleId" element={<LazyElement Component={Timer} />} />
         <Route path="login" element={<LazyElement Component={Login} />} />
-        <Route index element={<Navigate to="puzzle/12" />} />
+        <Route path="*" element={<Navigate to="" />} />
       </Route>
     </Routes>
   );

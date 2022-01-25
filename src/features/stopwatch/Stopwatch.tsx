@@ -2,11 +2,10 @@ import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 
-import { useTimer } from "features/timer/timerViewModel";
+import { useTimer, useTimerSelectedItem } from "features/timer/timerViewModel";
 import { Time, TimePenalty } from "models/times/Time";
 import { millisecondsToClock, millisecondsToSeconds } from "shared/format/number";
 import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
-import { useMenu } from "store/menuContext";
 import { useSettings } from "store/settingsContext";
 import palette from "styles/palette";
 
@@ -33,7 +32,7 @@ const statusPenalty: { [key in Status]?: TimePenalty } = {
 function Stopwatch() {
   const classes = useStyles();
   const { addTime, lastTime } = useTimer();
-  const { selectedItem } = useMenu();
+  const { selectedItem } = useTimerSelectedItem();
   const { settings } = useSettings();
   const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
   const holdStartedAt = useRef<number | null>(null);

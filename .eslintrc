@@ -1,45 +1,54 @@
 {
+  "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "react-hooks", "import"],
-  "extends": ["plugin:react/recommended", "plugin:@typescript-eslint/recommended"],
   "rules": {
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "sort-imports": ["error", { "ignoreCase": true, "ignoreDeclarationSort": true }],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "caughtErrorsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
     "import/order": [
       "error",
       {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
         "groups": ["external", "builtin", "internal", "parent", "sibling", "index"],
-        "pathGroups": [
-          { "pattern": "react", "group": "external", "position": "before" },
-          { "pattern": "assets/**", "group": "internal", "position": "after" }
-        ],
         "newlines-between": "always",
-        "alphabetize": { "order": "asc", "caseInsensitive": true }
+        "pathGroups": [
+          {
+            "group": "external",
+            "pattern": "react",
+            "position": "before"
+          },
+          {
+            "group": "internal",
+            "pattern": "assets/**",
+            "position": "after"
+          }
+        ]
       }
     ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "sort-imports": [
+      "error",
       {
-        "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
-        "caughtErrorsIgnorePattern": "^_"
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
       }
     ]
   },
   "settings": {
-    "react": {
-      "pragma": "React",
-      "version": "detect"
-    },
     "import/resolver": {
       "node": {
         "extensions": [".ts", ".tsx"],
@@ -48,6 +57,10 @@
       "typescript": {
         "alwaysTryTypes": true
       }
+    },
+    "react": {
+      "pragma": "React",
+      "version": "detect"
     }
   }
 }

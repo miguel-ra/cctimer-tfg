@@ -8,15 +8,14 @@ import Stats from "features/stats/Stats";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
-import { useMenu } from "store/menuContext";
 
-import { useTimer } from "../timerViewModel";
+import { useTimer, useTimerSelectedItem } from "../timerViewModel";
 
 import useStyles from "./TimerDesktop.styles";
 
 function TimerDesktop() {
   const classes = useStyles();
-  const { selectedItem } = useMenu();
+  const { selectedItem } = useTimerSelectedItem();
   const { scramble } = useTimer();
 
   const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;

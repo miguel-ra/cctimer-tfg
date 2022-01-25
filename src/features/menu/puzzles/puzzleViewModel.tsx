@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import ErrorNotification from "components/notification/ErrorNotification";
+import { useTimerSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
-import { useMenu } from "store/menuContext";
 import { useNotifications } from "store/notificationsContext";
 
 function usePuzzle() {
@@ -13,7 +13,7 @@ function usePuzzle() {
   const puzzlesRepository = usePuzzlesRepository();
   const timesRepository = useTimesRepository();
   const { addNotification } = useNotifications();
-  const { selectedItem } = useMenu();
+  const { selectedItem } = useTimerSelectedItem();
   const { t } = useTranslation();
 
   const refreshPuzzles = useCallback(async () => {

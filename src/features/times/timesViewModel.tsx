@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import ErrorNotification from "components/notification/ErrorNotification";
+import { useTimerSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleTime, Time, TimeId, TimePenalty } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
-import { useMenu } from "store/menuContext";
 import { useNotifications } from "store/notificationsContext";
 
 type UseTimesProps = {
@@ -17,7 +17,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
   const [lastTime, setLastTime] = useState<PuzzleTime | undefined>();
   const [puzzleTimes, setPuzzleTimes] = useState<PuzzleTime[]>([]);
   const timesRepository = useTimesRepository();
-  const { selectedItem, checkSelectedItem } = useMenu();
+  const { selectedItem } = useTimerSelectedItem();
   const { addNotification } = useNotifications();
   const { t } = useTranslation();
 
@@ -46,14 +46,15 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
         return;
       }
-      if (!checkSelectedItem(selectedItem)) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>
-            {t("Trying to save a time in a not selected puzzle")}
-          </ErrorNotification>
-        ));
-        return;
-      }
+      // TODO: Check if we need this comporobation
+      // if (!checkSelectedItem(selectedItem)) {
+      //   addNotification((props) => (
+      //     <ErrorNotification {...props}>
+      //       {t("Trying to save a time in a not selected puzzle")}
+      //     </ErrorNotification>
+      //   ));
+      //   return;
+      // }
       try {
         // TODO: Check if is better to get times from repository or if is better concatenate it to the current list
         const { addedTime, puzzleTimesUpdated } = await timesRepository.add(
@@ -73,7 +74,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
       }
     },
-    [addNotification, checkSelectedItem, onTimeAdded, selectedItem, t, timesRepository]
+    [addNotification, onTimeAdded, selectedItem, t, timesRepository]
   );
 
   const updateTime = useCallback(
@@ -84,14 +85,15 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
         return;
       }
-      if (!checkSelectedItem(selectedItem)) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>
-            {t("Trying to update a time in a not selected puzzle")}
-          </ErrorNotification>
-        ));
-        return;
-      }
+      // TODO: Check if we need this comporobation
+      // if (!checkSelectedItem(selectedItem)) {
+      //   addNotification((props) => (
+      //     <ErrorNotification {...props}>
+      //       {t("Trying to update a time in a not selected puzzle")}
+      //     </ErrorNotification>
+      //   ));
+      //   return;
+      // }
       let updatedTime;
       try {
         updatedTime = await timesRepository.update(selectedItem.key, timeId, dataToUpdate);
@@ -106,7 +108,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
       }
       return updatedTime;
     },
-    [addNotification, checkSelectedItem, lastTime?.id, refreshPuzzleTimes, selectedItem, t, timesRepository]
+    [addNotification, lastTime?.id, refreshPuzzleTimes, selectedItem, t, timesRepository]
   );
 
   const deleteTime = useCallback(
@@ -117,14 +119,16 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
         return;
       }
-      if (!checkSelectedItem(selectedItem)) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>
-            {t("Trying to delete a time in a not selected puzzle")}
-          </ErrorNotification>
-        ));
-        return;
-      }
+
+      // TODO: Check if we need this comporobation
+      // if (!checkSelectedItem(selectedItem)) {
+      //   addNotification((props) => (
+      //     <ErrorNotification {...props}>
+      //       {t("Trying to delete a time in a not selected puzzle")}
+      //     </ErrorNotification>
+      //   ));
+      //   return;
+      // }
       try {
         await timesRepository.delete(selectedItem.key, timeId);
         if (timeId === lastTime?.id) {
@@ -137,7 +141,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
       }
     },
-    [addNotification, checkSelectedItem, lastTime, refreshPuzzleTimes, selectedItem, t, timesRepository]
+    [addNotification, lastTime, refreshPuzzleTimes, selectedItem, t, timesRepository]
   );
 
   const deletePuzzleTimes = useCallback(async () => {
@@ -145,14 +149,15 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
       addNotification((props) => <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>);
       return;
     }
-    if (!checkSelectedItem(selectedItem)) {
-      addNotification((props) => (
-        <ErrorNotification {...props}>
-          {t("Trying to delete the times of a not selected puzzle")}
-        </ErrorNotification>
-      ));
-      return;
-    }
+    // TODO: Check if we need this comporobation
+    // if (!checkSelectedItem(selectedItem)) {
+    //   addNotification((props) => (
+    //     <ErrorNotification {...props}>
+    //       {t("Trying to delete the times of a not selected puzzle")}
+    //     </ErrorNotification>
+    //   ));
+    //   return;
+    // }
     try {
       await timesRepository.deleteAll(selectedItem.key, selectedItem.id);
       setLastTime(undefined);
@@ -162,7 +167,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         <ErrorNotification {...props}>{t("Times could not be deleted")}</ErrorNotification>
       ));
     }
-  }, [addNotification, checkSelectedItem, refreshPuzzleTimes, selectedItem, setLastTime, t, timesRepository]);
+  }, [addNotification, refreshPuzzleTimes, selectedItem, setLastTime, t, timesRepository]);
 
   return {
     lastTime,

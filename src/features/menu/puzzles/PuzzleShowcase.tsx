@@ -1,20 +1,20 @@
 import clsx from "clsx";
-import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { MouseEvent, useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import IconButton from "components/button/IconButton";
 import Box from "components/flexboxgrid/Box";
 import Tooltip from "components/tooltip/Tooltip";
-import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
+import { useTimerSelectedItem } from "features/timer/timerViewModel";
+import { PuzzleId, PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import isTouchDevice from "shared/browser/isTouchDevice";
-import { SelectedItem, useMenu } from "store/menuContext";
 import { useModal } from "store/modalContext";
 import { usePopover } from "store/popoverContext";
 
 import { ReactComponent as DeleteIcon } from "assets/icons/delete.svg";
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
-
 
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";
@@ -24,41 +24,33 @@ import { usePuzzle } from "./puzzleViewModel";
 // TODO: Change this component to use event delegation
 
 function PuzzleShowcase() {
+  const navigate = useNavigate();
   const classes = useStyles();
   const { t } = useTranslation();
   const { openModal } = useModal();
   const { setPopover } = usePopover();
-  const { selectedItem, setSelectedItem } = useMenu();
+  const { selectedItem } = useTimerSelectedItem();
   const { puzzles, addPuzzle, deletePuzzle } = usePuzzle();
   const [showDeleteId, setShowDeleteId] = useState<number | null>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    if (!puzzles.length) {
-      return;
-    }
-    if (selectedItem === null) {
-      setSelectedItem({ type: "puzzle", ...puzzles[0] });
-    }
-  }, [puzzles, selectedItem, setSelectedItem]);
-
   const handleSelect = useCallback(
-    (newSelectedItem: SelectedItem) => {
-      if (!selectedItem?.id || newSelectedItem.id !== selectedItem.id) {
-        setSelectedItem(newSelectedItem);
+    (puzzleId: PuzzleId) => {
+      if (!selectedItem?.id || puzzleId !== selectedItem.id) {
+        navigate(`puzzle/${puzzleId}`);
       }
     },
-    [selectedItem?.id, setSelectedItem]
+    [navigate, selectedItem]
   );
 
   const handleDelete = useCallback(
-    ({ id, key, index, puzzles: puzzlesParam }) => {
+    ({ puzzleId, puzzleKey, index, puzzles: puzzlesParam }) => {
       const nextSelectedPuzzle = puzzlesParam[(index + 1) % puzzlesParam.length];
-      deletePuzzle(key, id);
-      setSelectedItem({ type: "puzzle", ...nextSelectedPuzzle });
+      deletePuzzle(puzzleKey, puzzleId);
+      navigate(`puzzle/${nextSelectedPuzzle[0].id}`);
       setPopover();
     },
-    [deletePuzzle, setPopover, setSelectedItem]
+    [deletePuzzle, navigate, setPopover]
   );
 
   return (
@@ -84,22 +76,22 @@ function PuzzleShowcase() {
       }}
     >
       {puzzles.map((puzzle, index) => {
-        const { id, key } = puzzle;
-        const { label, Icon } = puzzlesConfig[key];
+        const { id: puzzleId, key: puzzleKey } = puzzle;
+        const { label, Icon } = puzzlesConfig[puzzleKey];
         return (
-          <Tooltip key={id} label={t(label)}>
+          <Tooltip key={puzzleId} label={t(label)}>
             <PuzzleIconWrapper
-              data-id={id}
+              data-id={puzzleId}
               aria-label={t(label)}
-              aria-expanded={id === selectedItem?.id}
+              aria-expanded={puzzleId === selectedItem?.id}
               className={clsx(classes.puzzleWrapper, {
-                selected: id === selectedItem?.id,
+                selected: puzzleId === selectedItem?.id,
               })}
               timeoutId={timeoutId}
               showDeleteId={showDeleteId}
               setShowDeleteId={setShowDeleteId}
-              onSelect={() => handleSelect({ type: "puzzle", ...puzzle })}
-              onDelete={() => handleDelete({ id, key, index, puzzles })}
+              onSelect={() => handleSelect(puzzle.id)}
+              onDelete={() => handleDelete({ puzzleId, puzzleKey, index, puzzles })}
               onClick={(event: MouseEvent) => {
                 const shouldDelete = !!(event.target as HTMLElement).closest<HTMLElement>(
                   '[data-action="delete"]'
@@ -107,17 +99,19 @@ function PuzzleShowcase() {
                 const iconContainer = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
                 if (iconContainer) {
                   if (shouldDelete) {
-                    handleDelete({ id, key, index, puzzles });
+                    handleDelete({ puzzleId, index, puzzles });
                     return;
                   }
-                  handleSelect({ type: "puzzle", ...puzzle });
+                  handleSelect(puzzle.id);
                 }
               }}
             >
               <PuzzleBorder className={classes.puzzleBorder} />
               <Icon className={classes.puzzleIcon} />
               {puzzles.length > 1 &&
-                (isTouchDevice() ? showDeleteId === id || selectedItem?.id === id : showDeleteId === id) && (
+                (isTouchDevice()
+                  ? showDeleteId === puzzleId || selectedItem?.id === puzzleId
+                  : showDeleteId === puzzleId) && (
                   <DeleteIcon
                     tabIndex={0}
                     role="button"
@@ -141,7 +135,7 @@ function PuzzleShowcase() {
                   onAddPuzzle={async (key: PuzzleKey) => {
                     const addedPuzzle = await addPuzzle(key);
                     if (addedPuzzle) {
-                      handleSelect({ type: "puzzle", ...addedPuzzle });
+                      handleSelect(addedPuzzle.id);
                     }
                   }}
                 />

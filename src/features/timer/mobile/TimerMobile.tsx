@@ -12,9 +12,10 @@ import Stats from "features/stats/Stats";
 import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
-import { useMenu } from "store/menuContext";
 
 import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
+
+import { useTimerSelectedItem } from "../timerViewModel";
 
 import Scramble from "./Scramble";
 import Timer from "./Timer";
@@ -66,7 +67,7 @@ function TimerMobile() {
   const isImmediate = useRef(false);
   const classes = useStyles();
   const { t } = useTranslation();
-  const { selectedItem } = useMenu();
+  const { selectedItem } = useTimerSelectedItem();
   const { openMenu, isDragDisabledRef } = useLayoutMobile();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 

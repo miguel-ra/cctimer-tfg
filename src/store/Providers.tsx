@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import { HelmetProvider } from "react-helmet-async";
+import { RecoilRoot } from "recoil";
 
 import { ColorModeProvider } from "./colorModeContext";
-import { MenuProvider } from "./menuContext";
 import { ModalProvider } from "./modalContext";
 import { NotificationsProvider } from "./notificationsContext";
 import { PopoverProvider } from "./popoverContext";
@@ -13,11 +13,11 @@ type ProvidersProps = {
 };
 
 const providers = [
+  RecoilRoot,
   HelmetProvider,
   ColorModeProvider,
   SettingsProvider,
   PopoverProvider,
-  MenuProvider,
   NotificationsProvider,
   ModalProvider,
 ];

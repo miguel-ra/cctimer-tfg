@@ -8,9 +8,8 @@ import Spinner from "components/spinner/Spinner";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
-import { useMenu } from "store/menuContext";
 
-import { useTimer } from "../timerViewModel";
+import { useTimer, useTimerSelectedItem } from "../timerViewModel";
 
 const useStyles = createUseStyles({
   scramble: {
@@ -55,7 +54,7 @@ const useStyles = createUseStyles({
 function Timer() {
   const classes = useStyles();
   const { scramble } = useTimer();
-  const { selectedItem } = useMenu();
+  const { selectedItem } = useTimerSelectedItem();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 
   const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;

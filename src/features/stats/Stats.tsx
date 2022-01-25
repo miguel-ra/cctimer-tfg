@@ -24,7 +24,7 @@ function Stats({ mobile }: ComponentProps) {
   if (!puzzleStats) {
     return (
       <Box width="100%" height="100%" padding="2rem" display="grid" placeContent="center">
-        {t("Not enough data to compute stats.")}
+        {t("Not enough data to compute stats")}
       </Box>
     );
   }

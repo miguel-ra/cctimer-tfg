@@ -1,60 +1,51 @@
 import { Scramble } from "cctimer-scrambles";
-import { createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
+import { atom, useRecoilState } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
 import useStats from "features/stats/statsViewModel";
 import useTimes from "features/times/timesViewModel";
-import { PuzzleKey } from "models/puzzles/Puzzle";
-import { PuzzleStats } from "models/stats/Stats";
-import { PuzzleTime, Time, TimeId } from "models/times/Time";
-import { PuzzleTimeUpdate } from "models/times/TimesRepository";
-import { useMenu } from "store/menuContext";
+import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
+import { Time } from "models/times/Time";
 
 import { LoadScrambleResponse } from "./loadScramble.worker";
 
-type MenuState = {
-  puzzleTimes: PuzzleTime[];
-  addTime: (time: Time) => Promise<PuzzleTime | undefined>;
-  updateTime: (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => Promise<PuzzleTime | undefined>;
-  deleteTime: (timeId: TimeId) => Promise<void>;
-  deletePuzzleTimes: () => Promise<void>;
-  scramble: Scramble;
-  refreshScramble: () => void;
-  scramblePuzzleKey?: PuzzleKey;
-  lastTime?: PuzzleTime;
-  puzzleStats: PuzzleStats | null;
+type SelelecteItemType = "puzzle";
+
+type TimerConfig = {
+  selectedItem: {
+    id: PuzzleId;
+    key: PuzzleKey;
+    type: SelelecteItemType;
+  } | null;
 };
 
-type TimerProviderProps = {
-  children: ReactNode;
-};
-
-const TimerContext = createContext<MenuState | null>(null);
 const loadScrambleWorker = new LoadScrambleWorker();
-
-function useTimer() {
-  const context = useContext(TimerContext);
-
-  if (!context) {
-    throw new Error("useTimer must be used within the TimerContext");
-  }
-  return context;
-}
 
 const emptyScramble = { text: "", state: "" };
 
-function TimerProvider({ children }: TimerProviderProps) {
-  const [scramble, setScramble] = useState<Scramble>(emptyScramble);
+const scrambleState = atom<Scramble>({
+  key: "timer.scramble",
+  default: emptyScramble,
+});
+
+const configState = atom<TimerConfig>({
+  key: "timer.config",
+  default: { selectedItem: null },
+});
+
+function useTimer() {
+  const [scramble, setScramble] = useRecoilState(scrambleState);
+  const [config, setConfig] = useRecoilState(configState);
   const scramblePuzzleKey = useRef<PuzzleKey>();
-  const { selectedItem } = useMenu();
 
   const refreshScramble = useCallback(async () => {
-    if (selectedItem?.key) {
-      loadScrambleWorker.postMessage(selectedItem.key);
+    if (config.selectedItem?.key) {
+      loadScrambleWorker.postMessage(config.selectedItem.key);
     } else {
       scramblePuzzleKey.current = undefined;
     }
-  }, [selectedItem]);
+  }, [config]);
 
   useEffect(() => {
     refreshScramble();
@@ -84,25 +75,29 @@ function TimerProvider({ children }: TimerProviderProps) {
     return () => {
       loadScrambleWorker.removeEventListener("message", handleWorkerMessage);
     };
-  }, []);
+  }, [setScramble]);
 
-  return (
-    <TimerContext.Provider
-      value={{
-        puzzleTimes,
-        lastTime,
-        addTime: addTimeWithScramble,
-        updateTime,
-        deleteTime,
-        deletePuzzleTimes,
-        scramble: scramblePuzzleKey.current === selectedItem?.key ? scramble : emptyScramble,
-        refreshScramble,
-        puzzleStats,
-      }}
-    >
-      {children}
-    </TimerContext.Provider>
-  );
+  return {
+    config,
+    setConfig,
+    puzzleTimes,
+    lastTime,
+    addTime: addTimeWithScramble,
+    updateTime,
+    deleteTime,
+    deletePuzzleTimes,
+    scramble: scramblePuzzleKey.current === config.selectedItem?.key ? scramble : emptyScramble,
+    refreshScramble,
+    puzzleStats,
+  };
 }
 
-export { TimerProvider, useTimer };
+function useTimerSelectedItem() {
+  const [{ selectedItem }] = useRecoilState(configState);
+
+  return { selectedItem };
+}
+
+export type { SelelecteItemType };
+
+export { useTimerSelectedItem, useTimer };
