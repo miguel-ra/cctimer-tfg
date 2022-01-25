@@ -1,21 +1,31 @@
-import { Route, Routes } from "react-router-dom";
+import { lazy, LazyExoticComponent, Suspense } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 
-import Login from "features/account/Login";
+import Spinner from "components/spinner/Spinner";
 import Layout from "features/layout/Layout";
-import Timer from "features/timer/Timer";
 
-{
-  /* <Route path="puzzle/:puzzleId" element={<Timer />} />
-<Route path="login" element={<Login />} />
-<Route index element={<Navigate to="puzzle/12" />} /> */
+const Login = lazy(() => import("features/account/Login"));
+const Timer = lazy(() => import("features/timer/Timer"));
+
+type LazyElementProps = {
+  Component: LazyExoticComponent<() => JSX.Element>;
+};
+
+function LazyElement({ Component }: LazyElementProps) {
+  return (
+    <Suspense fallback={<Spinner fullscreen />}>
+      <Component />
+    </Suspense>
+  );
 }
 
 function Router() {
   return (
     <Routes>
       <Route path="/:lang" element={<Layout />}>
-        <Route index element={<Timer />} />
-        <Route path="login" element={<Login />} />
+        <Route path="puzzle/:puzzleId" element={<LazyElement Component={Timer} />} />
+        <Route path="login" element={<LazyElement Component={Login} />} />
+        <Route index element={<Navigate to="puzzle/12" />} />
       </Route>
     </Routes>
   );

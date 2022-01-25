@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 import { createUseStyles } from "react-jss";
 
+import Box from "components/flexboxgrid/Box";
+
 import { ReactComponent as IconSpinner } from "assets/icons/spinner.svg";
 
 type SpinnerProps = {
   delay?: number;
+  fullscreen?: boolean;
 };
 
 const useStyles = createUseStyles({
   spinner: {
     width: "1.6rem",
     height: "1.6rem",
-    animation:
-      "$spin 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite, $reveal 0.25s linear forwards",
+    animation: "$spin 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite, $reveal 0.25s linear forwards",
   },
   "@keyframes spin": {
     from: { transform: "rotate(0deg)" },
@@ -24,7 +26,7 @@ const useStyles = createUseStyles({
   },
 });
 
-function Spinner({ delay = 250 }: SpinnerProps) {
+function Spinner({ delay = 250, fullscreen }: SpinnerProps) {
   const [visible, setVisible] = useState(false);
   const classes = useStyles();
 
@@ -41,7 +43,7 @@ function Spinner({ delay = 250 }: SpinnerProps) {
     return null;
   }
 
-  return (
+  const spinner = (
     <IconSpinner
       role="alert"
       aria-busy="true"
@@ -50,6 +52,16 @@ function Spinner({ delay = 250 }: SpinnerProps) {
       className={classes.spinner}
     />
   );
+
+  if (fullscreen) {
+    return (
+      <Box flex={1} placeContent="center">
+        {spinner}
+      </Box>
+    );
+  }
+
+  return spinner;
 }
 
 export default Spinner;

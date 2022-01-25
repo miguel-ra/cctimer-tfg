@@ -1,6 +1,5 @@
 import { lazy, memo, Suspense } from "react";
 
-import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 import breakpoints from "styles/breakpoints";
@@ -21,13 +20,7 @@ function Layout() {
 
   return (
     <LayoutProvider layout={isSmall ? "mobile" : "desktop"}>
-      <Suspense
-        fallback={
-          <Box minHeight="100%" placeContent="center">
-            <Spinner />
-          </Box>
-        }
-      >
+      <Suspense fallback={<Spinner fullscreen />}>
         <SelectedLayout />
       </Suspense>
     </LayoutProvider>

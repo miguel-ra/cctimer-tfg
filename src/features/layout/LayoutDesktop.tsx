@@ -6,7 +6,7 @@ import SideMenuCompact from "features/menu/SideMenuCompact";
 
 function LayoutDesktop() {
   return (
-    <Box minHeight="100%" flexWrap="nowrap">
+    <Box flex={1} flexWrap="nowrap">
       <SideMenuCompact />
       <Box flexDirection="column" flex={1}>
         <Navbar />
