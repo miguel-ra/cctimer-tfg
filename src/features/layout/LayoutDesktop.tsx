@@ -1,7 +1,8 @@
+import { Outlet } from "react-router-dom";
+
 import Box from "components/flexboxgrid/Box";
 import Navbar from "features/menu/Navbar";
 import SideMenuCompact from "features/menu/SideMenuCompact";
-import TimerDesktop from "features/timer/desktop/TimerDesktop";
 
 function LayoutDesktop() {
   return (
@@ -9,7 +10,7 @@ function LayoutDesktop() {
       <SideMenuCompact />
       <Box flexDirection="column" flex={1}>
         <Navbar />
-        <TimerDesktop />
+        <Outlet />
       </Box>
     </Box>
   );

@@ -7,6 +7,7 @@ import { useDrag } from "react-use-gesture";
 
 import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
+import { useLayoutMobile } from "features/layout/layoutMobileContext";
 import Stats from "features/stats/Stats";
 import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
@@ -14,8 +15,6 @@ import useMediaQuery from "shared/hooks/useMediaQuery";
 import { useMenu } from "store/menuContext";
 
 import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
-
-import { TimerProvider } from "../timerViewModel";
 
 import Scramble from "./Scramble";
 import Timer from "./Timer";
@@ -48,11 +47,6 @@ const tabs: Tab[] = [
   },
 ];
 
-type TimerMobileProps = {
-  isParentDragDisabled: MutableRefObject<boolean>;
-  openMenu: () => void;
-};
-
 type ComputeSpringOptions = {
   activeTab: MutableRefObject<number>;
   isImmediate: MutableRefObject<boolean>;
@@ -67,12 +61,13 @@ function computeSpring({ activeTab, isImmediate }: ComputeSpringOptions) {
   });
 }
 
-function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
+function TimerMobile() {
   const activeTab = useRef(0);
   const isImmediate = useRef(false);
   const classes = useStyles();
   const { t } = useTranslation();
   const { selectedItem } = useMenu();
+  const { openMenu, isDragDisabledRef } = useLayoutMobile();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 
   const computedTabs = [...tabs];
@@ -99,9 +94,9 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
       }
     });
     setTimeout(() => {
-      isParentDragDisabled.current = activeTab.current !== 0;
+      isDragDisabledRef.current = activeTab.current !== 0;
     }, SPRING_DURATION);
-  }, [isParentDragDisabled]);
+  }, [isDragDisabledRef]);
 
   const [props, api] = useSprings(computedTabs.length, computeSpring({ activeTab, isImmediate }));
 
@@ -213,10 +208,4 @@ function TimerMobile({ isParentDragDisabled, openMenu }: TimerMobileProps) {
 
 export type { ComponentProps };
 
-export default function TimerMobileWithProvider(props: TimerMobileProps) {
-  return (
-    <TimerProvider>
-      <TimerMobile {...props} />
-    </TimerProvider>
-  );
-}
+export default TimerMobile;

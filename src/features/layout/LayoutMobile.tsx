@@ -1,12 +1,14 @@
 import { animated, useSprings } from "@react-spring/web";
 import { MutableRefObject, useCallback, useEffect, useRef } from "react";
+import { Outlet, OutletProps } from "react-router-dom";
 import { useDrag } from "react-use-gesture";
 
 import Box from "components/flexboxgrid/Box";
 import SideMenuExpanded from "features/menu/SideMenuExpanded";
-import TimerMobile from "features/timer/mobile/TimerMobile";
 import { clamp } from "shared/format/number";
 import theme from "styles/theme";
+
+import { LayoutMobileProvider, useLayoutMobile } from "./layoutMobileContext";
 
 type UseSpringProps = {
   x: number;
@@ -15,15 +17,10 @@ type UseSpringProps = {
   opacity: number;
 };
 
-type ItemComponentProps = {
-  isParentDragDisabled: MutableRefObject<boolean>;
-  openMenu: () => void;
-};
-
 type Item = {
   width: number;
   computeWidth?: () => number;
-  Component: (props: ItemComponentProps) => JSX.Element;
+  Component: (props: OutletProps) => JSX.Element | null;
   overlay: boolean;
 };
 
@@ -36,7 +33,7 @@ const items: Item[] = [
   },
   {
     width: 1,
-    Component: TimerMobile,
+    Component: Outlet,
     overlay: true,
   },
 ];
@@ -44,15 +41,15 @@ const items: Item[] = [
 function computeComponent(
   currentIndex: number,
   {
-    activeIndex,
-    isImmediate,
+    activeIndexRef,
+    isImmediateRef,
   }: {
-    activeIndex: MutableRefObject<number>;
-    isImmediate: MutableRefObject<boolean>;
+    activeIndexRef: MutableRefObject<number>;
+    isImmediateRef: MutableRefObject<boolean>;
   }
 ) {
   const distanceToActive = items
-    .slice(0, activeIndex.current)
+    .slice(0, activeIndexRef.current)
     .reduce((accu, item) => accu + item.width * window.innerWidth, 0);
 
   const distanceToCurrent = items
@@ -62,7 +59,7 @@ function computeComponent(
   return {
     x: distanceToCurrent - distanceToActive,
     width: `${items[currentIndex].width * 100}vw`,
-    immediate: isImmediate.current,
+    immediate: isImmediateRef.current,
   };
 }
 
@@ -80,21 +77,21 @@ function computeOverlay(currentIndex: number, { x }: { x: number }) {
 }
 
 function LayoutMobile() {
-  const activeIndex = useRef(1);
-  const isImmediate = useRef(false);
-  const isDragDisabled = useRef(false);
-  const wasDragDisabled = useRef(false);
+  const activeIndexRef = useRef(1);
+  const isImmediateRef = useRef(false);
+  const wasDragDisabledRef = useRef(false);
+  const { setOpenMenu, isDragDisabledRef } = useLayoutMobile();
 
   const computeSpring = useCallback((i: number) => {
-    if (i < activeIndex.current - 1 || i > activeIndex.current + 1) {
+    if (i < activeIndexRef.current - 1 || i > activeIndexRef.current + 1) {
       return {
         x: 0,
         width: "100vw",
-        immediate: isImmediate.current,
+        immediate: isImmediateRef.current,
         opacity: 1,
       };
     }
-    const component = computeComponent(i, { activeIndex, isImmediate });
+    const component = computeComponent(i, { activeIndexRef, isImmediateRef });
     const overlay = computeOverlay(i, { x: component.x });
 
     return { ...component, ...overlay };
@@ -104,39 +101,39 @@ function LayoutMobile() {
 
   const bind = useDrag(
     ({ swipe, last, active, movement: [mx], distance }) => {
-      if (isDragDisabled.current) {
+      if (isDragDisabledRef.current) {
         return;
       }
 
-      const prevActiveIndex = activeIndex.current;
+      const prevActiveIndex = activeIndexRef.current;
 
       if (swipe[0] !== 0) {
-        activeIndex.current = clamp(activeIndex.current - swipe[0], 0, items.length - 1);
+        activeIndexRef.current = clamp(activeIndexRef.current - swipe[0], 0, items.length - 1);
       } else if (last) {
         const movementDirection = mx > 0 ? -1 : 1;
         const autoChangeDistance =
           (Math.min(
-            items[activeIndex.current + movementDirection]?.width,
-            items[activeIndex.current]?.width
+            items[activeIndexRef.current + movementDirection]?.width,
+            items[activeIndexRef.current]?.width
           ) *
             window.innerWidth) /
           2;
 
         if (distance > autoChangeDistance) {
-          activeIndex.current = clamp(activeIndex.current + movementDirection, 0, items.length - 1);
+          activeIndexRef.current = clamp(activeIndexRef.current + movementDirection, 0, items.length - 1);
         }
       }
 
-      if (prevActiveIndex !== activeIndex.current) {
+      if (prevActiveIndex !== activeIndexRef.current) {
         checkMenuOpen();
       }
 
       api((i) => {
-        if (i < activeIndex.current - 1 || i > activeIndex.current + 1) {
+        if (i < activeIndexRef.current - 1 || i > activeIndexRef.current + 1) {
           return;
         }
 
-        const component = computeComponent(i, { activeIndex, isImmediate });
+        const component = computeComponent(i, { activeIndexRef, isImmediateRef });
 
         let x = component.x + (active ? mx : 0);
 
@@ -162,14 +159,14 @@ function LayoutMobile() {
 
   useEffect(() => {
     function handler() {
-      isImmediate.current = true;
+      isImmediateRef.current = true;
       items.forEach((item) => {
         if (item.computeWidth) {
           item.width = item.computeWidth();
         }
       });
       api.start(computeSpring);
-      isImmediate.current = false;
+      isImmediateRef.current = false;
     }
     api.start(computeSpring);
     window.addEventListener("resize", handler);
@@ -182,29 +179,32 @@ function LayoutMobile() {
     if (window.location.hash !== "#menu") {
       const pathWithHash = `${window.location.href.split("#")[0]}#menu`;
       window.history.pushState(null, "", pathWithHash);
-    } else if (activeIndex.current !== 0) {
+    } else if (activeIndexRef.current !== 0) {
       window.history.back();
     }
-    if (wasDragDisabled.current) {
-      isDragDisabled.current = true;
-      wasDragDisabled.current = false;
+    if (wasDragDisabledRef.current) {
+      isDragDisabledRef.current = true;
+      wasDragDisabledRef.current = false;
     }
-  }, []);
+  }, [isDragDisabledRef]);
 
-  const openMenu = useCallback(() => {
-    activeIndex.current = 0;
-    api.start(computeSpring);
-    checkMenuOpen();
-    if (isDragDisabled.current) {
-      isDragDisabled.current = false;
-      wasDragDisabled.current = true;
+  useEffect(() => {
+    function openMenu() {
+      activeIndexRef.current = 0;
+      api.start(computeSpring);
+      checkMenuOpen();
+      if (isDragDisabledRef.current) {
+        isDragDisabledRef.current = false;
+        wasDragDisabledRef.current = true;
+      }
     }
-  }, [api, checkMenuOpen, computeSpring]);
+    setOpenMenu(() => openMenu);
+  }, [api, checkMenuOpen, computeSpring, isDragDisabledRef, setOpenMenu]);
 
   useEffect(() => {
     function handler() {
-      if (!window.location.hash && activeIndex.current !== 1) {
-        activeIndex.current = 1;
+      if (!window.location.hash && activeIndexRef.current !== 1) {
+        activeIndexRef.current = 1;
         api.start(computeSpring);
       }
     }
@@ -242,7 +242,7 @@ function LayoutMobile() {
                 WebkitTapHighlightColor="transparent"
                 componentProps={{
                   onClick: () => {
-                    activeIndex.current = i;
+                    activeIndexRef.current = i;
                     api.start(computeSpring);
                     checkMenuOpen();
                   },
@@ -255,7 +255,7 @@ function LayoutMobile() {
                 }}
               />
             )}
-            <Component isParentDragDisabled={isDragDisabled} openMenu={openMenu} />
+            <Component />
           </Box>
         );
       })}
@@ -263,4 +263,10 @@ function LayoutMobile() {
   );
 }
 
-export default LayoutMobile;
+export default function LayoutMobileWithProvider() {
+  return (
+    <LayoutMobileProvider>
+      <LayoutMobile />
+    </LayoutMobileProvider>
+  );
+}

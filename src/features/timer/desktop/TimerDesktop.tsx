@@ -10,7 +10,7 @@ import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import { useMenu } from "store/menuContext";
 
-import { TimerProvider, useTimer } from "../timerViewModel";
+import { useTimer } from "../timerViewModel";
 
 import useStyles from "./TimerDesktop.styles";
 
@@ -52,10 +52,4 @@ function TimerDesktop() {
   );
 }
 
-export default function TimerWithProvider() {
-  return (
-    <TimerProvider>
-      <TimerDesktop />
-    </TimerProvider>
-  );
-}
+export default TimerDesktop;

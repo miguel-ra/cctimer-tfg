@@ -18,7 +18,6 @@ type ActionCallbacks = { [key in Action]: (time: PuzzleTime) => Promise<PuzzleTi
 
 type QuickActionsProps = {
   resetStopwatch: () => void;
-  visible: boolean;
 };
 
 const useStyles = createUseStyles({
@@ -28,13 +27,15 @@ const useStyles = createUseStyles({
     display: "flex",
     justifyContent: "center",
     opacity: 0,
-    zIndex: -1,
-    transition: "opacity 0.1s linear",
+    transition: "opacity 0.2s linear",
     visibility: "hidden",
     "&.visible": {
       visibility: "visible",
       opacity: 1,
-      zIndex: 0,
+      ".running &, .pressed &": {
+        opacity: 0,
+        visibility: "hidden",
+      },
       "@media (max-height:400px)": {
         position: "relative",
       },
@@ -81,7 +82,7 @@ function getPenaltyButtonProps(
   };
 }
 
-function QuickActions({ resetStopwatch, visible }: QuickActionsProps) {
+function QuickActions({ resetStopwatch }: QuickActionsProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { updateTime, deleteTime, lastTime } = useTimer();
@@ -127,7 +128,7 @@ function QuickActions({ resetStopwatch, visible }: QuickActionsProps) {
 
   return (
     <div
-      className={clsx(classes.quickActions, { visible: !!lastTime && visible })}
+      className={clsx(classes.quickActions, { visible: !!lastTime })}
       onMouseDownCapture={handlePropagation}
       onTouchStartCapture={handlePropagation}
       onClickCapture={handleClick}

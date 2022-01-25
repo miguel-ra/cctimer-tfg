@@ -10,6 +10,7 @@
     " Simple but complete scramble generator, timer with sound, automatic averaging and much more!": "Temporizador on-line Rubik's Cube para speedcubing. Simples, mas completo - gerador de scramble, timer com som, média automática e muito mais!"
   },
   "Add puzzle": "Adicionar puzzle",
+  "Delete": "Remover",
   "Puzzle could not be added": "Não foi possível adicionar o puzzle",
   "Puzzle could not be deleted": "O puzzle não pôde ser removido",
   "Puzzle times could not be deleted": "Os tempos do puzzle não puderam ser removidos",
@@ -32,7 +33,6 @@
   "Best": "Melhor",
   "+2": "+2",
   "DNF": "DNF",
-  "Delete": "Remover",
   "Timer": "Cronômetro",
   "Session": "Sessão",
   "Scramble": "Embaralhamento",

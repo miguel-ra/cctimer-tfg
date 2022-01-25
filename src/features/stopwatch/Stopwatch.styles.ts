@@ -1,6 +1,7 @@
 import { createUseStyles } from "react-jss";
 
 import theme from "styles/theme";
+import { fontFamily } from "styles/typography";
 
 const useStyles = createUseStyles({
   container: {
@@ -12,13 +13,12 @@ const useStyles = createUseStyles({
     cursor: "pointer",
     userSelect: "none",
     WebkitTapHighlightColor: "transparent",
-    background: theme.palette.background.primary,
-    transition: `background ${theme.transition.duration.colorMode} linear`,
   },
   displayWrapper: {
     position: "relative",
   },
   display: {
+    fontFamily: fontFamily,
     fontWeight: "bold",
     textAlign: "center",
     fontSize: "8rem",

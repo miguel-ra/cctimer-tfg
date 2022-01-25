@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 
@@ -13,7 +14,6 @@ import Pressable from "./Pressable";
 import QuickActions from "./QuickActions";
 import useStyles from "./Stopwatch.styles";
 import useStopwatch from "./useStopwatch";
-
 
 enum Status {
   Idle,
@@ -208,7 +208,9 @@ function Stopwatch() {
       onKeyUp={keyUpHandler}
       preventOutsideClicks={status !== Status.Idle}
     >
-      <div className={classes.displayWrapper}>
+      <div
+        className={clsx(classes.displayWrapper, { running: status !== Status.Dnf && status !== Status.Idle })}
+      >
         <div className={classes.display} style={{ color }}>
           {status === Status.Idle && elapsedTimeWithPenaltyCompact(elapsedTime, lastTime?.penalty)}
           {status === Status.Inspection && millisecondsToSeconds(remainingTime) + 1}
@@ -216,10 +218,7 @@ function Stopwatch() {
           {status === Status.Dnf && "DNF"}
           {status === Status.Running && millisecondsToClock(elapsedTime)}
         </div>
-        <QuickActions
-          visible={[Status.Dnf, Status.Idle].includes(status) && !Boolean(color)}
-          resetStopwatch={resetStopwatch}
-        />
+        <QuickActions resetStopwatch={resetStopwatch} />
       </div>
     </Pressable>
   );

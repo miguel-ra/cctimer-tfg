@@ -10,7 +10,6 @@ import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useMenu } from "store/menuContext";
 
-
 import { LoadScrambleResponse } from "./loadScramble.worker";
 
 type MenuState = {

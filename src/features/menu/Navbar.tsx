@@ -1,4 +1,5 @@
 import { createUseStyles } from "react-jss";
+import { Link } from "react-router-dom";
 
 import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
@@ -32,6 +33,8 @@ function Navbar() {
           <LanguageSelector />
         </Box>
         <ColorModeToggle />
+        <Link to="/es">home</Link>
+        <Link to="/es/login">login</Link>
       </Box>
     </div>
   );

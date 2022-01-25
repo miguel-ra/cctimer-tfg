@@ -15,7 +15,7 @@ type TypographyKey =
   | "caption"
   | "overline";
 
-const fontFamily = '"Roboto", "Helvetica", "Arial", sans-serif';
+const fontFamily = '"Roboto", "Helvetica", "Segoe UI", "Oxygen", sans-serif, "Arial"';
 
 type FontWeight = "light" | "regular" | "medium" | "bold";
 
@@ -65,6 +65,6 @@ const typography: { [key in TypographyKey]: CSSProperties } = {
 
 export type { TypographyKey, FontWeight };
 
-export { fontWeight };
+export { fontFamily, fontWeight };
 
 export default typography;

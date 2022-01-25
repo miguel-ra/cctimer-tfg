@@ -2,8 +2,9 @@ import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 
-import Layout from "features/layout/Layout";
 import useEventListener from "shared/hooks/useEventListener";
+
+import Router from "./Router";
 
 function getMetas() {
   const metas = [];
@@ -74,7 +75,7 @@ function App() {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
       </Helmet>
-      <Layout />
+      <Router />
     </>
   );
 }
