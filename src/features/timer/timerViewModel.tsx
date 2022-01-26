@@ -1,26 +1,25 @@
 import { Scramble } from "cctimer-scrambles";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { atom, useRecoilState } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
-import useStats from "features/stats/statsViewModel";
 import useTimes from "features/times/timesViewModel";
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
 import { Time } from "models/times/Time";
+import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
+import useNavigate from "shared/hooks/useNavigate";
 
 import { LoadScrambleResponse } from "./loadScramble.worker";
 
 type SelelecteItemType = "puzzle";
 
-type TimerConfig = {
-  selectedItem:
-    | {
-        id: PuzzleId;
-        key: PuzzleKey;
-        type: SelelecteItemType;
-      }
-    | undefined;
-};
+type SelectedItem =
+  | {
+      id: PuzzleId;
+      key: PuzzleKey;
+      type: SelelecteItemType;
+    }
+  | undefined;
 
 const loadScrambleWorker = new LoadScrambleWorker();
 
@@ -31,68 +30,104 @@ const scrambleState = atom<Scramble>({
   default: emptyScramble,
 });
 
-const configState = atom<TimerConfig>({
-  key: "timer.config",
-  default: { selectedItem: undefined },
+const selectedItemState = atom<SelectedItem>({
+  key: "timer.selectedItem",
+  default: undefined,
 });
 
-function useTimer() {
+function useScramble() {
+  const { selectedItem } = useTimerSelectedItem();
   const [scramble, setScramble] = useRecoilState(scrambleState);
-  const [config, setConfig] = useRecoilState(configState);
 
   const refreshScramble = useCallback(() => {
-    if (config.selectedItem?.key) {
-      loadScrambleWorker.postMessage(config.selectedItem.key);
+    if (selectedItem?.key) {
+      loadScrambleWorker.postMessage(selectedItem.key);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config.selectedItem]);
+  }, [selectedItem]);
 
-  const { puzzleTimes, lastTime, addTime, updateTime, deleteTime, deletePuzzleTimes, refreshPuzzleTimes } =
-    useTimes({
-      onTimeAdded: refreshScramble,
-    });
-
-  const { puzzleStats } = useStats({ puzzleTimes });
-
-  useEffect(() => {
-    refreshPuzzleTimes();
-  }, [refreshPuzzleTimes]);
-
-  const addTimeWithScramble = useCallback((time: Time) => addTime(time, scramble), [addTime, scramble]);
-
-  useEffect(() => {
+  const startWorker = useCallback(() => {
     function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: { data: LoadScrambleResponse }) {
       if (randomScramble) {
         setScramble({ ...randomScramble, puzzleKey });
       }
     }
     loadScrambleWorker.addEventListener("message", handleWorkerMessage);
+    return handleWorkerMessage;
+  }, [setScramble]);
+
+  const stopWorker = useCallback((handleWorkerMessage) => {
     return () => {
       loadScrambleWorker.removeEventListener("message", handleWorkerMessage);
     };
-  }, [setScramble]);
+  }, []);
 
   return {
-    config,
-    setConfig,
-    puzzleTimes,
+    scramble: scramble.puzzleKey === selectedItem?.key ? scramble : emptyScramble,
+    setScramble,
+    refreshScramble,
+    startWorker,
+    stopWorker,
+  };
+}
+
+function useTimerSelectedItem() {
+  const [selectedItem, setSelectedItem] = useRecoilState(selectedItemState);
+
+  return { selectedItem, setSelectedItem };
+}
+
+function useTimer() {
+  const { scramble, refreshScramble } = useScramble();
+  const { setSelectedItem } = useTimerSelectedItem();
+  const navigate = useNavigate();
+  // TODO: Try to move this to usePuzzle
+  const puzzlesRepository = usePuzzlesRepository();
+
+  const { lastTime, addTime, updateTime, deleteTime, deletePuzzleTimes, refreshPuzzleTimes } = useTimes({
+    onTimeAdded: refreshScramble,
+  });
+
+  const addTimeWithScramble = useCallback((time: Time) => addTime(time, scramble), [addTime, scramble]);
+
+  const checkPuzzleId = useCallback(
+    async (puzzleId: PuzzleId) => {
+      let userPuzzle;
+
+      if (puzzleId) {
+        userPuzzle = await puzzlesRepository.findById(Number(puzzleId));
+        if (!userPuzzle) {
+          navigate("/", { replace: true });
+          return;
+        }
+      } else {
+        const userPuzzles = await puzzlesRepository.getAll();
+        if (!userPuzzles || !userPuzzles.length) {
+          return;
+        }
+        userPuzzle = userPuzzles[0];
+      }
+
+      if (userPuzzle) {
+        setSelectedItem({
+          ...userPuzzle,
+          type: "puzzle",
+        });
+      }
+    },
+    [navigate, puzzlesRepository, setSelectedItem]
+  );
+
+  return {
     lastTime,
     addTime: addTimeWithScramble,
     updateTime,
     deleteTime,
     deletePuzzleTimes,
-    scramble: scramble.puzzleKey === config.selectedItem?.key ? scramble : emptyScramble,
-    refreshScramble,
-    puzzleStats,
+    checkPuzzleId,
+    refreshPuzzleTimes,
   };
 }
 
-function useTimerSelectedItem() {
-  const [{ selectedItem }] = useRecoilState(configState);
-
-  return { selectedItem };
-}
-
 export type { SelelecteItemType };
-
-export { useTimerSelectedItem, useTimer };
+export { useTimerSelectedItem, useTimer, useScramble };

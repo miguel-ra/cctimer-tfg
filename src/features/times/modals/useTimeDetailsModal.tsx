@@ -4,11 +4,14 @@ import { useTimer, useTimerSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleTime, TimeId } from "models/times/Time";
 import { useModal } from "store/modalContext";
 
+import { usePuzzleTimes } from "../timesViewModel";
+
 const ModalTimeDetails = lazy(() => import("./ModalTimeDetails"));
 
 function useTimeDetailsModal() {
   const { openModal } = useModal();
-  const { puzzleTimes, updateTime, deleteTime } = useTimer();
+  const { updateTime, deleteTime } = useTimer();
+  const { puzzleTimes } = usePuzzleTimes();
   const { selectedItem } = useTimerSelectedItem();
   const puzzleTimesRef = useRef(puzzleTimes);
 

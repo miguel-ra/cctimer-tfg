@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import Box from "components/flexboxgrid/Box";
 import Table from "components/table/Table";
 import { ComponentProps } from "features/timer/mobile/TimerMobile";
-import { useTimer } from "features/timer/timerViewModel";
 import { statValueToString } from "models/stats/format/statValue";
 import { PuzzleStat, StatKey, statsConfig } from "models/stats/Stats";
 
 import useStyles from "./Stats.styles";
+import useStats from "./statsViewModel";
 
 type Stat = {
   key: string;
@@ -18,7 +18,7 @@ type Stat = {
 
 function Stats({ mobile }: ComponentProps) {
   const { t } = useTranslation();
-  const { puzzleStats } = useTimer();
+  const { puzzleStats } = useStats();
   const classes = useStyles({ mobile });
 
   if (!puzzleStats) {

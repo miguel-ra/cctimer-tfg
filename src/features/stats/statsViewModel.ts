@@ -1,43 +1,31 @@
-import { useEffect, useState } from "react";
-import LoadComputeStats from "workerize-loader!./computeStats.worker.ts";
+import { selector, useRecoilValue } from "recoil";
 
-import { PuzzleStats } from "models/stats/Stats";
-import { PuzzleTime } from "models/times/Time";
+import { puzzleTimesState } from "features/times/timesViewModel";
+import { PuzzleStats, StatKey, statsConfig } from "models/stats/Stats";
+import { puzzleTimeToValue } from "shared/format/puzzleTime";
 
-import { LoadScrambleResponse } from "./computeStats.worker";
+const puzzleStatsSelector = selector({
+  key: "stats.puzzleStats",
+  get: ({ get }) => {
+    const puzzleTimes = get(puzzleTimesState);
 
-type UseStatsProps = {
-  puzzleTimes: PuzzleTime[];
-};
+    const timesValues = puzzleTimes.map((puzzleTime) => ({
+      id: puzzleTime.id,
+      value: puzzleTimeToValue(puzzleTime),
+    }));
 
-const loadComputeStatsWorker = new LoadComputeStats();
+    const statsComputed = Object.entries(statsConfig).map(([metricKey, metric]) => {
+      return [metricKey as StatKey, metric.compute(timesValues)];
+    });
 
-function useStats({ puzzleTimes }: UseStatsProps) {
-  const [puzzleStats, setPuzzleStats] = useState<PuzzleStats | null>(null);
+    const puzzleStats: PuzzleStats = Object.fromEntries(statsComputed);
 
-  useEffect(() => {
-    if (puzzleTimes.length >= 2) {
-      loadComputeStatsWorker.postMessage(puzzleTimes);
-    } else {
-      setPuzzleStats(null);
-    }
-  }, [puzzleTimes]);
+    return { puzzleStats };
+  },
+});
 
-  useEffect(() => {
-    function handleWorkerMessage({ data: computedPuzzleStats }: { data: LoadScrambleResponse }) {
-      if (computedPuzzleStats?.single) {
-        setPuzzleStats(computedPuzzleStats);
-      }
-    }
-    loadComputeStatsWorker.addEventListener("message", handleWorkerMessage);
-    return () => {
-      loadComputeStatsWorker.removeEventListener("message", handleWorkerMessage);
-    };
-  }, []);
-
-  return {
-    puzzleStats,
-  };
+function useStats() {
+  return useRecoilValue(puzzleStatsSelector);
 }
 
 export default useStats;

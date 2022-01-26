@@ -1,9 +1,9 @@
 import ScrambleShowcase from "components/scramble/ScrambleShowcase";
 
-import { useTimer, useTimerSelectedItem } from "../timerViewModel";
+import { useScramble, useTimerSelectedItem } from "../timerViewModel";
 
 function Scramble() {
-  const { scramble } = useTimer();
+  const { scramble } = useScramble();
   const { selectedItem } = useTimerSelectedItem();
 
   return <ScrambleShowcase puzzleKey={selectedItem?.key} scramble={scramble} />;

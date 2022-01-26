@@ -9,7 +9,7 @@ import Stopwatch from "features/stopwatch/Stopwatch";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 
-import { useTimer, useTimerSelectedItem } from "../timerViewModel";
+import { useScramble, useTimerSelectedItem } from "../timerViewModel";
 
 const useStyles = createUseStyles({
   scramble: {
@@ -53,7 +53,7 @@ const useStyles = createUseStyles({
 
 function Timer() {
   const classes = useStyles();
-  const { scramble } = useTimer();
+  const { scramble } = useScramble();
   const { selectedItem } = useTimerSelectedItem();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 

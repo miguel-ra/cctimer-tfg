@@ -1,6 +1,7 @@
 import { Scramble } from "cctimer-scrambles";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { atom, useRecoilState } from "recoil";
 
 import ErrorNotification from "components/notification/ErrorNotification";
 import { useTimerSelectedItem } from "features/timer/timerViewModel";
@@ -13,9 +14,31 @@ type UseTimesProps = {
   onTimeAdded: () => void;
 };
 
+const puzzleTimesState = atom<PuzzleTime[]>({
+  key: "times.puzzleTimes",
+  default: [],
+});
+
+const lastTimeState = atom<PuzzleTime | undefined>({
+  key: "times.lastTime",
+  default: undefined,
+});
+
+function usePuzzleTimes() {
+  const [puzzleTimes, setPuzzleTimes] = useRecoilState(puzzleTimesState);
+
+  return { puzzleTimes, setPuzzleTimes };
+}
+
+function useLastTime() {
+  const [lastTime, setLastTime] = useRecoilState(lastTimeState);
+
+  return { lastTime, setLastTime };
+}
+
 function useTimes({ onTimeAdded }: UseTimesProps) {
-  const [lastTime, setLastTime] = useState<PuzzleTime | undefined>();
-  const [puzzleTimes, setPuzzleTimes] = useState<PuzzleTime[]>([]);
+  const { lastTime, setLastTime } = useLastTime();
+  const { puzzleTimes, setPuzzleTimes } = usePuzzleTimes();
   const timesRepository = useTimesRepository();
   const { selectedItem } = useTimerSelectedItem();
   const { addNotification } = useNotifications();
@@ -31,7 +54,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
     } catch (error) {
       setPuzzleTimes([]);
     }
-  }, [selectedItem?.id, selectedItem?.key, timesRepository]);
+  }, [selectedItem?.id, selectedItem?.key, setPuzzleTimes, timesRepository]);
 
   useEffect(() => {
     setLastTime(undefined);
@@ -74,7 +97,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
       }
     },
-    [addNotification, onTimeAdded, selectedItem, t, timesRepository]
+    [selectedItem, addNotification, t, timesRepository, setPuzzleTimes, onTimeAdded, setLastTime]
   );
 
   const updateTime = useCallback(
@@ -108,7 +131,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
       }
       return updatedTime;
     },
-    [addNotification, lastTime?.id, refreshPuzzleTimes, selectedItem, t, timesRepository]
+    [addNotification, lastTime?.id, refreshPuzzleTimes, selectedItem, setLastTime, t, timesRepository]
   );
 
   const deleteTime = useCallback(
@@ -141,7 +164,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
         ));
       }
     },
-    [addNotification, lastTime, refreshPuzzleTimes, selectedItem, t, timesRepository]
+    [addNotification, lastTime?.id, refreshPuzzleTimes, selectedItem, setLastTime, t, timesRepository]
   );
 
   const deletePuzzleTimes = useCallback(async () => {
@@ -179,5 +202,7 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
     refreshPuzzleTimes,
   };
 }
+
+export { puzzleTimesState, usePuzzleTimes };
 
 export default useTimes;

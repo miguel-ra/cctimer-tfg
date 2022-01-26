@@ -12,7 +12,7 @@ const theme = {
   },
   transition: {
     duration: {
-      scrambleColor: "0.5s",
+      scrambleColor: "0.25s",
       colorMode: "var(--transition-duration-colorMode)",
     },
     generate(values: string[]) {
