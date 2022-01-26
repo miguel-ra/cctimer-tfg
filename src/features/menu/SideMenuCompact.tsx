@@ -4,13 +4,12 @@ import { createUseStyles } from "react-jss";
 import IconButton from "components/button/IconButton";
 import Box from "components/flexboxgrid/Box";
 import Tooltip from "components/tooltip/Tooltip";
+import PuzzleShowcase from "features/puzzles/PuzzleShowcase";
 import ModalSettings from "features/settings/ModalSettings";
 import { useModal } from "store/modalContext";
 import theme from "styles/theme";
 
 import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
-
-import PuzzleShowcase from "./puzzles/PuzzleShowcase";
 
 const useStyles = createUseStyles({
   sideMenu: {
