@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { MouseEvent, useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 
 import IconButton from "components/button/IconButton";
 import Box from "components/flexboxgrid/Box";
@@ -9,6 +8,7 @@ import Tooltip from "components/tooltip/Tooltip";
 import { useTimerSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleId, PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import isTouchDevice from "shared/browser/isTouchDevice";
+import useNavigate from "shared/hooks/useNavigate";
 import { useModal } from "store/modalContext";
 import { usePopover } from "store/popoverContext";
 
@@ -47,7 +47,7 @@ function PuzzleShowcase() {
     ({ puzzleId, puzzleKey, index, puzzles: puzzlesParam }) => {
       const nextSelectedPuzzle = puzzlesParam[(index + 1) % puzzlesParam.length];
       deletePuzzle(puzzleKey, puzzleId);
-      navigate(`puzzle/${nextSelectedPuzzle[0].id}`);
+      navigate(`puzzle/${nextSelectedPuzzle.id}`);
       setPopover();
     },
     [deletePuzzle, navigate, setPopover]
@@ -99,7 +99,7 @@ function PuzzleShowcase() {
                 const iconContainer = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
                 if (iconContainer) {
                   if (shouldDelete) {
-                    handleDelete({ puzzleId, index, puzzles });
+                    handleDelete({ puzzleId, puzzleKey, index, puzzles });
                     return;
                   }
                   handleSelect(puzzle.id);

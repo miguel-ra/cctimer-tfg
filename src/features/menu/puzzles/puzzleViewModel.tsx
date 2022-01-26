@@ -55,19 +55,18 @@ function usePuzzle() {
   const deletePuzzle = useCallback(
     async (key: PuzzleKey, id: PuzzleId): Promise<void> => {
       try {
-        await puzzlesRepository.delete(id);
-        refreshPuzzles();
-        timesRepository.deleteAll(key, id);
-      } catch (error) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>{t("Puzzle could not be deleted")}</ErrorNotification>
-        ));
-      }
-      try {
         timesRepository.deleteAll(key, id);
       } catch (error) {
         addNotification((props) => (
           <ErrorNotification {...props}>{t("Puzzle times could not be deleted")}</ErrorNotification>
+        ));
+      }
+      try {
+        await puzzlesRepository.delete(id);
+        refreshPuzzles();
+      } catch (error) {
+        addNotification((props) => (
+          <ErrorNotification {...props}>{t("Puzzle could not be deleted")}</ErrorNotification>
         ));
       }
     },

@@ -313,8 +313,18 @@ function FullCube_pieceAt(obj: any, idx: number) {
   return ~~((ret & 15) << 24) >> 24;
 }
 
+const defaultState = JSON.stringify({
+  arr: [],
+  prm: [],
+  dl: 10062778,
+  dr: 14536702,
+  ml: 0,
+  ul: 70195,
+  ur: 4544119,
+});
+
 function drawScramble(parentElement: HTMLElement, stringState: string, w = 600, h = 330) {
-  const sq1State = JSON.parse(stringState);
+  const sq1State = JSON.parse(stringState || defaultState);
 
   const colorString = "yobwrg"; //In dlburf order.
 

@@ -22,7 +22,7 @@ function Square1Image({ scramble, className }: ScrambleImageProps) {
   const elementRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (!elementRef.current || !scramble) {
+    if (!elementRef.current) {
       return;
     }
     elementRef.current.innerHTML = "";

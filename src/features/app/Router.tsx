@@ -23,10 +23,13 @@ function Router() {
   return (
     <Routes>
       <Route path="/:lang" element={<Layout />}>
-        <Route index element={<LazyElement Component={Timer} />} />
-        <Route path="puzzle/:puzzleId" element={<LazyElement Component={Timer} />} />
+        <Route path="puzzle">
+          <Route path=":puzzleId" element={<LazyElement Component={Timer} />} />
+          <Route index element={<Navigate to="" replace />} />
+        </Route>
         <Route path="login" element={<LazyElement Component={Login} />} />
-        <Route path="*" element={<Navigate to="" />} />
+        <Route index element={<LazyElement Component={Timer} />} />
+        <Route path="*" element={<Navigate to="" replace />} />
       </Route>
     </Routes>
   );

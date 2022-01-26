@@ -2,10 +2,10 @@ import { useState } from "react";
 
 import { TimesRepository } from "models/times/TimesRepository";
 
-import TimesRepositoryInMemory from "./TimesRepositoryInMemory";
+import timesRepositoryInMemory from "./timesRepositoryInMemory";
 
 function useTimesRepository() {
-  const [timesRepository] = useState<TimesRepository>(new TimesRepositoryInMemory());
+  const [timesRepository] = useState<TimesRepository>(timesRepositoryInMemory);
 
   return timesRepository;
 }

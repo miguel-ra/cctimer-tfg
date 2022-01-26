@@ -89,4 +89,4 @@ class TimesRepositoryInMemory implements TimesRepository {
   }
 }
 
-export default TimesRepositoryInMemory;
+export default new TimesRepositoryInMemory();

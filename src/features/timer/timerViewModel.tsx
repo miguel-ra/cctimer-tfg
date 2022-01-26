@@ -1,5 +1,5 @@
 import { Scramble } from "cctimer-scrambles";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import { atom, useRecoilState } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
@@ -13,16 +13,18 @@ import { LoadScrambleResponse } from "./loadScramble.worker";
 type SelelecteItemType = "puzzle";
 
 type TimerConfig = {
-  selectedItem: {
-    id: PuzzleId;
-    key: PuzzleKey;
-    type: SelelecteItemType;
-  } | null;
+  selectedItem:
+    | {
+        id: PuzzleId;
+        key: PuzzleKey;
+        type: SelelecteItemType;
+      }
+    | undefined;
 };
 
 const loadScrambleWorker = new LoadScrambleWorker();
 
-const emptyScramble = { text: "", state: "" };
+const emptyScramble = { puzzleKey: "", text: "", state: "" };
 
 const scrambleState = atom<Scramble>({
   key: "timer.scramble",
@@ -31,25 +33,19 @@ const scrambleState = atom<Scramble>({
 
 const configState = atom<TimerConfig>({
   key: "timer.config",
-  default: { selectedItem: null },
+  default: { selectedItem: undefined },
 });
 
 function useTimer() {
   const [scramble, setScramble] = useRecoilState(scrambleState);
   const [config, setConfig] = useRecoilState(configState);
-  const scramblePuzzleKey = useRef<PuzzleKey>();
 
-  const refreshScramble = useCallback(async () => {
+  const refreshScramble = useCallback(() => {
     if (config.selectedItem?.key) {
       loadScrambleWorker.postMessage(config.selectedItem.key);
-    } else {
-      scramblePuzzleKey.current = undefined;
     }
-  }, [config]);
-
-  useEffect(() => {
-    refreshScramble();
-  }, [refreshScramble]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.selectedItem]);
 
   const { puzzleTimes, lastTime, addTime, updateTime, deleteTime, deletePuzzleTimes, refreshPuzzleTimes } =
     useTimes({
@@ -67,8 +63,7 @@ function useTimer() {
   useEffect(() => {
     function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: { data: LoadScrambleResponse }) {
       if (randomScramble) {
-        scramblePuzzleKey.current = puzzleKey;
-        setScramble(randomScramble);
+        setScramble({ ...randomScramble, puzzleKey });
       }
     }
     loadScrambleWorker.addEventListener("message", handleWorkerMessage);
@@ -86,7 +81,7 @@ function useTimer() {
     updateTime,
     deleteTime,
     deletePuzzleTimes,
-    scramble: scramblePuzzleKey.current === config.selectedItem?.key ? scramble : emptyScramble,
+    scramble: scramble.puzzleKey === config.selectedItem?.key ? scramble : emptyScramble,
     refreshScramble,
     puzzleStats,
   };

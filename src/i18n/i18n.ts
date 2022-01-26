@@ -10,7 +10,7 @@ type Resources = {
   [key in LangKey]?: Resource;
 };
 
-const supportedLngs: LangKey[] = ["en", "es", "pt"];
+const supportedLangs: LangKey[] = ["en", "es", "pt"];
 
 const languages: [LangKey, string][] = [
   // t("English")
@@ -21,31 +21,31 @@ const languages: [LangKey, string][] = [
   ["pt", "Portuguese"],
 ];
 
-const resources = supportedLngs.reduce((accu: Resources, languageKey: LangKey) => {
+const resources = supportedLangs.reduce((accu: Resources, languageKey: LangKey) => {
   accu[languageKey] = {
     translation: require(`./locales/${languageKey}/translation.json`),
   } as Resource;
   return accu;
 }, {});
 
-i18n.on("languageChanged", (lngWithContry) => {
-  const lng = lngWithContry.slice(0, 2);
+i18n.on("languageChanged", (langWithContry) => {
+  const lang = langWithContry.slice(0, 2);
   const { pathname } = window.location;
-  const selectedLngPattern = new RegExp("^/" + lng);
-  const isUrlUpdated = selectedLngPattern.test(pathname);
+  const selectedLangPattern = new RegExp("^/" + lang);
+  const isUrlUpdated = selectedLangPattern.test(pathname);
 
   if (isUrlUpdated) {
     return;
   }
 
-  const lngPattern = new RegExp("^/(" + supportedLngs.join("|") + ")");
-  const hasLangInURL = lngPattern.test(pathname);
+  const langPattern = new RegExp("^/(" + supportedLangs.join("|") + ")");
+  const hasLangInURL = langPattern.test(pathname);
   let newUrl;
 
   if (hasLangInURL) {
-    newUrl = pathname.replace(lngPattern, `/${lng}`);
+    newUrl = pathname.replace(langPattern, `/${lang}`);
   } else {
-    newUrl = `/${lng}${pathname}`;
+    newUrl = `/${lang}${pathname}`;
   }
 
   window.history.replaceState(null, "", newUrl.replace(/\/$/, ""));
@@ -56,7 +56,7 @@ i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
     load: "languageOnly",
-    supportedLngs,
+    supportedLngs: supportedLangs,
     fallbackLng: "en",
     resources,
     detection: {

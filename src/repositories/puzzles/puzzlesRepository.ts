@@ -2,10 +2,10 @@ import { useState } from "react";
 
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
 
-import PuzzlesRepositoryInMemory from "./PuzzlesRepositoryInMemory";
+import puzzlesRepositoryInMemory from "./puzzlesRepositoryInMemory";
 
 function usePuzzlesRepository() {
-  const [puzzlesRepository] = useState<PuzzlesRepository>(new PuzzlesRepositoryInMemory());
+  const [puzzlesRepository] = useState<PuzzlesRepository>(puzzlesRepositoryInMemory);
 
   return puzzlesRepository;
 }

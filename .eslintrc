@@ -36,6 +36,19 @@
         ]
       }
     ],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-router-dom",
+            "importNames": ["useNavigate"],
+            "message": "Please import 'useNavigate' from 'shared/hooks/useNavigate' instead."
+          }
+        ]
+      }
+    ],
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react/prop-types": "off",
