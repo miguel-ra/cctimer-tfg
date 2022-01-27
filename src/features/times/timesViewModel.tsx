@@ -1,18 +1,13 @@
-import { Scramble } from "cctimer-scrambles";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { atom, useRecoilState } from "recoil";
+import { atom, useRecoilCallback, useRecoilState } from "recoil";
 
 import ErrorNotification from "components/notification/ErrorNotification";
-import { useTimerSelectedItem } from "features/timer/timerViewModel";
+import { useScramble, useTimerSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleTime, Time, TimeId, TimePenalty } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
 import { useNotifications } from "store/notificationsContext";
-
-type UseTimesProps = {
-  onTimeAdded: () => void;
-};
 
 const puzzleTimesState = atom<PuzzleTime[]>({
   key: "times.puzzleTimes",
@@ -29,172 +24,169 @@ function usePuzzleTimes() {
 
   return { puzzleTimes, setPuzzleTimes };
 }
+usePuzzleTimes.state = puzzleTimesState;
 
 function useLastTime() {
   const [lastTime, setLastTime] = useRecoilState(lastTimeState);
 
   return { lastTime, setLastTime };
 }
+useLastTime.state = lastTimeState;
 
-function useTimes({ onTimeAdded }: UseTimesProps) {
-  const { lastTime, setLastTime } = useLastTime();
-  const { puzzleTimes, setPuzzleTimes } = usePuzzleTimes();
+function useTimes() {
   const timesRepository = useTimesRepository();
-  const { selectedItem } = useTimerSelectedItem();
   const { addNotification } = useNotifications();
   const { t } = useTranslation();
 
-  const refreshPuzzleTimes = useCallback(async () => {
-    if (!selectedItem?.id) {
-      return setPuzzleTimes([]);
-    }
-    try {
-      const udpatedPuzzleTimes = await timesRepository.getAll(selectedItem.key, selectedItem.id);
-      setPuzzleTimes(udpatedPuzzleTimes);
-    } catch (error) {
-      setPuzzleTimes([]);
-    }
-  }, [selectedItem?.id, selectedItem?.key, setPuzzleTimes, timesRepository]);
+  const refreshPuzzleTimes = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async () => {
+        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
 
-  useEffect(() => {
-    setLastTime(undefined);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
-
-  const addTime = useCallback(
-    async (time: Time, scramble: Scramble) => {
-      if (!selectedItem?.id) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
-        ));
-        return;
-      }
-      // TODO: Check if we need this comporobation
-      // if (!checkSelectedItem(selectedItem)) {
-      //   addNotification((props) => (
-      //     <ErrorNotification {...props}>
-      //       {t("Trying to save a time in a not selected puzzle")}
-      //     </ErrorNotification>
-      //   ));
-      //   return;
-      // }
-      try {
-        // TODO: Check if is better to get times from repository or if is better concatenate it to the current list
-        const { addedTime, puzzleTimesUpdated } = await timesRepository.add(
-          selectedItem.key,
-          selectedItem.id,
-          { ...time, scramble }
-        );
-        setPuzzleTimes(puzzleTimesUpdated);
-        if (addedTime.penalty !== TimePenalty.Dnf) {
-          setLastTime(addedTime);
+        if (!selectedItem?.id) {
+          return set(usePuzzleTimes.state, []);
         }
-        onTimeAdded();
-        return addedTime;
-      } catch (error) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>{t("Time could not be saved")}</ErrorNotification>
-        ));
-      }
-    },
-    [selectedItem, addNotification, t, timesRepository, setPuzzleTimes, onTimeAdded, setLastTime]
+        try {
+          const udpatedPuzzleTimes = await timesRepository.getAll(selectedItem.key, selectedItem.id);
+          set(usePuzzleTimes.state, udpatedPuzzleTimes);
+        } catch (error) {
+          set(usePuzzleTimes.state, []);
+        }
+      },
+    [timesRepository]
   );
 
-  const updateTime = useCallback(
-    async (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => {
-      if (!selectedItem?.id) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
-        ));
-        return;
-      }
-      // TODO: Check if we need this comporobation
-      // if (!checkSelectedItem(selectedItem)) {
-      //   addNotification((props) => (
-      //     <ErrorNotification {...props}>
-      //       {t("Trying to update a time in a not selected puzzle")}
-      //     </ErrorNotification>
-      //   ));
-      //   return;
-      // }
-      let updatedTime;
-      try {
-        updatedTime = await timesRepository.update(selectedItem.key, timeId, dataToUpdate);
-        refreshPuzzleTimes();
-        if (updatedTime.id === lastTime?.id) {
-          setLastTime(updatedTime);
+  const addTime = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async (time: Time) => {
+        const [selectedItem, scramble] = await Promise.all([
+          snapshot.getPromise(useTimerSelectedItem.state),
+          snapshot.getPromise(useScramble.state),
+        ]);
+
+        if (!selectedItem?.id) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
+          ));
+          return;
         }
-      } catch (error) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>{t("Time could not be updated")}</ErrorNotification>
-        ));
-      }
-      return updatedTime;
-    },
-    [addNotification, lastTime?.id, refreshPuzzleTimes, selectedItem, setLastTime, t, timesRepository]
+        // TODO: Check if we need this comporobation
+        if (scramble.puzzleKey !== selectedItem.key) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>
+              {t("Trying to save a time in a different puzzle")}
+            </ErrorNotification>
+          ));
+          return;
+        }
+        try {
+          // TODO: Check if is better to get times from repository or if is better concatenate it to the current list
+          const { addedTime, puzzleTimesUpdated } = await timesRepository.add(
+            selectedItem.key,
+            selectedItem.id,
+            { ...time, scramble }
+          );
+          set(usePuzzleTimes.state, puzzleTimesUpdated);
+          if (addedTime.penalty !== TimePenalty.Dnf) {
+            set(useLastTime.state, addedTime);
+          }
+          return addedTime;
+        } catch (error) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("Time could not be saved")}</ErrorNotification>
+          ));
+        }
+      },
+    [addNotification, t, timesRepository]
   );
 
-  const deleteTime = useCallback(
-    async (timeId: TimeId) => {
-      if (!selectedItem?.id) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
-        ));
-        return;
-      }
+  const updateTime = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => {
+        const [selectedItem, lastTime] = await Promise.all([
+          snapshot.getPromise(useTimerSelectedItem.state),
+          snapshot.getPromise(useLastTime.state),
+        ]);
 
-      // TODO: Check if we need this comporobation
-      // if (!checkSelectedItem(selectedItem)) {
-      //   addNotification((props) => (
-      //     <ErrorNotification {...props}>
-      //       {t("Trying to delete a time in a not selected puzzle")}
-      //     </ErrorNotification>
-      //   ));
-      //   return;
-      // }
-      try {
-        await timesRepository.delete(selectedItem.key, timeId);
-        if (timeId === lastTime?.id) {
-          setLastTime(undefined);
+        if (!selectedItem?.id) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
+          ));
+          return;
         }
-        refreshPuzzleTimes();
-      } catch (error) {
-        addNotification((props) => (
-          <ErrorNotification {...props}>{t("Time could not be deleted")}</ErrorNotification>
-        ));
-      }
-    },
-    [addNotification, lastTime?.id, refreshPuzzleTimes, selectedItem, setLastTime, t, timesRepository]
+        let updatedTime;
+        try {
+          updatedTime = await timesRepository.update(selectedItem.key, timeId, dataToUpdate);
+          refreshPuzzleTimes();
+          if (updatedTime.id === lastTime?.id) {
+            set(useLastTime.state, updatedTime);
+          }
+        } catch (error) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("Time could not be updated")}</ErrorNotification>
+          ));
+        }
+        return updatedTime;
+      },
+    [addNotification, refreshPuzzleTimes, t, timesRepository]
   );
 
-  const deletePuzzleTimes = useCallback(async () => {
-    if (!selectedItem?.id) {
-      addNotification((props) => <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>);
-      return;
-    }
-    // TODO: Check if we need this comporobation
-    // if (!checkSelectedItem(selectedItem)) {
-    //   addNotification((props) => (
-    //     <ErrorNotification {...props}>
-    //       {t("Trying to delete the times of a not selected puzzle")}
-    //     </ErrorNotification>
-    //   ));
-    //   return;
-    // }
-    try {
-      await timesRepository.deleteAll(selectedItem.key, selectedItem.id);
-      setLastTime(undefined);
-      refreshPuzzleTimes();
-    } catch (error) {
-      addNotification((props) => (
-        <ErrorNotification {...props}>{t("Times could not be deleted")}</ErrorNotification>
-      ));
-    }
-  }, [addNotification, refreshPuzzleTimes, selectedItem, setLastTime, t, timesRepository]);
+  const deleteTime = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async (timeId: TimeId) => {
+        const [selectedItem, lastTime] = await Promise.all([
+          snapshot.getPromise(useTimerSelectedItem.state),
+          snapshot.getPromise(useLastTime.state),
+        ]);
+
+        if (!selectedItem?.id) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
+          ));
+          return;
+        }
+
+        try {
+          await timesRepository.delete(selectedItem.key, timeId);
+          if (timeId === lastTime?.id) {
+            set(useLastTime.state, undefined);
+          }
+          refreshPuzzleTimes();
+        } catch (error) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("Time could not be deleted")}</ErrorNotification>
+          ));
+        }
+      },
+    [addNotification, refreshPuzzleTimes, t, timesRepository]
+  );
+
+  const deletePuzzleTimes = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async () => {
+        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+
+        if (!selectedItem?.id) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("No selected puzzle")}</ErrorNotification>
+          ));
+          return;
+        }
+
+        try {
+          await timesRepository.deleteAll(selectedItem.key, selectedItem.id);
+          set(useLastTime.state, undefined);
+          refreshPuzzleTimes();
+        } catch (error) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("Times could not be deleted")}</ErrorNotification>
+          ));
+        }
+      },
+    [addNotification, refreshPuzzleTimes, t, timesRepository]
+  );
 
   return {
-    lastTime,
-    puzzleTimes,
     addTime,
     updateTime,
     deleteTime,
@@ -203,6 +195,4 @@ function useTimes({ onTimeAdded }: UseTimesProps) {
   };
 }
 
-export { puzzleTimesState, usePuzzleTimes };
-
-export default useTimes;
+export { useTimes, puzzleTimesState, usePuzzleTimes, useLastTime };

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { createUseStyles } from "react-jss";
 
 import Button, { ButtonVariant } from "components/button/Button";
-import { useTimer } from "features/timer/timerViewModel";
+import { useLastTime, useTimes } from "features/times/timesViewModel";
 import { PuzzleTime, TimePenalty } from "models/times/Time";
 
 enum Action {
@@ -85,7 +85,8 @@ function getPenaltyButtonProps(
 function QuickActions({ resetStopwatch }: QuickActionsProps) {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { updateTime, deleteTime, lastTime } = useTimer();
+  const { lastTime } = useLastTime();
+  const { updateTime, deleteTime } = useTimes();
 
   const actionCallback: ActionCallbacks = useMemo(
     () => ({

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { useLayout } from "features/layout/layoutContext";
+import { useLastTime, useTimes } from "features/times/timesViewModel";
 
 import TimerDesktop from "./desktop/TimerDesktop";
 import TimerMobile from "./mobile/TimerMobile";
@@ -12,16 +13,24 @@ function Timer() {
   const { puzzleId } = useParams();
   const { startWorker, stopWorker, refreshScramble } = useScramble();
   const { selectedItem } = useTimerSelectedItem();
-  const { checkPuzzleId, refreshPuzzleTimes } = useTimer();
+  const { checkPuzzleAndRedirect } = useTimer();
+  const { refreshPuzzleTimes } = useTimes();
+  const { lastTime, setLastTime } = useLastTime();
   const TimerComponet = layout === "desktop" ? TimerDesktop : TimerMobile;
 
   useEffect(() => {
-    refreshScramble();
-  }, [refreshScramble]);
+    if (lastTime?.id) {
+      refreshScramble();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastTime?.id]);
 
   useEffect(() => {
+    setLastTime(undefined);
     refreshPuzzleTimes();
-  }, [refreshPuzzleTimes]);
+    refreshScramble();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem]);
 
   useEffect(() => {
     const handler = startWorker();
@@ -34,8 +43,8 @@ function Timer() {
     if (Number(puzzleId) === selectedItem?.id) {
       return;
     }
-    checkPuzzleId(Number(puzzleId));
-  }, [checkPuzzleId, puzzleId, selectedItem?.id]);
+    checkPuzzleAndRedirect(Number(puzzleId));
+  }, [checkPuzzleAndRedirect, puzzleId, selectedItem?.id]);
 
   return <TimerComponet />;
 }

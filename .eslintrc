@@ -49,7 +49,12 @@
         ]
       }
     ],
-    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/exhaustive-deps": [
+      "warn",
+      {
+        "additionalHooks": "(useRecoilCallback)"
+      }
+    ],
     "react-hooks/rules-of-hooks": "error",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",

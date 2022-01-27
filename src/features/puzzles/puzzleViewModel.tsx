@@ -1,19 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import ErrorNotification from "components/notification/ErrorNotification";
-import { useTimerSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
 import { useNotifications } from "store/notificationsContext";
 
-function usePuzzle() {
+function usePuzzles() {
   const [puzzles, setPuzzles] = useState<UserPuzzle[]>([]);
   const puzzlesRepository = usePuzzlesRepository();
   const timesRepository = useTimesRepository();
   const { addNotification } = useNotifications();
-  const { selectedItem } = useTimerSelectedItem();
   const { t } = useTranslation();
 
   const refreshPuzzles = useCallback(async () => {
@@ -24,18 +22,6 @@ function usePuzzle() {
       setPuzzles([]);
     }
   }, [puzzlesRepository]);
-
-  useEffect(() => {
-    refreshPuzzles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (selectedItem === null) {
-      refreshPuzzles();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
 
   const addPuzzle = useCallback(
     async (key: PuzzleKey) => {
@@ -73,7 +59,7 @@ function usePuzzle() {
     [addNotification, puzzlesRepository, refreshPuzzles, t, timesRepository]
   );
 
-  return { puzzles, addPuzzle, deletePuzzle };
+  return { puzzles, addPuzzle, deletePuzzle, refreshPuzzles };
 }
 
-export { usePuzzle };
+export { usePuzzles };

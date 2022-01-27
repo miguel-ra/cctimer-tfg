@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { MouseEvent, useCallback, useRef, useState } from "react";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import IconButton from "components/button/IconButton";
@@ -19,7 +19,7 @@ import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg"
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";
 import useStyles from "./PuzzleShowcase.styles";
-import { usePuzzle } from "./puzzleViewModel";
+import { usePuzzles } from "./puzzleViewModel";
 
 // TODO: Change this component to use event delegation
 
@@ -30,7 +30,7 @@ function PuzzleShowcase() {
   const { openModal } = useModal();
   const { setPopover } = usePopover();
   const { selectedItem } = useTimerSelectedItem();
-  const { puzzles, addPuzzle, deletePuzzle } = usePuzzle();
+  const { puzzles, addPuzzle, deletePuzzle, refreshPuzzles } = usePuzzles();
   const [showDeleteId, setShowDeleteId] = useState<number | null>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
@@ -52,6 +52,10 @@ function PuzzleShowcase() {
     },
     [deletePuzzle, navigate, setPopover]
   );
+
+  useEffect(() => {
+    refreshPuzzles();
+  }, [refreshPuzzles]);
 
   return (
     <Box

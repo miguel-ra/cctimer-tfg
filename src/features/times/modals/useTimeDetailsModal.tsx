@@ -1,16 +1,16 @@
 import { lazy, useCallback, useEffect, useMemo, useRef } from "react";
 
-import { useTimer, useTimerSelectedItem } from "features/timer/timerViewModel";
+import { useTimerSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleTime, TimeId } from "models/times/Time";
 import { useModal } from "store/modalContext";
 
-import { usePuzzleTimes } from "../timesViewModel";
+import { usePuzzleTimes, useTimes } from "../timesViewModel";
 
 const ModalTimeDetails = lazy(() => import("./ModalTimeDetails"));
 
 function useTimeDetailsModal() {
   const { openModal } = useModal();
-  const { updateTime, deleteTime } = useTimer();
+  const { updateTime, deleteTime } = useTimes();
   const { puzzleTimes } = usePuzzleTimes();
   const { selectedItem } = useTimerSelectedItem();
   const puzzleTimesRef = useRef(puzzleTimes);

@@ -1,11 +1,9 @@
 import { Scramble } from "cctimer-scrambles";
 import { useCallback } from "react";
-import { atom, useRecoilState } from "recoil";
+import { atom, useRecoilCallback, useRecoilState } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
-import useTimes from "features/times/timesViewModel";
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
-import { Time } from "models/times/Time";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 import useNavigate from "shared/hooks/useNavigate";
 
@@ -39,12 +37,17 @@ function useScramble() {
   const { selectedItem } = useTimerSelectedItem();
   const [scramble, setScramble] = useRecoilState(scrambleState);
 
-  const refreshScramble = useCallback(() => {
-    if (selectedItem?.key) {
-      loadScrambleWorker.postMessage(selectedItem.key);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
+  const refreshScramble = useRecoilCallback(
+    ({ snapshot }) =>
+      async () => {
+        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+
+        if (selectedItem?.key) {
+          loadScrambleWorker.postMessage(selectedItem.key);
+        }
+      },
+    []
+  );
 
   const startWorker = useCallback(() => {
     function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: { data: LoadScrambleResponse }) {
@@ -70,27 +73,21 @@ function useScramble() {
     stopWorker,
   };
 }
+useScramble.state = scrambleState;
 
 function useTimerSelectedItem() {
   const [selectedItem, setSelectedItem] = useRecoilState(selectedItemState);
 
   return { selectedItem, setSelectedItem };
 }
+useTimerSelectedItem.state = selectedItemState;
 
 function useTimer() {
-  const { scramble, refreshScramble } = useScramble();
   const { setSelectedItem } = useTimerSelectedItem();
   const navigate = useNavigate();
-  // TODO: Try to move this to usePuzzle
   const puzzlesRepository = usePuzzlesRepository();
 
-  const { lastTime, addTime, updateTime, deleteTime, deletePuzzleTimes, refreshPuzzleTimes } = useTimes({
-    onTimeAdded: refreshScramble,
-  });
-
-  const addTimeWithScramble = useCallback((time: Time) => addTime(time, scramble), [addTime, scramble]);
-
-  const checkPuzzleId = useCallback(
+  const checkPuzzleAndRedirect = useCallback(
     async (puzzleId: PuzzleId) => {
       let userPuzzle;
 
@@ -119,13 +116,7 @@ function useTimer() {
   );
 
   return {
-    lastTime,
-    addTime: addTimeWithScramble,
-    updateTime,
-    deleteTime,
-    deletePuzzleTimes,
-    checkPuzzleId,
-    refreshPuzzleTimes,
+    checkPuzzleAndRedirect,
   };
 }
 
