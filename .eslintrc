@@ -52,7 +52,7 @@
     "react-hooks/exhaustive-deps": [
       "warn",
       {
-        "additionalHooks": "(useRecoilCallback)"
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
       }
     ],
     "react-hooks/rules-of-hooks": "error",

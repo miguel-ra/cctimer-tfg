@@ -33,7 +33,7 @@ const statusPenalty: { [key in Status]?: TimePenalty } = {
 function Stopwatch() {
   const classes = useStyles();
   const { addTime } = useTimes();
-  const { lastTime } = useLastTime();
+  const { lastTime, setLastTime } = useLastTime();
   const { selectedItem } = useTimerSelectedItem();
   const { settings } = useSettings();
   const { startStopwatch, stopStopwatch, resetStopwatch, elapsedTime, remainingTime } = useStopwatch();
@@ -51,7 +51,10 @@ function Stopwatch() {
 
   useEffect(() => {
     statusRef.current = status;
-  }, [status]);
+    if ([Status.Running, Status.Inspection].includes(status)) {
+      setLastTime(undefined);
+    }
+  }, [setLastTime, status]);
 
   useEffect(() => {
     if (!lastTime && status === Status.Idle) {
@@ -72,6 +75,9 @@ function Stopwatch() {
   }, [settings.timer.holdToStart]);
 
   useEffect(() => {
+    if (!elapsedTime) {
+      return;
+    }
     let penalty = dataToSave?.current?.penalty;
     if (penalty !== TimePenalty.Dnf && statusPenalty[status]) {
       penalty = statusPenalty[status];
@@ -84,9 +90,10 @@ function Stopwatch() {
 
   const saveTime = useCallback(() => {
     if (dataToSave.current) {
-      addTime({ ...dataToSave.current });
+      addTime({ ...dataToSave.current }).then(() => {
+        dataToSave.current = undefined;
+      });
     }
-    dataToSave.current = undefined;
   }, [addTime]);
 
   const setDNF = useCallback(() => {
@@ -94,7 +101,8 @@ function Stopwatch() {
     setStatus(Status.Dnf);
     resetStopwatch();
     saveTime();
-  }, [resetStopwatch, saveTime]);
+    ready.current = !settings.timer.holdToStart;
+  }, [resetStopwatch, saveTime, settings.timer.holdToStart]);
 
   const startPlusTwo = useCallback(() => {
     setStatus(Status.PlusTwo);
@@ -111,6 +119,11 @@ function Stopwatch() {
       onTimeout: startPlusTwo,
     });
   }, [startStopwatch, settings.inspection.time, startPlusTwo]);
+
+  const start = useCallback(() => {
+    startStopwatch();
+    setStatus(Status.Running);
+  }, [startStopwatch]);
 
   const handlePress = useCallback(() => {
     (document.activeElement as HTMLElement)?.blur?.();
@@ -131,11 +144,12 @@ function Stopwatch() {
       setTimeout(() => {
         if (beginningAt === holdStartedAt.current) {
           setColor(palette.colors.green.main);
+          setLastTime(undefined);
           ready.current = true;
         }
       }, ACTIVATION_DELAY);
     }
-  }, [saveTime, settings.timer.holdToStart, stopStopwatch]);
+  }, [saveTime, setLastTime, settings.timer.holdToStart, stopStopwatch]);
 
   const handleRelease = useCallback(() => {
     setColor(undefined);
@@ -150,9 +164,8 @@ function Stopwatch() {
       return;
     }
 
-    startStopwatch();
-    setStatus(Status.Running);
-  }, [settings.inspection.enabled, settings.timer.holdToStart, startInspection, startStopwatch]);
+    start();
+  }, [settings.inspection.enabled, settings.timer.holdToStart, start, startInspection]);
 
   const keyDownHandler = useCallback(
     (event) => {
@@ -207,7 +220,7 @@ function Stopwatch() {
       onPointerUp={handleRelease}
       onKeyDown={keyDownHandler}
       onKeyUp={keyUpHandler}
-      preventOutsideClicks={status !== Status.Idle}
+      preventOutsideClicks={![Status.Idle, Status.Dnf].includes(status)}
     >
       <div
         className={clsx(classes.displayWrapper, { running: status !== Status.Dnf && status !== Status.Idle })}

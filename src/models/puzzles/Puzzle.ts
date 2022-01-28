@@ -18,7 +18,7 @@ import SkewbIcon from "components/icon/SkewbIcon";
 import SquareIcon from "components/icon/SquareIcon";
 import { ScrambleImageProps } from "components/scramble/Scramble";
 
-type PuzzleId = number;
+type PuzzleId = string;
 
 type PuzzleKey =
   | "skewb"
@@ -41,6 +41,7 @@ type PuzzleKey =
 type UserPuzzle = {
   id: PuzzleId;
   key: PuzzleKey;
+  timestamp: number;
 };
 
 type Puzzle = {

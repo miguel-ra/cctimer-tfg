@@ -3,7 +3,7 @@ import { atom, useRecoilCallback, useRecoilState } from "recoil";
 
 import ErrorNotification from "components/notification/ErrorNotification";
 import { useScramble, useTimerSelectedItem } from "features/timer/timerViewModel";
-import { PuzzleTime, Time, TimeId, TimePenalty } from "models/times/Time";
+import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
 import { useNotifications } from "store/notificationsContext";
@@ -69,6 +69,7 @@ function useTimes() {
           ));
           return;
         }
+
         // TODO: Check if we need this comporobation
         if (scramble.puzzleKey !== selectedItem.key) {
           addNotification((props) => (
@@ -86,9 +87,7 @@ function useTimes() {
             { ...time, scramble }
           );
           set(usePuzzleTimes.state, puzzleTimesUpdated);
-          if (addedTime.penalty !== TimePenalty.Dnf) {
-            set(useLastTime.state, addedTime);
-          }
+          set(useLastTime.state, addedTime);
           return addedTime;
         } catch (error) {
           addNotification((props) => (

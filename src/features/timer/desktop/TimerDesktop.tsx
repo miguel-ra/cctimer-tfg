@@ -5,7 +5,7 @@ import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
 import Spinner from "components/spinner/Spinner";
 import Stats from "features/stats/Stats";
-import Stopwatch from "features/stopwatch/Stopwatch";
+import Stopwatch from "features/stopwatch/Loader";
 import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 

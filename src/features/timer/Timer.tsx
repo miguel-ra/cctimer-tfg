@@ -14,7 +14,7 @@ function Timer() {
   const { puzzleId } = useParams();
   const scramble = useScramble();
   const stats = useStats();
-  const { selectedItem } = useTimerSelectedItem();
+  const { selectedItem, setSelectedItem, resetSelectedItem } = useTimerSelectedItem();
   const { checkPuzzleAndRedirect } = useTimer();
   const { refreshPuzzleTimes } = useTimes();
   const { puzzleTimes } = usePuzzleTimes();
@@ -34,35 +34,30 @@ function Timer() {
   }, [puzzleTimes]);
 
   useEffect(() => {
-    setLastTime(undefined);
-    refreshPuzzleTimes();
-    scramble.refreshScramble();
-    stats.refreshStats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem]);
-
-  useEffect(() => {
-    const handler = scramble.startWorker();
-    return () => {
-      scramble.stopWorker(handler);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scramble.startWorker, scramble.stopWorker]);
-
-  useEffect(() => {
-    const handler = stats.startWorker();
-    return () => {
-      stats.stopWorker(handler);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stats.startWorker, stats.stopWorker]);
-
-  useEffect(() => {
-    if (Number(puzzleId) === selectedItem?.id) {
-      return;
+    if (selectedItem?.id) {
+      setLastTime(undefined);
+      refreshPuzzleTimes();
+      scramble.refreshScramble();
+      stats.refreshStats();
     }
-    checkPuzzleAndRedirect(Number(puzzleId));
-  }, [checkPuzzleAndRedirect, puzzleId, selectedItem?.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem?.id]);
+
+  useEffect(() => {
+    stats.startWorker();
+    scramble.startWorker();
+    return () => {
+      stats.stopWorker();
+      scramble.stopWorker();
+      scramble.resetScramble();
+      resetSelectedItem();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetSelectedItem]);
+
+  useEffect(() => {
+    checkPuzzleAndRedirect(puzzleId);
+  }, [checkPuzzleAndRedirect, puzzleId, setSelectedItem]);
 
   return <TimerComponet />;
 }

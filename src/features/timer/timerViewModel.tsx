@@ -42,32 +42,45 @@ function useScramble() {
       async () => {
         const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
 
-        if (selectedItem?.key) {
-          loadScrambleWorker.postMessage(selectedItem.key);
+        if (selectedItem && selectedItem.id) {
+          loadScrambleWorker.postMessage(selectedItem);
         }
       },
     []
   );
 
-  const startWorker = useCallback(() => {
-    function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: { data: LoadScrambleResponse }) {
-      if (randomScramble) {
+  const handleWorkerMessage = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async ({ data: { userPuzzle, randomScramble } }: LoadScrambleResponse) => {
+        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+        if (!randomScramble || !selectedItem || selectedItem.id !== userPuzzle.id) {
+          return;
+        }
+
         const newScramble = {
           ...randomScramble,
-          puzzleKey,
+          puzzleKey: selectedItem?.key,
         };
-        setScramble(newScramble);
-      }
-    }
-    loadScrambleWorker.addEventListener("message", handleWorkerMessage);
-    return handleWorkerMessage;
-  }, [setScramble]);
+        set(useScramble.state, newScramble);
+      },
+    []
+  );
 
-  const stopWorker = useCallback((handleWorkerMessage) => {
-    return () => {
-      loadScrambleWorker.removeEventListener("message", handleWorkerMessage);
-    };
-  }, []);
+  const startWorker = useCallback(() => {
+    loadScrambleWorker.addEventListener("message", handleWorkerMessage);
+  }, [handleWorkerMessage]);
+
+  const stopWorker = useCallback(() => {
+    loadScrambleWorker.removeEventListener("message", handleWorkerMessage);
+  }, [handleWorkerMessage]);
+
+  const resetScramble = useRecoilCallback(
+    ({ set }) =>
+      () => {
+        set(useScramble.state, emptyScramble);
+      },
+    []
+  );
 
   return {
     scramble: scramble.puzzleKey === selectedItem?.key ? scramble : emptyScramble,
@@ -75,6 +88,7 @@ function useScramble() {
     refreshScramble,
     startWorker,
     stopWorker,
+    resetScramble,
   };
 }
 useScramble.state = scrambleState;
@@ -82,41 +96,53 @@ useScramble.state = scrambleState;
 function useTimerSelectedItem() {
   const [selectedItem, setSelectedItem] = useRecoilState(selectedItemState);
 
-  return { selectedItem, setSelectedItem };
+  const resetSelectedItem = useRecoilCallback(
+    ({ set }) =>
+      () => {
+        set(useTimerSelectedItem.state, undefined);
+      },
+    []
+  );
+
+  return { selectedItem, setSelectedItem, resetSelectedItem };
 }
 useTimerSelectedItem.state = selectedItemState;
 
 function useTimer() {
-  const { setSelectedItem } = useTimerSelectedItem();
   const navigate = useNavigate();
   const puzzlesRepository = usePuzzlesRepository();
 
-  const checkPuzzleAndRedirect = useCallback(
-    async (puzzleId: PuzzleId) => {
-      let userPuzzle;
+  const checkPuzzleAndRedirect = useRecoilCallback(
+    ({ snapshot, set }) =>
+      async (puzzleId?: PuzzleId) => {
+        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
 
-      if (puzzleId) {
-        userPuzzle = await puzzlesRepository.findById(Number(puzzleId));
-        if (!userPuzzle) {
-          navigate("/", { replace: true });
+        if (selectedItem && selectedItem.id === puzzleId) {
           return;
         }
-      } else {
-        const userPuzzles = await puzzlesRepository.getAll();
-        if (!userPuzzles || !userPuzzles.length) {
-          return;
-        }
-        userPuzzle = userPuzzles[0];
-      }
 
-      if (userPuzzle) {
-        setSelectedItem({
-          ...userPuzzle,
-          type: "puzzle",
-        });
-      }
-    },
-    [navigate, puzzlesRepository, setSelectedItem]
+        let userPuzzle;
+        if (puzzleId) {
+          userPuzzle = await puzzlesRepository.findById(puzzleId);
+          if (!userPuzzle) {
+            navigate("/", { replace: true });
+            return;
+          }
+        } else {
+          const userPuzzles = await puzzlesRepository.getAll();
+          if (userPuzzles.length) {
+            userPuzzle = userPuzzles[0];
+          }
+        }
+
+        if (userPuzzle) {
+          set(useTimerSelectedItem.state, {
+            ...userPuzzle,
+            type: "puzzle",
+          });
+        }
+      },
+    [navigate, puzzlesRepository]
   );
 
   return {

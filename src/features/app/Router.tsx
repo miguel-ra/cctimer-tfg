@@ -1,4 +1,5 @@
 import { lazy, LazyExoticComponent, Suspense } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import Spinner from "components/spinner/Spinner";
@@ -20,12 +21,14 @@ function LazyElement({ Component }: LazyElementProps) {
 }
 
 function Router() {
+  const { i18n } = useTranslation();
+
   return (
     <Routes>
       <Route path="/:lang" element={<Layout />}>
         <Route path="puzzle">
           <Route path=":puzzleId" element={<LazyElement Component={Timer} />} />
-          <Route index element={<Navigate to="" replace />} />
+          <Route index element={<Navigate to={`/${i18n.language}`} replace />} />
         </Route>
         <Route path="login" element={<LazyElement Component={Login} />} />
         <Route index element={<LazyElement Component={Timer} />} />

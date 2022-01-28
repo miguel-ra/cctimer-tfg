@@ -140,12 +140,16 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
         }
       }}
     >
-      <Button {...getPenaltyButtonProps(Action.PlusTwo, lastTime?.penalty === TimePenalty.PlusTwo)}>
-        {t("+2")}
-      </Button>
-      <Button {...getPenaltyButtonProps(Action.Dnf, lastTime?.penalty === TimePenalty.Dnf)}>
-        {t("DNF")}
-      </Button>
+      {lastTime && lastTime?.elapsedTime > 0 && (
+        <>
+          <Button {...getPenaltyButtonProps(Action.PlusTwo, lastTime?.penalty === TimePenalty.PlusTwo)}>
+            {t("+2")}
+          </Button>
+          <Button {...getPenaltyButtonProps(Action.Dnf, lastTime?.penalty === TimePenalty.Dnf)}>
+            {t("DNF")}
+          </Button>
+        </>
+      )}
       <Button variant="outlined" color="red" data-action={Action.Delete}>
         {t("Delete")}
       </Button>

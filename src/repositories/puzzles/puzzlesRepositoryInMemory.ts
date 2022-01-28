@@ -1,4 +1,5 @@
 import { IDBPDatabase, openDB } from "idb";
+import { v4 as uuidv4 } from "uuid";
 
 import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
@@ -7,10 +8,11 @@ type StoreName = "puzzles";
 
 type PuzzlesDB = {
   [key in StoreName]: {
-    key: number;
+    key: PuzzleId;
     value: UserPuzzle;
     indexes: {
       id: PuzzleId;
+      timestamp: number;
     };
   };
 };
@@ -31,10 +33,12 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
       upgrade(db) {
         const store = db.createObjectStore(STORE_NAME, {
           keyPath: "id",
-          autoIncrement: true,
         });
         store.createIndex("id", "id");
-        store.add({ key: "cube3" } as UserPuzzle);
+        store.createIndex("timestamp", "timestamp");
+        const id = uuidv4();
+        const timestamp = Date.now();
+        store.add({ id, key: "cube3", timestamp } as UserPuzzle);
       },
       terminated: () => {
         this.dbPromise = undefined;
@@ -46,8 +50,9 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
 
   async add(puzzleKey: PuzzleKey): Promise<UserPuzzle> {
     const db = await this.openDB();
-    const addedId = await db.add(STORE_NAME, { key: puzzleKey } as UserPuzzle);
-    return { key: puzzleKey, id: addedId };
+    const userPuzzle = { id: uuidv4(), key: puzzleKey, timestamp: Date.now() };
+    await db.add(STORE_NAME, userPuzzle);
+    return userPuzzle;
   }
 
   async delete(puzzleId: PuzzleId) {
@@ -63,7 +68,8 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
 
   async getAll() {
     const db = await this.openDB();
-    return db.getAll(STORE_NAME);
+    const userPuzzles = await db.getAll(STORE_NAME);
+    return userPuzzles.sort((a, b) => a.timestamp - b.timestamp);
   }
 }
 

@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
 import Spinner from "components/spinner/Spinner";
-import Stopwatch from "features/stopwatch/Stopwatch";
+import Stopwatch from "features/stopwatch/Loader";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 

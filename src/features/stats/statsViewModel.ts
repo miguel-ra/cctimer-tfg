@@ -5,7 +5,7 @@ import LoadComputeStats from "workerize-loader!./computeStats.worker.ts";
 import { usePuzzleTimes } from "features/times/timesViewModel";
 import { PuzzleStats } from "models/stats/Stats";
 
-import { LoadScrambleResponse } from "./computeStats.worker";
+import { ComputeStatsResponse } from "./computeStats.worker";
 
 const loadComputeStatsWorker = new LoadComputeStats();
 
@@ -31,21 +31,25 @@ function useStats() {
     [setPuzzleStats]
   );
 
-  const startWorker = useCallback(() => {
-    function handleWorkerMessage({ data: computedPuzzleStats }: { data: LoadScrambleResponse }) {
-      if (computedPuzzleStats?.single) {
-        setPuzzleStats(computedPuzzleStats);
-      }
-    }
-    loadComputeStatsWorker.addEventListener("message", handleWorkerMessage);
-    return handleWorkerMessage;
-  }, [setPuzzleStats]);
+  const handleWorkerMessage = useRecoilCallback(
+    ({ set }) =>
+      async ({ data: computedPuzzleStats }: ComputeStatsResponse) => {
+        if (computedPuzzleStats?.single) {
+          set(puzzleStatsState, computedPuzzleStats);
+        }
+      },
+    []
+  );
 
-  const stopWorker = useCallback((handleWorkerMessage) => {
+  const startWorker = useCallback(() => {
+    loadComputeStatsWorker.addEventListener("message", handleWorkerMessage);
+  }, [handleWorkerMessage]);
+
+  const stopWorker = useCallback(() => {
     return () => {
       loadComputeStatsWorker.removeEventListener("message", handleWorkerMessage);
     };
-  }, []);
+  }, [handleWorkerMessage]);
 
   return {
     puzzleStats,

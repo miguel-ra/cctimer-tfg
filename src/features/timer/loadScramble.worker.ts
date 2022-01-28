@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Scramble } from "cctimer-scrambles";
 
-import { PuzzleKey } from "models/puzzles/Puzzle";
+import { PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 
 type ScrambleGenerators = {
   [key in PuzzleKey]: () => Promise<typeof import("cctimer-scrambles/cube2")>;
 };
 
-type LoadScrambleResponse = { puzzleKey: PuzzleKey; randomScramble: Scramble };
+type LoadScrambleResponse = { data: { userPuzzle: UserPuzzle; randomScramble: Scramble } };
 
 const scrambleGenerators: ScrambleGenerators = {
   clock: () => import("cctimer-scrambles/clock"),
@@ -28,16 +28,16 @@ const scrambleGenerators: ScrambleGenerators = {
   pyraminx: () => import("cctimer-scrambles/pyraminx"),
 };
 
-async function loadScramble(puzzleKey: PuzzleKey): Promise<LoadScrambleResponse> {
-  const generator = (await scrambleGenerators[puzzleKey]())?.default;
+async function loadScramble(userPuzzle: UserPuzzle): Promise<LoadScrambleResponse["data"]> {
+  const generator = (await scrambleGenerators[userPuzzle.key]())?.default;
 
-  return { puzzleKey, randomScramble: generator() };
+  return { userPuzzle, randomScramble: generator() };
 }
 
 const ctx: Worker = self as any;
 
-ctx.addEventListener("message", ({ data: puzzleKey }: { data: PuzzleKey }) => {
-  loadScramble(puzzleKey).then((response) => {
+ctx.addEventListener("message", ({ data: userPuzzle }: { data: UserPuzzle }) => {
+  loadScramble(userPuzzle).then((response) => {
     ctx.postMessage(response);
   });
 });

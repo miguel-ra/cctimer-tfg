@@ -31,7 +31,7 @@ function PuzzleShowcase() {
   const { setPopover } = usePopover();
   const { selectedItem } = useTimerSelectedItem();
   const { puzzles, addPuzzle, deletePuzzle, refreshPuzzles } = usePuzzles();
-  const [showDeleteId, setShowDeleteId] = useState<number | null>(null);
+  const [showDeleteId, setShowDeleteId] = useState<PuzzleId | null>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   const handleSelect = useCallback(
@@ -45,7 +45,7 @@ function PuzzleShowcase() {
 
   const handleDelete = useCallback(
     ({ puzzleId, puzzleKey, index, puzzles: puzzlesParam }) => {
-      const nextSelectedPuzzle = puzzlesParam[(index + 1) % puzzlesParam.length];
+      const nextSelectedPuzzle = puzzlesParam[index - 1];
       deletePuzzle(puzzleKey, puzzleId);
       navigate(`puzzle/${nextSelectedPuzzle.id}`);
       setPopover();

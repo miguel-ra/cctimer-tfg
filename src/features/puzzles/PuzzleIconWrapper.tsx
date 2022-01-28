@@ -8,16 +8,17 @@ import {
   useCallback,
 } from "react";
 
+import { PuzzleId } from "models/puzzles/Puzzle";
 import isTouchDevice from "shared/browser/isTouchDevice";
 import useEventListener from "shared/hooks/useEventListener";
 
 type PuzzleIconWrapperProps = {
-  ["data-id"]: number;
+  ["data-id"]: PuzzleId;
   className?: string;
   onClick: (event: MouseEvent) => void;
   timeoutId: MutableRefObject<NodeJS.Timeout | null>;
-  showDeleteId: number | null;
-  setShowDeleteId: Dispatch<SetStateAction<number | null>>;
+  showDeleteId: PuzzleId | null;
+  setShowDeleteId: Dispatch<SetStateAction<PuzzleId | null>>;
   onSelect: () => void;
   onDelete: () => void;
   children: ReactNode;

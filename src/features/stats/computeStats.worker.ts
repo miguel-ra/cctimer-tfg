@@ -3,9 +3,9 @@ import { PuzzleStats, StatKey, statsConfig } from "models/stats/Stats";
 import { PuzzleTime } from "models/times/Time";
 import { puzzleTimeToValue } from "shared/format/puzzleTime";
 
-type LoadScrambleResponse = PuzzleStats;
+type ComputeStatsResponse = { data: PuzzleStats };
 
-async function computeStats(puzzleTimes: PuzzleTime[]): Promise<LoadScrambleResponse> {
+async function computeStats(puzzleTimes: PuzzleTime[]): Promise<ComputeStatsResponse["data"]> {
   const timesValues = puzzleTimes.map((puzzleTime) => ({
     id: puzzleTime.id,
     value: puzzleTimeToValue(puzzleTime),
@@ -28,7 +28,7 @@ ctx.addEventListener("message", ({ data: puzzleKey }: { data: PuzzleTime[] }) =>
   });
 });
 
-export type { LoadScrambleResponse };
+export type { ComputeStatsResponse };
 
 // We need to export anything otherwise typescript would complain that
 // it can't find a module
