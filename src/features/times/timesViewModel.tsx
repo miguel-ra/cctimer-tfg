@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { atom, useRecoilCallback, useRecoilState } from "recoil";
 

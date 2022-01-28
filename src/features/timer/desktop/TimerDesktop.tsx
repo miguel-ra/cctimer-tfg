@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Suspense } from "react";
+import { memo, Suspense } from "react";
 
 import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
@@ -51,4 +51,4 @@ function TimerDesktop() {
   );
 }
 
-export default TimerDesktop;
+export default memo(TimerDesktop);

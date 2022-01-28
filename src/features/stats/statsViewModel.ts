@@ -1,31 +1,58 @@
-import { selector, useRecoilValue } from "recoil";
+import { useCallback } from "react";
+import { atom, useRecoilCallback, useRecoilState } from "recoil";
+import LoadComputeStats from "workerize-loader!./computeStats.worker.ts";
 
-import { puzzleTimesState } from "features/times/timesViewModel";
-import { PuzzleStats, StatKey, statsConfig } from "models/stats/Stats";
-import { puzzleTimeToValue } from "shared/format/puzzleTime";
+import { usePuzzleTimes } from "features/times/timesViewModel";
+import { PuzzleStats } from "models/stats/Stats";
 
-const puzzleStatsSelector = selector({
+import { LoadScrambleResponse } from "./computeStats.worker";
+
+const loadComputeStatsWorker = new LoadComputeStats();
+
+const puzzleStatsState = atom<PuzzleStats | null>({
   key: "stats.puzzleStats",
-  get: ({ get }) => {
-    const puzzleTimes = get(puzzleTimesState);
-
-    const timesValues = puzzleTimes.map((puzzleTime) => ({
-      id: puzzleTime.id,
-      value: puzzleTimeToValue(puzzleTime),
-    }));
-
-    const statsComputed = Object.entries(statsConfig).map(([metricKey, metric]) => {
-      return [metricKey as StatKey, metric.compute(timesValues)];
-    });
-
-    const puzzleStats: PuzzleStats = Object.fromEntries(statsComputed);
-
-    return { puzzleStats };
-  },
+  default: null,
 });
 
 function useStats() {
-  return useRecoilValue(puzzleStatsSelector);
+  const [puzzleStats, setPuzzleStats] = useRecoilState(puzzleStatsState);
+
+  const refreshStats = useRecoilCallback(
+    ({ snapshot }) =>
+      async () => {
+        const puzzleTimes = await snapshot.getPromise(usePuzzleTimes.state);
+
+        if (puzzleTimes.length >= 2) {
+          loadComputeStatsWorker.postMessage(puzzleTimes);
+        } else {
+          setPuzzleStats(null);
+        }
+      },
+    [setPuzzleStats]
+  );
+
+  const startWorker = useCallback(() => {
+    function handleWorkerMessage({ data: computedPuzzleStats }: { data: LoadScrambleResponse }) {
+      if (computedPuzzleStats?.single) {
+        setPuzzleStats(computedPuzzleStats);
+      }
+    }
+    loadComputeStatsWorker.addEventListener("message", handleWorkerMessage);
+    return handleWorkerMessage;
+  }, [setPuzzleStats]);
+
+  const stopWorker = useCallback((handleWorkerMessage) => {
+    return () => {
+      loadComputeStatsWorker.removeEventListener("message", handleWorkerMessage);
+    };
+  }, []);
+
+  return {
+    puzzleStats,
+    refreshStats,
+    startWorker,
+    stopWorker,
+  };
 }
 
 export default useStats;

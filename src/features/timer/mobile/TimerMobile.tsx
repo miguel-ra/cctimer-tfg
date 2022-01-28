@@ -1,7 +1,7 @@
 import { animated, useSprings } from "@react-spring/web";
 import clsx from "clsx";
 import clamp from "lodash/clamp";
-import { MutableRefObject, useCallback, useEffect, useRef } from "react";
+import { memo, MutableRefObject, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useDrag } from "react-use-gesture";
 
@@ -209,4 +209,4 @@ function TimerMobile() {
 
 export type { ComponentProps };
 
-export default TimerMobile;
+export default memo(TimerMobile);

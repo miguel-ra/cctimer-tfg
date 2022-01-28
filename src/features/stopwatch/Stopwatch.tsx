@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 
 import { useTimerSelectedItem } from "features/timer/timerViewModel";
@@ -225,4 +225,4 @@ function Stopwatch() {
   );
 }
 
-export default Stopwatch;
+export default memo(Stopwatch);
