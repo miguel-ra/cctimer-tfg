@@ -1,9 +1,9 @@
-import { Scramble } from "cctimer-scrambles";
 import { useCallback } from "react";
 import { atom, useRecoilCallback, useRecoilState } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
+import { Scramble } from "models/timer/scramble";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 import useNavigate from "shared/hooks/useNavigate";
 
@@ -21,7 +21,7 @@ type SelectedItem =
 
 const loadScrambleWorker = new LoadScrambleWorker();
 
-const emptyScramble = { puzzleKey: "", text: "", state: "" };
+const emptyScramble: Scramble = { puzzleKey: undefined, text: "", state: "" };
 
 const scrambleState = atom<Scramble>({
   key: "timer.scramble",
@@ -52,7 +52,11 @@ function useScramble() {
   const startWorker = useCallback(() => {
     function handleWorkerMessage({ data: { puzzleKey, randomScramble } }: { data: LoadScrambleResponse }) {
       if (randomScramble) {
-        setScramble({ ...randomScramble, puzzleKey });
+        const newScramble = {
+          ...randomScramble,
+          puzzleKey,
+        };
+        setScramble(newScramble);
       }
     }
     loadScrambleWorker.addEventListener("message", handleWorkerMessage);

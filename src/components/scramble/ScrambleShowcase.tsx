@@ -1,4 +1,3 @@
-import { Scramble } from "cctimer-scrambles";
 import { Suspense } from "react";
 import { createUseStyles } from "react-jss";
 
@@ -6,6 +5,7 @@ import Box from "components/flexboxgrid/Box";
 import Spinner from "components/spinner/Spinner";
 import Typography from "components/typography/Typography";
 import { PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
+import { Scramble } from "models/timer/scramble";
 import theme from "styles/theme";
 
 type ScrambleShowcaseProps = {
