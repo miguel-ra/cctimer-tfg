@@ -6,7 +6,7 @@ import theme from "styles/theme";
 
 import { ScrambleImageProps } from "../Scramble";
 
-import { ReactComponent as Cube3Template } from "./cube3.svg";
+import Cube3Template from "./cube3.svg?component";
 
 type FaceKey = "U" | "R" | "F" | "L" | "B" | "D";
 

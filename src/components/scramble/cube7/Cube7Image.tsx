@@ -1,7 +1,7 @@
 import CubeNImage from "../cubeN/CubeNImage";
 import { ScrambleImageProps } from "../Scramble";
 
-import { ReactComponent as Cube7Template } from "./cube7.svg";
+import Cube7Template from "./cube7.svg?component";
 
 function Cube7Image(props: ScrambleImageProps) {
   return <CubeNImage CubeTemplate={Cube7Template} {...props} />;

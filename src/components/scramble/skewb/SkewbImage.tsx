@@ -6,7 +6,7 @@ import theme from "styles/theme";
 
 import { ScrambleImageProps } from "../Scramble";
 
-import { ReactComponent as SkewbTemplate } from "./skewb.svg";
+import SkewbTemplate from "./skewb.svg?component";
 
 type FaceKey = "0" | "1" | "2" | "3" | "4" | "5";
 
@@ -42,7 +42,13 @@ function SkewbImage({ scramble, className, ...props }: ScrambleImageProps) {
     });
   }, [scramble]);
 
-  return <SkewbTemplate className={clsx(classes.root, className)} ref={elementRef} {...props} />;
+  return (
+    <SkewbTemplate
+      className={clsx(classes.root, className)}
+      ref={elementRef}
+      {...props}
+    />
+  );
 }
 
 export default SkewbImage;

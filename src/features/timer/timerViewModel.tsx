@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from "react";
 import { useRecoilCallback } from "recoil";
-import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
 import { Scramble } from "models/timer/scramble";
@@ -9,6 +8,7 @@ import useNavigate from "shared/hooks/useNavigate";
 import { generateUseState } from "shared/recoil";
 
 import { LoadScrambleResponse } from "./loadScramble.worker";
+import LoadScrambleWorker from "./loadScramble.worker?worker";
 
 type SelelecteItemType = "puzzle";
 

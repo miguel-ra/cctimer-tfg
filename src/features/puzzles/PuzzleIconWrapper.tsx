@@ -16,7 +16,7 @@ type PuzzleIconWrapperProps = {
   ["data-id"]: PuzzleId;
   className?: string;
   onClick: (event: MouseEvent) => void;
-  timeoutId: MutableRefObject<NodeJS.Timeout | null>;
+  timeoutId: MutableRefObject<number | null>;
   showDeleteId: PuzzleId | null;
   setShowDeleteId: Dispatch<SetStateAction<PuzzleId | null>>;
   onSelect: () => void;
@@ -38,7 +38,9 @@ function PuzzleIconWrapper({
 
   const clickHandler = useCallback(
     (event: MouseEvent) => {
-      const container = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
+      const container = (event.target as HTMLElement).closest<HTMLElement>(
+        "[data-id]"
+      );
       if (!container) {
         setShowDeleteId(null);
       }
@@ -46,7 +48,9 @@ function PuzzleIconWrapper({
     [setShowDeleteId]
   );
 
-  useEventListener(window, "click", clickHandler, { attachListener: showDeleteId === dataId });
+  useEventListener(window, "click", clickHandler, {
+    attachListener: showDeleteId === dataId,
+  });
 
   return (
     <div

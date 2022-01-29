@@ -3,7 +3,7 @@ import { createUseStyles } from "react-jss";
 
 import Box from "components/flexboxgrid/Box";
 
-import { ReactComponent as IconSpinner } from "assets/icons/spinner.svg";
+import IconSpinner from "assets/icons/spinner.svg?component";
 
 type SpinnerProps = {
   delay?: number;
@@ -14,7 +14,8 @@ const useStyles = createUseStyles({
   spinner: {
     width: "1.6rem",
     height: "1.6rem",
-    animation: "$spin 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite, $reveal 0.25s linear forwards",
+    animation:
+      "$spin 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite, $reveal 0.25s linear forwards",
   },
   "@keyframes spin": {
     from: { transform: "rotate(0deg)" },

@@ -20,7 +20,7 @@ import { dateTimeToLocale } from "shared/format/date";
 import { elapsedTimeWithPenalty } from "shared/format/puzzleTime";
 import { useModal } from "store/modalContext";
 
-import { ReactComponent as ShareIcon } from "assets/icons/share.svg";
+import ShareIcon from "assets/icons/share.svg?component";
 
 import ModalShareTime from "./ModalShareTime";
 import useStyles from "./ModalTimeDetails.styles";
@@ -28,7 +28,10 @@ import useStyles from "./ModalTimeDetails.styles";
 type ModalTimeDetailsProps = {
   puzzleKey?: PuzzleKey;
   time: PuzzleTime;
-  updateTime: (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => Promise<PuzzleTime | undefined>;
+  updateTime: (
+    timeId: TimeId,
+    dataToUpdate: PuzzleTimeUpdate
+  ) => Promise<PuzzleTime | undefined>;
   deleteTime: (timeId: TimeId) => Promise<void>;
 };
 
@@ -46,7 +49,12 @@ function getPenaltyButtonProps(
   };
 }
 
-function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTimeDetailsProps) {
+function ModalTimeDetails({
+  puzzleKey,
+  time,
+  updateTime,
+  deleteTime,
+}: ModalTimeDetailsProps) {
   const [internalTime, setInternalTime] = useState(time);
   const { openModal, closeModal } = useModal();
   const { t, i18n } = useTranslation();
@@ -78,7 +86,11 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
         <IconButton
           size="small"
           aria-label={t("Share")}
-          onClick={() => openModal(<ModalShareTime time={internalTime} goBack={openTimeDetails} />)}
+          onClick={() =>
+            openModal(
+              <ModalShareTime time={internalTime} goBack={openTimeDetails} />
+            )
+          }
         >
           <ShareIcon />
         </IconButton>
@@ -93,16 +105,25 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
             sm={{ flexDirection: "row" }}
           >
             <Typography className={classes.time} variant="h3">
-              {elapsedTimeWithPenalty(internalTime.elapsedTime, internalTime.penalty)}
+              {elapsedTimeWithPenalty(
+                internalTime.elapsedTime,
+                internalTime.penalty
+              )}
             </Typography>
             <Typography variant="caption" className={classes.date}>
-              {dateTimeToLocale(i18n.language as LangKey, internalTime.createdAt)}
+              {dateTimeToLocale(
+                i18n.language as LangKey,
+                internalTime.createdAt
+              )}
             </Typography>
           </Box>
           <Divider />
           {internalTime.scramble.text && (
             <>
-              <ScrambleShowcase puzzleKey={puzzleKey} scramble={internalTime.scramble} />
+              <ScrambleShowcase
+                puzzleKey={puzzleKey}
+                scramble={internalTime.scramble}
+              />
               <Divider disableTop />
             </>
           )}
@@ -139,12 +160,18 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
               handleUpdate({ penalty: value as TimePenalty });
             }}
           >
-            <Button data-value={undefined} {...getPenaltyButtonProps(undefined, internalTime.penalty)}>
+            <Button
+              data-value={undefined}
+              {...getPenaltyButtonProps(undefined, internalTime.penalty)}
+            >
               {t("No penalty")}
             </Button>
             <Button
               data-value={TimePenalty.PlusTwo}
-              {...getPenaltyButtonProps(TimePenalty.PlusTwo, internalTime.penalty)}
+              {...getPenaltyButtonProps(
+                TimePenalty.PlusTwo,
+                internalTime.penalty
+              )}
             >
               {t("+2")}
             </Button>

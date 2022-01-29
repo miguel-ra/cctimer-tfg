@@ -13,7 +13,7 @@ import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 
-import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
+import MenuIcon from "assets/icons/menu.svg?component";
 
 import { useSelectedItem } from "../timerViewModel";
 
@@ -85,13 +85,19 @@ function TimerMobile() {
     document.querySelectorAll("[id^='timerTabs-panel-']").forEach((element) => {
       const { index } = (element as HTMLElement).dataset;
       if (index) {
-        element.setAttribute("aria-selected", (activeTab.current === Number(index)).toString());
+        element.setAttribute(
+          "aria-selected",
+          (activeTab.current === Number(index)).toString()
+        );
       }
     });
     document.querySelectorAll("[id^='timerTabs-tab-']").forEach((element) => {
       const { index } = (element as HTMLElement).dataset;
       if (index) {
-        element.setAttribute("aria-expanded", (activeTab.current === Number(index)).toString());
+        element.setAttribute(
+          "aria-expanded",
+          (activeTab.current === Number(index)).toString()
+        );
       }
     });
     setTimeout(() => {
@@ -99,18 +105,29 @@ function TimerMobile() {
     }, SPRING_DURATION);
   }, [isDragDisabledRef]);
 
-  const [props, api] = useSprings(computedTabs.length, computeSpring({ activeTab, isImmediate }));
+  const [props, api] = useSprings(
+    computedTabs.length,
+    computeSpring({ activeTab, isImmediate })
+  );
 
   const bind = useDrag(
     ({ last, active, movement: [mx], swipe, distance }) => {
       if (swipe[0] !== 0) {
-        activeTab.current = clamp(activeTab.current - swipe[0], 0, computedTabs.length - 1);
+        activeTab.current = clamp(
+          activeTab.current - swipe[0],
+          0,
+          computedTabs.length - 1
+        );
         updateLayout();
       } else if (last) {
         const movementDirection = mx > 0 ? -1 : 1;
         const autoChangeDistance = window.innerWidth / 2;
         if (distance > autoChangeDistance) {
-          activeTab.current = clamp(activeTab.current + movementDirection, 0, computedTabs.length - 1);
+          activeTab.current = clamp(
+            activeTab.current + movementDirection,
+            0,
+            computedTabs.length - 1
+          );
           updateLayout();
         }
       }
@@ -144,10 +161,17 @@ function TimerMobile() {
 
   return (
     <Box width="100%" height="100%" flexDirection="column">
-      <div role="button" className={classes.header} onClick={openMenu} tabIndex={0}>
+      <div
+        role="button"
+        className={classes.header}
+        onClick={openMenu}
+        tabIndex={0}
+      >
         <MenuIcon className={classes.icon} />
         <Typography variant="subtitle1">
-          {selectedItem?.key ? t(puzzlesConfig?.[selectedItem?.key]?.label) : "CCTimer.com"}
+          {selectedItem?.key
+            ? t(puzzlesConfig?.[selectedItem?.key]?.label)
+            : "CCTimer.com"}
         </Typography>
       </div>
       <div className={classes.sections}>

@@ -10,7 +10,7 @@ import ModalSettings from "features/settings/ModalSettings";
 import { useModal } from "store/modalContext";
 import theme from "styles/theme";
 
-import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
+import SettingsIcon from "assets/icons/settings.svg?component";
 
 const useStyles = createUseStyles({
   root: {
@@ -62,7 +62,11 @@ function SideMenuExpanded() {
           </Box>
           <Divider />
           <Box padding="1rem" width="100%">
-            <Button startIcon={SettingsIcon} onClick={() => openModal(<ModalSettings />)} fullWidth>
+            <Button
+              startIcon={SettingsIcon}
+              onClick={() => openModal(<ModalSettings />)}
+              fullWidth
+            >
               {t("Settings")}
             </Button>
           </Box>

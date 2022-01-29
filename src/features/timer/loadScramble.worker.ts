@@ -1,35 +1,53 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Scramble } from "cctimer-scrambles";
+import clockGenerator from "cctimer-scrambles/clock";
+import cube10Generator from "cctimer-scrambles/cube10";
+import cube11Generator from "cctimer-scrambles/cube11";
+import cube2Generator from "cctimer-scrambles/cube2";
+import cube3Generator from "cctimer-scrambles/cube3";
+import cube4Generator from "cctimer-scrambles/cube4";
+import cube5Generator from "cctimer-scrambles/cube5";
+import cube6Generator from "cctimer-scrambles/cube6";
+import cube7Generator from "cctimer-scrambles/cube7";
+import cube8Generator from "cctimer-scrambles/cube8";
+import cube9Generator from "cctimer-scrambles/cube9";
+import gigaminxGenerator from "cctimer-scrambles/gigaminx";
+import megaminxGenerator from "cctimer-scrambles/megaminx";
+import pyraminxGenerator from "cctimer-scrambles/pyraminx";
+import skewbGenerator from "cctimer-scrambles/skewb";
+import square1Generator from "cctimer-scrambles/square1";
 
-import { PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
+import { PuzzleKey, UserPuzzle } from "../../models/puzzles/Puzzle";
 
 type ScrambleGenerators = {
-  [key in PuzzleKey]: () => Promise<typeof import("cctimer-scrambles/cube2")>;
+  [key in PuzzleKey]: typeof clockGenerator;
 };
 
-type LoadScrambleResponse = { data: { userPuzzle: UserPuzzle; randomScramble: Scramble } };
+type LoadScrambleResponse = {
+  data: { userPuzzle: UserPuzzle; randomScramble: Scramble };
+};
 
 const scrambleGenerators: ScrambleGenerators = {
-  clock: () => import("cctimer-scrambles/clock"),
-  cube2: () => import("cctimer-scrambles/cube2"),
-  cube3: () => import("cctimer-scrambles/cube3"),
-  cube4: () => import("cctimer-scrambles/cube4"),
-  cube5: () => import("cctimer-scrambles/cube5"),
-  cube6: () => import("cctimer-scrambles/cube6"),
-  cube7: () => import("cctimer-scrambles/cube7"),
-  cube8: () => import("cctimer-scrambles/cube8"),
-  cube9: () => import("cctimer-scrambles/cube9"),
-  cube10: () => import("cctimer-scrambles/cube10"),
-  cube11: () => import("cctimer-scrambles/cube11"),
-  square1: () => import("cctimer-scrambles/square1"),
-  skewb: () => import("cctimer-scrambles/skewb"),
-  megaminx: () => import("cctimer-scrambles/megaminx"),
-  gigaminx: () => import("cctimer-scrambles/gigaminx"),
-  pyraminx: () => import("cctimer-scrambles/pyraminx"),
+  clock: clockGenerator,
+  cube2: cube2Generator,
+  cube3: cube3Generator,
+  cube4: cube4Generator,
+  cube5: cube5Generator,
+  cube6: cube6Generator,
+  cube7: cube7Generator,
+  cube8: cube8Generator,
+  cube9: cube9Generator,
+  cube10: cube10Generator,
+  cube11: cube11Generator,
+  square1: square1Generator,
+  skewb: skewbGenerator,
+  megaminx: megaminxGenerator,
+  gigaminx: gigaminxGenerator,
+  pyraminx: pyraminxGenerator,
 };
 
 async function loadScramble(userPuzzle: UserPuzzle): Promise<LoadScrambleResponse["data"]> {
-  const generator = (await scrambleGenerators[userPuzzle.key]())?.default;
+  const generator = scrambleGenerators[userPuzzle.key];
 
   return { userPuzzle, randomScramble: generator() };
 }

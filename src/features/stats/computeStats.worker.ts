@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PuzzleStats, StatKey, statsConfig } from "models/stats/Stats";
-import { PuzzleTime } from "models/times/Time";
-import { puzzleTimeToValue } from "shared/format/puzzleTime";
+import { PuzzleStats, StatKey, statsConfig } from "../../models/stats/Stats";
+import { PuzzleTime } from "../../models/times/Time";
+import { puzzleTimeToValue } from "../../shared/format/puzzleTime";
 
 type ComputeStatsResponse = { data: PuzzleStats };
 
-async function computeStats(puzzleTimes: PuzzleTime[]): Promise<ComputeStatsResponse["data"]> {
+async function computeStats(
+  puzzleTimes: PuzzleTime[]
+): Promise<ComputeStatsResponse["data"]> {
   const timesValues = puzzleTimes.map((puzzleTime) => ({
     id: puzzleTime.id,
     value: puzzleTimeToValue(puzzleTime),
   }));
 
-  const statsComputed = Object.entries(statsConfig).map(([metricKey, metric]) => {
-    return [metricKey as StatKey, metric.compute(timesValues)];
-  });
+  const statsComputed = Object.entries(statsConfig).map(
+    ([metricKey, metric]) => {
+      return [metricKey as StatKey, metric.compute(timesValues)];
+    }
+  );
 
   const puzzleStats: PuzzleStats = Object.fromEntries(statsComputed);
 
@@ -22,11 +26,14 @@ async function computeStats(puzzleTimes: PuzzleTime[]): Promise<ComputeStatsResp
 
 const ctx: Worker = self as any;
 
-ctx.addEventListener("message", ({ data: puzzleKey }: { data: PuzzleTime[] }) => {
-  computeStats(puzzleKey).then((response) => {
-    ctx.postMessage(response);
-  });
-});
+ctx.addEventListener(
+  "message",
+  ({ data: puzzleKey }: { data: PuzzleTime[] }) => {
+    computeStats(puzzleKey).then((response) => {
+      ctx.postMessage(response);
+    });
+  }
+);
 
 export type { ComputeStatsResponse };
 

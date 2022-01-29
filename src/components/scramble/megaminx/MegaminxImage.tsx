@@ -6,9 +6,21 @@ import theme from "styles/theme";
 
 import { ScrambleImageProps } from "../Scramble";
 
-import { ReactComponent as MegaminxTemplate } from "./megaminx.svg";
+import MegaminxTemplate from "./megaminx.svg?component";
 
-type FaceKey = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11";
+type FaceKey =
+  | "0"
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "10"
+  | "11";
 
 const colorScheme: { [key in FaceKey]: string } = {
   "0": theme.palette.colors.white.main,
@@ -48,7 +60,13 @@ function MegaminxImage({ scramble, className, ...props }: ScrambleImageProps) {
     });
   }, [scramble]);
 
-  return <MegaminxTemplate className={clsx(classes.root, className)} ref={elementRef} {...props} />;
+  return (
+    <MegaminxTemplate
+      className={clsx(classes.root, className)}
+      ref={elementRef}
+      {...props}
+    />
+  );
 }
 
 export default MegaminxImage;

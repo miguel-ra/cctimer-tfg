@@ -1,4 +1,4 @@
-import { PuzzleTime, TimePenalty } from "models/times/Time";
+import { PuzzleTime, TimePenalty } from "../../models/times/Time";
 
 import { millisecondsToClock } from "./number";
 

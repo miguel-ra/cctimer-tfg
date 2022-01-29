@@ -6,9 +6,12 @@ import theme from "styles/theme";
 
 import { ScrambleImageProps } from "../Scramble";
 
-import { ReactComponent as ClockTemplate } from "./clock.svg";
+import ClockTemplate from "./clock.svg?component";
 
-const pegColors = [theme.palette.colors.yellow.darker, theme.palette.colors.yellow.main];
+const pegColors = [
+  theme.palette.colors.yellow.darker,
+  theme.palette.colors.yellow.main,
+];
 
 const useStyles = createUseStyles({
   root: {
@@ -36,7 +39,9 @@ function ClockImage({ scramble, className, ...props }: ScrambleImageProps) {
 
     [...dials.split(",")].map(Number).forEach((hour, index) => {
       const clock = element.querySelector(`.clock-${index}`);
-      const transform = clock?.getAttribute("transform")?.replace(/rotate\([^)]*\)/, `rotate(${hour * 30})`);
+      const transform = clock
+        ?.getAttribute("transform")
+        ?.replace(/rotate\([^)]*\)/, `rotate(${hour * 30})`);
       if (transform) {
         clock?.setAttribute("transform", transform);
       }
@@ -48,7 +53,13 @@ function ClockImage({ scramble, className, ...props }: ScrambleImageProps) {
     });
   }, [scramble]);
 
-  return <ClockTemplate className={clsx(classes.root, className)} ref={elementRef} {...props} />;
+  return (
+    <ClockTemplate
+      className={clsx(classes.root, className)}
+      ref={elementRef}
+      {...props}
+    />
+  );
 }
 
 export default ClockImage;

@@ -5,11 +5,11 @@ import ErrorNotification from "components/notification/ErrorNotification";
 import SuccessNotification from "components/notification/SuccessNotification";
 import { AddNotification } from "store/notificationsContext";
 
-import { ReactComponent as CopyIcon } from "assets/icons/copy.svg";
-import { ReactComponent as FacebookIcon } from "assets/icons/facebook.svg";
-import { ReactComponent as TelegramIcon } from "assets/icons/telegram.svg";
-import { ReactComponent as TwitterIcon } from "assets/icons/twitter.svg";
-import { ReactComponent as WhatsappIcon } from "assets/icons/whatsapp.svg";
+import CopyIcon from "assets/icons/copy.svg?component";
+import FacebookIcon from "assets/icons/facebook.svg?component";
+import TelegramIcon from "assets/icons/telegram.svg?component";
+import TwitterIcon from "assets/icons/twitter.svg?component";
+import WhatsappIcon from "assets/icons/whatsapp.svg?component";
 
 type ShareActionData = {
   shareText: string;
@@ -38,7 +38,11 @@ const shareActions: ShareAction[] = [
         document.execCommand("copy");
         shareTextRef.current.blur();
         addNotification(
-          (props) => <SuccessNotification {...props}>{t("Text copied to clipboard")}</SuccessNotification>,
+          (props) => (
+            <SuccessNotification {...props}>
+              {t("Text copied to clipboard")}
+            </SuccessNotification>
+          ),
           {
             timeOut: 2000,
           }
@@ -46,7 +50,9 @@ const shareActions: ShareAction[] = [
         return;
       }
       addNotification((props) => (
-        <ErrorNotification {...props}>{t("Text could not be copied")}</ErrorNotification>
+        <ErrorNotification {...props}>
+          {t("Text could not be copied")}
+        </ErrorNotification>
       ));
     },
   },
@@ -57,7 +63,9 @@ const shareActions: ShareAction[] = [
     color: "#2d88ff",
     callback: ({ shareText }) => {
       window.open(
-        `https://www.facebook.com/sharer/sharer.php?u=cctimer.com&quote=${encodeURI(shareText)}`,
+        `https://www.facebook.com/sharer/sharer.php?u=cctimer.com&quote=${encodeURI(
+          shareText
+        )}`,
         "_blank"
       );
     },
@@ -68,7 +76,10 @@ const shareActions: ShareAction[] = [
     label: "Twitter",
     color: "#1da1f2",
     callback: ({ shareText }) => {
-      window.open(`https://twitter.com/intent/tweet?text=${encodeURI(shareText)}`, "_blank");
+      window.open(
+        `https://twitter.com/intent/tweet?text=${encodeURI(shareText)}`,
+        "_blank"
+      );
     },
   },
   {
@@ -77,7 +88,10 @@ const shareActions: ShareAction[] = [
     label: "Whatsapp",
     color: "#1BD741",
     callback: ({ shareText }) => {
-      window.open(`https://api.whatsapp.com/send?text=${encodeURI(shareText)}`, "_blank");
+      window.open(
+        `https://api.whatsapp.com/send?text=${encodeURI(shareText)}`,
+        "_blank"
+      );
     },
   },
   {
@@ -87,7 +101,9 @@ const shareActions: ShareAction[] = [
     color: "#3390EC",
     callback: ({ shareText }) => {
       window.open(
-        `https://telegram.me/share/url?url=${encodeURI(" ")}&text=${encodeURI(shareText)}`,
+        `https://telegram.me/share/url?url=${encodeURI(" ")}&text=${encodeURI(
+          shareText
+        )}`,
         "_blank"
       );
     },

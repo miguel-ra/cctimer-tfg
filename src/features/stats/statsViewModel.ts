@@ -1,12 +1,12 @@
 import { useCallback } from "react";
 import { useRecoilCallback } from "recoil";
-import LoadComputeStats from "workerize-loader!./computeStats.worker.ts";
 
 import { usePuzzleTimesState } from "features/times/timesViewModel";
 import { PuzzleStats } from "models/stats/Stats";
 import { generateUseState } from "shared/recoil";
 
 import { ComputeStatsResponse } from "./computeStats.worker";
+import LoadComputeStats from "./computeStats.worker?worker";
 
 const loadComputeStatsWorker = new LoadComputeStats();
 

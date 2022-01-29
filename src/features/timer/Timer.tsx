@@ -18,8 +18,13 @@ function Timer() {
     stopWorker: scrambleStopWorker,
     resetScramble,
   } = useScramble();
-  const { refreshStats, startWorker: statsStartWorker, stopWorker: statsStopWorker } = useStats();
-  const { selectedItem, setSelectedItem, resetSelectedItem } = useSelectedItem();
+  const {
+    refreshStats,
+    startWorker: statsStartWorker,
+    stopWorker: statsStopWorker,
+  } = useStats();
+  const { selectedItem, setSelectedItem, resetSelectedItem } =
+    useSelectedItem();
   const { checkPuzzleAndRedirect } = useTimer();
   const { puzzleTimes, lastTime, setLastTime, refreshPuzzleTimes } = useTimes();
   const TimerComponet = layout === "desktop" ? TimerDesktop : TimerMobile;
@@ -41,7 +46,13 @@ function Timer() {
       refreshScramble();
       refreshStats();
     }
-  }, [refreshPuzzleTimes, refreshScramble, selectedItem?.id, setLastTime, refreshStats]);
+  }, [
+    refreshPuzzleTimes,
+    refreshScramble,
+    selectedItem?.id,
+    setLastTime,
+    refreshStats,
+  ]);
 
   useEffect(() => {
     statsStartWorker();
