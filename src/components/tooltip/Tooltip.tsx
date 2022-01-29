@@ -18,10 +18,8 @@ function Tooltip({
   children,
   ...config
 }: TooltipProps) {
-  const [targetElement, setTargetElement] = useState<HTMLElement | null>(
-    targetElementProp || null
-  );
-  const timeoutId = useRef<number | null>(null);
+  const [targetElement, setTargetElement] = useState<HTMLElement | null>(targetElementProp || null);
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
   const { isVisible, setPopover } = usePopover({
     anchorPosition: "right",
     offset: 10,
@@ -33,8 +31,7 @@ function Tooltip({
       clearTimeout(timeoutId.current);
     }
     timeoutId.current = setTimeout(
-      () =>
-        timeoutId.current && setPopover(targetElement, <span>{label}</span>),
+      () => timeoutId.current && setPopover(targetElement, <span>{label}</span>),
       !isVisible ? delay : 0
     );
   }
@@ -53,11 +50,7 @@ function Tooltip({
     }
   });
 
-  return children ? (
-    <div ref={(childrenElement) => setTargetElement(childrenElement)}>
-      {children}
-    </div>
-  ) : null;
+  return children ? <div ref={(childrenElement) => setTargetElement(childrenElement)}>{children}</div> : null;
 }
 
 export default Tooltip;
