@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import { ReactNode } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-import uuid from "shared/uuid";
 import { Notification } from "store/notificationsContext";
 
 function TestNotification({ children }: { children: ReactNode }) {
@@ -9,7 +9,7 @@ function TestNotification({ children }: { children: ReactNode }) {
 }
 
 function generateNotification(text: string): Notification {
-  return { id: uuid(), Component: () => <TestNotification>{text}</TestNotification>, visible: true };
+  return { id: uuidv4(), Component: () => <TestNotification>{text}</TestNotification>, visible: true };
 }
 
 function generateNotifications(texts: string[]): Notification[] {

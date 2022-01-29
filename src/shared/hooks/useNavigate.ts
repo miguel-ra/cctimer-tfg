@@ -17,8 +17,6 @@ function useNavigate() {
         basePath = `${basePath}/`;
       }
 
-      basePath;
-
       navigateBase(`${basePath}${path}`, options);
     },
     [language, navigateBase]

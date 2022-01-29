@@ -1,24 +1,11 @@
 import { SVGProps } from "react";
-
-import generateUniqueId from "./generateUniqueId";
+import { v4 as uuidv4 } from "uuid";
 
 function SkewbIcon(props: SVGProps<SVGSVGElement>) {
-  const gradientId = generateUniqueId();
+  const gradientId = uuidv4();
   return (
-    <svg
-      width="64"
-      viewBox="0 0 64 64"
-      version="1.1"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <linearGradient
-        x1="10.3908111%"
-        y1="2.61160876%"
-        x2="92.1903058%"
-        y2="97.6066909%"
-        id={gradientId}
-      >
+    <svg width="64" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <linearGradient x1="10.3908111%" y1="2.61160876%" x2="92.1903058%" y2="97.6066909%" id={gradientId}>
         <stop stopColor="var(--gradient-start,#69BFFF)" offset="0%" />
         <stop stopColor="var(--gradient-end,#388BFD)" offset="100%" />
       </linearGradient>

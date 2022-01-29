@@ -1,7 +1,7 @@
 import { createContext, lazy, ReactNode, Suspense, useCallback, useContext, useMemo, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { NotificationComponent } from "components/notification/NotificationsContainer";
-import uuid from "shared/uuid";
 
 type NotificationId = string;
 
@@ -57,7 +57,7 @@ function NotificationsProvider({ children }: NotificationsProviderProps) {
 
   const addNotification = useCallback(
     (Component: NotificationComponent, options?: NotificationOptions) => {
-      const id = uuid();
+      const id = uuidv4();
       const newNotification: Notification = {
         id,
         Component,

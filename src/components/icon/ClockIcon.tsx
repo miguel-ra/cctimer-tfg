@@ -1,9 +1,8 @@
 import { SVGProps } from "react";
-
-import generateUniqueId from "./generateUniqueId";
+import { v4 as uuidv4 } from "uuid";
 
 function ClockIcon(props: SVGProps<SVGSVGElement>) {
-  const gradientId = generateUniqueId();
+  const gradientId = uuidv4();
   return (
     <svg width="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" {...props}>
       <linearGradient id={gradientId} x1="10.390811%" x2="92.190306%" y1="2.611609%" y2="97.606691%">
