@@ -23,8 +23,6 @@ function LazyElement({ Component }: LazyElementProps) {
 function Router() {
   const { i18n } = useTranslation();
 
-  console.log(i18n);
-
   return (
     <Routes>
       <Route path="/:lang" element={<Layout />}>
