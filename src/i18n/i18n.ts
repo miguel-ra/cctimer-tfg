@@ -2,6 +2,8 @@ import i18n from "i18next";
 import detector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
+console.log(initReactI18next);
+
 import resources from "./resources";
 
 type LangKey = "en" | "es" | "pt";
@@ -53,9 +55,6 @@ i18n
     },
     interpolation: {
       escapeValue: false, // react already safes from xss
-    },
-    react: {
-      useSuspense: false,
     },
   });
 

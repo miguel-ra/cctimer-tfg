@@ -12,9 +12,9 @@ import useNavigate from "shared/hooks/useNavigate";
 import { useModal } from "store/modalContext";
 import { usePopover } from "store/popoverContext";
 
-import DeleteIcon from "assets/icons/delete.svg?component";
-import PlusIcon from "assets/icons/plus.svg?component";
-import PuzzleBorder from "assets/icons/puzzles/border.svg?component";
+import { ReactComponent as DeleteIcon } from "assets/icons/delete.svg";
+import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
+import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
 
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";

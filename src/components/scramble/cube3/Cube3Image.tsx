@@ -6,7 +6,7 @@ import theme from "styles/theme";
 
 import { ScrambleImageProps } from "../Scramble";
 
-import Cube3Template from "./cube3.svg?component";
+import { ReactComponent as Cube3Template } from "./cube3.svg";
 
 type FaceKey = "U" | "R" | "F" | "L" | "B" | "D";
 
@@ -38,20 +38,11 @@ function Cube3Image({ scramble, className, ...props }: ScrambleImageProps) {
       return;
     }
     ([...scramble] as FaceKey[]).forEach((char, index) => {
-      element.style.setProperty(
-        `--sticker-${index}`,
-        colorScheme[char as FaceKey]
-      );
+      element.style.setProperty(`--sticker-${index}`, colorScheme[char as FaceKey]);
     });
   }, [scramble]);
 
-  return (
-    <Cube3Template
-      className={clsx(classes.root, className)}
-      ref={elementRef}
-      {...props}
-    />
-  );
+  return <Cube3Template className={clsx(classes.root, className)} ref={elementRef} {...props} />;
 }
 
 export default Cube3Image;

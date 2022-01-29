@@ -1,12 +1,8 @@
 import userEvent from "@testing-library/user-event";
 
-import ErrorIcon from "assets/icons/error.svg?component";
+import { ReactComponent as ErrorIcon } from "assets/icons/error.svg";
 
-import {
-  renderWithProviders,
-  screen,
-  waitFor,
-} from "../../../../internals/test";
+import { renderWithProviders, screen, waitFor } from "../../../../internals/test";
 import Notification from "../Notification";
 
 const notificationProps = {
@@ -33,17 +29,13 @@ describe("components/notification/Notification", () => {
   });
 
   test("should render icon", () => {
-    renderWithProviders(
-      <Notification {...notificationProps} Icon={ErrorIcon} />
-    );
+    renderWithProviders(<Notification {...notificationProps} Icon={ErrorIcon} />);
 
     expect(screen.getByTitle(/icon notification/i)).toBeInTheDocument();
   });
 
   test("should call hideNotification callback", async () => {
-    renderWithProviders(
-      <Notification {...notificationProps} Icon={ErrorIcon} />
-    );
+    renderWithProviders(<Notification {...notificationProps} Icon={ErrorIcon} />);
 
     const closeButton = screen.getByRole("button", {
       name: /close/i,
@@ -53,8 +45,6 @@ describe("components/notification/Notification", () => {
 
     userEvent.click(closeButton);
 
-    await waitFor(() =>
-      expect(notificationProps.hideNotification).toHaveBeenCalled()
-    );
+    await waitFor(() => expect(notificationProps.hideNotification).toHaveBeenCalled());
   });
 });

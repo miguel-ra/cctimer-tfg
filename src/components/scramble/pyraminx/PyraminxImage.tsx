@@ -6,7 +6,7 @@ import theme from "styles/theme";
 
 import { ScrambleImageProps } from "../Scramble";
 
-import PyraminxTemplate from "./pyraminx.svg?component";
+import { ReactComponent as PyraminxTemplate } from "./pyraminx.svg";
 
 type FaceKey = "1" | "2" | "3" | "4";
 
@@ -40,13 +40,7 @@ function PyraminxImage({ scramble, className, ...props }: ScrambleImageProps) {
     });
   }, [scramble]);
 
-  return (
-    <PyraminxTemplate
-      className={clsx(classes.root, className)}
-      ref={elementRef}
-      {...props}
-    />
-  );
+  return <PyraminxTemplate className={clsx(classes.root, className)} ref={elementRef} {...props} />;
 }
 
 export default PyraminxImage;

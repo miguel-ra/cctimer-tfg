@@ -9,7 +9,7 @@ import ModalSettings from "features/settings/ModalSettings";
 import { useModal } from "store/modalContext";
 import theme from "styles/theme";
 
-import SettingsIcon from "assets/icons/settings.svg?component";
+import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
 
 const useStyles = createUseStyles({
   sideMenu: {

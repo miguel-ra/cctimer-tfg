@@ -6,7 +6,7 @@ import theme from "styles/theme";
 
 import { ScrambleImageProps } from "../Scramble";
 
-import Cube2Template from "./cube2.svg?component";
+import { ReactComponent as Cube2Template } from "./cube2.svg";
 
 type FaceKey = "0" | "1" | "2" | "3" | "4" | "5";
 
@@ -42,13 +42,7 @@ function Cube2Image({ scramble, className, ...props }: ScrambleImageProps) {
     });
   }, [scramble]);
 
-  return (
-    <Cube2Template
-      className={clsx(classes.root, className)}
-      ref={elementRef}
-      {...props}
-    />
-  );
+  return <Cube2Template className={clsx(classes.root, className)} ref={elementRef} {...props} />;
 }
 
 export default Cube2Image;
