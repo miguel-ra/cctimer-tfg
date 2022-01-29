@@ -11,14 +11,13 @@ import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
 
 import useTimeDetailsModal from "./modals/useTimeDetailsModal";
 import useStyles from "./Times.styles";
-import { usePuzzleTimes, useTimes } from "./timesViewModel";
+import { useTimes } from "./timesViewModel";
 
 function Times({ mobile }: ComponentProps) {
   const classes = useStyles({ mobile });
   const { openTimeDetailsModal } = useTimeDetailsModal();
   const { puzzleStats } = useStats();
-  const { puzzleTimes } = usePuzzleTimes();
-  const { deletePuzzleTimes } = useTimes();
+  const { deletePuzzleTimes, puzzleTimes } = useTimes();
   const { t } = useTranslation();
 
   const showTimeDetails = useCallback(

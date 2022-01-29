@@ -5,17 +5,17 @@ import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
 import Spinner from "components/spinner/Spinner";
 import Stats from "features/stats/Stats";
-import Stopwatch from "features/stopwatch/Loader";
+import Stopwatch from "features/stopwatch/Stopwatch";
 import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 
-import { useScramble, useTimerSelectedItem } from "../timerViewModel";
+import { useScramble, useSelectedItem } from "../timerViewModel";
 
 import useStyles from "./TimerDesktop.styles";
 
 function TimerDesktop() {
   const classes = useStyles();
-  const { selectedItem } = useTimerSelectedItem();
+  const { selectedItem } = useSelectedItem();
   const { scramble } = useScramble();
 
   const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;

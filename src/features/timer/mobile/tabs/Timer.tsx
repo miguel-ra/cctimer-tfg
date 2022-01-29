@@ -5,11 +5,11 @@ import { createUseStyles } from "react-jss";
 import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
 import Spinner from "components/spinner/Spinner";
-import Stopwatch from "features/stopwatch/Loader";
+import Stopwatch from "features/stopwatch/Stopwatch";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 
-import { useScramble, useTimerSelectedItem } from "../timerViewModel";
+import { useScramble, useSelectedItem } from "../../timerViewModel";
 
 const useStyles = createUseStyles({
   scramble: {
@@ -54,7 +54,7 @@ const useStyles = createUseStyles({
 function Timer() {
   const classes = useStyles();
   const { scramble } = useScramble();
-  const { selectedItem } = useTimerSelectedItem();
+  const { selectedItem } = useSelectedItem();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 
   const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;

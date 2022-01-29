@@ -1,38 +1,27 @@
 import { useTranslation } from "react-i18next";
-import { atom, useRecoilCallback, useRecoilState } from "recoil";
+import { useRecoilCallback } from "recoil";
 
 import ErrorNotification from "components/notification/ErrorNotification";
-import { useScramble, useTimerSelectedItem } from "features/timer/timerViewModel";
+import { useScrambleState, useSelectedItemState } from "features/timer/timerViewModel";
 import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";
+import { generateUseState } from "shared/recoil";
 import { useNotifications } from "store/notificationsContext";
 
-const puzzleTimesState = atom<PuzzleTime[]>({
+const usePuzzleTimesState = generateUseState<PuzzleTime[]>({
   key: "times.puzzleTimes",
   default: [],
 });
 
-const lastTimeState = atom<PuzzleTime | undefined>({
+const useLastTimeState = generateUseState<PuzzleTime | undefined>({
   key: "times.lastTime",
   default: undefined,
 });
 
-function usePuzzleTimes() {
-  const [puzzleTimes, setPuzzleTimes] = useRecoilState(puzzleTimesState);
-
-  return { puzzleTimes, setPuzzleTimes };
-}
-usePuzzleTimes.state = puzzleTimesState;
-
-function useLastTime() {
-  const [lastTime, setLastTime] = useRecoilState(lastTimeState);
-
-  return { lastTime, setLastTime };
-}
-useLastTime.state = lastTimeState;
-
 function useTimes() {
+  const [lastTime, setLastTime] = useLastTimeState();
+  const [puzzleTimes] = usePuzzleTimesState();
   const timesRepository = useTimesRepository();
   const { addNotification } = useNotifications();
   const { t } = useTranslation();
@@ -40,16 +29,16 @@ function useTimes() {
   const refreshPuzzleTimes = useRecoilCallback(
     ({ snapshot, set }) =>
       async () => {
-        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+        const selectedItem = await snapshot.getPromise(useSelectedItemState.atom);
 
         if (!selectedItem?.id) {
-          return set(usePuzzleTimes.state, []);
+          return set(usePuzzleTimesState.atom, []);
         }
         try {
           const udpatedPuzzleTimes = await timesRepository.getAll(selectedItem.key, selectedItem.id);
-          set(usePuzzleTimes.state, udpatedPuzzleTimes);
+          set(usePuzzleTimesState.atom, udpatedPuzzleTimes);
         } catch (error) {
-          set(usePuzzleTimes.state, []);
+          set(usePuzzleTimesState.atom, []);
         }
       },
     [timesRepository]
@@ -59,8 +48,8 @@ function useTimes() {
     ({ snapshot, set }) =>
       async (time: Time) => {
         const [selectedItem, scramble] = await Promise.all([
-          snapshot.getPromise(useTimerSelectedItem.state),
-          snapshot.getPromise(useScramble.state),
+          snapshot.getPromise(useSelectedItemState.atom),
+          snapshot.getPromise(useScrambleState.atom),
         ]);
 
         if (!selectedItem?.id) {
@@ -86,8 +75,8 @@ function useTimes() {
             selectedItem.id,
             { ...time, scramble }
           );
-          set(usePuzzleTimes.state, puzzleTimesUpdated);
-          set(useLastTime.state, addedTime);
+          set(usePuzzleTimesState.atom, puzzleTimesUpdated);
+          set(useLastTimeState.atom, addedTime);
           return addedTime;
         } catch (error) {
           addNotification((props) => (
@@ -102,8 +91,8 @@ function useTimes() {
     ({ snapshot, set }) =>
       async (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => {
         const [selectedItem, lastTime] = await Promise.all([
-          snapshot.getPromise(useTimerSelectedItem.state),
-          snapshot.getPromise(useLastTime.state),
+          snapshot.getPromise(useSelectedItemState.atom),
+          snapshot.getPromise(useLastTimeState.atom),
         ]);
 
         if (!selectedItem?.id) {
@@ -117,7 +106,7 @@ function useTimes() {
           updatedTime = await timesRepository.update(selectedItem.key, timeId, dataToUpdate);
           refreshPuzzleTimes();
           if (updatedTime.id === lastTime?.id) {
-            set(useLastTime.state, updatedTime);
+            set(useLastTimeState.atom, updatedTime);
           }
         } catch (error) {
           addNotification((props) => (
@@ -133,8 +122,8 @@ function useTimes() {
     ({ snapshot, set }) =>
       async (timeId: TimeId) => {
         const [selectedItem, lastTime] = await Promise.all([
-          snapshot.getPromise(useTimerSelectedItem.state),
-          snapshot.getPromise(useLastTime.state),
+          snapshot.getPromise(useSelectedItemState.atom),
+          snapshot.getPromise(useLastTimeState.atom),
         ]);
 
         if (!selectedItem?.id) {
@@ -147,7 +136,7 @@ function useTimes() {
         try {
           await timesRepository.delete(selectedItem.key, timeId);
           if (timeId === lastTime?.id) {
-            set(useLastTime.state, undefined);
+            set(useLastTimeState.atom, undefined);
           }
           refreshPuzzleTimes();
         } catch (error) {
@@ -162,7 +151,7 @@ function useTimes() {
   const deletePuzzleTimes = useRecoilCallback(
     ({ snapshot, set }) =>
       async () => {
-        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+        const selectedItem = await snapshot.getPromise(useSelectedItemState.atom);
 
         if (!selectedItem?.id) {
           addNotification((props) => (
@@ -173,7 +162,7 @@ function useTimes() {
 
         try {
           await timesRepository.deleteAll(selectedItem.key, selectedItem.id);
-          set(useLastTime.state, undefined);
+          set(useLastTimeState.atom, undefined);
           refreshPuzzleTimes();
         } catch (error) {
           addNotification((props) => (
@@ -185,6 +174,9 @@ function useTimes() {
   );
 
   return {
+    lastTime,
+    setLastTime,
+    puzzleTimes,
     addTime,
     updateTime,
     deleteTime,
@@ -193,4 +185,4 @@ function useTimes() {
   };
 }
 
-export { useTimes, puzzleTimesState, usePuzzleTimes, useLastTime };
+export { useTimes, usePuzzleTimesState, useLastTimeState };

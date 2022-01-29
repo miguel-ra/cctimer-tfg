@@ -2,6 +2,8 @@ import clsx from "clsx";
 import { HTMLAttributes, memo, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
 
+import { useScramble, useSelectedItem } from "features/timer/timerViewModel";
+
 type PressableProps = {
   children: ReactNode;
   className?: string;
@@ -23,7 +25,7 @@ const useStyles = createUseStyles({
 
 function Pressable({
   children,
-  className = "",
+  className,
   onPointerDown,
   onPointerUp,
   onKeyDown,
@@ -36,11 +38,11 @@ function Pressable({
   const pressedRef = useRef(pressed);
   const domContainer = useRef<HTMLDivElement | null>(null);
   const preventOutsideClicksRef = useRef(preventOutsideClicks);
-  const onPointerDownRef = useRef(onPointerDown);
-  const onPointerUpRef = useRef(onPointerUp);
-  const onKeyDownRef = useRef(onKeyDown);
-  const onKeyUpRef = useRef(onKeyUp);
   const classes = useStyles();
+  const { scramble } = useScramble();
+  const { selectedItem } = useSelectedItem();
+
+  const loading = !selectedItem || !scramble.puzzleKey;
 
   // State is used to force a render and ref to avoid adding/removing the listeners everytime that it changes
   // I do not use a useEffect to update the ref because in slow machines if a user stoped and started fast it would cause unexpected behaviours
@@ -54,23 +56,7 @@ function Pressable({
   }, [preventOutsideClicks]);
 
   useEffect(() => {
-    onPointerDownRef.current = onPointerDown;
-  }, [onPointerDown]);
-
-  useEffect(() => {
-    onPointerUpRef.current = onPointerUp;
-  }, [onPointerUp]);
-
-  useEffect(() => {
-    onKeyDownRef.current = onKeyDown;
-  }, [onKeyDown]);
-
-  useEffect(() => {
-    onKeyUpRef.current = onKeyUp;
-  }, [onKeyUp]);
-
-  useEffect(() => {
-    if (!onKeyDownRef.current && !onKeyUpRef.current) {
+    if (loading || (!onKeyDown && !onKeyUp)) {
       return;
     }
 
@@ -88,14 +74,15 @@ function Pressable({
           return;
         }
       }
-      const isPressed = onKeyDownRef.current?.(event) || false;
+      const isPressed = onKeyDown?.(event) || false;
       setPressedAndRef(isPressed);
     }
+
     function keyUpHandler(event: KeyboardEvent) {
       if (!pressedRef.current) {
         return;
       }
-      onKeyUpRef.current?.(event);
+      onKeyUp?.(event);
       setPressedAndRef(false);
     }
 
@@ -105,10 +92,10 @@ function Pressable({
       window.removeEventListener("keydown", keyDownHandler, true);
       window.removeEventListener("keyup", keyUpHandler);
     };
-  }, [setPressedAndRef]);
+  }, [loading, onKeyDown, onKeyUp, setPressedAndRef]);
 
   useEffect(() => {
-    if (!onPointerDownRef.current && !onPointerUpRef.current) {
+    if (loading || (!onPointerDown && !onPointerUp)) {
       return;
     }
 
@@ -116,14 +103,15 @@ function Pressable({
       if (preventOutsideClicksRef.current || domContainer.current?.contains(event.target as Node)) {
         event.preventDefault();
         setPressedAndRef(true);
-        onPointerDownRef.current?.(event);
+        onPointerDown?.(event);
       }
     }
+
     function handlePointerUp(event: MouseEvent | TouchEvent) {
       if (pressedRef.current) {
         event.preventDefault();
         setPressedAndRef(false);
-        onPointerUpRef.current?.(event);
+        onPointerUp?.(event);
       }
     }
 
@@ -137,7 +125,7 @@ function Pressable({
       window.removeEventListener("touchend", handlePointerUp);
       window.removeEventListener("mouseup", handlePointerUp);
     };
-  }, [setPressedAndRef]);
+  }, [loading, onPointerDown, onPointerUp, setPressedAndRef]);
 
   return (
     <div

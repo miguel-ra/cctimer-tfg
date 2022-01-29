@@ -15,10 +15,10 @@ import useMediaQuery from "shared/hooks/useMediaQuery";
 
 import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
 
-import { useTimerSelectedItem } from "../timerViewModel";
+import { useSelectedItem } from "../timerViewModel";
 
-import Scramble from "./Scramble";
-import Timer from "./Timer";
+import Scramble from "./tabs/Scramble";
+import Timer from "./tabs/Timer";
 import useStyles from "./TimerMobile.styles";
 
 type ComponentProps = {
@@ -67,7 +67,7 @@ function TimerMobile() {
   const isImmediate = useRef(false);
   const classes = useStyles();
   const { t } = useTranslation();
-  const { selectedItem } = useTimerSelectedItem();
+  const { selectedItem } = useSelectedItem();
   const { openMenu, isDragDisabledRef } = useLayoutMobile();
   const isSmall = useMediaQuery("@media (max-height:300px)");
 

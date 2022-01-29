@@ -3,57 +3,63 @@ import { useParams } from "react-router-dom";
 
 import { useLayout } from "features/layout/layoutContext";
 import useStats from "features/stats/statsViewModel";
-import { useLastTime, usePuzzleTimes, useTimes } from "features/times/timesViewModel";
+import { useTimes } from "features/times/timesViewModel";
 
 import TimerDesktop from "./desktop/TimerDesktop";
 import TimerMobile from "./mobile/TimerMobile";
-import { useScramble, useTimer, useTimerSelectedItem } from "./timerViewModel";
+import { useScramble, useSelectedItem, useTimer } from "./timerViewModel";
 
 function Timer() {
   const { layout } = useLayout();
   const { puzzleId } = useParams();
-  const scramble = useScramble();
-  const stats = useStats();
-  const { selectedItem, setSelectedItem, resetSelectedItem } = useTimerSelectedItem();
+  const {
+    refreshScramble,
+    startWorker: scrambleStartWorker,
+    stopWorker: scrambleStopWorker,
+    resetScramble,
+  } = useScramble();
+  const { refreshStats, startWorker: statsStartWorker, stopWorker: statsStopWorker } = useStats();
+  const { selectedItem, setSelectedItem, resetSelectedItem } = useSelectedItem();
   const { checkPuzzleAndRedirect } = useTimer();
-  const { refreshPuzzleTimes } = useTimes();
-  const { puzzleTimes } = usePuzzleTimes();
-  const { lastTime, setLastTime } = useLastTime();
+  const { puzzleTimes, lastTime, setLastTime, refreshPuzzleTimes } = useTimes();
   const TimerComponet = layout === "desktop" ? TimerDesktop : TimerMobile;
 
   useEffect(() => {
     if (lastTime?.id) {
-      scramble.refreshScramble();
+      refreshScramble();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastTime?.id]);
+  }, [lastTime?.id, refreshScramble]);
 
   useEffect(() => {
-    stats.refreshStats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [puzzleTimes]);
+    refreshStats();
+  }, [puzzleTimes, refreshStats]);
 
   useEffect(() => {
     if (selectedItem?.id) {
       setLastTime(undefined);
       refreshPuzzleTimes();
-      scramble.refreshScramble();
-      stats.refreshStats();
+      refreshScramble();
+      refreshStats();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedItem?.id]);
+  }, [refreshPuzzleTimes, refreshScramble, selectedItem?.id, setLastTime, refreshStats]);
 
   useEffect(() => {
-    stats.startWorker();
-    scramble.startWorker();
+    statsStartWorker();
+    scrambleStartWorker();
     return () => {
-      stats.stopWorker();
-      scramble.stopWorker();
-      scramble.resetScramble();
+      statsStopWorker();
+      scrambleStopWorker();
+      resetScramble();
       resetSelectedItem();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resetSelectedItem]);
+  }, [
+    resetSelectedItem,
+    resetScramble,
+    statsStartWorker,
+    scrambleStartWorker,
+    scrambleStopWorker,
+    statsStopWorker,
+  ]);
 
   useEffect(() => {
     checkPuzzleAndRedirect(puzzleId);

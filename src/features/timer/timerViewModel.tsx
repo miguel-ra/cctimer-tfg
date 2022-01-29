@@ -1,11 +1,12 @@
-import { useCallback } from "react";
-import { atom, useRecoilCallback, useRecoilState } from "recoil";
+import { useCallback, useMemo } from "react";
+import { useRecoilCallback } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
 import { Scramble } from "models/timer/scramble";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 import useNavigate from "shared/hooks/useNavigate";
+import { generateUseState } from "shared/recoil";
 
 import { LoadScrambleResponse } from "./loadScramble.worker";
 
@@ -23,24 +24,29 @@ const loadScrambleWorker = new LoadScrambleWorker();
 
 const emptyScramble: Scramble = { puzzleKey: undefined, text: "", state: "" };
 
-const scrambleState = atom<Scramble>({
+const useScrambleState = generateUseState<Scramble>({
   key: "timer.scramble",
   default: emptyScramble,
 });
 
-const selectedItemState = atom<SelectedItem>({
+const useSelectedItemState = generateUseState<SelectedItem>({
   key: "timer.selectedItem",
   default: undefined,
 });
 
 function useScramble() {
-  const { selectedItem } = useTimerSelectedItem();
-  const [scramble, setScramble] = useRecoilState(scrambleState);
+  const [selectedItem] = useSelectedItemState();
+  const [scramble] = useScrambleState();
+
+  const scrambleMemo = useMemo(
+    () => (scramble.puzzleKey === selectedItem?.key ? scramble : emptyScramble),
+    [scramble, selectedItem?.key]
+  );
 
   const refreshScramble = useRecoilCallback(
     ({ snapshot }) =>
       async () => {
-        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+        const selectedItem = await snapshot.getPromise(useSelectedItemState.atom);
 
         if (selectedItem && selectedItem.id) {
           loadScrambleWorker.postMessage(selectedItem);
@@ -52,7 +58,7 @@ function useScramble() {
   const handleWorkerMessage = useRecoilCallback(
     ({ snapshot, set }) =>
       async ({ data: { userPuzzle, randomScramble } }: LoadScrambleResponse) => {
-        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+        const selectedItem = await snapshot.getPromise(useSelectedItemState.atom);
         if (!randomScramble || !selectedItem || selectedItem.id !== userPuzzle.id) {
           return;
         }
@@ -61,7 +67,7 @@ function useScramble() {
           ...randomScramble,
           puzzleKey: selectedItem?.key,
         };
-        set(useScramble.state, newScramble);
+        set(useScrambleState.atom, newScramble);
       },
     []
   );
@@ -77,36 +83,33 @@ function useScramble() {
   const resetScramble = useRecoilCallback(
     ({ set }) =>
       () => {
-        set(useScramble.state, emptyScramble);
+        set(useScrambleState.atom, emptyScramble);
       },
     []
   );
 
   return {
-    scramble: scramble.puzzleKey === selectedItem?.key ? scramble : emptyScramble,
-    setScramble,
+    scramble: scrambleMemo,
     refreshScramble,
     startWorker,
     stopWorker,
     resetScramble,
   };
 }
-useScramble.state = scrambleState;
 
-function useTimerSelectedItem() {
-  const [selectedItem, setSelectedItem] = useRecoilState(selectedItemState);
+function useSelectedItem() {
+  const [selectedItem, setSelectedItem] = useSelectedItemState();
 
   const resetSelectedItem = useRecoilCallback(
     ({ set }) =>
       () => {
-        set(useTimerSelectedItem.state, undefined);
+        set(useSelectedItemState.atom, undefined);
       },
     []
   );
 
   return { selectedItem, setSelectedItem, resetSelectedItem };
 }
-useTimerSelectedItem.state = selectedItemState;
 
 function useTimer() {
   const navigate = useNavigate();
@@ -115,7 +118,7 @@ function useTimer() {
   const checkPuzzleAndRedirect = useRecoilCallback(
     ({ snapshot, set }) =>
       async (puzzleId?: PuzzleId) => {
-        const selectedItem = await snapshot.getPromise(useTimerSelectedItem.state);
+        const selectedItem = await snapshot.getPromise(useSelectedItemState.atom);
 
         if (selectedItem && selectedItem.id === puzzleId) {
           return;
@@ -136,7 +139,7 @@ function useTimer() {
         }
 
         if (userPuzzle) {
-          set(useTimerSelectedItem.state, {
+          set(useSelectedItemState.atom, {
             ...userPuzzle,
             type: "puzzle",
           });
@@ -151,4 +154,4 @@ function useTimer() {
 }
 
 export type { SelelecteItemType };
-export { useTimerSelectedItem, useTimer, useScramble };
+export { useSelectedItemState, useScrambleState, useSelectedItem, useTimer, useScramble };

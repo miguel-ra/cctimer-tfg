@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import IconButton from "components/button/IconButton";
 import Box from "components/flexboxgrid/Box";
 import Tooltip from "components/tooltip/Tooltip";
-import { useTimerSelectedItem } from "features/timer/timerViewModel";
+import { useSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleId, PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import isTouchDevice from "shared/browser/isTouchDevice";
 import useNavigate from "shared/hooks/useNavigate";
@@ -29,7 +29,7 @@ function PuzzleShowcase() {
   const { t } = useTranslation();
   const { openModal } = useModal();
   const { setPopover } = usePopover();
-  const { selectedItem } = useTimerSelectedItem();
+  const { selectedItem } = useSelectedItem();
   const { puzzles, addPuzzle, deletePuzzle, refreshPuzzles } = usePuzzles();
   const [showDeleteId, setShowDeleteId] = useState<PuzzleId | null>(null);
   const timeoutId = useRef<NodeJS.Timeout | null>(null);
