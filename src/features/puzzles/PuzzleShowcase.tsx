@@ -32,7 +32,7 @@ function PuzzleShowcase() {
   const { selectedItem } = useSelectedItem();
   const { puzzles, addPuzzle, deletePuzzle, refreshPuzzles } = usePuzzles();
   const [showDeleteId, setShowDeleteId] = useState<PuzzleId | null>(null);
-  const timeoutId = useRef<number | null>(null);
+  const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   const handleSelect = useCallback(
     (puzzleId: PuzzleId) => {
@@ -70,11 +70,8 @@ function PuzzleShowcase() {
       componentProps={{
         onBlur: () => {
           window.requestAnimationFrame(() => {
-            const focusedElement = document.querySelector(
-              ":focus"
-            ) as HTMLElement;
-            const isPuzzleIcon =
-              focusedElement?.dataset?.id || focusedElement?.dataset?.action;
+            const focusedElement = document.querySelector(":focus") as HTMLElement;
+            const isPuzzleIcon = focusedElement?.dataset?.id || focusedElement?.dataset?.action;
             if (!isPuzzleIcon) {
               setShowDeleteId(null);
             }
@@ -98,16 +95,12 @@ function PuzzleShowcase() {
               showDeleteId={showDeleteId}
               setShowDeleteId={setShowDeleteId}
               onSelect={() => handleSelect(puzzle.id)}
-              onDelete={() =>
-                handleDelete({ puzzleId, puzzleKey, index, puzzles })
-              }
+              onDelete={() => handleDelete({ puzzleId, puzzleKey, index, puzzles })}
               onClick={(event: MouseEvent) => {
-                const shouldDelete = !!(
-                  event.target as HTMLElement
-                ).closest<HTMLElement>('[data-action="delete"]');
-                const iconContainer = (
-                  event.target as HTMLElement
-                ).closest<HTMLElement>("[data-id]");
+                const shouldDelete = !!(event.target as HTMLElement).closest<HTMLElement>(
+                  '[data-action="delete"]'
+                );
+                const iconContainer = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
                 if (iconContainer) {
                   if (shouldDelete) {
                     handleDelete({ puzzleId, puzzleKey, index, puzzles });
