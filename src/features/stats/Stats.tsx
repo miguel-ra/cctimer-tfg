@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import Box from "components/flexboxgrid/Box";
 import Table from "components/table/Table";
-import { ComponentProps } from "features/timer/mobile/TimerMobile";
 import { statValueToString } from "models/stats/format/statValue";
 import { PuzzleStat, StatKey, statsConfig } from "models/stats/Stats";
 
@@ -16,7 +15,11 @@ type Stat = {
   best: string;
 };
 
-function Stats({ mobile }: ComponentProps) {
+type StatsProps = {
+  mobile?: boolean;
+};
+
+function Stats({ mobile }: StatsProps) {
   const { t } = useTranslation();
   const { puzzleStats } = useStats();
   const classes = useStyles({ mobile });

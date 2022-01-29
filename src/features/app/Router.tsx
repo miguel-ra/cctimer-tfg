@@ -6,7 +6,7 @@ import Spinner from "components/spinner/Spinner";
 import Layout from "features/layout/Layout";
 
 const Login = lazy(() => import("features/account/Login"));
-const Timer = lazy(() => import("features/timer/Timer"));
+const Timer = lazy(() => import("features/timer/mobile/tabs/Timer"));
 
 type LazyElementProps = {
   Component: LazyExoticComponent<() => JSX.Element>;

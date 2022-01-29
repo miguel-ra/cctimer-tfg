@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import useStats from "features/stats/statsViewModel";
-import { ComponentProps } from "features/timer/mobile/TimerMobile";
 import { TimeId } from "models/times/Time";
 import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
 
@@ -13,7 +12,11 @@ import useTimeDetailsModal from "./modals/useTimeDetailsModal";
 import useStyles from "./Times.styles";
 import { useTimes } from "./timesViewModel";
 
-function Times({ mobile }: ComponentProps) {
+type TimesProps = {
+  mobile?: boolean;
+};
+
+function Times({ mobile }: TimesProps) {
   const classes = useStyles({ mobile });
   const { openTimeDetailsModal } = useTimeDetailsModal();
   const { puzzleStats } = useStats();

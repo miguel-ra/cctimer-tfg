@@ -22,7 +22,7 @@ import Timer from "./tabs/Timer";
 import useStyles from "./TimerMobile.styles";
 
 type ComponentProps = {
-  mobile?: boolean;
+  mobile: boolean;
 };
 
 type Tab = {
@@ -206,7 +206,5 @@ function TimerMobile() {
     </Box>
   );
 }
-
-export type { ComponentProps };
 
 export default memo(TimerMobile);
