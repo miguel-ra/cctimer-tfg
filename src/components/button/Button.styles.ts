@@ -112,9 +112,11 @@ const useStyles = createUseStyles({
       background: accentColor,
       color: textColor,
       outline: 0,
-      "&:hover": {
-        background: theme.palette.background.primary,
-        color: accentColor,
+      "@media (hover: hover)": {
+        "&:hover": {
+          background: theme.palette.background.primary,
+          color: accentColor,
+        },
       },
       "&:active": {
         background: activeBackgroundColor,
@@ -153,9 +155,11 @@ const useStyles = createUseStyles({
       "&:active": {
         opacity: 0.6,
       },
-      "&:hover, body:not(.mousedown) &:focus": {
-        color: activeTextColor,
-        boxShadow: `inset 0 0 0 ${theme.shape.borderWitdh} ${activeTextColor}`,
+      "@media (hover: hover)": {
+        "&:hover, body:not(.mousedown) &:focus": {
+          color: activeTextColor,
+          boxShadow: `inset 0 0 0 ${theme.shape.borderWitdh} ${activeTextColor}`,
+        },
       },
     };
   },
