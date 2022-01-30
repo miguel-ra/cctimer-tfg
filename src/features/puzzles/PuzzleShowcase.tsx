@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import IconButton from "components/button/IconButton";
+import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import Tooltip from "components/tooltip/Tooltip";
 import { useSelectedItem } from "features/timer/timerViewModel";
@@ -130,8 +130,9 @@ function PuzzleShowcase() {
       })}
       <Box justifyContent="center" paddingBottom="1rem">
         <Tooltip label={t("Add puzzle")}>
-          <IconButton
+          <Button
             size="small"
+            shape="square"
             aria-label={t("Add puzzle")}
             onClick={() =>
               openModal(
@@ -147,7 +148,7 @@ function PuzzleShowcase() {
             }
           >
             <PlusIcon />
-          </IconButton>
+          </Button>
         </Tooltip>
       </Box>
     </Box>

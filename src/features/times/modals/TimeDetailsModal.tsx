@@ -3,9 +3,8 @@ import { useTranslation } from "react-i18next";
 
 import Button from "components/button/Button";
 import ButtonGroup from "components/button/ButtonGroup";
-import IconButton from "components/button/IconButton";
 import Divider from "components/divider/Divider";
-import TextField from "components/field/TextField";
+import TextField from "components/field_DEPRECATED/TextField";
 import Box from "components/flexboxgrid/Box";
 import ModalBody from "components/modal/ModalBody";
 import ModalFooter from "components/modal/ModalFooter";
@@ -22,10 +21,10 @@ import { useModal } from "store/modalContext";
 
 import { ReactComponent as ShareIcon } from "assets/icons/share.svg";
 
-import ModalShareTime from "./ModalShareTime";
-import useStyles from "./ModalTimeDetails.styles";
+import ShareTimeModal from "./ShareTimeModal";
+import useStyles from "./TimeDetailsModal.styles";
 
-type ModalTimeDetailsProps = {
+type TimeDetailsModalProps = {
   puzzleKey?: PuzzleKey;
   time: PuzzleTime;
   updateTime: (timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) => Promise<PuzzleTime | undefined>;
@@ -46,7 +45,7 @@ function getPenaltyButtonProps(
   };
 }
 
-function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTimeDetailsProps) {
+function TimeDetailsModal({ puzzleKey, time, updateTime, deleteTime }: TimeDetailsModalProps) {
   const [internalTime, setInternalTime] = useState(time);
   const { openModal, closeModal } = useModal();
   const { t, i18n } = useTranslation();
@@ -63,7 +62,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
 
   function openTimeDetails() {
     openModal(
-      <ModalTimeDetails
+      <TimeDetailsModal
         puzzleKey={puzzleKey}
         time={internalTime}
         updateTime={updateTime}
@@ -75,13 +74,14 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
   return (
     <div className={classes.root}>
       <ModalHeader label={t("Time details")}>
-        <IconButton
+        <Button
+          shape="square"
           size="small"
           aria-label={t("Share")}
-          onClick={() => openModal(<ModalShareTime time={internalTime} goBack={openTimeDetails} />)}
+          onClick={() => openModal(<ShareTimeModal time={internalTime} goBack={openTimeDetails} />)}
         >
           <ShareIcon />
-        </IconButton>
+        </Button>
       </ModalHeader>
       <ModalBody className={classes.modalBody}>
         <div className={classes.content}>
@@ -91,8 +91,9 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
             width="100%"
             xs={{ flexDirection: "column-reverse" }}
             sm={{ flexDirection: "row" }}
+            padding="0 1.2rem"
           >
-            <Typography className={classes.time} variant="h3">
+            <Typography className={classes.time} variant="h1" weight="regular">
               {elapsedTimeWithPenalty(internalTime.elapsedTime, internalTime.penalty)}
             </Typography>
             <Typography variant="caption" className={classes.date}>
@@ -120,6 +121,7 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
       <ModalFooter>
         <Box>
           <Button
+            size="small"
             variant="contained"
             color="red"
             onClick={() => {
@@ -139,16 +141,25 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
               handleUpdate({ penalty: value as TimePenalty });
             }}
           >
-            <Button data-value={undefined} {...getPenaltyButtonProps(undefined, internalTime.penalty)}>
+            <Button
+              size="small"
+              color="blue"
+              data-value={undefined}
+              {...getPenaltyButtonProps(undefined, internalTime.penalty)}
+            >
               {t("No penalty")}
             </Button>
             <Button
+              color="blue"
+              size="small"
               data-value={TimePenalty.PlusTwo}
               {...getPenaltyButtonProps(TimePenalty.PlusTwo, internalTime.penalty)}
             >
               {t("+2")}
             </Button>
             <Button
+              color="blue"
+              size="small"
               data-value={TimePenalty.Dnf}
               {...getPenaltyButtonProps(TimePenalty.Dnf, internalTime.penalty)}
             >
@@ -161,4 +172,4 @@ function ModalTimeDetails({ puzzleKey, time, updateTime, deleteTime }: ModalTime
   );
 }
 
-export default ModalTimeDetails;
+export default TimeDetailsModal;

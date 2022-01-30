@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { createUseStyles } from "react-jss";
 
-import CheckboxField from "components/field/CheckboxField";
-import Field from "components/field/Field";
+import CheckboxField from "components/field_DEPRECATED/CheckboxField";
+import FieldDeprecated from "components/field_DEPRECATED/Field";
 import Box from "components/flexboxgrid/Box";
+import Field from "components/form/Field";
 import ModalBody from "components/modal/ModalBody";
 import ModalHeader from "components/modal/ModalHeader";
 import { useSettings } from "store/settingsContext";
@@ -21,7 +22,7 @@ const useStyles = createUseStyles({
   },
 });
 
-function ModalSettings() {
+function SettingsModal() {
   const classes = useStyles();
   const { settings, setSetting } = useSettings();
   const { t } = useTranslation();
@@ -32,15 +33,17 @@ function ModalSettings() {
       <ModalBody className={classes.content}>
         <form>
           <Box flexDirection="column">
-            <Box justifyContent="space-between" alignItems="center" paddingBottom="1rem">
+            <Box justifyContent="space-between" alignItems="center" paddingBottom="1.2rem">
               <label>{t("Theme")}</label>
               <ColorModeToggle />
             </Box>
-            <Box paddingBottom="1rem">
-              <LanguageSelector />
+            <Box paddingBottom="1.2rem">
+              <Field name="settings.language" label={t("Language")}>
+                <LanguageSelector />
+              </Field>
             </Box>
-            <Box paddingBottom="1rem">{t("Inspection behaviour")}</Box>
-            <Box justifyContent="space-between" paddingLeft="1rem" paddingBottom="0.5rem">
+            <Box paddingBottom="1.2rem">{t("Inspection behaviour")}</Box>
+            <Box justifyContent="space-between" paddingLeft="1.2rem" paddingBottom="0.5rem">
               <CheckboxField
                 label={t("Enable")}
                 name="settings.inspection.enabled"
@@ -50,8 +53,8 @@ function ModalSettings() {
                 checked={settings.inspection.enabled}
               />
             </Box>
-            <Box justifyContent="space-between" paddingLeft="1rem" paddingBottom="0.5rem">
-              <Field
+            <Box justifyContent="space-between" paddingLeft="1.2rem" paddingBottom="0.5rem">
+              <FieldDeprecated
                 type="number"
                 label={t("Inspection time")}
                 name="settings.inspection.time"
@@ -61,7 +64,7 @@ function ModalSettings() {
                 value={settings.inspection.time}
               />
             </Box>
-            {/* <Box justifyContent="space-between" paddingLeft="1rem">
+            {/* <Box justifyContent="space-between" paddingLeft="1.2rem">
             <label htmlFor="settings.inspection.autoStart">
               {t("Auto start after inspection ends")}
             </label>
@@ -74,8 +77,8 @@ function ModalSettings() {
               }}
             />
           </Box>  */}
-            <Box padding="1rem 0">{t("Timer behaviour")}</Box>
-            {/* <Box justifyContent="space-between" paddingLeft="1rem">
+            <Box padding="1.2rem 0">{t("Timer behaviour")}</Box>
+            {/* <Box justifyContent="space-between" paddingLeft="1.2rem">
             <label htmlFor="settings.timer.hideTime">
               {t("Hide time during solve")}
             </label>
@@ -88,7 +91,7 @@ function ModalSettings() {
               }}
             />
           </Box>
-          <Box justifyContent="space-between" paddingLeft="1rem">
+          <Box justifyContent="space-between" paddingLeft="1.2rem">
             <label htmlFor="settings.timer.hideUI">
               {t("Hide UI during solve")}
             </label>
@@ -101,7 +104,7 @@ function ModalSettings() {
               }}
             />
           </Box> */}
-            <Box justifyContent="space-between" paddingLeft="1rem">
+            <Box justifyContent="space-between" paddingLeft="1.2rem">
               <CheckboxField
                 label={t("Hold to start")}
                 name="settings.timer.holdToStart"
@@ -118,4 +121,4 @@ function ModalSettings() {
   );
 }
 
-export default ModalSettings;
+export default SettingsModal;

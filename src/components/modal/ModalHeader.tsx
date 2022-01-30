@@ -24,14 +24,14 @@ const useStyles = createUseStyles({
     transition: theme.transition.generate(["color", "border"]),
     borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     [theme.breakpoints.up("md")]: {
-      padding: "1rem 1.5rem",
+      padding: "1rem 1.2rem",
     },
   },
   buttons: {
     display: "flex",
     alignItems: "center",
     "& > *": {
-      marginLeft: "1.5rem",
+      marginLeft: "1.2rem",
     },
   },
 });
@@ -47,7 +47,7 @@ function ModalHeader({ label, children, className, showClose = true, ...props }:
       <div className={classes.buttons}>
         {children}
         {showClose && (
-          <Button data-auto-focus variant="contained" onClick={closeModal}>
+          <Button data-auto-focus variant="outlined" onClick={closeModal} size="small">
             {t("Close")}
           </Button>
         )}

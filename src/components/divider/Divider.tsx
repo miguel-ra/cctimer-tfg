@@ -4,6 +4,7 @@ import { createUseStyles } from "react-jss";
 import theme from "styles/theme";
 
 type DividerProps = {
+  h?: number;
   disableTop?: boolean;
   disableBottom?: boolean;
 };
@@ -12,7 +13,7 @@ const useStyles = createUseStyles({
   divider: {
     width: "100%",
     border: "none",
-    margin: "1.5rem 0",
+    margin: ({ h }: DividerProps) => `calc(1.2rem * ${h}) 0`,
     borderBottom: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: ` border ${theme.transition.duration.colorMode} linear`,
   },
@@ -24,8 +25,8 @@ const useStyles = createUseStyles({
   },
 });
 
-function Divider({ disableTop, disableBottom }: DividerProps) {
-  const classes = useStyles();
+function Divider({ h = 1, disableTop, disableBottom }: DividerProps) {
+  const classes = useStyles({ h });
 
   return (
     <hr

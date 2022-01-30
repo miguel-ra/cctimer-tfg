@@ -1,16 +1,20 @@
 import { createUseStyles } from "react-jss";
 
+import theme from "styles/theme";
 import typography, { fontWeight, FontWeight } from "styles/typography";
 
 type UseStylesProps = {
   weight?: FontWeight;
+  secondary?: boolean;
 };
 
 const useStyles = createUseStyles({
-  typography: {
+  typography: ({ weight, secondary }: UseStylesProps) => ({
     margin: 0,
-    fontWeight: ({ weight }: UseStylesProps) => (weight ? fontWeight[weight] : undefined),
-  },
+    transition: theme.transition.generate(["color"]),
+    fontWeight: weight ? fontWeight[weight] : undefined,
+    color: secondary ? theme.palette.text.secondary : undefined,
+  }),
   gutterBottom: {
     marginBottom: "0.35em",
   },

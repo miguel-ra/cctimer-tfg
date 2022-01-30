@@ -31,7 +31,7 @@ describe("components/button/Button", () => {
 
   test("should render icon if it's specified", () => {
     const StartIcon = () => <i>icon</i>;
-    render(<Button startIcon={StartIcon}>label</Button>);
+    render(<Button prefix={<StartIcon />}>label</Button>);
 
     const button = screen.getByRole("button", {
       name: /label/i,

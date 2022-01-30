@@ -37,13 +37,14 @@
       }
     ],
     "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "react/no-unescaped-entities": "off",
     "no-restricted-imports": [
       "error",
       {
         "paths": [
           {
             "name": "react-router-dom",
-            "importNames": ["useNavigate"],
+            "importNames": ["useNavigate", "Link"],
             "message": "Please import 'useNavigate' from 'shared/hooks/useNavigate' instead."
           }
         ]

@@ -6,7 +6,7 @@ import Divider from "components/divider/Divider";
 import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
 import PuzzleShowcase from "features/puzzles/PuzzleShowcase";
-import ModalSettings from "features/settings/ModalSettings";
+import SettingsModal from "features/settings/SettingsModal";
 import { useModal } from "store/modalContext";
 import theme from "styles/theme";
 
@@ -57,12 +57,12 @@ function SideMenuExpanded() {
           <PuzzleShowcase />
         </div>
         <div className={classes.menu}>
-          <Box padding="1rem">
-            <Typography variant="h5">CCTimer.com</Typography>
+          <Box padding="0 1.2rem">
+            <Typography variant="h3">CCTimer.com</Typography>
           </Box>
           <Divider />
-          <Box padding="1rem" width="100%">
-            <Button startIcon={SettingsIcon} onClick={() => openModal(<ModalSettings />)} fullWidth>
+          <Box padding="0 1.2rem" width="100%">
+            <Button prefix={<SettingsIcon />} onClick={() => openModal(<SettingsModal />)} fullWidth>
               {t("Settings")}
             </Button>
           </Box>

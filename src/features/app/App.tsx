@@ -26,7 +26,7 @@ function mouseDownHandler() {
 
 function keyDownHandler(event: KeyboardEvent) {
   const tagName = (event.target as HTMLElement).tagName.toLowerCase();
-  if (!["input", "textarea"].includes(tagName)) {
+  if (!["input", "textarea"].includes(tagName) || event.key === "Tab") {
     document.body.classList.remove("mousedown");
   }
   if (event.key === "Escape") {

@@ -12,12 +12,12 @@ const useStyles = createUseStyles({
   footer: {
     transition: ` border ${theme.transition.duration.colorMode} linear`,
     borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
-    padding: "1rem 1.5rem",
+    padding: "1rem 1.2rem",
     display: "flex",
     width: "100%",
     justifyContent: "space-between",
     "& > *:not(:last-child)": {
-      marginRight: "1.5rem",
+      marginRight: "1.2rem",
     },
   },
 });

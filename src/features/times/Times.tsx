@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { KeyboardEvent, MouseEvent, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -68,31 +67,26 @@ function Times({ mobile }: TimesProps) {
       <div className={classes.timesWrapper}>
         <div className={classes.times} onClick={handleTimesClick} onKeyDownCapture={handleTimesKeyDown}>
           {puzzleTimes
-            .map((time) => (
-              <div
-                data-id={time.id}
-                role="button"
-                tabIndex={0}
-                key={time.id}
-                className={clsx(classes.time, {
-                  [classes.bestTime]: time.id === puzzleStats?.single?.best?.ids?.[0],
-                })}
-              >
-                {elapsedTimeWithPenaltyCompact(time.elapsedTime, time.penalty)}
-              </div>
-            ))
+            .map((time) => {
+              const isBestTime = time.id === puzzleStats?.single?.best?.ids?.[0];
+              return (
+                <Button
+                  variant={isBestTime ? "contained" : "outlined"}
+                  center
+                  data-id={time.id}
+                  key={time.id}
+                  color={time.id === puzzleStats?.single?.best?.ids?.[0] ? "green" : undefined}
+                  className={classes.time}
+                >
+                  {elapsedTimeWithPenaltyCompact(time.elapsedTime, time.penalty)}
+                </Button>
+              );
+            })
             .reverse()}
         </div>
       </div>
       <div className={classes.actionBar}>
-        <Button
-          variant="contained"
-          size="large"
-          color="red"
-          fullWidth
-          center
-          onClick={() => deletePuzzleTimes()}
-        >
+        <Button variant="contained" color="red" fullWidth center onClick={() => deletePuzzleTimes()}>
           {t("Delete all times")} ({puzzleTimes.length})
         </Button>
       </div>

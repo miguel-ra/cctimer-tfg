@@ -1,7 +1,7 @@
 import { createUseStyles } from "react-jss";
-import { Link } from "react-router-dom";
 
 import Box from "components/flexboxgrid/Box";
+import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
 import ColorModeToggle from "features/settings/ColorModeToggle";
 import LanguageSelector from "features/settings/LanguageSelector";
@@ -10,7 +10,7 @@ import theme from "styles/theme";
 const useStyles = createUseStyles({
   navbar: {
     display: "flex",
-    padding: "1rem 1.5rem",
+    padding: "1.2rem",
     justifyContent: "space-between",
     transition: theme.transition.generate(["background", "border", "color"]),
     background: theme.palette.background.secondary,
@@ -27,14 +27,13 @@ function Navbar() {
 
   return (
     <div className={classes.navbar}>
-      <Typography variant="h5">CCTimer.com</Typography>
+      <Typography variant="h3" weight="regular">
+        CCTimer.com
+      </Typography>
       <Box alignItems="center">
-        <Box paddingRight="1.5rem">
-          <LanguageSelector />
-        </Box>
+        <LanguageSelector />
+        <Spacer w={1} />
         <ColorModeToggle />
-        <Link to="/es">home</Link>
-        <Link to="/es/login">login</Link>
       </Box>
     </div>
   );

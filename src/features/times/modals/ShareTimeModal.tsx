@@ -12,15 +12,15 @@ import { dateTimeToDayLocale } from "shared/format/date";
 import { elapsedTimeWithPenalty } from "shared/format/puzzleTime";
 import { useNotifications } from "store/notificationsContext";
 
-import shareActions from "./ModalShareTime.actions";
-import useStyles from "./ModalShareTime.styles";
+import shareActions from "./ShareTimeModal.actions";
+import useStyles from "./ShareTimeModal.styles";
 
-type ModalShareTimeProps = {
+type ShareTimeModalProps = {
   time: PuzzleTime;
   goBack: () => void;
 };
 
-function ModalShareTime({ time, goBack }: ModalShareTimeProps) {
+function ShareTimeModal({ time, goBack }: ShareTimeModalProps) {
   const shareTextRef = useRef<HTMLDivElement | null>(null);
   const { t, i18n } = useTranslation();
   const { addNotification } = useNotifications();
@@ -79,7 +79,7 @@ function ModalShareTime({ time, goBack }: ModalShareTimeProps) {
         </div>
       </ModalBody>
       <ModalFooter style={{ justifyContent: "flex-end" }}>
-        <Button variant="contained" onClick={goBack}>
+        <Button variant="contained" onClick={goBack} size="small">
           {t("Go back")}
         </Button>
       </ModalFooter>
@@ -87,4 +87,4 @@ function ModalShareTime({ time, goBack }: ModalShareTimeProps) {
   );
 }
 
-export default ModalShareTime;
+export default ShareTimeModal;

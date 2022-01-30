@@ -53,28 +53,7 @@ const useStyles = createUseStyles({
     // },
   },
   time: {
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.background.secondary,
-    border: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
-    color: theme.palette.text.secondary,
-    transition: `border ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear, color ${theme.transition.duration.colorMode} linear, transform 0.25s ease-in-out, opacity 0.25s ease-in-out`,
-    padding: "0.8rem 1rem",
-    textAlign: "center",
-    cursor: "pointer",
-    userSelect: "none",
-    WebkitTapHighlightColor: "transparent",
-    "@media (hover: hover)": {
-      "&:hover, &:focus": {
-        backgroundColor: theme.palette.background.primary,
-        opacity: 0.8,
-      },
-    },
-    "@media (hover: none)": {
-      "&:active": {
-        backgroundColor: theme.palette.background.primary,
-        opacity: 0.8,
-      },
-    },
+    fontSize: "1.6rem",
   },
   bestTime: {
     "&, &:hover, &:active, &:focus": {

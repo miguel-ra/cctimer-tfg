@@ -1,41 +1,62 @@
 import clsx from "clsx";
-import { ButtonHTMLAttributes, ElementType, ReactNode } from "react";
+import { ButtonHTMLAttributes, ElementType, ReactElement, ReactNode } from "react";
 
+import Link from "components/link/Link";
 import { Color } from "styles/colors";
 
 import useStyles from "./Button.styles";
 
-type ButtonVariant = "text" | "contained" | "outlined";
+type ButtonVariant = "ghost" | "contained" | "outlined";
+type ButtonSize = "small" | "medium" | "large";
+type ButtonShape = "square";
 
 type ButtonProps = {
-  startIcon?: ElementType;
+  prefix?: ReactElement;
   fullWidth?: boolean;
   center?: boolean;
   className?: string;
   children: ReactNode;
   variant?: ButtonVariant;
-  size?: "medium" | "large";
+  size?: ButtonSize;
+  width?: string;
   color?: Color | "currentColor";
-} & ButtonHTMLAttributes<HTMLButtonElement>;
+  shape?: ButtonShape;
+  to?: string;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "prefix">;
 
 function Button({
-  startIcon: StartIcon,
+  prefix,
+  width,
   fullWidth = false,
   center = false,
   className,
   children,
-  variant = "text",
-  color = "blue",
+  variant = "ghost",
+  color = "currentColor",
   size = "medium",
+  shape,
+  to,
   ...props
 }: ButtonProps) {
-  const classes = useStyles({ center, fullWidth, color, size });
+  const classes = useStyles({ center, width, fullWidth, color });
+
+  let Component: ReactElement | ElementType = "button";
+  let componentProps = {};
+
+  if (to) {
+    Component = Link;
+    componentProps = { to };
+  }
 
   return (
-    <button className={clsx(classes.button, className, classes[variant])} {...props}>
-      {StartIcon && <StartIcon className={classes.icon} />}
+    <Component
+      className={clsx(classes.button, className, size, shape, classes[variant])}
+      {...props}
+      {...componentProps}
+    >
+      {prefix && <span className={classes.prefix}>{prefix}</span>}
       {children}
-    </button>
+    </Component>
   );
 }
 

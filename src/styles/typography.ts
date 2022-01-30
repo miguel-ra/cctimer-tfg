@@ -33,7 +33,7 @@ const caseAllCaps = {
 function buildVariant(
   fontWeight: number,
   fontSize: string,
-  lineHeight: number,
+  lineHeight: number | string,
   letterSpacing: number,
   casing?: Record<string, string>
 ) {
@@ -48,17 +48,17 @@ function buildVariant(
 }
 
 const typography: { [key in TypographyKey]: CSSProperties } = {
-  h1: buildVariant(fontWeight.light, "9.6rem", 1.167, -1.5),
-  h2: buildVariant(fontWeight.light, "6rem", 1.2, -0.5),
-  h3: buildVariant(fontWeight.regular, "4.8rem", 1.167, 0),
-  h4: buildVariant(fontWeight.regular, "3.4rem", 1.235, 0.25),
-  h5: buildVariant(fontWeight.regular, "2.4rem", 1.334, 0),
-  h6: buildVariant(fontWeight.regular, "2rem", 1.6, 0.15),
+  h1: buildVariant(fontWeight.medium, "4.8rem", "5.6rem", -0.7),
+  h2: buildVariant(fontWeight.medium, "3.2rem", "4rem", -0.5),
+  h3: buildVariant(fontWeight.medium, "2.4rem", "3.2rem", 0),
+  h4: buildVariant(fontWeight.medium, "2rem", "2.4rem", 0),
+  h5: buildVariant(fontWeight.regular, "1.6rem", "2.4rem", 0),
+  h6: buildVariant(fontWeight.regular, "1.4rem", "2rem", 0),
   subtitle1: buildVariant(fontWeight.regular, "1.6rem", 1.75, 0.15),
   subtitle2: buildVariant(fontWeight.medium, "1.4rem", 1.57, 0.1),
   body1: buildVariant(fontWeight.regular, "1.6rem", 1.5, 0.15),
   body2: buildVariant(fontWeight.regular, "1.4rem", 1.43, 0.15),
-  button: buildVariant(fontWeight.regular, "1.4rem", 1.1, 0.4),
+  button: buildVariant(fontWeight.regular, "1.4rem", 0, 0.4),
   caption: buildVariant(fontWeight.regular, "1.2rem", 1.4, 0.4, caseAllCaps),
   overline: buildVariant(fontWeight.regular, "1.2rem", 2.66, 1, caseAllCaps),
 };

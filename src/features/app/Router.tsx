@@ -6,6 +6,7 @@ import Spinner from "components/spinner/Spinner";
 import Layout from "features/layout/Layout";
 
 const Login = lazy(() => import("features/account/Login"));
+const SignUp = lazy(() => import("features/account/SignUp"));
 const Timer = lazy(() => import("features/timer/Timer"));
 
 type LazyElementProps = {
@@ -31,6 +32,7 @@ function Router() {
           <Route index element={<Navigate to={`/${i18n.language}`} replace />} />
         </Route>
         <Route path="login" element={<LazyElement Component={Login} />} />
+        <Route path="signup" element={<LazyElement Component={SignUp} />} />
         <Route index element={<LazyElement Component={Timer} />} />
         <Route path="*" element={<Navigate to="" replace />} />
       </Route>

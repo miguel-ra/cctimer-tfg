@@ -7,7 +7,7 @@ import Input from "components/input/Input";
 import Link from "components/link/Link";
 import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
-import { signUpPathname } from "features/app/pathnames";
+import { loginPathname } from "features/app/pathnames";
 import theme from "styles/theme";
 
 const useStyles = createUseStyles({
@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
     background: theme.palette.background.secondary,
     transition: theme.transition.generate(["background"]),
   },
-  login: {
+  signup: {
     width: "100%",
     maxWidth: "320px",
     display: "flex",
@@ -30,22 +30,19 @@ const useStyles = createUseStyles({
     justifyContent: "center",
   },
   footer: {
-    width: "100%",
     padding: "3.2rem",
-    textAlign: "center",
-    borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
   },
 });
 
-function Login() {
+function SignUp() {
   const { t } = useTranslation();
   const classes = useStyles();
 
   return (
     <section className={classes.wrapper}>
-      <div className={classes.login}>
+      <div className={classes.signup}>
         <Typography variant="h1" secondary>
-          {t("Log in")}
+          {t("Sign up")}
         </Typography>
         <Spacer h={3} />
         <Input size="large" placeholder="Email address" name="email" />
@@ -53,15 +50,15 @@ function Login() {
         <Input size="large" placeholder="Password" name="password" type="password" />
         <Spacer h={2} />
         <Button size="large" variant="contained" center color="blue">
-          {t("Log in")}
+          {t("Sign up")}
         </Button>
         <Spacer h={3} />
         <Box justifyContent="center">
-          {t("Don't have an account?")} &nbsp;<Link to={signUpPathname}>{t("Sign up")}</Link>
+          {t("Already have an account?")} &nbsp;<Link to={loginPathname}>{t("Log in")}</Link>
         </Box>
       </div>
     </section>
   );
 }
 
-export default Login;
+export default SignUp;

@@ -6,7 +6,7 @@ import { useModal } from "store/modalContext";
 
 import { usePuzzleTimesState, useTimes } from "../timesViewModel";
 
-const ModalTimeDetails = lazy(() => import("./ModalTimeDetails"));
+const TimeDetailsModal = lazy(() => import("./TimeDetailsModal"));
 
 function useTimeDetailsModal() {
   const { openModal } = useModal();
@@ -24,7 +24,7 @@ function useTimeDetailsModal() {
       const time = puzzleTimesRef.current.find((time) => time.id === timeId) as PuzzleTime;
 
       openModal(
-        <ModalTimeDetails
+        <TimeDetailsModal
           puzzleKey={selectedItem?.key}
           time={time}
           updateTime={updateTime}
