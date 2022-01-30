@@ -44,7 +44,12 @@ function Select({
 
   return (
     <div className={clsx(classes.wrapper, size)}>
-      <select onChange={handleChange} className={classes.select} {...props}>
+      <select
+        className={classes.select}
+        value={onChange ? internalValue : undefined}
+        onChange={onChange ? handleChange : undefined}
+        {...props}
+      >
         {children}
       </select>
       {sufix && <span className={classes.sufix}>{sufix}</span>}
