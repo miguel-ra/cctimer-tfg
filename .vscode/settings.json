@@ -1,5 +1,4 @@
 {
-  "editor.rulers": [
-    110,
-  ],
+  "editor.rulers": [110],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

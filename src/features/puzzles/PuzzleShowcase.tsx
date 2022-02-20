@@ -19,7 +19,7 @@ import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg"
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
 import PuzzleIconWrapper from "./PuzzleIconWrapper";
 import useStyles from "./PuzzleShowcase.styles";
-import { usePuzzles } from "./puzzleViewModel";
+import { usePuzzles } from "./puzzlesViewModel";
 
 // TODO: Change this component to use event delegation
 
