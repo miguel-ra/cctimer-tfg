@@ -1,0 +1,8 @@
+$shape: (
+  borderWitdh: 2px,
+  borderRadius: 6px,
+);
+
+@function get($key) {
+  @return map-get($shape, $key);
+}

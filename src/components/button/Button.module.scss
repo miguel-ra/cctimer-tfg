@@ -1,0 +1,176 @@
+@use "styles/colors";
+@use "styles/palette";
+@use "styles/shape";
+@use "styles/transition";
+@use "styles/typography";
+
+.button {
+  @include typography.button;
+  border: none;
+  margin: 0;
+  background: none;
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: palette.get("text.primary");
+  cursor: pointer;
+  border-radius: shape.get("borderRadius");
+  user-select: none;
+  padding: 0 1.2rem;
+  height: 4rem;
+  font-size: 1.4rem;
+  transition: transition.generate(color, background, box-shadow), opacity 0.1s ease;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.center {
+  justify-content: center;
+}
+
+.prefix {
+  display: flex;
+  margin-right: 1.2rem;
+  & svg {
+    vertical-align: top;
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+// Sizes
+
+.small {
+  height: 3.2rem;
+  font-size: 1.4rem;
+}
+
+.large {
+  height: 4.8rem;
+  font-size: 1.6rem;
+}
+
+// Shapes
+
+.square {
+  padding: 0;
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & svg {
+    width: 2rem;
+    height: 2rem;
+  }
+  &.small {
+    width: 3.2rem;
+    height: 3.2rem;
+    & svg {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  }
+  &.large {
+    width: 4.8rem;
+    height: 4.8rem;
+    & svg {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+  }
+}
+
+// Variants
+
+.ghost {
+  color: palette.get("text.secondary");
+  outline: 0;
+  &:hover {
+    background-color: palette.get("border.primary");
+  }
+  &:active {
+    opacity: 0.6;
+  }
+  body:not(:global(.mousedown)) &:focus {
+    &.small {
+      box-shadow: 0 0 0 1px palette.get("background.secondary"), 0 0 0 3px palette.get("border.secondary");
+    }
+    box-shadow: 0 0 0 2px palette.get("background.secondary"), 0 0 0 4px palette.get("border.secondary");
+    z-index: 1;
+  }
+}
+
+.contained {
+  --accentColor: #{palette.get("text.secondary")};
+  --textColor: #{palette.get("background.secondary")};
+  --activeBackgroundColor: #{palette.get("border.primary")};
+
+  @each $name, $color in colors.$colors {
+    &:global(.#{$name}) {
+      --accentColor: #{map-get($color, "main")};
+      --textColor: #{map-get($color, "contrastText")};
+      --activeBackgroundColor: #{palette.get("background.primary")};
+    }
+  }
+
+  box-shadow: inset 0 0 0 shape.get("borderWitdh") var(--accentColor);
+  background: var(--accentColor);
+  color: var(--textColor);
+  outline: 0;
+  @media (hover: hover) {
+    &:hover {
+      background: palette.get("background.primary");
+      color: var(--accentColor);
+    }
+  }
+  &:active {
+    background: activeBackgroundColor;
+    color: var(--accentColor);
+    opacity: 0.6;
+  }
+  body:not(:global(.mousedown)) &:focus {
+    &.small {
+      box-shadow: 0 0 0 1px palette.get("background.secondary"), 0 0 0 3px var(--accentColor);
+      height: 3.2rem;
+      font-size: 1.4rem;
+    }
+    box-shadow: 0 0 0 2px palette.get("background.secondary"), 0 0 0 4px var(--accentColor);
+    z-index: 1;
+    &:hover,
+    &:active {
+      box-shadow: "none";
+      z-index: 0;
+    }
+  }
+}
+
+.outlined {
+  --borderColor: #{palette.get("border.primary")};
+  --textColor: #{palette.get("text.secondary")};
+  --activeTextColor: #{palette.get("text.secondary")};
+
+  @each $name, $color in colors.$colors {
+    &:global(.#{$name}) {
+      --borderColor: #{map-get($color, "main")};
+      --activeTextColor: var(--borderColor);
+    }
+  }
+
+  box-shadow: inset 0 0 0 shape.get("borderWitdh") var(--borderColor);
+  color: var(--textColor);
+  outline: 0;
+  &:active {
+    opacity: 0.8;
+  }
+  @media (hover: hover) {
+    &:hover,
+    body:not(:global(.mousedown)) &:focus {
+      color: var(--activeTextColor);
+      box-shadow: inset 0 0 0 shape.get("borderWitdh") var(--activeTextColor);
+    }
+  }
+}

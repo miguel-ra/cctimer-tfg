@@ -1,0 +1,26 @@
+@import "./functions/deep-get";
+
+$transition: (
+  colorMode: (
+    duration: var(--transition-colorMode-duration),
+  ),
+  scrambleColor: (
+    duration: 0.25s,
+  ),
+);
+
+@function get($key) {
+  @return deep-get($transition, $key);
+}
+
+@function generate($baseProp, $props...) {
+  $result: $baseProp get("colorMode.duration") linear;
+
+  @if length($props) {
+    @each $prop in $props {
+      $result: $result, $prop get("colorMode.duration") linear;
+    }
+  }
+
+  @return $result;
+}

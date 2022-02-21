@@ -1,0 +1,11 @@
+@import "./str-split";
+
+@function deep-get($map, $key) {
+  $keys: str-split($key, ".");
+
+  @each $key in $keys {
+    $map: map-get($map, $key);
+  }
+
+  @return $map;
+}

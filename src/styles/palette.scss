@@ -1,0 +1,20 @@
+@import "./functions/deep-get";
+
+$palette: (
+  background: (
+    primary: var(--palette-background-primary),
+    secondary: var(--palette-background-secondary),
+  ),
+  text: (
+    primary: var(--palette-text-primary),
+    secondary: var(--palette-text-secondary),
+  ),
+  border: (
+    primary: var(--palette-border-primary),
+    secondary: var(--palette-border-secondary),
+  ),
+);
+
+@function get($key) {
+  @return deep-get($palette, $key);
+}

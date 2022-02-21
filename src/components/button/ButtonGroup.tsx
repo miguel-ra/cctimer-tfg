@@ -9,24 +9,26 @@ type ButtonGroupProps = {
 
 const useStyles = createUseStyles({
   root: {
-    display: "flex",
-    "& > *": {
-      borderRadius: 0,
-      zIndex: 0,
-      margin: "0 -1px 0",
-      "&:hover, &:focus": {
-        zIndex: 1,
-      },
-      "&[disabled]": {
-        zIndex: 2,
-      },
-      "&:first-child": {
-        borderTopLeftRadius: theme.shape.borderRadius,
-        borderBottomLeftRadius: theme.shape.borderRadius,
-      },
-      "&:last-child": {
-        borderTopRightRadius: theme.shape.borderRadius,
-        borderBottomRightRadius: theme.shape.borderRadius,
+    "body &": {
+      display: "flex",
+      "& > *": {
+        borderRadius: 0,
+        zIndex: 0,
+        margin: "0 -1px 0",
+        "&:hover, &:focus": {
+          zIndex: 1,
+        },
+        "&[disabled]": {
+          zIndex: 2,
+        },
+        "&:first-child": {
+          borderTopLeftRadius: theme.shape.borderRadius,
+          borderBottomLeftRadius: theme.shape.borderRadius,
+        },
+        "&:last-child": {
+          borderTopRightRadius: theme.shape.borderRadius,
+          borderBottomRightRadius: theme.shape.borderRadius,
+        },
       },
     },
   },

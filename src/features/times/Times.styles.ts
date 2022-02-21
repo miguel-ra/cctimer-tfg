@@ -53,7 +53,9 @@ const useStyles = createUseStyles({
     // },
   },
   time: {
-    fontSize: "1.6rem",
+    "body &": {
+      fontSize: "1.6rem",
+    },
   },
   bestTime: {
     "&, &:hover, &:active, &:focus": {

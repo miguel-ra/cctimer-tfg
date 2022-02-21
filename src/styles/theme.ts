@@ -13,7 +13,7 @@ const theme = {
   transition: {
     duration: {
       scrambleColor: "0.25s",
-      colorMode: "var(--transition-duration-colorMode)",
+      colorMode: "var(--transition-colorMode-duration)",
     },
     generate(values: string[]) {
       return values.map((value) => `${value} ${this.duration.colorMode} linear`).join(", ");
