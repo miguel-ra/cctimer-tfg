@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import { SettingsRepository } from "models/settings/SettingsRepository";
 
-import settingsRepositoryInMemory from "./settingsRepositoryInMemory";
+import SettingsRepositoryInMemory from "./SettingsRepositoryInMemory";
+
+const settingsRepositoryInMemory = new SettingsRepositoryInMemory();
 
 function useSettingsRepository() {
   const [settingsRepository] = useState<SettingsRepository>(settingsRepositoryInMemory);

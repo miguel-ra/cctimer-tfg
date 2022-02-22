@@ -73,4 +73,4 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
   }
 }
 
-export default new PuzzlesRepositoryInMemory();
+export default PuzzlesRepositoryInMemory;

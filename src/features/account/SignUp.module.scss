@@ -1,0 +1,22 @@
+@use "styles/palette";
+@use "styles/transition";
+
+.wrapper {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: palette.get("background.secondary");
+  transition: transition.generate(background);
+}
+
+.signup {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+}

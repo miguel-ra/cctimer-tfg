@@ -1,4 +1,5 @@
 import { StrictMode } from "react";
+import "shared/firebase/app";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 

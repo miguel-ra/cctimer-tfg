@@ -47,4 +47,4 @@ class SettingsRepositoryInMemory implements SettingsRepository {
   }
 }
 
-export default new SettingsRepositoryInMemory();
+export default SettingsRepositoryInMemory;

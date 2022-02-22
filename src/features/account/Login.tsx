@@ -1,5 +1,5 @@
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { createUseStyles } from "react-jss";
 
 import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
@@ -8,58 +8,50 @@ import Link from "components/link/Link";
 import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
 import { signUpPathname } from "features/app/pathnames";
-import theme from "styles/theme";
 
-const useStyles = createUseStyles({
-  wrapper: {
-    width: "100%",
-    flex: 1,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    background: theme.palette.background.secondary,
-    transition: theme.transition.generate(["background"]),
-  },
-  login: {
-    width: "100%",
-    maxWidth: "320px",
-    display: "flex",
-    flexDirection: "column",
-    flex: 1,
-    justifyContent: "center",
-  },
-  footer: {
-    width: "100%",
-    padding: "3.2rem",
-    textAlign: "center",
-    borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
-  },
-});
+import { useAccount } from "./accountViewModel";
+import styles from "./Login.module.scss";
+
+type Inputs = {
+  email: string;
+  password: string;
+};
 
 function Login() {
   const { t } = useTranslation();
-  const classes = useStyles();
+  const {} = useAccount();
+  const { register, handleSubmit } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (
-    <section className={classes.wrapper}>
-      <div className={classes.login}>
+    <section className={styles.wrapper}>
+      <form className={styles.login} onSubmit={handleSubmit(onSubmit)}>
         <Typography variant="h1" secondary>
           {t("Log in")}
         </Typography>
         <Spacer h={3} />
-        <Input size="large" placeholder="Email address" name="email" />
+        <Input
+          size="large"
+          placeholder="Email address"
+          {...register("email", { required: true, maxLength: 20 })}
+        />
         <Spacer h={1} />
-        <Input size="large" placeholder="Password" name="password" type="password" />
+        <Input
+          size="large"
+          placeholder="Password"
+          type="password"
+          {...register("password", { required: true, maxLength: 20 })}
+        />
         <Spacer h={2} />
-        <Button size="large" variant="contained" center color="blue">
+        <Button type="submit" size="large" variant="contained" center color="blue">
           {t("Log in")}
         </Button>
         <Spacer h={3} />
         <Box justifyContent="center">
           {t("Don't have an account?")} &nbsp;<Link to={signUpPathname}>{t("Sign up")}</Link>
         </Box>
-      </div>
+      </form>
     </section>
   );
 }
