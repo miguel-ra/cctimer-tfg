@@ -12,7 +12,7 @@ type PuzzlesDB = {
     value: UserPuzzle;
     indexes: {
       id: PuzzleId;
-      timestamp: number;
+      createdAt: number;
     };
   };
 };
@@ -35,10 +35,10 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
           keyPath: "id",
         });
         store.createIndex("id", "id");
-        store.createIndex("timestamp", "timestamp");
+        store.createIndex("createdAt", "createdAt");
         const id = uuidv4();
-        const timestamp = Date.now();
-        store.add({ id, key: "cube3", timestamp } as UserPuzzle);
+        const createdAt = Date.now();
+        store.add({ id, key: "cube3", createdAt } as UserPuzzle);
       },
       terminated: () => {
         this.dbPromise = undefined;
@@ -50,7 +50,7 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
 
   async add(puzzleKey: PuzzleKey): Promise<UserPuzzle> {
     const db = await this.openDB();
-    const userPuzzle = { id: uuidv4(), key: puzzleKey, timestamp: Date.now() };
+    const userPuzzle = { id: uuidv4(), key: puzzleKey, createdAt: Date.now() };
     await db.add(STORE_NAME, userPuzzle);
     return userPuzzle;
   }
@@ -69,7 +69,7 @@ class PuzzlesRepositoryInMemory implements PuzzlesRepository {
   async getAll() {
     const db = await this.openDB();
     const userPuzzles = await db.getAll(STORE_NAME);
-    return userPuzzles.sort((a, b) => a.timestamp - b.timestamp);
+    return userPuzzles.sort((a, b) => a.createdAt - b.createdAt);
   }
 }
 

@@ -57,13 +57,6 @@ const useStyles = createUseStyles({
       fontSize: "1.6rem",
     },
   },
-  bestTime: {
-    "&, &:hover, &:active, &:focus": {
-      border: `${theme.shape.borderWitdh} solid ${theme.palette.colors.green.main}`,
-      backgroundColor: theme.palette.colors.green.main,
-      color: theme.palette.colors.green.contrastText,
-    },
-  },
   actionBar: {
     position: "relative",
     padding: "1rem 1.25rem",

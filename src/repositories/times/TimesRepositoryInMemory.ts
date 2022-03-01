@@ -1,4 +1,5 @@
 import { IDBPDatabase, openDB } from "idb/with-async-ittr";
+import { v4 as uuidv4 } from "uuid";
 
 import { PuzzleId, PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
 import { PuzzleTime, TimeId, UnsavedPuzzleTime } from "models/times/Time";
@@ -6,7 +7,7 @@ import { PuzzleTimeUpdate, TimesRepository } from "models/times/TimesRepository"
 
 type TimesDB = {
   [key in PuzzleKey]: {
-    key: number;
+    key: TimeId;
     value: PuzzleTime;
     indexes: {
       id: TimeId;
@@ -32,7 +33,6 @@ class TimesRepositoryInMemory implements TimesRepository {
         puzzlesKeys.forEach((puzzleKey) => {
           const store = db.createObjectStore(puzzleKey, {
             keyPath: "id",
-            autoIncrement: true,
           });
           store.createIndex("id", "id");
           store.createIndex("puzzleId", "puzzleId");
@@ -50,13 +50,13 @@ class TimesRepositoryInMemory implements TimesRepository {
     const db = await this.openDB();
     const puzzleTime: PuzzleTime = {
       ...time,
+      id: uuidv4(),
       puzzleId,
-      createdAt: new Date(),
-    } as PuzzleTime;
-    const addedId = await db.add(puzzleKey, puzzleTime);
-    const addedTime = { ...puzzleTime, id: addedId } as PuzzleTime;
+      createdAt: Date.now(),
+    };
+    await db.add(puzzleKey, puzzleTime);
     const puzzleTimesUpdated = await this.getAll(puzzleKey, puzzleId);
-    return { addedTime, puzzleTimesUpdated };
+    return { addedTime: puzzleTime, puzzleTimesUpdated };
   }
 
   async update(puzzleKey: PuzzleKey, timeId: TimeId, dataToUpdate: PuzzleTimeUpdate) {
@@ -71,10 +71,11 @@ class TimesRepositoryInMemory implements TimesRepository {
 
   async getAll(puzzleKey: PuzzleKey, puzzleId: PuzzleId) {
     const db = await this.openDB();
-    return db.getAllFromIndex(puzzleKey, "puzzleId", puzzleId);
+    const puzzleTimes = await db.getAllFromIndex(puzzleKey, "puzzleId", puzzleId);
+    return puzzleTimes.sort((a, b) => a.createdAt - b.createdAt);
   }
 
-  async delete(puzzleKey: PuzzleKey, timeId: number) {
+  async delete(puzzleKey: PuzzleKey, timeId: TimeId) {
     const db = await this.openDB();
     return db.delete(puzzleKey, timeId);
   }

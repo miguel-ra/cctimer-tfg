@@ -97,7 +97,7 @@ function TimeDetailsModal({ puzzleKey, time, updateTime, deleteTime }: TimeDetai
               {elapsedTimeWithPenalty(internalTime.elapsedTime, internalTime.penalty)}
             </Typography>
             <Typography variant="caption" className={classes.date}>
-              {dateTimeToLocale(i18n.language as LangKey, internalTime.createdAt)}
+              {dateTimeToLocale(i18n.language as LangKey, new Date(internalTime.createdAt))}
             </Typography>
           </Box>
           <Divider />

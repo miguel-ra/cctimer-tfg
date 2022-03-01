@@ -34,7 +34,7 @@ function Times({ mobile }: TimesProps) {
       const { id } = (event.target as HTMLElement).dataset;
       if (id) {
         event.stopPropagation();
-        showTimeDetails(Number(id));
+        showTimeDetails(id);
       }
     },
     [showTimeDetails]
@@ -46,7 +46,7 @@ function Times({ mobile }: TimesProps) {
       if (id && event.key === "Enter") {
         event.stopPropagation();
         event.preventDefault();
-        showTimeDetails(Number(id));
+        showTimeDetails(id);
       }
     },
     [showTimeDetails]

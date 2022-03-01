@@ -12,14 +12,9 @@ import { useScramble, useSelectedItem, useTimer } from "./timerViewModel";
 function Timer() {
   const { layout } = useLayout();
   const { puzzleId } = useParams();
-  const {
-    refreshScramble,
-    startWorker: scrambleStartWorker,
-    stopWorker: scrambleStopWorker,
-    resetScramble,
-  } = useScramble();
+  const { refreshScramble, startWorker: scrambleStartWorker, stopWorker: scrambleStopWorker } = useScramble();
   const { refreshStats, startWorker: statsStartWorker, stopWorker: statsStopWorker } = useStats();
-  const { selectedItem, setSelectedItem, resetSelectedItem } = useSelectedItem();
+  const { selectedItem, setSelectedItem } = useSelectedItem();
   const { checkPuzzleAndRedirect } = useTimer();
   const { puzzleTimes, lastTime, setLastTime, refreshPuzzleTimes } = useTimes();
   const TimerComponet = layout === "desktop" ? TimerDesktop : TimerMobile;
@@ -49,17 +44,8 @@ function Timer() {
     return () => {
       statsStopWorker();
       scrambleStopWorker();
-      resetScramble();
-      resetSelectedItem();
     };
-  }, [
-    resetSelectedItem,
-    resetScramble,
-    statsStartWorker,
-    scrambleStartWorker,
-    scrambleStopWorker,
-    statsStopWorker,
-  ]);
+  }, [scrambleStartWorker, scrambleStopWorker, statsStartWorker, statsStopWorker]);
 
   useEffect(() => {
     checkPuzzleAndRedirect(puzzleId);

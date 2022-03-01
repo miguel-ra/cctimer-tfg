@@ -41,7 +41,7 @@ type PuzzleKey =
 type UserPuzzle = {
   id: PuzzleId;
   key: PuzzleKey;
-  timestamp: number;
+  createdAt: number;
 };
 
 type Puzzle = {

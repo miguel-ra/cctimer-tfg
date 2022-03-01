@@ -6,7 +6,7 @@ enum TimePenalty {
   Dnf = "dnf",
 }
 
-type TimeId = number;
+type TimeId = string;
 
 type Time = {
   penalty?: TimePenalty;
@@ -18,7 +18,7 @@ type PuzzleTime = {
   puzzleId: PuzzleId;
   scramble: Scramble;
   comment?: string;
-  createdAt: Date;
+  createdAt: number;
 } & Time;
 
 type PuzzleTimeValue = {
