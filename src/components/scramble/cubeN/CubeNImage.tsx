@@ -17,7 +17,7 @@ const colorScheme: { [key in FaceKey]: string } = {
   "1": theme.palette.colors.orange.main,
   "2": theme.palette.colors.blue.main,
   "3": theme.palette.colors.white.main,
-  "4": theme.palette.colors.red.main,
+  "4": theme.palette.colors.red.light,
   "5": theme.palette.colors.green.main,
 };
 
@@ -29,12 +29,7 @@ const useStyles = createUseStyles({
   },
 });
 
-function CubeNImage({
-  CubeTemplate,
-  scramble,
-  className,
-  ...props
-}: CubeNImageProps) {
+function CubeNImage({ CubeTemplate, scramble, className, ...props }: CubeNImageProps) {
   const classes = useStyles();
   const elementRef = useRef<SVGSVGElement | null>(null);
 
@@ -49,13 +44,7 @@ function CubeNImage({
     });
   }, [scramble]);
 
-  return (
-    <CubeTemplate
-      className={clsx(classes.root, className)}
-      ref={elementRef}
-      {...props}
-    />
-  );
+  return <CubeTemplate className={clsx(classes.root, className)} ref={elementRef} {...props} />;
 }
 
 export default CubeNImage;

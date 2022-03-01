@@ -62,6 +62,7 @@
       }
 
       body {
+        --colors-cyan-main: #79ffe1;
         --colors-blue-light: #69bfff;
         --colors-blue-main: #388bfd;
         --colors-green-main: #3fb950;
@@ -71,8 +72,8 @@
         --colors-yellow-dark: #e2cd14;
         --colors-yellow-darker: #746805;
         --colors-orange-main: #f0883e;
-        --colors-red-light: #fc8980;
-        --colors-red-main: #f85149;
+        --colors-red-light: #f85149;
+        --colors-red-main: #fd3535;
         --colors-purple-main: #8957e5;
         --colors-pink-main: #f778ba;
         --colors-pink-dark: #f81ce5;
@@ -91,7 +92,7 @@
 
         --palette-background-primary: var(--colors-white-dark);
         --palette-background-secondary: var(--colors-white-main);
-        --palette-background-selection: #79ffe1;
+        --palette-background-selection: var(--colors-cyan-main);
 
         --palette-text-primary: var(--colors-gray-light);
         --palette-text-secondary: var(--colors-black-main);
@@ -106,7 +107,7 @@
       body[data-color-mode="dark"] {
         --palette-background-primary: var(--colors-black-light);
         --palette-background-secondary: var(--colors-black-main);
-        --palette-background-selection: #f81ce5;
+        --palette-background-selection: var(--colors-pink-dark);
 
         --palette-text-primary: var(--colors-gray-dark);
         --palette-text-secondary: var(--colors-white-main);

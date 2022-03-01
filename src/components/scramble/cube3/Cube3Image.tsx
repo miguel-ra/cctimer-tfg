@@ -12,7 +12,7 @@ type FaceKey = "U" | "R" | "F" | "L" | "B" | "D";
 
 const colorScheme: { [key in FaceKey]: string } = {
   U: theme.palette.colors.white.main,
-  R: theme.palette.colors.red.main,
+  R: theme.palette.colors.red.light,
   F: theme.palette.colors.green.main,
   L: theme.palette.colors.orange.main,
   B: theme.palette.colors.blue.main,
@@ -38,20 +38,11 @@ function Cube3Image({ scramble, className, ...props }: ScrambleImageProps) {
       return;
     }
     ([...scramble] as FaceKey[]).forEach((char, index) => {
-      element.style.setProperty(
-        `--sticker-${index}`,
-        colorScheme[char as FaceKey]
-      );
+      element.style.setProperty(`--sticker-${index}`, colorScheme[char as FaceKey]);
     });
   }, [scramble]);
 
-  return (
-    <Cube3Template
-      className={clsx(classes.root, className)}
-      ref={elementRef}
-      {...props}
-    />
-  );
+  return <Cube3Template className={clsx(classes.root, className)} ref={elementRef} {...props} />;
 }
 
 export default Cube3Image;

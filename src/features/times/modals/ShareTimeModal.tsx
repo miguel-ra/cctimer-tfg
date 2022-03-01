@@ -5,6 +5,7 @@ import Button from "components/button/Button";
 import ModalBody from "components/modal/ModalBody";
 import ModalFooter from "components/modal/ModalFooter";
 import ModalHeader from "components/modal/ModalHeader";
+import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
 import { LangKey } from "i18n/i18n";
 import { PuzzleTime } from "models/times/Time";
@@ -55,6 +56,7 @@ function ShareTimeModal({ time, goBack }: ShareTimeModalProps) {
                 }}
               >
                 <Icon className={classes.icon} />
+                <Spacer h={1} />
                 <Typography variant="button">{t(label)}</Typography>
               </div>
             );

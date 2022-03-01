@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { ButtonHTMLAttributes, CSSProperties, ElementType, ReactElement, ReactNode } from "react";
 
 import Link from "components/link/Link";
+import LoadingDots from "components/loading-dots/LoadingDots";
 import { Color } from "styles/colors";
 
 import styles from "./Button.module.scss";
@@ -22,6 +23,8 @@ type ButtonProps = {
   color?: Color | "currentColor";
   shape?: ButtonShape;
   to?: string;
+  loading?: boolean;
+  disabled?: boolean;
 } & Omit<ButtonHTMLAttributes<HTMLButtonElement>, "prefix">;
 
 function Button({
@@ -36,6 +39,8 @@ function Button({
   style,
   shape = "normal",
   to,
+  loading,
+  disabled,
   ...props
 }: ButtonProps) {
   let Component: ReactElement | ElementType = "button";
@@ -57,15 +62,18 @@ function Button({
         {
           [styles.fullWidth]: fullWidth,
           [styles.center]: center,
+          [styles.disabled]: disabled || loading,
         },
         color,
+
         className
       )}
       {...props}
       {...componentProps}
+      disabled={disabled || loading}
     >
       {prefix && <span className={styles.prefix}>{prefix}</span>}
-      {children}
+      {loading ? <LoadingDots /> : children}
     </Component>
   );
 }

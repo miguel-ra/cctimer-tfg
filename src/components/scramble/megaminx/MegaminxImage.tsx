@@ -13,7 +13,7 @@ type FaceKey = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" 
 const colorScheme: { [key in FaceKey]: string } = {
   "0": theme.palette.colors.white.main,
   "1": theme.palette.colors.green.dark,
-  "2": theme.palette.colors.red.main,
+  "2": theme.palette.colors.red.light,
   "3": theme.palette.colors.blue.main,
   "4": theme.palette.colors.yellow.dark,
   "5": theme.palette.colors.purple.main,

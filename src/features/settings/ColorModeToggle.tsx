@@ -13,14 +13,7 @@ function ColorModeToggle() {
   const { t } = useTranslation();
 
   return (
-    <Button
-      type="button"
-      variant="contained"
-      onClick={toggleColorMode}
-      size="small"
-      style={{ minWidth: "12rem" }}
-      center
-    >
+    <Button type="button" variant="contained" onClick={toggleColorMode} size="small" center>
       {t(colorMode === "dark" ? "Light mode" : "Dark mode")}
     </Button>
   );

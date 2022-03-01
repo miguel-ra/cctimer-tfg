@@ -1,6 +1,7 @@
 @use "styles/palette";
 @use "styles/shape";
 @use "styles/transition";
+@use "styles/colors";
 
 .input {
   width: 100%;
@@ -21,12 +22,36 @@
   font-size: 1.4rem;
   &::placeholder {
     opacity: 1;
+    transition: transition.generate(color);
   }
   &:focus {
     border-color: palette.get("border.secondary");
     color: palette.get("text.secondary");
   }
 }
+
+.helperText {
+  display: flex;
+  margin-top: 1.2rem;
+  color: colors.get("red.main");
+  font-size: 1.4rem;
+  line-height: 2rem;
+  svg {
+    width: 2rem;
+    margin-right: 0.8rem;
+  }
+}
+
+.error {
+  &,
+  &:focus,
+  &::placeholder {
+    border-color: colors.get("red.main");
+    color: colors.get("red.main");
+  }
+}
+
+// Size
 
 .large {
   height: 4.8rem;

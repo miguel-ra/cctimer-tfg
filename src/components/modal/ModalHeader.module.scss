@@ -1,0 +1,26 @@
+@use "styles/palette";
+@use "styles/transition";
+@use "styles/shape";
+@use "styles/breakpoints";
+
+.header {
+  display: flex;
+  padding: 1.2rem;
+  align-items: center;
+  justify-content: space-between;
+  color: palette.get("text.secondary");
+  transition: transition.generate(color, border);
+  border-bottom: shape.get("borderWitdh") solid palette.get("border.primary");
+
+  @include breakpoints.up("md") {
+    padding: 1rem 1.2rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  & > * {
+    margin-left: 1.2rem;
+  }
+}

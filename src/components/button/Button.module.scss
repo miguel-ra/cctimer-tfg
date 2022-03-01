@@ -21,6 +21,22 @@
   height: 4rem;
   font-size: 1.4rem;
   transition: transition.generate(color, background, box-shadow), opacity 0.1s ease;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.disabled {
+  &.button {
+    &,
+    &:hover,
+    &:focus {
+      cursor: not-allowed;
+      box-shadow: 0 0 0 1px palette.get("background.primary"), inset 0 0 0 2px palette.get("border.primary");
+      background: palette.get("background.primary");
+      color: palette.get("text.primary");
+      border-color: palette.get("border.primary");
+    }
+  }
 }
 
 .fullWidth {
@@ -97,9 +113,11 @@
   }
   body:not(:global(.mousedown)) &:focus {
     &.small {
-      box-shadow: 0 0 0 1px palette.get("background.secondary"), 0 0 0 3px palette.get("border.secondary");
+      box-shadow: inset 0 0 0 1px palette.get("background.secondary"),
+        inset 0 0 0 2px palette.get("border.secondary");
     }
-    box-shadow: 0 0 0 2px palette.get("background.secondary"), 0 0 0 4px palette.get("border.secondary");
+    box-shadow: inset 0 0 0 2px palette.get("background.secondary"),
+      inset 0 0 0 3px palette.get("border.secondary");
     z-index: 1;
   }
 }
@@ -134,11 +152,11 @@
   }
   body:not(:global(.mousedown)) &:focus {
     &.small {
-      box-shadow: 0 0 0 1px palette.get("background.secondary"), 0 0 0 3px var(--accentColor);
+      box-shadow: inset 0 0 0 1px palette.get("background.secondary"), 0 0 0 3px var(--accentColor);
       height: 3.2rem;
       font-size: 1.4rem;
     }
-    box-shadow: 0 0 0 2px palette.get("background.secondary"), 0 0 0 4px var(--accentColor);
+    box-shadow: inset 0 0 0 2px palette.get("background.secondary"), 0 0 0 4px var(--accentColor);
     z-index: 1;
     &:hover,
     &:active {

@@ -2,13 +2,22 @@ import { ReactNode, useRef, useState } from "react";
 
 import isTouchDevice from "shared/browser/isTouchDevice";
 import useEventListener from "shared/hooks/useEventListener";
-import { PopoverConfig, usePopover } from "store/popoverContext";
+import {
+  PopoverAnchorPosition,
+  PopoverConfig,
+  PopoverTransformPostion,
+  usePopover,
+} from "store/popoverContext";
+
+import styles from "./Tooltip.module.scss";
 
 type TooltipProps = {
   targetElement?: HTMLElement;
   label: string;
   delay?: number;
   children?: ReactNode;
+  anchorPosition?: PopoverAnchorPosition;
+  transformPosition?: PopoverTransformPostion;
 } & Partial<PopoverConfig>;
 
 function Tooltip({
@@ -31,7 +40,7 @@ function Tooltip({
       clearTimeout(timeoutId.current);
     }
     timeoutId.current = setTimeout(
-      () => timeoutId.current && setPopover(targetElement, <span>{label}</span>),
+      () => timeoutId.current && setPopover(targetElement, <span className={styles.tooltip}>{label}</span>),
       !isVisible ? delay : 0
     );
   }

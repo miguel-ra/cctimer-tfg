@@ -1,0 +1,13 @@
+@use "styles/transition";
+@use "styles/palette";
+@use "styles/shape";
+
+.navbar {
+  display: flex;
+  padding: 1.2rem;
+  justify-content: space-between;
+  transition: transition.generate(background, border, color);
+  background: palette.get("background.secondary");
+  border-bottom: shape.get("borderWitdh") solid palette.get("border.primary");
+  color: palette.get("text.secondary");
+}

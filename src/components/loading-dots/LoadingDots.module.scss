@@ -1,0 +1,39 @@
+@use "styles/palette";
+
+.loading {
+  --loading-dots-size: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  height: auto;
+  span {
+    animation-name: dotsBlink;
+    animation-duration: 1.4s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    width: var(--loading-dots-size);
+    height: var(--loading-dots-size);
+    border-radius: 50%;
+    background-color: palette.get("text.primary");
+    display: inline-block;
+    margin: 0 2px;
+    &:nth-of-type(2) {
+      animation-delay: 0.2s;
+    }
+    &:nth-of-type(3) {
+      animation-delay: 0.4s;
+      margin-right: 0;
+    }
+  }
+}
+
+@keyframes dotsBlink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}

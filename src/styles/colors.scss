@@ -1,46 +1,52 @@
+@import "./functions/deep-get";
+
 $colors: (
-  black: (
+  "black": (
     light: var(--colors-black-light),
     main: var(--colors-black-main),
     contrastText: var(--colors-white-main),
   ),
-  white: (
+  "cyan": (
+    main: var(--colors-cyan-main),
+  ),
+  "white": (
     main: var(--colors-white-main),
     dark: var(--colors-white-dark),
     darker: var(--colors-white-darker),
     contrastText: var(--colors-gray-light),
   ),
-  blue: (
+  "blue": (
     light: var(--colors-blue-light),
     main: var(--colors-blue-main),
     contrastText: var(--colors-white-main),
   ),
-  green: (
+  "green": (
     main: var(--colors-green-main),
     dark: var(--colors-green-dark),
     contrastText: var(--colors-white-main),
   ),
-  yellow: (
+  "yellow": (
     light: var(--colors-yellow-light),
     main: var(--colors-yellow-main),
     dark: var(--colors-yellow-dark),
     darker: var(--colors-yellow-darker),
   ),
-  orange: (
+  "orange": (
     main: var(--colors-orange-main),
   ),
-  red: (
+  "red": (
     light: var(--colors-red-light),
     main: var(--colors-red-main),
     contrastText: var(--colors-white-main),
   ),
-  purple: (
+  "purple": (
     main: var(--colors-purple-main),
   ),
-  pink: (
+  "pink": (
     main: var(--colors-pink-main),
+    dark: var(--colors-pink-dark),
   ),
-  gray: (
+  "gray": (
     light: var(--colors-gray-light),
     main: var(--colors-gray-main),
     dark: var(--colors-gray-dark),
