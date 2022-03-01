@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
 import Button from "components/button/Button";
@@ -20,13 +20,11 @@ type Inputs = {
 function Login() {
   const { t } = useTranslation();
   const {} = useAccount();
-  const { register, handleSubmit } = useForm<Inputs>();
-
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const { register } = useForm<Inputs>();
 
   return (
     <section className={styles.wrapper}>
-      <form className={styles.login} onSubmit={handleSubmit(onSubmit)}>
+      <form className={styles.login}>
         <Typography variant="h1" secondary>
           {t("Log in")}
         </Typography>
