@@ -8,10 +8,10 @@ import Input from "components/input/Input";
 import Link from "components/link/Link";
 import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
-import { loginPathname } from "features/app/pathnames";
+import { loginPathname } from "features/router/pathnames";
 import useForm from "shared/form/useForm";
 
-import { useAccount, ViewErrors } from "./accountViewModel";
+import { useAuth, ViewErrors } from "./authViewModel";
 import styles from "./SignUp.module.scss";
 
 type Inputs = {
@@ -20,10 +20,12 @@ type Inputs = {
   passwordConfirm: string;
 };
 
+// TODO : Translate error messages
+
 function SignUp() {
   const { t } = useTranslation();
   const { registerWithErrors, handleSubmit, watch, clearErrors, setError } = useForm<Inputs>();
-  const { loading, signup, errors } = useAccount();
+  const { loading, signup, errors } = useAuth();
 
   const password = useRef({});
   password.current = watch("password", "");

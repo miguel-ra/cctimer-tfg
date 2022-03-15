@@ -54,7 +54,9 @@ const useStyles = createUseStyles({
     transition: `border ${theme.transition.duration.colorMode} linear`,
     display: "flex",
     flexDirection: "column",
-    "& > *": {
+    "body & > *": {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
       flex: 1,
     },
   },

@@ -80,18 +80,35 @@ function useScramble() {
     loadScrambleWorker.removeEventListener("message", handleWorkerMessage);
   }, [handleWorkerMessage]);
 
+  const resetScramble = useRecoilCallback(
+    ({ set }) =>
+      () => {
+        set(useScrambleState.atom, emptyScramble);
+      },
+    []
+  );
+
   return {
     scramble: scrambleMemo,
     refreshScramble,
     startWorker,
     stopWorker,
+    resetScramble,
   };
 }
 
 function useSelectedItem() {
   const [selectedItem, setSelectedItem] = useSelectedItemState();
 
-  return { selectedItem, setSelectedItem };
+  const resetSelectedItem = useRecoilCallback(
+    ({ set }) =>
+      () => {
+        set(useSelectedItemState.atom, undefined);
+      },
+    []
+  );
+
+  return { selectedItem, setSelectedItem, resetSelectedItem };
 }
 
 function useTimer() {

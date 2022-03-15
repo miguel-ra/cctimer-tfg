@@ -18,7 +18,7 @@ const useStyles = createUseStyles({
         paddingRight: "3.6rem",
       },
     },
-    "&:focus-within": {
+    "&:hover, &:focus-within": {
       "& $select": {
         borderColor: theme.palette.border.secondary,
       },

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 // eslint-disable-next-line no-restricted-imports
-import { NavigateOptions, useNavigate as useNavigateBase } from "react-router-dom";
+import { NavigateOptions, Path, useNavigate as useNavigateBase } from "react-router-dom";
 
 function useNavigate() {
   const {
@@ -10,7 +10,12 @@ function useNavigate() {
   const navigateBase = useNavigateBase();
 
   const navigate = useCallback(
-    (path: string, options?: NavigateOptions) => {
+    (path: Partial<Path> | string, options?: NavigateOptions) => {
+      if (typeof path !== "string") {
+        navigateBase(path, options);
+        return;
+      }
+
       let basePath = `/${language}`;
 
       if (!path.startsWith("/")) {

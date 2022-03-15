@@ -4,7 +4,9 @@ import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
-import { loginPathname } from "features/app/pathnames";
+import { useUser } from "features/app/appViewModel";
+import { useAuth } from "features/auth/authViewModel";
+import { loginPathname } from "features/router/pathnames";
 import ColorModeToggle from "features/settings/ColorModeToggle";
 import LanguageSelector from "features/settings/LanguageSelector";
 
@@ -15,6 +17,8 @@ import styles from "./Navbar.module.scss";
 
 function Navbar() {
   const { t } = useTranslation();
+  const { user } = useUser();
+  const { logout } = useAuth();
 
   return (
     <div className={styles.navbar}>
@@ -26,9 +30,15 @@ function Navbar() {
         <Spacer w={1} />
         <ColorModeToggle />
         <Spacer w={1} />
-        <Button variant="outlined" size="small" to={loginPathname}>
-          {t("Log in")}
-        </Button>
+        {user ? (
+          <Button variant="outlined" size="small" onClick={logout}>
+            {t("Log out")}
+          </Button>
+        ) : (
+          <Button variant="outlined" size="small" to={loginPathname}>
+            {t("Log in")}
+          </Button>
+        )}
       </Box>
     </div>
   );

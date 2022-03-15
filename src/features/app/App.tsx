@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 
 import useEventListener from "shared/hooks/useEventListener";
 
-import Router from "./Router";
+import Router from "../router/Router";
+
+import { useApp } from "./appViewModel";
 
 function getMetas() {
   const metas = [];
@@ -35,6 +37,7 @@ function keyDownHandler(event: KeyboardEvent) {
 }
 
 function App() {
+  useApp();
   const { t } = useTranslation();
   const metas = getMetas();
 
