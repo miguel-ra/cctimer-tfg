@@ -20,7 +20,6 @@ function useAuth() {
   const authRepository = useAuthRepository();
   const { addNotification } = useNotifications();
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   const login = useCallback(
     (email: string, password: string) => {
@@ -38,7 +37,6 @@ function useAuth() {
               timeOut: 2000,
             }
           );
-          navigate("/", { replace: true });
         })
         .catch(() => {
           addNotification((props) => (
@@ -50,7 +48,7 @@ function useAuth() {
           setLoading(false);
         });
     },
-    [addNotification, authRepository, navigate, t]
+    [addNotification, authRepository, t]
   );
 
   const signup = useCallback(
@@ -69,7 +67,6 @@ function useAuth() {
               timeOut: 2000,
             }
           );
-          navigate("/", { replace: true });
         })
         .catch((error) => {
           switch (error.constructor) {
@@ -89,7 +86,7 @@ function useAuth() {
           setLoading(false);
         });
     },
-    [addNotification, authRepository, navigate, t]
+    [addNotification, authRepository, t]
   );
 
   const logout = useCallback(() => {
