@@ -6,8 +6,9 @@ import Button from "components/button/Button";
 import Box from "components/flexboxgrid/Box";
 import Tooltip from "components/tooltip/Tooltip";
 import { useSelectedItem } from "features/timer/timerViewModel";
-import { PuzzleId, PuzzleKey, puzzlesConfig } from "models/puzzles/Puzzle";
+import { PuzzleId, PuzzleKey, puzzlesConfig, UserPuzzle } from "models/puzzles/Puzzle";
 import isTouchDevice from "shared/browser/isTouchDevice";
+import { mod } from "shared/format/number";
 import useNavigate from "shared/hooks/useNavigate";
 import { useModal } from "store/modalContext";
 import { usePopover } from "store/popoverContext";
@@ -22,6 +23,13 @@ import useStyles from "./PuzzleShowcase.styles";
 import { usePuzzles } from "./puzzlesViewModel";
 
 // TODO: Change this component to use event delegation
+
+type HandleDeleteOptions = {
+  puzzleId: PuzzleId;
+  puzzleKey: PuzzleKey;
+  index: number;
+  puzzles: UserPuzzle[];
+};
 
 function PuzzleShowcase() {
   const navigate = useNavigate();
@@ -44,8 +52,8 @@ function PuzzleShowcase() {
   );
 
   const handleDelete = useCallback(
-    ({ puzzleId, puzzleKey, index, puzzles: puzzlesParam }) => {
-      const nextSelectedPuzzle = puzzlesParam[index - 1];
+    ({ puzzleId, puzzleKey, index, puzzles: puzzlesParam }: HandleDeleteOptions) => {
+      const nextSelectedPuzzle = puzzlesParam[mod(index - 1, puzzlesParam.length)];
       deletePuzzle(puzzleKey, puzzleId);
       navigate(`puzzle/${nextSelectedPuzzle.id}`);
       setPopover();

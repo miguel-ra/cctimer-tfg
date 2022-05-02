@@ -1,6 +1,6 @@
 import { lazy, LazyExoticComponent, Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Location, Navigate, Route, Routes } from "react-router-dom";
 
 import Spinner from "components/spinner/Spinner";
 import Layout from "features/layout/Layout";
@@ -17,10 +17,10 @@ const SignUp = lazy(() => import("features/auth/SignUp"));
 const Timer = lazy(() => import("features/timer/Timer"));
 
 const puzzlePath = "puzzle";
-const timerPathnameRegex = new RegExp(`^\/[a-z]+\/?$|^\/[a-z]+\/${puzzlePath}`, "gi");
+const puzzlePathnameRegex = new RegExp(`^\/[a-z]+\/?$|^\/[a-z]+\/${puzzlePath}`, "gi");
 
-function checkTimerPathname(pathname: string) {
-  return timerPathnameRegex.test(pathname);
+function checkPuzzleLocation(location: Location) {
+  return puzzlePathnameRegex.test(location.pathname);
 }
 
 function LazyElement({ Component }: LazyElementProps) {
@@ -64,5 +64,5 @@ function Router() {
   );
 }
 
-export { checkTimerPathname };
+export { checkPuzzleLocation };
 export default Router;
