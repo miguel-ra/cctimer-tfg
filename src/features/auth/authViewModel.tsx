@@ -6,7 +6,6 @@ import SuccessNotification from "components/notification/SuccessNotification";
 import EmailInUserError from "models/auth/errors/EmailnUseError";
 import WeakPasswordError from "models/auth/errors/WeakPasswordError";
 import { useAuthRepository } from "repositories/auth/authRepository";
-import useNavigate from "shared/hooks/useNavigate";
 import { useNotifications } from "store/notificationsContext";
 
 type ViewErrors = {
