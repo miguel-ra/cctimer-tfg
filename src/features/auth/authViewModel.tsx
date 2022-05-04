@@ -38,13 +38,11 @@ function useAuth() {
           );
         })
         .catch(() => {
+          setLoading(false);
           addNotification((props) => (
             // TODO: Add error handler (EMAIL_NOT_FOUND)
             <ErrorNotification {...props}>{t("Failed to log in")}</ErrorNotification>
           ));
-        })
-        .finally(() => {
-          setLoading(false);
         });
     },
     [addNotification, authRepository, t]
@@ -68,6 +66,7 @@ function useAuth() {
           );
         })
         .catch((error) => {
+          setLoading(false);
           switch (error.constructor) {
             case EmailInUserError:
               setErrors({ email: t("Email already in use") });
@@ -80,9 +79,6 @@ function useAuth() {
                 <ErrorNotification {...props}>{t("Puzzle could not be added")}</ErrorNotification>
               ));
           }
-        })
-        .finally(() => {
-          setLoading(false);
         });
     },
     [addNotification, authRepository, t]

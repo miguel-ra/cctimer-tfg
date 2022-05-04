@@ -17,7 +17,7 @@ const SignUp = lazy(() => import("features/auth/SignUp"));
 const Timer = lazy(() => import("features/timer/Timer"));
 
 const puzzlePath = "puzzle";
-const puzzlePathnameRegex = new RegExp(`^\/[a-z]+\/?$|^\/[a-z]+\/${puzzlePath}`, "gi");
+const puzzlePathnameRegex = new RegExp(`^\/[a-z]+\/?$|^\/[a-z]+\/${puzzlePath}`, "i");
 
 function checkPuzzleLocation(location: Location) {
   return puzzlePathnameRegex.test(location.pathname);
