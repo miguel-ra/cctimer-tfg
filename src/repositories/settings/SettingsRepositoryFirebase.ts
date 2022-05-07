@@ -3,7 +3,7 @@ import merge from "lodash/merge";
 
 import { initialSettings, Settings } from "models/settings/Settings";
 import { SettingsRepository } from "models/settings/SettingsRepository";
-import * as firebase from "shared/firebase/app";
+import firebase from "shared/firebase";
 
 class SettingsRepositoryFirebase implements SettingsRepository {
   private db: Database;
@@ -17,7 +17,7 @@ class SettingsRepositoryFirebase implements SettingsRepository {
     let storedSettings = {};
 
     try {
-      const settingsSnapshot = await get(child(ref(getDatabase()), settingsPath));
+      const settingsSnapshot = await get(child(ref(this.db), settingsPath));
 
       if (settingsSnapshot.exists()) {
         storedSettings = settingsSnapshot.val();

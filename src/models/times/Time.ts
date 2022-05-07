@@ -2,6 +2,7 @@ import { PuzzleId } from "models/puzzles/Puzzle";
 import { Scramble } from "models/timer/scramble";
 
 enum TimePenalty {
+  NoPenalty = "no-penalty",
   PlusTwo = "plus-two",
   Dnf = "dnf",
 }
@@ -9,7 +10,7 @@ enum TimePenalty {
 type TimeId = string;
 
 type Time = {
-  penalty?: TimePenalty;
+  penalty: TimePenalty;
   elapsedTime: number;
 };
 

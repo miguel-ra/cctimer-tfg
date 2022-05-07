@@ -35,8 +35,9 @@ function useTimes() {
           return set(usePuzzleTimesState.atom, []);
         }
         try {
-          const udpatedPuzzleTimes = await timesRepository.getAll(selectedItem.key, selectedItem.id);
-          set(usePuzzleTimesState.atom, udpatedPuzzleTimes);
+          const puzzleTimes = await timesRepository.getAll(selectedItem.key, selectedItem.id);
+          console.log(puzzleTimes);
+          set(usePuzzleTimesState.atom, puzzleTimes);
         } catch (error) {
           set(usePuzzleTimesState.atom, []);
         }

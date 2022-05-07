@@ -102,7 +102,7 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
         return undefined;
       },
       [Action.NoPenalty]: (time: PuzzleTime) => {
-        return updateTime(time.id, { penalty: undefined });
+        return updateTime(time.id, { penalty: TimePenalty.NoPenalty });
       },
     }),
     [deleteTime, updateTime]

@@ -1,8 +1,11 @@
 import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
 
-import { PuzzleTime, TimeId, UnsavedPuzzleTime } from "./Time";
+import { PuzzleTime, TimeId, TimePenalty, UnsavedPuzzleTime } from "./Time";
 
-type PuzzleTimeUpdate = Pick<PuzzleTime, "penalty" | "comment">;
+type PuzzleTimeUpdate = {
+  penalty?: TimePenalty;
+  comment?: string;
+};
 
 type AddPuzzleReturnValue = {
   addedTime: PuzzleTime;

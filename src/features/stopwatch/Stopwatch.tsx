@@ -82,7 +82,7 @@ function Stopwatch() {
       penalty = statusPenalty[status];
     }
     dataToSave.current = {
-      penalty,
+      penalty: penalty || TimePenalty.NoPenalty,
       elapsedTime: penalty === TimePenalty.Dnf ? 0 : elapsedTime,
     };
   }, [elapsedTime, status]);

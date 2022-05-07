@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { SettingsRepository } from "models/settings/SettingsRepository";
 import { useAuthRepository } from "repositories/auth/authRepository";
-import * as firebase from "shared/firebase/app";
+import firebase from "shared/firebase";
 
 import SettingsRepositoryFirebase from "./SettingsRepositoryFirebase";
 import SettingsRepositoryInMemory from "./SettingsRepositoryInMemory";

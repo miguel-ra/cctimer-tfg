@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import { PuzzleId, PuzzleKey, UserPuzzle } from "models/puzzles/Puzzle";
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
-import * as firebase from "shared/firebase/app";
+import firebase from "shared/firebase";
 
 class PuzzlesRepositoryFirebase implements PuzzlesRepository {
   private db: Database;
@@ -28,7 +28,7 @@ class PuzzlesRepositoryFirebase implements PuzzlesRepository {
 
   async delete(puzzleId: PuzzleId) {
     const puzzlePath = `/users/${firebase.auth.currentUser?.uid}/puzzles/${puzzleId}`;
-    await remove(child(ref(getDatabase()), puzzlePath));
+    await remove(child(ref(this.db), puzzlePath));
   }
 
   async findById(puzzleId: PuzzleId) {
@@ -36,7 +36,7 @@ class PuzzlesRepositoryFirebase implements PuzzlesRepository {
     let userPuzzle: UserPuzzle | undefined = undefined;
 
     try {
-      const puzzleSnapshot = await get(child(ref(getDatabase()), puzzlePath));
+      const puzzleSnapshot = await get(child(ref(this.db), puzzlePath));
 
       if (puzzleSnapshot.exists()) {
         userPuzzle = puzzleSnapshot.val();
@@ -53,7 +53,7 @@ class PuzzlesRepositoryFirebase implements PuzzlesRepository {
     let userPuzzles: UserPuzzle[] = [];
 
     try {
-      const puzzlesSnapshot = await get(child(ref(getDatabase()), puzzlesPath));
+      const puzzlesSnapshot = await get(child(ref(this.db), puzzlesPath));
 
       if (puzzlesSnapshot.exists()) {
         userPuzzles = Object.values(puzzlesSnapshot.val());
