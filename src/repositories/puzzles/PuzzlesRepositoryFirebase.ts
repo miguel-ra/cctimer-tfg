@@ -17,11 +17,7 @@ class PuzzlesRepositoryFirebase implements PuzzlesRepository {
     const userPuzzle = { id: puzzleId, key: puzzleKey, createdAt: Date.now() };
     const puzzlePath = `/users/${firebase.auth.currentUser?.uid}/puzzles/${puzzleId}`;
 
-    try {
-      await set(ref(this.db, puzzlePath), userPuzzle);
-    } catch (error) {
-      console.error(error);
-    }
+    await set(ref(this.db, puzzlePath), userPuzzle);
 
     return userPuzzle;
   }
@@ -33,16 +29,12 @@ class PuzzlesRepositoryFirebase implements PuzzlesRepository {
 
   async findById(puzzleId: PuzzleId) {
     const puzzlePath = `/users/${firebase.auth.currentUser?.uid}/puzzles/${puzzleId}`;
+    const puzzleSnapshot = await get(child(ref(this.db), puzzlePath));
+
     let userPuzzle: UserPuzzle | undefined = undefined;
 
-    try {
-      const puzzleSnapshot = await get(child(ref(this.db), puzzlePath));
-
-      if (puzzleSnapshot.exists()) {
-        userPuzzle = puzzleSnapshot.val();
-      }
-    } catch (error) {
-      console.error(error);
+    if (puzzleSnapshot.exists()) {
+      userPuzzle = puzzleSnapshot.val();
     }
 
     return userPuzzle;
@@ -50,16 +42,12 @@ class PuzzlesRepositoryFirebase implements PuzzlesRepository {
 
   async getAll() {
     const puzzlesPath = `/users/${firebase.auth.currentUser?.uid}/puzzles`;
+    const puzzlesSnapshot = await get(child(ref(this.db), puzzlesPath));
+
     let userPuzzles: UserPuzzle[] = [];
 
-    try {
-      const puzzlesSnapshot = await get(child(ref(this.db), puzzlesPath));
-
-      if (puzzlesSnapshot.exists()) {
-        userPuzzles = Object.values(puzzlesSnapshot.val());
-      }
-    } catch (error) {
-      console.error(error);
+    if (puzzlesSnapshot.exists()) {
+      userPuzzles = Object.values(puzzlesSnapshot.val());
     }
 
     return userPuzzles.sort((a, b) => a.createdAt - b.createdAt);

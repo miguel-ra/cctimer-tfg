@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 
 import { AuthInfo } from "models/auth/Auth";
 import { AuthRepository } from "models/auth/AuthRepository";
-import * as firebase from "shared/firebase/app";
+import firebase from "shared/firebase";
 import { firebaseError2BusinessError } from "shared/firebase/errors";
 
 class AuthRepositoryFirebase implements AuthRepository {

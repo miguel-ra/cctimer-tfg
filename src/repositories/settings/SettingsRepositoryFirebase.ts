@@ -16,14 +16,10 @@ class SettingsRepositoryFirebase implements SettingsRepository {
     const settingsPath = `/users/${firebase.auth.currentUser?.uid}/settings`;
     let storedSettings = {};
 
-    try {
-      const settingsSnapshot = await get(child(ref(this.db), settingsPath));
+    const settingsSnapshot = await get(child(ref(this.db), settingsPath));
 
-      if (settingsSnapshot.exists()) {
-        storedSettings = settingsSnapshot.val();
-      }
-    } catch (error) {
-      console.error(error);
+    if (settingsSnapshot.exists()) {
+      storedSettings = settingsSnapshot.val();
     }
 
     return merge({}, initialSettings, storedSettings);
@@ -38,19 +34,15 @@ class SettingsRepositoryFirebase implements SettingsRepository {
     const prevSettings = await this.getAll();
     let newSettings = {};
 
-    try {
-      await set(ref(this.db, settingsPath), value);
+    await set(ref(this.db, settingsPath), value);
 
-      newSettings = {
-        ...prevSettings,
-        [category]: {
-          ...prevSettings?.[category],
-          [setting]: value,
-        },
-      };
-    } catch (error) {
-      console.error(error);
-    }
+    newSettings = {
+      ...prevSettings,
+      [category]: {
+        ...prevSettings?.[category],
+        [setting]: value,
+      },
+    };
 
     return merge({}, initialSettings, newSettings);
   }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { PuzzlesRepository } from "models/puzzles/PuzzlesRepository";
 import { useAuthRepository } from "repositories/auth/authRepository";
-import * as firebase from "shared/firebase/app";
+import firebase from "shared/firebase";
 
 import PuzzlesRepositoryFirebase from "./PuzzlesRepositoryFirebase";
 import PuzzlesRepositoryInMemory from "./PuzzlesRepositoryInMemory";
