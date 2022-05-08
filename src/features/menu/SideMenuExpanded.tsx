@@ -5,11 +5,16 @@ import Button from "components/button/Button";
 import Divider from "components/divider/Divider";
 import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
+import { useUser } from "features/app/appViewModel";
+import { useAuth } from "features/auth/authViewModel";
 import PuzzleShowcase from "features/puzzles/PuzzleShowcase";
+import { loginPathname } from "features/router/pathnames";
 import SettingsModal from "features/settings/SettingsModal";
 import { useModal } from "store/modalContext";
 import theme from "styles/theme";
 
+import { ReactComponent as LoginIcon } from "assets/icons/login.svg";
+import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
 
 const useStyles = createUseStyles({
@@ -49,6 +54,8 @@ function SideMenuExpanded() {
   const classes = useStyles();
   const { t } = useTranslation();
   const { openModal } = useModal();
+  const { user } = useUser();
+  const { logout } = useAuth();
 
   return (
     <div className={classes.root}>
@@ -65,6 +72,18 @@ function SideMenuExpanded() {
             <Button prefix={<SettingsIcon />} onClick={() => openModal(<SettingsModal />)} fullWidth>
               {t("Settings")}
             </Button>
+          </Box>
+          <Divider />
+          <Box padding="0 1.2rem" width="100%">
+            {user ? (
+              <Button prefix={<LogoutIcon />} onClick={logout} fullWidth>
+                {t("Log out")}
+              </Button>
+            ) : (
+              <Button prefix={<LoginIcon />} to={loginPathname} fullWidth>
+                {t("Log in")}
+              </Button>
+            )}
           </Box>
         </div>
       </Box>

@@ -36,7 +36,6 @@ function useTimes() {
         }
         try {
           const puzzleTimes = await timesRepository.getAll(selectedItem.key, selectedItem.id);
-          console.log(puzzleTimes);
           set(usePuzzleTimesState.atom, puzzleTimes);
         } catch (error) {
           set(usePuzzleTimesState.atom, []);

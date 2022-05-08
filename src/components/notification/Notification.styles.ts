@@ -19,15 +19,6 @@ const useStyles = createUseStyles({
     opacity: 0.95,
     willChange: "opacity",
     transition: `box-shadow ${theme.transition.duration.colorMode} linear, background ${theme.transition.duration.colorMode} linear`,
-    "@supports (backdrop-filter: blur(1px))": {
-      opacity: 0.85,
-    },
-    // Safari support
-    "@media not all and (min-resolution:.001dpcm)": {
-      "@media": {
-        opacity: 0.9,
-      },
-    },
     "&:before": {
       content: "''",
       position: "absolute",

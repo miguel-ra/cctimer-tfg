@@ -80,7 +80,7 @@ function LayoutMobile() {
   const activeIndexRef = useRef(1);
   const isImmediateRef = useRef(false);
   const wasDragDisabledRef = useRef(false);
-  const { setOpenMenu, isDragDisabledRef } = useLayoutMobile();
+  const { setOpenMenu, setCloseMenu, isDragDisabledRef } = useLayoutMobile();
 
   const computeSpring = useCallback((i: number) => {
     if (i < activeIndexRef.current - 1 || i > activeIndexRef.current + 1) {
@@ -189,8 +189,8 @@ function LayoutMobile() {
   }, [isDragDisabledRef]);
 
   useEffect(() => {
-    function openMenu() {
-      activeIndexRef.current = 0;
+    function setActiveTab(activeIndex: number) {
+      activeIndexRef.current = activeIndex;
       api.start(computeSpring);
       checkMenuOpen();
       if (isDragDisabledRef.current) {
@@ -198,8 +198,9 @@ function LayoutMobile() {
         wasDragDisabledRef.current = true;
       }
     }
-    setOpenMenu(() => openMenu);
-  }, [api, checkMenuOpen, computeSpring, isDragDisabledRef, setOpenMenu]);
+    setOpenMenu(() => setActiveTab.bind(null, 0));
+    setCloseMenu(() => setActiveTab.bind(null, 1));
+  }, [api, checkMenuOpen, computeSpring, isDragDisabledRef, setCloseMenu, setOpenMenu]);
 
   useEffect(() => {
     function handler() {
