@@ -144,8 +144,8 @@ function TimeDetailsModal({ puzzleKey, time, updateTime, deleteTime }: TimeDetai
             <Button
               size="small"
               color="blue"
-              data-value={undefined}
-              {...getPenaltyButtonProps(undefined, internalTime.penalty)}
+              data-value={TimePenalty.NoPenalty}
+              {...getPenaltyButtonProps(TimePenalty.NoPenalty, internalTime.penalty)}
             >
               {t("No penalty")}
             </Button>
