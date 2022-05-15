@@ -1,43 +1,30 @@
 import { useTranslation } from "react-i18next";
-import { createUseStyles } from "react-jss";
 
 import Button from "components/button/Button";
-import Box from "components/flexboxgrid/Box";
+import ShowcaseDivider from "components/showcase/ShowcaseDivider";
 import Tooltip from "components/tooltip/Tooltip";
 import PuzzleShowcase from "features/puzzles/PuzzleShowcase";
+import RoomShowcase from "features/rooms/RoomShowcase";
 import SettingsModal from "features/settings/SettingsModal";
 import { useModal } from "store/modalContext";
-import theme from "styles/theme";
 
 import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
 
-const useStyles = createUseStyles({
-  sideMenu: {
-    display: "flex",
-    paddingBottom: "1.2rem",
-    height: "100vh",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-    transition: `background ${theme.transition.duration.colorMode} linear, border ${theme.transition.duration.colorMode} linear`,
-    background: theme.palette.background.secondary,
-    borderRight: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
-  },
-});
+import styles from "./SideMenuCompact.module.scss";
 
 function SideMenuCompact() {
-  const classes = useStyles();
   const { t } = useTranslation();
   const { openModal } = useModal();
 
   return (
-    <div className={classes.sideMenu}>
+    <div className={styles.sideMenuCompact}>
       <PuzzleShowcase />
-      <Box flexDirection="column">
-        {/* <Divider h={0.85} /> */}
+      <ShowcaseDivider />
+      <RoomShowcase className={styles.expandArea} />
+      <ShowcaseDivider />
+      <div className={styles.bottomArea}>
         <Tooltip label={t("Settings")}>
           <Button
-            size="large"
             shape="square"
             aria-label={t("Settings")}
             onClick={() => {
@@ -47,7 +34,7 @@ function SideMenuCompact() {
             <SettingsIcon />
           </Button>
         </Tooltip>
-      </Box>
+      </div>
     </div>
   );
 }

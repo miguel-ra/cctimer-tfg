@@ -1,0 +1,34 @@
+@use "styles/palette";
+@use "styles/transition";
+
+.sideMenuCompact {
+  height: 100vh;
+  display: flex;
+  background: palette.get("background.secondary");
+  transition: transition.generate(border, background), opacity 0.1s ease;
+  align-items: center;
+  border-right: 2px solid palette.get("border.primary");
+  flex-direction: column;
+  padding-bottom: 1.5rem;
+  justify-content: flex-start;
+  overflow: auto;
+}
+
+.expandArea {
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.bottomArea {
+  gap: 2rem;
+  flex: 0 1 auto;
+  width: 7.5rem;
+  display: grid;
+  padding-top: 1.5rem;
+  overflow: visible;
+  align-items: center;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+}

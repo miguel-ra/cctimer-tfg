@@ -2,23 +2,14 @@ import { useCallback, useMemo } from "react";
 import { useRecoilCallback } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
-import { PuzzleId, PuzzleKey } from "models/puzzles/Puzzle";
+import { PuzzleId } from "models/puzzles/Puzzle";
+import { SelectedItem, SelectedItemType } from "models/router/Router";
 import { Scramble } from "models/timer/scramble";
 import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
 import useNavigate from "shared/hooks/useNavigate";
 import { generateUseState } from "shared/recoil";
 
 import { LoadScrambleResponse } from "./loadScramble.worker";
-
-type SelelecteItemType = "puzzle";
-
-type SelectedItem =
-  | {
-      id: PuzzleId;
-      key: PuzzleKey;
-      type: SelelecteItemType;
-    }
-  | undefined;
 
 const loadScrambleWorker = new LoadScrambleWorker();
 
@@ -141,7 +132,7 @@ function useTimer() {
         if (userPuzzle) {
           set(useSelectedItemState.atom, {
             ...userPuzzle,
-            type: "puzzle",
+            type: SelectedItemType.Puzzle,
           });
         }
       },
@@ -153,5 +144,4 @@ function useTimer() {
   };
 }
 
-export type { SelelecteItemType };
 export { useSelectedItemState, useScrambleState, useSelectedItem, useTimer, useScramble };

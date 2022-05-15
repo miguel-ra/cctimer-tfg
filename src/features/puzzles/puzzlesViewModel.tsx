@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import ErrorNotification from "components/notification/ErrorNotification";
@@ -22,6 +22,10 @@ function usePuzzles() {
       setPuzzles([]);
     }
   }, [puzzlesRepository]);
+
+  useEffect(() => {
+    refreshPuzzles();
+  }, [refreshPuzzles]);
 
   const addPuzzle = useCallback(
     async (key: PuzzleKey) => {
@@ -59,7 +63,7 @@ function usePuzzles() {
     [addNotification, puzzlesRepository, refreshPuzzles, t, timesRepository]
   );
 
-  return { puzzles, addPuzzle, deletePuzzle, refreshPuzzles };
+  return { puzzles, addPuzzle, deletePuzzle };
 }
 
 export { usePuzzles };

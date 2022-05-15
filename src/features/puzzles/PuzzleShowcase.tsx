@@ -1,28 +1,19 @@
-import clsx from "clsx";
-import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
-import Button from "components/button/Button";
-import Box from "components/flexboxgrid/Box";
-import Tooltip from "components/tooltip/Tooltip";
+import Showcase from "components/showcase/Showcase";
+import { usePuzzles } from "features/puzzles/puzzlesViewModel";
 import { useSelectedItem } from "features/timer/timerViewModel";
 import { PuzzleId, PuzzleKey, puzzlesConfig, UserPuzzle } from "models/puzzles/Puzzle";
-import isTouchDevice from "shared/browser/isTouchDevice";
+import { SelectedItem, SelectedItemType } from "models/router/Router";
 import { mod } from "shared/format/number";
 import useNavigate from "shared/hooks/useNavigate";
 import { useModal } from "store/modalContext";
 import { usePopover } from "store/popoverContext";
 
-import { ReactComponent as DeleteIcon } from "assets/icons/delete.svg";
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
-import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";
 
 import ModalPuzzleSelector from "./ModalPuzzleSelector";
-import PuzzleIconWrapper from "./PuzzleIconWrapper";
-import useStyles from "./PuzzleShowcase.styles";
-import { usePuzzles } from "./puzzlesViewModel";
-
-// TODO: Change this component to use event delegation
 
 type HandleDeleteOptions = {
   puzzleId: PuzzleId;
@@ -31,16 +22,21 @@ type HandleDeleteOptions = {
   puzzles: UserPuzzle[];
 };
 
+function checkSelected(selectedItem: SelectedItem, id: PuzzleId) {
+  if (selectedItem?.type === SelectedItemType.Puzzle && selectedItem.id === id) {
+    return true;
+  }
+  return false;
+}
+
 function PuzzleShowcase() {
   const navigate = useNavigate();
-  const classes = useStyles();
   const { t } = useTranslation();
   const { openModal } = useModal();
   const { setPopover } = usePopover();
+  const { puzzles, addPuzzle, deletePuzzle } = usePuzzles();
+
   const { selectedItem } = useSelectedItem();
-  const { puzzles, addPuzzle, deletePuzzle, refreshPuzzles } = usePuzzles();
-  const [showDeleteId, setShowDeleteId] = useState<PuzzleId | null>(null);
-  const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
   const handleSelect = useCallback(
     (puzzleId: PuzzleId) => {
@@ -61,105 +57,42 @@ function PuzzleShowcase() {
     [deletePuzzle, navigate, setPopover]
   );
 
-  useEffect(() => {
-    refreshPuzzles();
-  }, [refreshPuzzles]);
-
   return (
-    <Box
-      width="7.5rem"
-      padding="2rem 1rem 2rem"
-      alignItems="center"
-      overflow="auto"
-      flexWrap="nowrap"
-      display="grid"
-      gap="2rem"
-      justifyContent="center"
-      componentProps={{
-        onBlur: () => {
-          window.requestAnimationFrame(() => {
-            const focusedElement = document.querySelector(":focus") as HTMLElement;
-            const isPuzzleIcon = focusedElement?.dataset?.id || focusedElement?.dataset?.action;
-            if (!isPuzzleIcon) {
-              setShowDeleteId(null);
-            }
-          });
-        },
-      }}
-    >
+    <Showcase title={t("Puzzles")}>
       {puzzles.map((puzzle, index) => {
         const { id: puzzleId, key: puzzleKey } = puzzle;
         const { label, Icon } = puzzlesConfig[puzzleKey];
         return (
-          <Tooltip key={puzzleId} label={t(label)}>
-            <PuzzleIconWrapper
-              data-id={puzzleId}
-              aria-label={t(label)}
-              aria-expanded={puzzleId === selectedItem?.id}
-              className={clsx(classes.puzzleWrapper, {
-                selected: puzzleId === selectedItem?.id,
-              })}
-              timeoutId={timeoutId}
-              showDeleteId={showDeleteId}
-              setShowDeleteId={setShowDeleteId}
-              onSelect={() => handleSelect(puzzle.id)}
-              onDelete={() => handleDelete({ puzzleId, puzzleKey, index, puzzles })}
-              onClick={(event: MouseEvent) => {
-                const shouldDelete = !!(event.target as HTMLElement).closest<HTMLElement>(
-                  '[data-action="delete"]'
-                );
-                const iconContainer = (event.target as HTMLElement).closest<HTMLElement>("[data-id]");
-                if (iconContainer) {
-                  if (shouldDelete) {
-                    handleDelete({ puzzleId, puzzleKey, index, puzzles });
-                    return;
-                  }
-                  handleSelect(puzzle.id);
-                }
-              }}
-            >
-              <PuzzleBorder className={classes.puzzleBorder} />
-              <Icon className={classes.puzzleIcon} />
-              {puzzles.length > 1 &&
-                (isTouchDevice()
-                  ? showDeleteId === puzzleId || selectedItem?.id === puzzleId
-                  : showDeleteId === puzzleId) && (
-                  <DeleteIcon
-                    tabIndex={0}
-                    role="button"
-                    data-action="delete"
-                    aria-label={t("Delete")}
-                    className={classes.puzzleDelete}
-                  />
-                )}
-            </PuzzleIconWrapper>
-          </Tooltip>
+          <Showcase.Icon
+            key={puzzleId}
+            label={t(label)}
+            Icon={Icon}
+            onSelect={() => handleSelect(puzzle.id)}
+            onDelete={
+              puzzles.length > 1 ? () => handleDelete({ puzzleId, puzzleKey, index, puzzles }) : undefined
+            }
+            isSelected={checkSelected(selectedItem, puzzleId)}
+          />
         );
       })}
-      <Box justifyContent="center" paddingBottom="1rem">
-        <Tooltip label={t("Add puzzle")}>
-          <Button
-            size="small"
-            shape="square"
-            aria-label={t("Add puzzle")}
-            onClick={() =>
-              openModal(
-                <ModalPuzzleSelector
-                  onAddPuzzle={async (key: PuzzleKey) => {
-                    const addedPuzzle = await addPuzzle(key);
-                    if (addedPuzzle) {
-                      handleSelect(addedPuzzle.id);
-                    }
-                  }}
-                />
-              )
-            }
-          >
-            <PlusIcon />
-          </Button>
-        </Tooltip>
-      </Box>
-    </Box>
+      <Showcase.Button
+        label={t("Add puzzle")}
+        onClick={() =>
+          openModal(
+            <ModalPuzzleSelector
+              onAddPuzzle={async (key: PuzzleKey) => {
+                const addedPuzzle = await addPuzzle(key);
+                if (addedPuzzle) {
+                  handleSelect(addedPuzzle.id);
+                }
+              }}
+            />
+          )
+        }
+      >
+        <PlusIcon />
+      </Showcase.Button>
+    </Showcase>
   );
 }
 

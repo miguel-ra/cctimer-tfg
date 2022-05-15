@@ -7,6 +7,7 @@ type DividerProps = {
   h?: number;
   disableTop?: boolean;
   disableBottom?: boolean;
+  className?: string;
 };
 
 const useStyles = createUseStyles({
@@ -25,12 +26,12 @@ const useStyles = createUseStyles({
   },
 });
 
-function Divider({ h = 1, disableTop, disableBottom }: DividerProps) {
+function Divider({ h = 1, className, disableTop, disableBottom }: DividerProps) {
   const classes = useStyles({ h });
 
   return (
     <hr
-      className={clsx(classes.divider, {
+      className={clsx(classes.divider, className, {
         [classes.disableTop]: disableTop,
         [classes.disableBottom]: disableBottom,
       })}

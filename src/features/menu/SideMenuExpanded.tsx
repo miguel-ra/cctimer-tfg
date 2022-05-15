@@ -4,10 +4,12 @@ import { createUseStyles } from "react-jss";
 import Button from "components/button/Button";
 import Divider from "components/divider/Divider";
 import Box from "components/flexboxgrid/Box";
+import ShowcaseDivider from "components/showcase/ShowcaseDivider";
 import Typography from "components/typography/Typography";
 import { useUser } from "features/app/appViewModel";
 import { useAuth } from "features/auth/authViewModel";
 import PuzzleShowcase from "features/puzzles/PuzzleShowcase";
+import RoomShowcase from "features/rooms/RoomShowcase";
 import { loginPathname } from "features/router/pathnames";
 import SettingsModal from "features/settings/SettingsModal";
 import { useModal } from "store/modalContext";
@@ -37,6 +39,7 @@ const useStyles = createUseStyles({
     justifyContent: "center",
     borderRight: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
     transition: `border ${theme.transition.duration.colorMode} linear`,
+    alignItems: "center",
   },
   menu: {
     flex: 1,
@@ -62,6 +65,8 @@ function SideMenuExpanded() {
       <Box width="100%" height="100%">
         <div className={classes.navbar}>
           <PuzzleShowcase />
+          <ShowcaseDivider />
+          <RoomShowcase />
         </div>
         <div className={classes.menu}>
           <Box padding="0 1.2rem">

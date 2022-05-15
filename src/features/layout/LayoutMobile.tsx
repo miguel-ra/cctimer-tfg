@@ -192,7 +192,9 @@ function LayoutMobile() {
     function setActiveTab(activeIndex: number) {
       activeIndexRef.current = activeIndex;
       api.start(computeSpring);
-      checkMenuOpen();
+      if (activeIndex === 0) {
+        checkMenuOpen();
+      }
       if (isDragDisabledRef.current) {
         isDragDisabledRef.current = false;
         wasDragDisabledRef.current = true;

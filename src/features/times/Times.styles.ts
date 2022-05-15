@@ -65,16 +65,13 @@ const useStyles = createUseStyles({
       position: "absolute",
       top: `-${theme.shape.borderWitdh}`,
       left: "50%",
-      width: "calc(100% - 2.5rem)",
+      width: "calc(100% - 3rem)",
       transform: "translateX(-50%)",
       borderTop: `${theme.shape.borderWitdh} solid ${theme.palette.border.primary}`,
       transition: `border ${theme.transition.duration.colorMode} linear`,
     },
     [theme.breakpoints.up("md")]: {
       padding: "1.5rem",
-      "&:after": {
-        width: "100%",
-      },
     },
   },
 });
