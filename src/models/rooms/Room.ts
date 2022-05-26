@@ -4,7 +4,8 @@ type RoomId = string;
 
 type Room = {
   id: RoomId;
-  key: PuzzleKey;
+  puzzleKey: PuzzleKey;
+  nickname: string;
 };
 
 export type { RoomId, Room };

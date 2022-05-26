@@ -15,6 +15,9 @@ type LazyElementProps = {
 const Login = lazy(() => import("features/auth/Login"));
 const SignUp = lazy(() => import("features/auth/SignUp"));
 const Timer = lazy(() => import("features/timer/Timer"));
+const Room = lazy(() => import("features/rooms/Room"));
+const RoomCreate = lazy(() => import("features/rooms/RoomCreate"));
+const RoomJoin = lazy(() => import("features/rooms/RoomJoin"));
 
 const puzzlePath = "puzzle";
 const puzzlePathnameRegex = new RegExp(`^\/[a-z]+\/?$|^\/[a-z]+\/${puzzlePath}`, "i");
@@ -40,6 +43,12 @@ function Router() {
         <Route path={puzzlePath}>
           <Route path=":puzzleId" element={<LazyElement Component={Timer} />} />
           <Route index element={<Navigate to={`/${i18n.language}`} replace />} />
+        </Route>
+        <Route path="room">
+          <Route path=":roomId" element={<LazyElement Component={Room} />} />
+          <Route path="create" element={<LazyElement Component={RoomCreate} />} />
+          <Route path="join" element={<LazyElement Component={RoomJoin} />} />
+          <Route index element={<Navigate to="join" replace />} />
         </Route>
         <Route
           path="login"

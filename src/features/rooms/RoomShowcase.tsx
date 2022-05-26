@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import Showcase from "components/showcase/Showcase";
+import useNavigate from "shared/hooks/useNavigate";
 
 import { ReactComponent as PlusIcon } from "assets/icons/plus.svg";
 
@@ -10,13 +11,14 @@ type RoomShowcaseProps = {
 
 function RoomShowcase({ className }: RoomShowcaseProps) {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   return (
     <Showcase className={className} title={t("Rooms")}>
       <Showcase.Button
-        label={t("Add room")}
+        label={t("Join room")}
         onClick={() => {
-          console.log("test");
+          navigate("room/join");
         }}
       >
         <PlusIcon />
