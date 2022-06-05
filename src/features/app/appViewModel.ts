@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { useScramble, useSelectedItem } from "features/timer/timerViewModel";
+import { useSelectedItem } from "features/router/routerViewModel";
+import { useScramble } from "features/timer/timerViewModel";
 import { User } from "models/user/User";
 import { useAuthRepository } from "repositories/auth/authRepository";
 import { generateUseState, localStorageEffect } from "shared/recoil";

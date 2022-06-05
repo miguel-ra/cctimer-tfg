@@ -5,11 +5,12 @@ import { createUseStyles } from "react-jss";
 import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
 import Spinner from "components/spinner/Spinner";
+import { useSelectedItem } from "features/router/routerViewModel";
 import Stopwatch from "features/stopwatch/Stopwatch";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 
-import { useScramble, useSelectedItem } from "../../timerViewModel";
+import { useScramble } from "../../timerViewModel";
 
 const useStyles = createUseStyles({
   scramble: {

@@ -9,9 +9,9 @@ import Link from "components/link/Link";
 import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
 import { roomJoinPathname } from "features/router/pathnames";
-import { useRoomsRepository } from "repositories/rooms/roomsRepository";
 import useForm from "shared/form/useForm";
 
+import { useCreateRoom } from "./createRoomViewModel";
 import styles from "./RoomCreate.module.scss";
 
 type Inputs = {
@@ -20,12 +20,12 @@ type Inputs = {
 
 function RoomCreate() {
   const { t } = useTranslation();
-  const { registerWithErrors, handleSubmit, watch, clearErrors, setError } = useForm<Inputs>();
-  const roomsRepository = useRoomsRepository();
+  const { registerWithErrors, handleSubmit, clearErrors } = useForm<Inputs>();
+  const { createRoom, loading } = useCreateRoom();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     clearErrors();
-    roomsRepository.create(data.nickname);
+    createRoom(data.nickname);
   };
 
   return (
@@ -59,7 +59,7 @@ function RoomCreate() {
           <LoadingDots />
         </Typography> */}
         <Spacer h={2} />
-        <Button type="submit" size="large" variant="contained" center color="blue" loading={false}>
+        <Button type="submit" size="large" variant="contained" center color="blue" loading={loading}>
           {t("Create")}
         </Button>
         <Spacer h={3} />

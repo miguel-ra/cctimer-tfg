@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import Showcase from "components/showcase/Showcase";
 import { usePuzzles } from "features/puzzles/puzzlesViewModel";
-import { useSelectedItem } from "features/timer/timerViewModel";
+import { useSelectedItem } from "features/router/routerViewModel";
 import { PuzzleId, PuzzleKey, puzzlesConfig, UserPuzzle } from "models/puzzles/Puzzle";
 import { SelectedItem, SelectedItemType } from "models/router/Router";
 import { mod } from "shared/format/number";
@@ -22,7 +22,7 @@ type HandleDeleteOptions = {
   puzzles: UserPuzzle[];
 };
 
-function checkSelected(selectedItem: SelectedItem, id: PuzzleId) {
+function checkSelected(id: PuzzleId, selectedItem?: SelectedItem) {
   if (selectedItem?.type === SelectedItemType.Puzzle && selectedItem.id === id) {
     return true;
   }
@@ -51,10 +51,12 @@ function PuzzleShowcase() {
     ({ puzzleId, puzzleKey, index, puzzles: puzzlesParam }: HandleDeleteOptions) => {
       const nextSelectedPuzzle = puzzlesParam[mod(index - 1, puzzlesParam.length)];
       deletePuzzle(puzzleKey, puzzleId);
-      navigate(`puzzle/${nextSelectedPuzzle.id}`);
       setPopover();
+      if (selectedItem?.id === puzzleId) {
+        navigate(`puzzle/${nextSelectedPuzzle.id}`);
+      }
     },
-    [deletePuzzle, navigate, setPopover]
+    [deletePuzzle, navigate, selectedItem?.id, setPopover]
   );
 
   return (
@@ -71,7 +73,7 @@ function PuzzleShowcase() {
             onDelete={
               puzzles.length > 1 ? () => handleDelete({ puzzleId, puzzleKey, index, puzzles }) : undefined
             }
-            isSelected={checkSelected(selectedItem, puzzleId)}
+            isSelected={checkSelected(puzzleId, selectedItem)}
           />
         );
       })}

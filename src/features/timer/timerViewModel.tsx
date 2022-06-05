@@ -2,11 +2,8 @@ import { useCallback, useMemo } from "react";
 import { useRecoilCallback } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
-import { PuzzleId } from "models/puzzles/Puzzle";
-import { SelectedItem, SelectedItemType } from "models/router/Router";
+import { useSelectedItemState } from "features/router/routerViewModel";
 import { Scramble } from "models/timer/scramble";
-import { usePuzzlesRepository } from "repositories/puzzles/puzzlesRepository";
-import useNavigate from "shared/hooks/useNavigate";
 import { generateUseState } from "shared/recoil";
 
 import { LoadScrambleResponse } from "./loadScramble.worker";
@@ -18,11 +15,6 @@ const emptyScramble: Scramble = { puzzleKey: undefined, text: "", state: "" };
 const useScrambleState = generateUseState<Scramble>({
   key: "timer.scramble",
   default: emptyScramble,
-});
-
-const useSelectedItemState = generateUseState<SelectedItem>({
-  key: "timer.selectedItem",
-  default: undefined,
 });
 
 function useScramble() {
@@ -88,60 +80,4 @@ function useScramble() {
   };
 }
 
-function useSelectedItem() {
-  const [selectedItem, setSelectedItem] = useSelectedItemState();
-
-  const resetSelectedItem = useRecoilCallback(
-    ({ set }) =>
-      () => {
-        set(useSelectedItemState.atom, undefined);
-      },
-    []
-  );
-
-  return { selectedItem, setSelectedItem, resetSelectedItem };
-}
-
-function useTimer() {
-  const navigate = useNavigate();
-  const puzzlesRepository = usePuzzlesRepository();
-
-  const checkPuzzleAndRedirect = useRecoilCallback(
-    ({ snapshot, set }) =>
-      async (puzzleId?: PuzzleId) => {
-        const selectedItem = await snapshot.getPromise(useSelectedItemState.atom);
-
-        if (selectedItem && selectedItem.id === puzzleId) {
-          return;
-        }
-
-        let userPuzzle;
-        if (puzzleId) {
-          userPuzzle = await puzzlesRepository.findById(puzzleId);
-          if (!userPuzzle) {
-            navigate("/", { replace: true });
-            return;
-          }
-        } else {
-          const userPuzzles = await puzzlesRepository.getAll();
-          if (userPuzzles.length) {
-            userPuzzle = userPuzzles[0];
-          }
-        }
-
-        if (userPuzzle) {
-          set(useSelectedItemState.atom, {
-            ...userPuzzle,
-            type: SelectedItemType.Puzzle,
-          });
-        }
-      },
-    [navigate, puzzlesRepository]
-  );
-
-  return {
-    checkPuzzleAndRedirect,
-  };
-}
-
-export { useSelectedItemState, useScrambleState, useSelectedItem, useTimer, useScramble };
+export { useScrambleState, useScramble };

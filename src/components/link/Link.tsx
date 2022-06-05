@@ -29,7 +29,7 @@ function Link({ to: toProp, ...props }: LinkProps) {
   let to = toProp;
 
   if (to.startsWith("/")) {
-    to = `/${i18n.language}${to}`;
+    to = `/${i18n.language.slice(0, 2)}${to}`;
   }
 
   return <LinkBase className={classes.link} to={to} {...props} />;

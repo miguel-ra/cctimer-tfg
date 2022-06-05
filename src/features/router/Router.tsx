@@ -1,14 +1,17 @@
-import { lazy, LazyExoticComponent, Suspense } from "react";
+import { lazy, LazyExoticComponent, Suspense, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Navigate, Route, Routes } from "react-router-dom";
 
 import Spinner from "components/spinner/Spinner";
 import Layout from "features/layout/Layout";
+import { SelectedItemType } from "models/router/Router";
 
 import AccountRedirect from "./AccountRedirect";
+import { useSelectedItem } from "./routerViewModel";
 
 type LazyElementProps = {
   name?: string;
+  selectedItemType?: SelectedItemType;
   Component: LazyExoticComponent<() => JSX.Element>;
 };
 
@@ -26,7 +29,15 @@ function checkPuzzleLocation(location: Location) {
   return puzzlePathnameRegex.test(location.pathname);
 }
 
-function LazyElement({ Component }: LazyElementProps) {
+function LazyElement({ selectedItemType, Component }: LazyElementProps) {
+  const { checkAndRedirect } = useSelectedItem();
+
+  useEffect(() => {
+    if (selectedItemType) {
+      checkAndRedirect(selectedItemType);
+    }
+  }, [checkAndRedirect, selectedItemType]);
+
   return (
     <Suspense fallback={<Spinner fullscreen />}>
       <Component />
@@ -41,11 +52,17 @@ function Router() {
     <Routes>
       <Route path="/:lang" element={<Layout />}>
         <Route path={puzzlePath}>
-          <Route path=":puzzleId" element={<LazyElement Component={Timer} />} />
+          <Route
+            path=":puzzleId"
+            element={<LazyElement selectedItemType={SelectedItemType.Puzzle} Component={Timer} />}
+          />
           <Route index element={<Navigate to={`/${i18n.language}`} replace />} />
         </Route>
         <Route path="room">
-          <Route path=":roomId" element={<LazyElement Component={Room} />} />
+          <Route
+            path=":roomId"
+            element={<LazyElement selectedItemType={SelectedItemType.Room} Component={Room} />}
+          />
           <Route path="create" element={<LazyElement Component={RoomCreate} />} />
           <Route path="join" element={<LazyElement Component={RoomJoin} />} />
           <Route index element={<Navigate to="join" replace />} />
@@ -66,7 +83,7 @@ function Router() {
             </AccountRedirect>
           }
         />
-        <Route index element={<LazyElement Component={Timer} />} />
+        <Route index element={<LazyElement selectedItemType={SelectedItemType.Puzzle} Component={Timer} />} />
         <Route path="*" element={<Navigate to="" replace />} />
       </Route>
     </Routes>

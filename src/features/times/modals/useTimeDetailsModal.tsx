@@ -1,6 +1,6 @@
 import { lazy, useCallback, useEffect, useMemo, useRef } from "react";
 
-import { useSelectedItem } from "features/timer/timerViewModel";
+import { useSelectedItem } from "features/router/routerViewModel";
 import { PuzzleTime, TimeId } from "models/times/Time";
 import { useModal } from "store/modalContext";
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -23,11 +23,8 @@ type Inputs = {
 
 function Login() {
   const { t } = useTranslation();
-  const { registerWithErrors, handleSubmit, watch, clearErrors, setError } = useForm<Inputs>();
+  const { registerWithErrors, handleSubmit, clearErrors, setError } = useForm<Inputs>();
   const { loading, login, errors } = useAuth();
-
-  const password = useRef({});
-  password.current = watch("password", "");
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     clearErrors();

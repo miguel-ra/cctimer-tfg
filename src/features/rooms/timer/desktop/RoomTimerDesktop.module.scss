@@ -1,0 +1,23 @@
+@use "styles/palette";
+@use "styles/transition";
+@use "styles/shape";
+
+.sectionContainer {
+  display: flex;
+  height: 33vh;
+  background: palette.get("background.secondary");
+  transition: transition.generate(border, background);
+  border-top: shape.get("boderRadius") solid palette.get("border.primary");
+}
+
+.section {
+  flex: 1;
+  display: flex;
+}
+
+.scramble {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  padding: 3rem;
+}

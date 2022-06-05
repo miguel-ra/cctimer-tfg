@@ -14,8 +14,6 @@ export default class Observable<T> {
   subscribe(observer: (value: T) => void) {
     this.observers.add(observer);
 
-    return {
-      unsubscribe: () => this.observers.delete(observer),
-    };
+    return () => this.observers.delete(observer);
   }
 }

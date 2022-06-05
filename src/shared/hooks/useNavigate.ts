@@ -16,7 +16,7 @@ function useNavigate() {
         return;
       }
 
-      let basePath = `/${language}`;
+      let basePath = `/${language.slice(0, 2)}`;
 
       if (!path.startsWith("/")) {
         basePath = `${basePath}/`;

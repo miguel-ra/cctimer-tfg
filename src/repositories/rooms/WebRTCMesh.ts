@@ -1,78 +1,28 @@
+import { BloomFilter } from "bloomfilter";
 import { child, get, onChildAdded, onValue, push, ref, set, update } from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
 
 import firebase from "shared/firebase";
 
-type Paths = "signal" | "offer" | "answer" | "candidates" | "peers";
+import Observable from "./Observable";
+import PeerIdInUseError from "./webrtc/errors/PeerIdInUseError";
+import { MeshId, MeshStatus } from "./webrtc/Mesh";
+import { DrafMessage, Message, MessageType, SubscriptionMessage } from "./webrtc/Message";
+import {
+  Peer,
+  PeerAnswer,
+  PeerCandidate,
+  PeerId,
+  PeerOffer,
+  PeersCollection,
+  PeerSignal,
+  PeerStatus,
+} from "./webrtc/Peer";
 
-type MeshId = string;
-enum MeshStatus {
-  "connecting",
-  "connected",
-  "failed",
-}
+type Path = "signal" | "offer" | "answer" | "candidates" | "peers";
+type PathsCollection = { [key in Path]: string };
 
-type PeerId = string;
-enum PeerStatus {
-  "closed",
-  "connecting",
-  "connected",
-  "failed",
-}
-type Peer = {
-  connection: RTCPeerConnection;
-  status: PeerStatus;
-  channel?: RTCDataChannel;
-};
-type PeerAnswer = {
-  peerId: string;
-  sdp: string | undefined;
-  type: RTCSdpType;
-};
-
-type PeerCandidate = {
-  peerId: PeerId;
-  candidate?: string | undefined;
-  sdpMLineIndex?: number | null | undefined;
-  sdpMid?: string | null | undefined;
-  usernameFragment?: string | null | undefined;
-};
-type PeerOffer = {
-  peerId: string;
-  sdp: string | undefined;
-  type: RTCSdpType;
-};
-type PeerSignal = {
-  answer: PeerAnswer;
-  candidates: { [key in string]: PeerCandidate };
-  offer: PeerOffer;
-};
-type Peers = {
-  [key in PeerId]: Peer;
-};
-
-type MessageId = string;
-enum MessageType {
-  Answer = "answer",
-  Candidate = "candidate",
-  Handshake = "handshake",
-  Hello = "hello",
-  Offer = "offer",
-  Ping = "ping",
-}
-type DrafMessage = {
-  uuid?: MessageId;
-  type: MessageType;
-  data?: any;
-  from?: PeerId;
-  to?: PeerId;
-};
-type Message = DrafMessage & {
-  uuid: MessageId;
-  from: PeerId;
-};
-
-const rtcConfig = {
+const RTC_CONFIG = {
   iceServers: [
     {
       urls: ["stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302"], // free stun server
@@ -80,23 +30,25 @@ const rtcConfig = {
   ],
   iceCandidatePoolSize: 10,
 };
-const peerChannelLabel = "mesh";
+const PEER_CHANNEL_LABEL = "mesh";
 
-class Mesh {
-  private status: MeshStatus;
-  private meshId: MeshId;
+class WebRTCMesh {
+  public status: MeshStatus;
+  public peerList: PeersCollection = {};
   private peerId: PeerId;
-  private peerList: Peers = {};
-  private messages: { [key in MessageId]: true } = {};
-  private paths: { [key in Paths]: string };
+  private hostId?: PeerId;
+  private bloomMessages: BloomFilter = new BloomFilter(32 * 256, 16);
+  private paths: PathsCollection;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private observable: Observable<any> = new Observable();
 
-  constructor(meshId: MeshId, peerId: PeerId) {
-    this.meshId = meshId;
-    this.peerId = peerId;
-    this.status = MeshStatus.connecting;
+  public get isHost() {
+    return this.peerId === this.hostId;
+  }
 
+  static async init(meshId: MeshId, peerId: PeerId, skipPeerIdCheck = false) {
     const signalPath = `/signals/${meshId}`;
-    this.paths = {
+    const paths = {
       signal: signalPath,
       offer: `${signalPath}/offer`,
       answer: `${signalPath}/answer`,
@@ -104,25 +56,34 @@ class Mesh {
       peers: `${signalPath}/peers`,
     };
 
-    get(child(ref(firebase.db), this.paths.offer))
-      .then((snapshot) => {
-        const offer = snapshot.val() as PeerOffer;
-        if (!offer) {
-          this.startHost();
-        } else {
-          this.startNode();
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        this.status = MeshStatus.failed;
-      });
+    const snapshot = await get(child(ref(firebase.db), paths.signal));
+    const signal = snapshot.val() as PeerSignal | null;
+
+    if (!skipPeerIdCheck && signal && signal.peers?.includes(peerId)) {
+      throw new PeerIdInUseError();
+    }
+
+    return new WebRTCMesh({ peerId, paths, offer: signal?.offer });
+  }
+
+  constructor({ peerId, paths, offer }: { peerId: PeerId; paths: PathsCollection; offer?: PeerOffer }) {
+    this.peerId = peerId;
+    this.paths = paths;
+
+    if (!offer) {
+      this.hostId = peerId;
+      this.status = MeshStatus.creating;
+      this.startHost();
+    } else {
+      this.status = MeshStatus.connecting;
+      this.startNode();
+    }
 
     this.handleDataChannelMessage = this.handleDataChannelMessage.bind(this);
   }
 
   private async createPeerConnection() {
-    const peerConnection = new RTCPeerConnection(rtcConfig);
+    const peerConnection = new RTCPeerConnection(RTC_CONFIG);
 
     peerConnection.onicecandidate = (event) => {
       if (event.candidate) {
@@ -138,34 +99,23 @@ class Mesh {
       }
     };
 
-    peerConnection.onconnectionstatechange = (event) =>
-      console.log(`onconnectionstatechange`, peerConnection.connectionState);
-    peerConnection.oniceconnectionstatechange = (event) =>
-      console.log(`oniceconnectionstatechange`, peerConnection.iceConnectionState);
-    peerConnection.onicegatheringstatechange = (event) =>
-      console.log(`onicegatheringstatechange`, peerConnection.iceGatheringState);
-    peerConnection.onsignalingstatechange = (event) =>
-      console.log(`onsignalingstatechange`, peerConnection.signalingState);
-
     return peerConnection;
   }
 
   private configPeerChannel(peerChannel: RTCDataChannel, confimationPeer: PeerId): RTCDataChannel {
-    peerChannel.onopen = (event) => {
-      console.log(`onopen`, event);
+    peerChannel.onopen = () => {
       this.sendMessage({ type: MessageType.Handshake, to: confimationPeer });
     };
 
-    peerChannel.onclose = (event) => {
-      console.log(`onclose`, event);
+    peerChannel.onclose = () => {
       this.peerList[confimationPeer].status = PeerStatus.closed;
+      this.notifyUpdate();
     };
-    peerChannel.onerror = (event) => {
-      console.log(`onerror`, event);
+    peerChannel.onerror = () => {
       this.peerList[confimationPeer].status = PeerStatus.failed;
+      this.notifyUpdate();
     };
     peerChannel.onmessage = this.handleDataChannelMessage;
-    // peerChannel.onbufferedamountlow = (event) => console.log(`onbufferedamountlow`, event);
 
     return peerChannel;
   }
@@ -173,7 +123,7 @@ class Mesh {
   private async createOffer() {
     const peerConnection = await this.createPeerConnection();
 
-    const peerChannel = peerConnection.createDataChannel(peerChannelLabel);
+    const peerChannel = peerConnection.createDataChannel(PEER_CHANNEL_LABEL);
 
     const offerDescription = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offerDescription);
@@ -190,15 +140,15 @@ class Mesh {
   private async startHost() {
     let { connection, channel, offer } = await this.createOffer();
 
-    try {
-      await set(ref(firebase.db, this.paths.signal), {
-        peers: this.getPeerList(),
-        offer,
-        answer: null,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await set(ref(firebase.db, this.paths.signal), {
+      peers: this.getAllPeers(),
+      offer,
+      answer: null,
+      hostId: this.peerId,
+    });
+
+    this.status = MeshStatus.connecting;
+    this.notifyUpdate();
 
     onValue(ref(firebase.db, this.paths.answer), async (snapshot) => {
       const answer = snapshot.val() as PeerAnswer;
@@ -214,20 +164,20 @@ class Mesh {
           channel,
           status: PeerStatus.connected,
         };
+        this.status = MeshStatus.connected;
+        this.notifyUpdate();
 
         ({ connection, channel, offer } = await this.createOffer());
 
         try {
           const updates = {
-            [this.paths.peers]: this.getPeerList(),
+            [this.paths.peers]: this.getAllPeers(),
             [this.paths.offer]: offer,
             [this.paths.answer]: null,
           };
 
           return update(ref(firebase.db), updates);
-        } catch (error) {
-          console.log(error);
-        }
+        } catch (error) {}
       }
     });
 
@@ -272,20 +222,20 @@ class Mesh {
         sdp: answerDescription.sdp,
       };
 
-      try {
-        await set(ref(firebase.db, this.paths.answer), answer);
-      } catch (error) {
-        console.log(error);
-        peer.status = PeerStatus.failed;
-      }
+      await set(ref(firebase.db, this.paths.answer), answer);
     }
   }
 
-  private sendMessage({ uuid = uuidv4(), from = this.peerId, ...draftMessage }: DrafMessage) {
-    const message: Message = { ...draftMessage, uuid, from };
+  private sendMessage({
+    uuid = uuidv4(),
+    from = this.peerId,
+    type = MessageType.Default,
+    ...draftMessage
+  }: DrafMessage) {
+    const message: Message = { ...draftMessage, uuid, from, type };
     const rawMessage = JSON.stringify(message);
 
-    this.messages[uuid] = true;
+    this.bloomMessages.add(uuid);
 
     if (
       message.to &&
@@ -306,12 +256,11 @@ class Mesh {
     const message: Message = JSON.parse(rawMessage);
     const { uuid, type, data, from, to } = message;
 
-    if (this.messages[uuid]) {
+    if (this.bloomMessages.test(uuid)) {
       return;
     }
 
-    this.messages[uuid] = true;
-    console.log(message);
+    this.bloomMessages.add(uuid);
 
     if (!to) {
       this.sendMessage(message);
@@ -326,6 +275,7 @@ class Mesh {
         if (this.status !== MeshStatus.connected) {
           this.status = MeshStatus.connected;
           this.sendMessage({ type: MessageType.Hello });
+          this.notifyUpdate();
         }
         return;
       }
@@ -407,15 +357,70 @@ class Mesh {
       }
 
       default: {
-        console.log(type, data);
+        this.notifyUpdate({ type, data });
         return;
       }
     }
   }
 
-  getPeerList() {
+  private notifyUpdate(message?: Partial<SubscriptionMessage>) {
+    this.observable.next({
+      type: MessageType.Default,
+      status: this.status,
+      data: {},
+      activePeers: this.getActivePeers(),
+      ...message,
+    });
+  }
+
+  getActivePeers() {
+    const activePeers = Object.entries(this.peerList)
+      .map(([key, peer]) => {
+        if (peer.status === PeerStatus.connected && peer.channel) {
+          return key;
+        }
+        return undefined;
+      })
+      .filter(Boolean);
+
+    return activePeers as string[];
+  }
+
+  private getAllPeers() {
     return [...Object.keys(this.peerList), this.peerId];
+  }
+
+  closeConnection() {
+    Object.values(this.peerList).forEach((peer) => {
+      if (peer.status === PeerStatus.connected && peer.channel) {
+        peer.connection.close();
+      }
+    });
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  subscribe(callback: (message: any) => void) {
+    return this.observable.subscribe(callback);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  sendToAll(message: any) {
+    const hostPeer = this.hostId && this.peerList[this.hostId];
+
+    this.sendMessage({ data: message });
+
+    if (hostPeer && hostPeer.status === PeerStatus.connected) {
+      // this.sendMessage({ data: message });
+    } else {
+      // if connecting do nothing
+      // else take host role
+      //   send message => update host in all peers
+      //   upload offer, hostId and ice candidates.
+    }
+
+    // if connection with host => set loading.
+    // if not conection with host => get host role
   }
 }
 
-export default Mesh;
+export default WebRTCMesh;

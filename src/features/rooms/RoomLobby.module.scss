@@ -1,7 +1,7 @@
 @use "styles/palette";
 @use "styles/transition";
 
-.roomJoin {
+.roomLobby {
   width: 100%;
   flex: 1;
   display: flex;
@@ -10,14 +10,5 @@
   flex-direction: column;
   background: palette.get("background.secondary");
   transition: transition.generate(background);
-}
-
-.form {
   padding: 3rem;
-  width: 100%;
-  max-width: 450px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: center;
 }

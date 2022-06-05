@@ -1,6 +1,7 @@
 import ScrambleShowcase from "components/scramble/ScrambleShowcase";
+import { useSelectedItem } from "features/router/routerViewModel";
 
-import { useScramble, useSelectedItem } from "../../timerViewModel";
+import { useScramble } from "../../timerViewModel";
 
 function Scramble() {
   const { scramble } = useScramble();

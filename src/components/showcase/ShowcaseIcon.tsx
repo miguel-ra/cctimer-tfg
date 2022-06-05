@@ -1,9 +1,8 @@
 import clsx from "clsx";
-import { FC, MouseEvent, SVGProps } from "react";
+import { FC, SVGProps } from "react";
 import { useTranslation } from "react-i18next";
 
 import Tooltip from "components/tooltip/Tooltip";
-import isTouchDevice from "shared/browser/isTouchDevice";
 
 import { ReactComponent as DeleteIcon } from "assets/icons/delete.svg";
 import { ReactComponent as PuzzleBorder } from "assets/icons/puzzles/border.svg";

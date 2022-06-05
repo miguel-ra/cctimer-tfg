@@ -8,14 +8,13 @@ import { useDrag } from "react-use-gesture";
 import Box from "components/flexboxgrid/Box";
 import Typography from "components/typography/Typography";
 import { useLayoutMobile } from "features/layout/layoutMobileContext";
+import { useSelectedItem } from "features/router/routerViewModel";
 import Stats from "features/stats/Stats";
 import Times from "features/times/Times";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import useMediaQuery from "shared/hooks/useMediaQuery";
 
 import { ReactComponent as MenuIcon } from "assets/icons/menu.svg";
-
-import { useSelectedItem } from "../timerViewModel";
 
 import Scramble from "./tabs/Scramble";
 import Timer from "./tabs/Timer";

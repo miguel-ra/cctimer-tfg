@@ -1,21 +1,16 @@
-import clsx from "clsx";
 import { memo, Suspense } from "react";
 
 import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
 import Spinner from "components/spinner/Spinner";
 import { useSelectedItem } from "features/router/routerViewModel";
-import Stats from "features/stats/Stats";
 import Stopwatch from "features/stopwatch/Stopwatch";
-import Times from "features/times/Times";
+import { useScramble } from "features/timer/timerViewModel";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 
-import { useScramble } from "../timerViewModel";
-
-import useStyles from "./TimerDesktop.styles";
+import styles from "./RoomTimerDesktop.module.scss";
 
 function TimerDesktop() {
-  const classes = useStyles();
   const { selectedItem } = useSelectedItem();
   const { scramble } = useScramble();
 
@@ -27,15 +22,9 @@ function TimerDesktop() {
       <Box flex={1} placeContent="center">
         <Stopwatch />
       </Box>
-      <div className={clsx(classes.sectionContainer, { [classes.withoutScramble]: !ScrambleImage })}>
-        <section className={classes.section}>
-          <Times />
-        </section>
-        <section className={classes.stats}>
-          <Stats />
-        </section>
+      <div className={styles.sectionContainer}>
         {ScrambleImage && (
-          <section className={classes.section}>
+          <section className={styles.section}>
             <Suspense
               fallback={
                 <Box display="flex" placeContent="center" width="100%" height="100%">
@@ -43,7 +32,7 @@ function TimerDesktop() {
                 </Box>
               }
             >
-              <ScrambleImage className={classes.scramble} scramble={scramble.state} />
+              <ScrambleImage className={styles.scramble} scramble={scramble.state} />
             </Suspense>
           </section>
         )}

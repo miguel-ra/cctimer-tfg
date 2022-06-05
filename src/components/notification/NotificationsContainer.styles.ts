@@ -7,7 +7,6 @@ const useStyles = createUseStyles({
     zIndex: 1,
     position: "fixed",
     right: 0,
-    bottom: 0,
     width: "100%",
     padding: "0.5rem 1rem",
     display: "flex",

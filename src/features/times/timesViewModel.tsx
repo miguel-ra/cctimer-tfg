@@ -2,7 +2,8 @@ import { useTranslation } from "react-i18next";
 import { useRecoilCallback } from "recoil";
 
 import ErrorNotification from "components/notification/ErrorNotification";
-import { useScrambleState, useSelectedItemState } from "features/timer/timerViewModel";
+import { useSelectedItemState } from "features/router/routerViewModel";
+import { useScrambleState } from "features/timer/timerViewModel";
 import { PuzzleTime, Time, TimeId } from "models/times/Time";
 import { PuzzleTimeUpdate } from "models/times/TimesRepository";
 import { useTimesRepository } from "repositories/times/timesRepository";

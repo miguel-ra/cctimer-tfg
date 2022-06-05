@@ -8,7 +8,7 @@ function LayoutDesktop() {
   return (
     <Box flex={1} flexWrap="nowrap">
       <SideMenuCompact />
-      <Box flexDirection="column" flex={1}>
+      <Box flexDirection="column" flex={1} flexWrap="nowrap">
         <Navbar />
         <Outlet />
       </Box>

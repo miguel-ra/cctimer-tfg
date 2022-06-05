@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useDrag } from "react-use-gesture";
 
-import { useSelectedItem } from "features/timer/timerViewModel";
+import { useSelectedItem } from "features/router/routerViewModel";
 import { useTimes } from "features/times/timesViewModel";
 import { Time, TimePenalty } from "models/times/Time";
 import { millisecondsToClock, millisecondsToSeconds } from "shared/format/number";

@@ -2,7 +2,8 @@ import clsx from "clsx";
 import { HTMLAttributes, memo, ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
 
-import { useScramble, useSelectedItem } from "features/timer/timerViewModel";
+import { useSelectedItem } from "features/router/routerViewModel";
+import { useScramble } from "features/timer/timerViewModel";
 
 type PressableProps = {
   children: ReactNode;

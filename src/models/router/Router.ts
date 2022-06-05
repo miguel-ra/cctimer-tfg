@@ -6,18 +6,19 @@ enum SelectedItemType {
   Room = "room",
 }
 
-type SelectedItem =
-  | {
-      id: PuzzleId;
-      key: PuzzleKey;
-      type: SelectedItemType.Puzzle;
-    }
-  | {
-      id: RoomId;
-      key: PuzzleKey;
-      type: SelectedItemType.Room;
-    }
-  | undefined;
+type SelectedItemPuzzle = {
+  id: PuzzleId;
+  key: PuzzleKey;
+  type: SelectedItemType.Puzzle;
+};
+
+type SelectedItemRoom = {
+  id: RoomId;
+  key: PuzzleKey;
+  type: SelectedItemType.Room;
+};
+
+type SelectedItem = SelectedItemPuzzle | SelectedItemRoom;
 
 export type { SelectedItem };
 export { SelectedItemType };

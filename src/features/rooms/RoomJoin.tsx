@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { SubmitHandler } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -9,9 +10,9 @@ import Spacer from "components/spacer/Spacer";
 import Typography from "components/typography/Typography";
 import { roomCreatePathname } from "features/router/pathnames";
 import { RoomId } from "models/rooms/Room";
-import { useRoomsRepository } from "repositories/rooms/roomsRepository";
 import useForm from "shared/form/useForm";
 
+import { useJoinRoom, ViewErrors } from "./joinRoomViewModel";
 import styles from "./RoomJoin.module.scss";
 
 type Inputs = {
@@ -21,14 +22,23 @@ type Inputs = {
 
 function RoomJoin() {
   const { t } = useTranslation();
-  const { registerWithErrors, handleSubmit, watch, clearErrors, setError } = useForm<Inputs>();
-  const roomsRepository = useRoomsRepository();
+  const { registerWithErrors, handleSubmit, clearErrors, setError } = useForm<Inputs>();
+  const { joinRoom, errors } = useJoinRoom();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
     clearErrors();
-    roomsRepository.join(data.nickname, data.code);
+    joinRoom(data.nickname, data.code);
   };
+
+  useEffect(() => {
+    const entries = Object.entries(errors) as [keyof ViewErrors, string][];
+    for (const [name, message] of entries) {
+      setError(name, {
+        type: "manual",
+        message,
+      });
+    }
+  }, [errors, setError]);
 
   return (
     <section className={styles.roomJoin}>
