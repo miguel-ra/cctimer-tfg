@@ -4,11 +4,13 @@ import { useLocation, useParams } from "react-router-dom";
 
 import ErrorNotification from "components/notification/ErrorNotification";
 import { useSelectedItem } from "features/router/routerViewModel";
+import { useScramble, useScrambleState } from "features/timer/timerViewModel";
 import { RoomData, RoomDataType, RoomStatus } from "models/rooms/Room";
 import { SelectedItemType } from "models/router/Router";
 import { useRoomsRepository } from "repositories/rooms/roomsRepository";
 import useNavigate from "shared/hooks/useNavigate";
 import { useNotifications } from "store/notificationsContext";
+import { useSettings } from "store/settingsContext";
 
 import { useRooms } from "./roomsViewModel";
 
@@ -19,7 +21,7 @@ function useRoom() {
   const [users, setUsers] = useState<string[]>([]);
   const [nickname, setNickname] = useState("");
   const roomsRepository = useRoomsRepository();
-  const { roomId } = useParams();
+  const { roomId: roomIdParam } = useParams();
   const { selectedItem } = useSelectedItem();
   const { refreshRooms } = useRooms();
   const navigate = useNavigate();
@@ -27,10 +29,64 @@ function useRoom() {
   const { t } = useTranslation();
   const location = useLocation();
   const pathnameRef = useRef(location.pathname);
+  const { refreshScramble, startWorker: scrambleStartWorker, stopWorker: scrambleStopWorker } = useScramble();
+  const [globalScramble, setScramble] = useScrambleState();
+  const { settings } = useSettings();
+  const settingsRef = useRef(settings);
+
+  const scrambleRef = useRef(globalScramble);
+
+  const roomId = (selectedItem?.id || roomIdParam) as string;
 
   useEffect(() => {
     pathnameRef.current = location.pathname;
   }, [location]);
+
+  useEffect(() => {
+    settingsRef.current = settings;
+    sendMessage?.({ type: RoomDataType.SetSettings, settings: settingsRef.current });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [settings]);
+
+  useEffect(() => {
+    if (!isHost) {
+      return;
+    }
+    roomsRepository.findById(roomId).then((room) => {
+      if (!room?.scramble?.state) {
+        refreshScramble();
+      }
+    });
+  }, [isHost, refreshScramble, roomId, roomsRepository]);
+
+  useEffect(() => {
+    if (!isHost) {
+      return;
+    }
+    scrambleStartWorker();
+    return () => {
+      scrambleStopWorker();
+    };
+  }, [isHost, scrambleStartWorker, scrambleStopWorker]);
+
+  useEffect(() => {
+    if (selectedItem?.type !== SelectedItemType.Room || !globalScramble.state) {
+      return;
+    }
+    scrambleRef.current = globalScramble;
+    sendMessage?.({ type: RoomDataType.SetScramble, scramble: globalScramble });
+  }, [globalScramble, roomId, selectedItem?.type, sendMessage]);
+
+  // useEffect(() => {
+  //   if (selectedItem?.type !== SelectedItemType.Room || !isHost) {
+  //     return;
+  //   }
+
+  //   if (selectedItem.id && prevSelectedItemIdRef.current !== selectedItem.id) {
+  //     refreshScramble();
+  //     prevSelectedItemIdRef.current = selectedItem.id;
+  //   }
+  // }, [refreshScramble]);
 
   const roomEmtpy = users.length === 0;
 
@@ -60,32 +116,36 @@ function useRoom() {
     setSendMessage(() => roomSendMessage);
 
     const unsubscribe = roomsRepository.subscribe(selectedItem?.id, (roomMessage) => {
-      const { loading, data, isHost, users } = roomMessage;
+      const { loading, data, isHost, users, scramble, settings } = roomMessage;
       setLoading(loading);
       setIsHost(isHost);
       setUsers(users || []);
 
-      if (data) {
-        const messageType = data.type;
+      if (scramble?.state && scramble?.state !== scrambleRef.current.state) {
+        setScramble(scramble);
+      }
 
+      if (data) {
         if (isHost) {
-          if (messageType === RoomDataType.AskScramble) {
-            // reply scrabmle
-          } else if (messageType === RoomDataType.AskSettings) {
-            // reply settings
+          if (data.type === RoomDataType.AskScramble) {
+            roomSendMessage({ type: RoomDataType.SetScramble, scramble: scrambleRef.current });
+          } else if (data.type === RoomDataType.AskSettings) {
+            roomSendMessage({ type: RoomDataType.SetSettings, settings: settingsRef.current });
           }
         } else {
-          // No scramble? ask
-          // No settings? ask
+          if (!scramble) {
+            roomSendMessage({ type: RoomDataType.AskScramble });
+          }
+          if (!settings) {
+            roomSendMessage({ type: RoomDataType.AskSettings });
+          }
         }
 
-        if (messageType === RoomDataType.AskStatus) {
+        if (data.type === RoomDataType.AskStatus) {
           // reply status
-        } else if (messageType === RoomDataType.SetStatus) {
+        } else if (data.type === RoomDataType.SetStatus) {
           // set status
-        } else if (messageType === RoomDataType.SetScramble) {
-          // set scramble
-        } else if (messageType === RoomDataType.SetSettings) {
+        } else if (data.type === RoomDataType.SetSettings) {
           // set settings
         }
       }
@@ -105,9 +165,9 @@ function useRoom() {
     });
 
     return unsubscribe;
-  }, [addNotification, navigate, refreshRooms, roomsRepository, selectedItem, t]);
+  }, [addNotification, navigate, refreshRooms, roomsRepository, selectedItem, setScramble, t]);
 
-  return { roomId: selectedItem?.id || roomId, roomStatus, roomUsers: users, isHost, sendMessage, nickname };
+  return { roomId, roomStatus, roomUsers: users, isHost, sendMessage, nickname };
 }
 
 export { useRoom };

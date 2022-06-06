@@ -30,7 +30,7 @@ function TimerDesktop() {
       <div className={styles.stopwatchContainer}>
         <Stopwatch />
         <div className={styles.roomCode}>
-          {t("Room code")}: {roomId}
+          {t("Room code")}: <strong>{roomId}</strong>
         </div>
         <UserList />
       </div>

@@ -19,6 +19,8 @@ import { ReactComponent as LoginIcon } from "assets/icons/login.svg";
 import { ReactComponent as LogoutIcon } from "assets/icons/logout.svg";
 import { ReactComponent as SettingsIcon } from "assets/icons/settings.svg";
 
+import { useSideMenu } from "./sideMenuViewModel";
+
 const useStyles = createUseStyles({
   root: {
     display: "flex",
@@ -59,6 +61,7 @@ function SideMenuExpanded() {
   const { openModal } = useModal();
   const { user } = useUser();
   const { logout } = useAuth();
+  const { disableConfig } = useSideMenu();
 
   return (
     <div className={classes.root}>
@@ -72,12 +75,16 @@ function SideMenuExpanded() {
           <Box padding="0 1.2rem">
             <Typography variant="h3">CCTimer.com</Typography>
           </Box>
-          <Divider />
-          <Box padding="0 1.2rem" width="100%">
-            <Button prefix={<SettingsIcon />} onClick={() => openModal(<SettingsModal />)} fullWidth>
-              {t("Settings")}
-            </Button>
-          </Box>
+          {!disableConfig && (
+            <>
+              <Divider />
+              <Box padding="0 1.2rem" width="100%">
+                <Button prefix={<SettingsIcon />} onClick={() => openModal(<SettingsModal />)} fullWidth>
+                  {t("Settings")}
+                </Button>
+              </Box>
+            </>
+          )}
           <Divider />
           <Box padding="0 1.2rem" width="100%">
             {user ? (

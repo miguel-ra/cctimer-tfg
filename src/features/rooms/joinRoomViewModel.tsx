@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import ErrorNotification from "components/notification/ErrorNotification";
 import { roomPathname } from "features/router/pathnames";
+import AlreadyInRoomError from "models/rooms/errors/AlreadyInRoomError";
 import NicknameInUseError from "models/rooms/errors/NicknameInUseError";
 import { RoomId } from "models/rooms/Room";
 import { useRoomsRepository } from "repositories/rooms/roomsRepository";
@@ -38,6 +39,10 @@ function useJoinRoom() {
         setLoading(false);
         if (error.constructor === NicknameInUseError) {
           setErrors({ nickname: t("Nickname already in use") });
+        } else if (error.constructor === AlreadyInRoomError) {
+          addNotification((props) => (
+            <ErrorNotification {...props}>{t("You're already in this room")}</ErrorNotification>
+          ));
         } else {
           addNotification((props) => (
             <ErrorNotification {...props}>{t("Failed to join room")}</ErrorNotification>

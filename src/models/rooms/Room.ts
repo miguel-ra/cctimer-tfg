@@ -10,6 +10,9 @@ type Room = {
   puzzleKey: PuzzleKey;
   nickname: string;
   createdAt: number;
+  scramble?: Scramble;
+  settings?: Settings;
+  isHost?: boolean;
 };
 
 enum RoomDataType {
@@ -51,6 +54,8 @@ type RoomMessage = {
   data?: RoomData;
   isHost: boolean;
   users?: string[];
+  scramble?: Scramble;
+  settings?: Settings;
 };
 
 enum RoomStatus {
@@ -79,6 +84,15 @@ class RoomsCollection {
 
   add(room: Room) {
     this.rooms = [...this.rooms, room];
+  }
+
+  update(roomId: RoomId, update: Partial<Room>) {
+    const room = this.findById(roomId);
+    if (room) {
+      const roomUpdated = { ...room, ...update } as Room;
+      this.remove(roomId);
+      this.add(roomUpdated);
+    }
   }
 
   remove(roomId: RoomId) {

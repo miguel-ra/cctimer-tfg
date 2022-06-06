@@ -16,4 +16,15 @@
   transition: border transition.generate(color, border, background-color);
   padding: 0.5rem 1rem;
   margin-top: 1.2rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  & svg {
+    color: palette.get("text.secondary");
+  }
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
 }
