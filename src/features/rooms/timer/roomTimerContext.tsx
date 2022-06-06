@@ -1,6 +1,8 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, Dispatch, ReactNode, useContext } from "react";
 
-import { RoomData, RoomId } from "models/rooms/Room";
+import { RoomData, RoomId, UserStatus } from "models/rooms/Room";
+
+import { LastType } from "../roomViewModel";
 
 // import { Settings } from "models/settings/Settings";
 
@@ -11,6 +13,9 @@ type RoomTimerState = {
   isHost?: boolean;
   sendMessage?: (roomData: RoomData) => void;
   nickname?: string;
+  lastTime?: LastType;
+  setLastTime: Dispatch<React.SetStateAction<LastType | undefined>>;
+  usersStatus: UserStatus;
 };
 
 type RoomTimerProviderProps = {
@@ -20,6 +25,9 @@ type RoomTimerProviderProps = {
   isHost: boolean;
   sendMessage?: (roomData: RoomData) => void;
   nickname?: string;
+  lastTime?: LastType;
+  setLastTime: Dispatch<React.SetStateAction<LastType | undefined>>;
+  usersStatus: UserStatus;
   children: ReactNode;
 };
 
@@ -40,10 +48,15 @@ function RoomTimerProvider({
   isHost,
   sendMessage,
   nickname,
+  lastTime,
+  setLastTime,
+  usersStatus,
   children,
 }: RoomTimerProviderProps) {
   return (
-    <RoomTimerContext.Provider value={{ roomId, users, isHost, nickname, sendMessage }}>
+    <RoomTimerContext.Provider
+      value={{ roomId, users, isHost, nickname, sendMessage, lastTime, setLastTime, usersStatus }}
+    >
       {children}
     </RoomTimerContext.Provider>
   );

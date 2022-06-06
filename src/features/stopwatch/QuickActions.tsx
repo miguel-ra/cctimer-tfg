@@ -18,6 +18,7 @@ type ActionCallbacks = { [key in Action]: (time: PuzzleTime) => Promise<PuzzleTi
 
 type QuickActionsProps = {
   resetStopwatch: () => void;
+  hideDelete?: boolean;
 };
 
 const useStyles = createUseStyles({
@@ -82,7 +83,7 @@ function getPenaltyButtonProps(
   };
 }
 
-function QuickActions({ resetStopwatch }: QuickActionsProps) {
+function QuickActions({ resetStopwatch, hideDelete }: QuickActionsProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { lastTime, updateTime, deleteTime } = useTimes();
@@ -157,9 +158,11 @@ function QuickActions({ resetStopwatch }: QuickActionsProps) {
           </Button>
         </>
       )}
-      <Button variant="outlined" color="red" data-action={Action.Delete} size="small">
-        {t("Delete")}
-      </Button>
+      {!hideDelete && (
+        <Button variant="outlined" color="red" data-action={Action.Delete} size="small">
+          {t("Delete")}
+        </Button>
+      )}
     </div>
   );
 }

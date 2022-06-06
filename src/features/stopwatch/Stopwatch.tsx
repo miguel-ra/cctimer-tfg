@@ -4,13 +4,12 @@ import { useDrag } from "react-use-gesture";
 
 import { useSelectedItem } from "features/router/routerViewModel";
 import { useTimes } from "features/times/timesViewModel";
-import { StopwatchStatus as Status } from "models/timer/stopwatch";
+import { StopwatchStatus as Status, StopwatchStatus } from "models/timer/stopwatch";
 import { Time, TimePenalty } from "models/times/Time";
-import { millisecondsToClock, millisecondsToSeconds } from "shared/format/number";
-import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
 import { useSettings } from "store/settingsContext";
 import palette from "styles/palette";
 
+import displayTime from "./displayTime";
 import Pressable from "./Pressable";
 import QuickActions from "./QuickActions";
 import useStyles from "./Stopwatch.styles";
@@ -23,7 +22,17 @@ const statusPenalty: { [key in Status]?: TimePenalty } = {
   [Status.Dnf]: TimePenalty.Dnf,
 };
 
-function Stopwatch() {
+type StopwatchCallbackOptions = {
+  time: Time;
+  status: StopwatchStatus;
+};
+
+type StopwatchProps = {
+  callback?: (options: StopwatchCallbackOptions) => void;
+  hideDelete?: boolean;
+};
+
+function Stopwatch({ callback, hideDelete }: StopwatchProps) {
   const classes = useStyles();
   const { addTime, lastTime, setLastTime } = useTimes();
   const { selectedItem } = useSelectedItem();
@@ -34,12 +43,17 @@ function Stopwatch() {
   const ready = useRef<boolean | null>(!settings.timer.holdToStart);
   const [status, setStatus] = useState(Status.Idle);
   const statusRef = useRef(status);
+  const callbackRef = useRef(callback);
   const [color, setColor] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     return () => stopStopwatch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
 
   useEffect(() => {
     statusRef.current = status;
@@ -53,6 +67,10 @@ function Stopwatch() {
       // Reset stop watch when the last time is removed
       resetStopwatch();
     }
+    callbackRef.current?.({
+      time: { elapsedTime: lastTime?.elapsedTime || 0, penalty: lastTime?.penalty || TimePenalty.NoPenalty },
+      status,
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastTime]);
 
@@ -78,6 +96,10 @@ function Stopwatch() {
       penalty: penalty || TimePenalty.NoPenalty,
       elapsedTime: penalty === TimePenalty.Dnf ? 0 : elapsedTime,
     };
+    callbackRef.current?.({
+      time: dataToSave.current,
+      status,
+    });
   }, [elapsedTime, status]);
 
   const saveTime = useCallback(() => {
@@ -218,16 +240,14 @@ function Stopwatch() {
         className={clsx(classes.displayWrapper, { running: status !== Status.Dnf && status !== Status.Idle })}
       >
         <div className={classes.display} style={{ color }}>
-          {status === Status.Idle && elapsedTimeWithPenaltyCompact(elapsedTime, lastTime?.penalty)}
-          {status === Status.Inspection && millisecondsToSeconds(remainingTime) + 1}
-          {status === Status.PlusTwo && "+2"}
-          {status === Status.Dnf && "DNF"}
-          {status === Status.Running && millisecondsToClock(elapsedTime)}
+          {displayTime({ status, elapsedTime, penalty: lastTime?.penalty, remainingTime })}
         </div>
-        <QuickActions resetStopwatch={resetStopwatch} />
+        <QuickActions resetStopwatch={resetStopwatch} hideDelete={hideDelete} />
       </div>
     </Pressable>
   );
 }
+
+export type { StopwatchCallbackOptions };
 
 export default memo(Stopwatch);

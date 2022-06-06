@@ -2,6 +2,7 @@ import { PuzzleKey } from "models/puzzles/Puzzle";
 import { Settings } from "models/settings/Settings";
 import { Scramble } from "models/timer/scramble";
 import { StopwatchStatus } from "models/timer/stopwatch";
+import { Time } from "models/times/Time";
 
 type RoomId = string;
 
@@ -44,7 +45,8 @@ type RoomData =
     }
   | {
       type: RoomDataType.SetStatus;
-      status: StopwatchStatus;
+      status?: StopwatchStatus;
+      time?: Time;
       nickname: string;
     };
 
@@ -56,6 +58,10 @@ type RoomMessage = {
   users?: string[];
   scramble?: Scramble;
   settings?: Settings;
+};
+
+type UserStatus = {
+  [key in string]: { status?: StopwatchStatus; time?: Time };
 };
 
 enum RoomStatus {
@@ -101,4 +107,4 @@ class RoomsCollection {
 }
 
 export { RoomStatus, RoomsCollection, RoomDataType };
-export type { RoomId, Room, RoomUserStatus, RoomMessage, RoomData };
+export type { RoomId, Room, RoomUserStatus, RoomMessage, RoomData, UserStatus };

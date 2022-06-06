@@ -5,8 +5,11 @@ import { useLocation, useParams } from "react-router-dom";
 import ErrorNotification from "components/notification/ErrorNotification";
 import { useSelectedItem } from "features/router/routerViewModel";
 import { useScramble, useScrambleState } from "features/timer/timerViewModel";
-import { RoomData, RoomDataType, RoomStatus } from "models/rooms/Room";
+import { RoomData, RoomDataType, RoomStatus, UserStatus } from "models/rooms/Room";
 import { SelectedItemType } from "models/router/Router";
+import { Scramble } from "models/timer/scramble";
+import { StopwatchStatus } from "models/timer/stopwatch";
+import { Time } from "models/times/Time";
 import { useRoomsRepository } from "repositories/rooms/roomsRepository";
 import useNavigate from "shared/hooks/useNavigate";
 import { useNotifications } from "store/notificationsContext";
@@ -14,12 +17,19 @@ import { useSettings } from "store/settingsContext";
 
 import { useRooms } from "./roomsViewModel";
 
+type LastType = {
+  time: Time;
+  scramble: Scramble;
+  status: StopwatchStatus;
+};
+
 function useRoom() {
   const [isHost, setIsHost] = useState(false);
   const [loading, setLoading] = useState(true);
   const [sendMessage, setSendMessage] = useState<(roomData: RoomData) => void>();
   const [users, setUsers] = useState<string[]>([]);
   const [nickname, setNickname] = useState("");
+  const [usersStatus, setUsersStatus] = useState<UserStatus>({});
   const roomsRepository = useRoomsRepository();
   const { roomId: roomIdParam } = useParams();
   const { selectedItem } = useSelectedItem();
@@ -33,6 +43,8 @@ function useRoom() {
   const [globalScramble, setScramble] = useScrambleState();
   const { settings } = useSettings();
   const settingsRef = useRef(settings);
+  const [lastTime, setLastTime] = useState<LastType>();
+  const lastTimeRef = useRef(lastTime);
 
   const scrambleRef = useRef(globalScramble);
 
@@ -41,6 +53,12 @@ function useRoom() {
   useEffect(() => {
     pathnameRef.current = location.pathname;
   }, [location]);
+
+  useEffect(() => {
+    lastTimeRef.current = lastTime;
+    sendMessage?.({ type: RoomDataType.SetStatus, nickname, ...lastTime });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastTime]);
 
   useEffect(() => {
     settingsRef.current = settings;
@@ -76,17 +94,6 @@ function useRoom() {
     scrambleRef.current = globalScramble;
     sendMessage?.({ type: RoomDataType.SetScramble, scramble: globalScramble });
   }, [globalScramble, roomId, selectedItem?.type, sendMessage]);
-
-  // useEffect(() => {
-  //   if (selectedItem?.type !== SelectedItemType.Room || !isHost) {
-  //     return;
-  //   }
-
-  //   if (selectedItem.id && prevSelectedItemIdRef.current !== selectedItem.id) {
-  //     refreshScramble();
-  //     prevSelectedItemIdRef.current = selectedItem.id;
-  //   }
-  // }, [refreshScramble]);
 
   const roomEmtpy = users.length === 0;
 
@@ -139,14 +146,21 @@ function useRoom() {
           if (!settings) {
             roomSendMessage({ type: RoomDataType.AskSettings });
           }
+          roomSendMessage({ type: RoomDataType.AskStatus });
         }
 
         if (data.type === RoomDataType.AskStatus) {
-          // reply status
+          roomSendMessage({
+            type: RoomDataType.SetStatus,
+            nickname: selectedItem.nickname,
+            status: lastTimeRef.current?.status,
+            time: lastTimeRef.current?.time,
+          });
         } else if (data.type === RoomDataType.SetStatus) {
-          // set status
-        } else if (data.type === RoomDataType.SetSettings) {
-          // set settings
+          setUsersStatus((prevUserStatus) => ({
+            ...prevUserStatus,
+            [data.nickname]: { status: data.status, time: data.time },
+          }));
         }
       }
 
@@ -167,7 +181,18 @@ function useRoom() {
     return unsubscribe;
   }, [addNotification, navigate, refreshRooms, roomsRepository, selectedItem, setScramble, t]);
 
-  return { roomId, roomStatus, roomUsers: users, isHost, sendMessage, nickname };
+  return {
+    roomId,
+    roomStatus,
+    roomUsers: users,
+    usersStatus,
+    isHost,
+    sendMessage,
+    nickname,
+    lastTime,
+    setLastTime,
+  };
 }
 
+export type { LastType };
 export { useRoom };
