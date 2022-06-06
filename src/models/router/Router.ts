@@ -16,6 +16,7 @@ type SelectedItemRoom = {
   id: RoomId;
   key: PuzzleKey;
   type: SelectedItemType.Room;
+  nickname: string;
 };
 
 type SelectedItem = SelectedItemPuzzle | SelectedItemRoom;

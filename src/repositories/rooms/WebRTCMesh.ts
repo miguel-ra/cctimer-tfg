@@ -16,7 +16,6 @@ import {
   PeerOffer,
   PeersCollection,
   PeerSignal,
-  PeerStatus,
 } from "./webrtc/Peer";
 
 type Path = "signal" | "offer" | "answer" | "candidates" | "peers";
@@ -105,14 +104,13 @@ class WebRTCMesh {
   private configPeerChannel(peerChannel: RTCDataChannel, confimationPeer: PeerId): RTCDataChannel {
     peerChannel.onopen = () => {
       this.sendMessage({ type: MessageType.Handshake, to: confimationPeer });
+      this.notifyUpdate();
     };
 
     peerChannel.onclose = () => {
-      this.peerList[confimationPeer].status = PeerStatus.closed;
       this.notifyUpdate();
     };
     peerChannel.onerror = () => {
-      this.peerList[confimationPeer].status = PeerStatus.failed;
       this.notifyUpdate();
     };
     peerChannel.onmessage = this.handleDataChannelMessage;
@@ -154,7 +152,7 @@ class WebRTCMesh {
       const answer = snapshot.val() as PeerAnswer;
 
       if (answer) {
-        this.configPeerChannel(channel, answer.peerId);
+        channel = this.configPeerChannel(channel, answer.peerId);
 
         const answerDescription = new RTCSessionDescription(answer);
         connection.setRemoteDescription(answerDescription);
@@ -162,7 +160,6 @@ class WebRTCMesh {
         this.peerList[answer.peerId] = {
           connection,
           channel,
-          status: PeerStatus.connected,
         };
         this.status = MeshStatus.connected;
         this.notifyUpdate();
@@ -200,7 +197,6 @@ class WebRTCMesh {
 
       const peer: Peer = {
         connection: await this.createPeerConnection(),
-        status: PeerStatus.connecting,
       };
       this.peerList[offer.peerId] = peer;
 
@@ -237,15 +233,11 @@ class WebRTCMesh {
 
     this.bloomMessages.add(uuid);
 
-    if (
-      message.to &&
-      this.peerList[message.to].status === PeerStatus.connected &&
-      this.peerList[message.to]?.channel
-    ) {
+    if (message.to && this.peerList[message.to].channel?.readyState === "open") {
       this.peerList[message.to].channel?.send(rawMessage);
     } else {
       Object.values(this.peerList).forEach((peer) => {
-        if (peer.status === PeerStatus.connected && peer.channel) {
+        if (peer.channel?.readyState === "open") {
           peer.channel.send(rawMessage);
         }
       });
@@ -271,12 +263,11 @@ class WebRTCMesh {
 
     switch (type) {
       case MessageType.Handshake: {
-        this.peerList[from].status = PeerStatus.connected;
         if (this.status !== MeshStatus.connected) {
           this.status = MeshStatus.connected;
           this.sendMessage({ type: MessageType.Hello });
-          this.notifyUpdate();
         }
+        this.notifyUpdate();
         return;
       }
 
@@ -288,8 +279,7 @@ class WebRTCMesh {
 
         this.peerList[from] = {
           connection,
-          channel,
-          status: PeerStatus.connecting,
+          channel: this.configPeerChannel(channel, from),
         };
 
         connection.onicecandidate = (event) => {
@@ -317,12 +307,26 @@ class WebRTCMesh {
 
         const peer: Peer = {
           connection: await this.createPeerConnection(),
-          status: PeerStatus.connecting,
         };
         this.peerList[offer.peerId] = peer;
 
         peer.connection.ondatachannel = (event) => {
-          peer.channel = this.configPeerChannel(event.channel, offer.peerId);
+          this.peerList[offer.peerId].channel = this.configPeerChannel(event.channel, offer.peerId);
+        };
+
+        peer.connection.onicecandidate = (event) => {
+          if (event.candidate) {
+            const candidate = {
+              ...event.candidate.toJSON(),
+              peerId: this.peerId,
+            };
+
+            this.sendMessage({
+              type: MessageType.Candidate,
+              data: { candidate },
+              to: from,
+            });
+          }
         };
 
         await peer.connection.setRemoteDescription(new RTCSessionDescription(offer));
@@ -343,10 +347,6 @@ class WebRTCMesh {
       case MessageType.Answer: {
         const answerDescription = new RTCSessionDescription(data.answer);
         this.peerList[from].connection.setRemoteDescription(answerDescription);
-
-        this.peerList[from].connection.ondatachannel = (event) => {
-          this.peerList[from].channel = this.configPeerChannel(event.channel, data.answer.peerId);
-        };
 
         return;
       }
@@ -376,7 +376,7 @@ class WebRTCMesh {
   getActivePeers() {
     const activePeers = Object.entries(this.peerList)
       .map(([key, peer]) => {
-        if (peer.status === PeerStatus.connected && peer.channel) {
+        if (peer.channel?.readyState === "open") {
           return key;
         }
         return undefined;
@@ -392,7 +392,7 @@ class WebRTCMesh {
 
   closeConnection() {
     Object.values(this.peerList).forEach((peer) => {
-      if (peer.status === PeerStatus.connected && peer.channel) {
+      if (peer.channel?.readyState === "open") {
         peer.connection.close();
       }
     });
@@ -409,7 +409,7 @@ class WebRTCMesh {
 
     this.sendMessage({ data: message });
 
-    if (hostPeer && hostPeer.status === PeerStatus.connected) {
+    if (hostPeer && hostPeer.channel?.readyState === "open") {
       // this.sendMessage({ data: message });
     } else {
       // if connecting do nothing

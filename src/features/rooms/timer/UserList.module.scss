@@ -1,0 +1,19 @@
+@use "styles/palette";
+@use "styles/shape";
+@use "styles/transition";
+
+.userList {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 1.2rem;
+}
+
+.userCard {
+  border-radius: shape.get("borderRadius");
+  background-color: palette.get("background.secondary");
+  border: shape.get("borderWitdh") solid palette.get("border.primary");
+  transition: border transition.generate(color, border, background-color);
+  padding: 0.5rem 1rem;
+  margin-top: 1.2rem;
+}

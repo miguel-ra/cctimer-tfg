@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { useRecoilCallback } from "recoil";
 import LoadScrambleWorker from "workerize-loader!./loadScramble.worker.ts";
 
+import { useRoomTimer } from "features/rooms/timer/roomTimerContext";
 import { useSelectedItemState } from "features/router/routerViewModel";
 import { Scramble } from "models/timer/scramble";
 import { generateUseState } from "shared/recoil";
@@ -18,6 +19,7 @@ const useScrambleState = generateUseState<Scramble>({
 });
 
 function useScramble() {
+  const roomState = useRoomTimer();
   const [selectedItem] = useSelectedItemState();
   const [scramble] = useScrambleState();
 
@@ -56,8 +58,11 @@ function useScramble() {
   );
 
   const startWorker = useCallback(() => {
+    if (roomState.isHost) {
+      return;
+    }
     loadScrambleWorker.addEventListener("message", handleWorkerMessage);
-  }, [handleWorkerMessage]);
+  }, [handleWorkerMessage, roomState.isHost]);
 
   const stopWorker = useCallback(() => {
     loadScrambleWorker.removeEventListener("message", handleWorkerMessage);

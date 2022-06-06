@@ -1,7 +1,7 @@
 import NicknameInUseError from "models/rooms/errors/NicknameInUseError";
 import RoomConnectionLostError from "models/rooms/errors/RoomConnectionLostError";
 import RoomNotFoundError from "models/rooms/errors/RoomNotFound";
-import { Room, RoomId, RoomMessage, RoomsCollection } from "models/rooms/Room";
+import { Room, RoomData, RoomId, RoomMessage, RoomsCollection } from "models/rooms/Room";
 import { RoomsRepository } from "models/rooms/RoomsRepository";
 
 import PeerIdInUseError from "./webrtc/errors/PeerIdInUseError";
@@ -67,11 +67,10 @@ class RoomsRepositoryWebRTC implements RoomsRepository {
     return this.roomsCollection.findById(roomId);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sendMesasge(roomId: RoomId, message?: any) {
+  sendMesasge(roomId: RoomId, data?: RoomData) {
     const roomMesh = this.roomsMeshes[roomId];
     if (roomMesh) {
-      roomMesh.sendToAll(message);
+      roomMesh.sendToAll(data);
     }
   }
 

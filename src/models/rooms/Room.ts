@@ -1,4 +1,7 @@
 import { PuzzleKey } from "models/puzzles/Puzzle";
+import { Settings } from "models/settings/Settings";
+import { Scramble } from "models/timer/scramble";
+import { StopwatchStatus } from "models/timer/stopwatch";
 
 type RoomId = string;
 
@@ -9,11 +12,43 @@ type Room = {
   createdAt: number;
 };
 
+enum RoomDataType {
+  AskScramble,
+  SetScramble,
+  AskSettings,
+  SetSettings,
+  AskStatus,
+  SetStatus,
+}
+
+type RoomData =
+  | {
+      type: RoomDataType.AskScramble;
+    }
+  | {
+      type: RoomDataType.SetScramble;
+      scramble: Scramble;
+    }
+  | {
+      type: RoomDataType.AskSettings;
+    }
+  | {
+      type: RoomDataType.SetSettings;
+      settings: Settings;
+    }
+  | {
+      type: RoomDataType.AskStatus;
+    }
+  | {
+      type: RoomDataType.SetStatus;
+      status: StopwatchStatus;
+      nickname: string;
+    };
+
 type RoomMessage = {
   loading: boolean;
   error?: Error;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any;
+  data?: RoomData;
   isHost: boolean;
   users?: string[];
 };
@@ -51,5 +86,5 @@ class RoomsCollection {
   }
 }
 
-export { RoomStatus, RoomsCollection };
-export type { RoomId, Room, RoomUserStatus, RoomMessage };
+export { RoomStatus, RoomsCollection, RoomDataType };
+export type { RoomId, Room, RoomUserStatus, RoomMessage, RoomData };

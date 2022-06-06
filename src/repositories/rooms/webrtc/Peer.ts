@@ -1,15 +1,7 @@
 type PeerId = string;
 
-enum PeerStatus {
-  "closed",
-  "connecting",
-  "connected",
-  "failed",
-}
-
 type Peer = {
   connection: RTCPeerConnection;
-  status: PeerStatus;
   channel?: RTCDataChannel;
 };
 
@@ -45,4 +37,3 @@ type PeersCollection = {
 };
 
 export type { PeerId, Peer, PeerAnswer, PeerCandidate, PeerOffer, PeerSignal, PeersCollection };
-export { PeerStatus };

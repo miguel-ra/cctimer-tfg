@@ -4,6 +4,7 @@ import { useDrag } from "react-use-gesture";
 
 import { useSelectedItem } from "features/router/routerViewModel";
 import { useTimes } from "features/times/timesViewModel";
+import { StopwatchStatus as Status } from "models/timer/stopwatch";
 import { Time, TimePenalty } from "models/times/Time";
 import { millisecondsToClock, millisecondsToSeconds } from "shared/format/number";
 import { elapsedTimeWithPenaltyCompact } from "shared/format/puzzleTime";
@@ -14,14 +15,6 @@ import Pressable from "./Pressable";
 import QuickActions from "./QuickActions";
 import useStyles from "./Stopwatch.styles";
 import useStopwatch from "./useStopwatch";
-
-enum Status {
-  Idle,
-  PlusTwo,
-  Dnf,
-  Inspection,
-  Running,
-}
 
 const ACTIVATION_DELAY = 300;
 

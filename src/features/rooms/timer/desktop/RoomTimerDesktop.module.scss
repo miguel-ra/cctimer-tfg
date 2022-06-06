@@ -21,3 +21,16 @@
   width: 100%;
   padding: 3rem;
 }
+
+.stopwatchContainer {
+  display: flex;
+  flex: 1;
+  position: relative;
+}
+
+.roomCode {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 1.2rem;
+}

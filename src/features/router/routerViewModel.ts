@@ -62,6 +62,7 @@ function useSelectedItem() {
               id: userRoom.id,
               key: userRoom.puzzleKey,
               type: SelectedItemType.Room,
+              nickname: userRoom.nickname,
             });
           }
         }
