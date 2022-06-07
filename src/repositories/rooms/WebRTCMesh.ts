@@ -261,6 +261,8 @@ class WebRTCMesh {
       return;
     }
 
+    console.log({ uuid, type, data, from, to });
+
     switch (type) {
       case MessageType.Handshake: {
         if (this.status !== MeshStatus.connected) {
