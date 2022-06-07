@@ -151,6 +151,7 @@ function useRoom() {
 
     const debounceAskScramble = debounce(() => roomSendMessage({ type: RoomDataType.AskScramble }), 300);
     const debounceAskSettings = debounce(() => roomSendMessage({ type: RoomDataType.AskSettings }), 300);
+    const debounceAskStatus = debounce(() => roomSendMessage({ type: RoomDataType.AskStatus }), 300);
 
     const unsubscribe = roomsRepository.subscribe(selectedItem?.id, (roomMessage) => {
       const { loading, data, isHost, users, scramble, settings } = roomMessage;
@@ -181,6 +182,12 @@ function useRoom() {
             debounceAskSettings();
           }
         }
+
+        (users || []).forEach((user) => {
+          if (!usersStatus[user]?.status) {
+            debounceAskStatus();
+          }
+        });
 
         if (data.type === RoomDataType.AskStatus) {
           roomSendMessage({
