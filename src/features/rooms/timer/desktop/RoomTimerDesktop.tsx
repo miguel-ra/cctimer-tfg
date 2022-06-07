@@ -1,4 +1,4 @@
-import { memo, Suspense, useCallback } from "react";
+import { memo, Suspense, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import Box from "components/flexboxgrid/Box";
@@ -8,8 +8,10 @@ import { useSelectedItem } from "features/router/routerViewModel";
 import Stopwatch, { StopwatchCallbackOptions } from "features/stopwatch/Stopwatch";
 import StopwatchDisplay from "features/stopwatch/StopwatchDisplay";
 import { useScramble } from "features/timer/timerViewModel";
+import { useTimes } from "features/times/timesViewModel";
 import { puzzlesConfig } from "models/puzzles/Puzzle";
 import { StopwatchStatus } from "models/timer/stopwatch";
+import { TimePenalty } from "models/times/Time";
 
 import { useRoomTimer } from "../roomTimerContext";
 import UserList from "../UserList";
@@ -19,7 +21,8 @@ import styles from "./RoomTimerDesktop.module.scss";
 function TimerDesktop() {
   const { selectedItem } = useSelectedItem();
   const { scramble } = useScramble();
-  const { roomId, nickname, sendMessage, lastTime, setLastTime } = useRoomTimer();
+  const { roomId, lastTime, setLastTime, isHost } = useRoomTimer();
+  const { lastTime: lastTimeStopwatch } = useTimes();
   const { t } = useTranslation();
 
   const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;
@@ -36,11 +39,27 @@ function TimerDesktop() {
     lastTime?.status === StopwatchStatus.Idle &&
     lastTime.time.elapsedTime > 0;
 
+  useEffect(() => {
+    setLastTime((prevLastTime) => {
+      if (prevLastTime === null || !lastTimeStopwatch) {
+        return null;
+      }
+      return {
+        ...prevLastTime,
+        time: {
+          elapsedTime: lastTimeStopwatch.elapsedTime,
+          penalty: lastTimeStopwatch?.penalty || TimePenalty.NoPenalty,
+        },
+      };
+    });
+  }, [lastTimeStopwatch, setLastTime]);
+
   return (
     <Box flexDirection="column" flex={1} position="relative">
-      <ScrambleText>{scramble.text}</ScrambleText>
       <div className={styles.stopwatchContainer}>
+        <ScrambleText showRefresh={isHost}>{scramble.text}</ScrambleText>
         {disableStopwatch ? (
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           <StopwatchDisplay status={lastTime!.status} time={lastTime!.time} />
         ) : (
           <Stopwatch callback={onStatusChange} hideDelete />

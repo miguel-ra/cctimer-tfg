@@ -8,6 +8,9 @@ const useStyles = createUseStyles({
     width: "100%",
     overflow: "hidden",
     maxHeight: "calc(22vh - 2rem)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     color: theme.palette.text.secondary,

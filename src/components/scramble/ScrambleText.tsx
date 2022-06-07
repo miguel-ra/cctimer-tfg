@@ -4,20 +4,25 @@ import { useTranslation } from "react-i18next";
 
 import Button from "components/button/Button";
 import Typography from "components/typography/Typography";
+import { useScramble } from "features/timer/timerViewModel";
 import { useModal } from "store/modalContext";
+
+import { ReactComponent as RefreshIcon } from "assets/icons/refresh.svg";
 
 import ModalScrambleText from "./ModalScrambleText";
 import useStyles from "./ScrambleText.styles";
 
 type ScrambleTextProps = {
+  showRefresh?: boolean;
   children: string;
 };
 
-function ScrambleText({ children }: ScrambleTextProps) {
+function ScrambleText({ children, showRefresh }: ScrambleTextProps) {
   const classes = useStyles();
   const { t } = useTranslation();
   const { openModal } = useModal();
   const [showMore, setShowMore] = useState(false);
+  const { refreshScramble } = useScramble();
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const checkScrambleHeight = useCallback(() => {
@@ -53,6 +58,12 @@ function ScrambleText({ children }: ScrambleTextProps) {
         <Typography variant="h6" className={classes.text}>
           {children}
         </Typography>
+
+        {showRefresh && (
+          <Button size="small" shape="square" aria-label={t("Refresh scramble")} onClick={refreshScramble}>
+            <RefreshIcon />
+          </Button>
+        )}
       </div>
     </>
   );

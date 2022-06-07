@@ -1,3 +1,4 @@
+import debounce from "lodash/debounce";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
@@ -5,6 +6,7 @@ import { useLocation, useParams } from "react-router-dom";
 import ErrorNotification from "components/notification/ErrorNotification";
 import { useSelectedItem } from "features/router/routerViewModel";
 import { useScramble, useScrambleState } from "features/timer/timerViewModel";
+import { useTimes } from "features/times/timesViewModel";
 import { RoomData, RoomDataType, RoomStatus, UserStatus } from "models/rooms/Room";
 import { SelectedItemType } from "models/router/Router";
 import { Scramble } from "models/timer/scramble";
@@ -29,6 +31,7 @@ function useRoom() {
   const [sendMessage, setSendMessage] = useState<(roomData: RoomData) => void>();
   const [users, setUsers] = useState<string[]>([]);
   const [nickname, setNickname] = useState("");
+  const { setLastTime: setLastTimeStopwatch } = useTimes();
   const [usersStatus, setUsersStatus] = useState<UserStatus>({});
   const roomsRepository = useRoomsRepository();
   const { roomId: roomIdParam } = useParams();
@@ -43,7 +46,7 @@ function useRoom() {
   const [globalScramble, setScramble] = useScrambleState();
   const { settings } = useSettings();
   const settingsRef = useRef(settings);
-  const [lastTime, setLastTime] = useState<LastType>();
+  const [lastTime, setLastTime] = useState<LastType | null>(null);
   const lastTimeRef = useRef(lastTime);
 
   const scrambleRef = useRef(globalScramble);
@@ -62,6 +65,9 @@ function useRoom() {
 
   useEffect(() => {
     settingsRef.current = settings;
+    if (!isHost) {
+      return;
+    }
     sendMessage?.({ type: RoomDataType.SetSettings, settings: settingsRef.current });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings]);
@@ -88,12 +94,15 @@ function useRoom() {
   }, [isHost, scrambleStartWorker, scrambleStopWorker]);
 
   useEffect(() => {
-    if (selectedItem?.type !== SelectedItemType.Room || !globalScramble.state) {
+    if (selectedItem?.type !== SelectedItemType.Room || !globalScramble.text) {
       return;
     }
+    lastTimeRef.current = null;
+    setLastTime(null);
+    setLastTimeStopwatch(undefined);
     scrambleRef.current = globalScramble;
     sendMessage?.({ type: RoomDataType.SetScramble, scramble: globalScramble });
-  }, [globalScramble, roomId, selectedItem?.type, sendMessage]);
+  }, [globalScramble, selectedItem?.type, sendMessage, setLastTimeStopwatch]);
 
   const roomEmtpy = users.length === 0;
 
@@ -108,6 +117,24 @@ function useRoom() {
 
     return RoomStatus.Ready;
   }, [isHost, loading, roomEmtpy]);
+  const prevRoomStatus = useRef(roomStatus);
+
+  useEffect(() => {
+    const pathname = pathnameRef.current;
+
+    if ((roomStatus === RoomStatus.WaitingUsers, prevRoomStatus.current === RoomStatus.Ready && !isHost)) {
+      if (pathname === pathnameRef.current) {
+        navigate("/", { replace: true });
+      }
+      roomsRepository.leave(roomId);
+      refreshRooms();
+      addNotification((props) => (
+        <ErrorNotification {...props}>{t("The host has closed the room") + `: ${roomId}`}</ErrorNotification>
+      ));
+    }
+
+    prevRoomStatus.current = roomStatus;
+  }, [roomStatus, isHost, roomsRepository, roomId, refreshRooms, addNotification, navigate, t]);
 
   useEffect(() => {
     if (!selectedItem?.id || selectedItem.type !== SelectedItemType.Room) {
@@ -122,14 +149,21 @@ function useRoom() {
     const roomSendMessage = (roomData: RoomData) => roomsRepository.sendMesasge(selectedItem.id, roomData);
     setSendMessage(() => roomSendMessage);
 
+    const debounceAskScramble = debounce(() => roomSendMessage({ type: RoomDataType.AskScramble }), 300);
+    const debounceAskSettings = debounce(() => roomSendMessage({ type: RoomDataType.AskSettings }), 300);
+
     const unsubscribe = roomsRepository.subscribe(selectedItem?.id, (roomMessage) => {
       const { loading, data, isHost, users, scramble, settings } = roomMessage;
+
       setLoading(loading);
       setIsHost(isHost);
       setUsers(users || []);
 
-      if (scramble?.state && scramble?.state !== scrambleRef.current.state) {
+      if (scramble?.text && scramble?.text !== scrambleRef.current.text) {
         setScramble(scramble);
+        lastTimeRef.current = null;
+        setLastTime(null);
+        setLastTimeStopwatch(undefined);
       }
 
       if (data) {
@@ -141,19 +175,18 @@ function useRoom() {
           }
         } else {
           if (!scramble) {
-            roomSendMessage({ type: RoomDataType.AskScramble });
+            debounceAskScramble();
           }
           if (!settings) {
-            roomSendMessage({ type: RoomDataType.AskSettings });
+            debounceAskSettings();
           }
-          roomSendMessage({ type: RoomDataType.AskStatus });
         }
 
         if (data.type === RoomDataType.AskStatus) {
           roomSendMessage({
             type: RoomDataType.SetStatus,
             nickname: selectedItem.nickname,
-            status: lastTimeRef.current?.status,
+            status: lastTimeRef.current?.status || StopwatchStatus.Idle,
             time: lastTimeRef.current?.time,
           });
         } else if (data.type === RoomDataType.SetStatus) {
@@ -179,7 +212,16 @@ function useRoom() {
     });
 
     return unsubscribe;
-  }, [addNotification, navigate, refreshRooms, roomsRepository, selectedItem, setScramble, t]);
+  }, [
+    addNotification,
+    navigate,
+    refreshRooms,
+    roomsRepository,
+    selectedItem,
+    setLastTimeStopwatch,
+    setScramble,
+    t,
+  ]);
 
   return {
     roomId,

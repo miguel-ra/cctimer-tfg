@@ -13,8 +13,8 @@ type RoomTimerState = {
   isHost?: boolean;
   sendMessage?: (roomData: RoomData) => void;
   nickname?: string;
-  lastTime?: LastType;
-  setLastTime: Dispatch<React.SetStateAction<LastType | undefined>>;
+  lastTime: LastType | null;
+  setLastTime: Dispatch<React.SetStateAction<LastType | null>>;
   usersStatus: UserStatus;
 };
 
@@ -25,8 +25,8 @@ type RoomTimerProviderProps = {
   isHost: boolean;
   sendMessage?: (roomData: RoomData) => void;
   nickname?: string;
-  lastTime?: LastType;
-  setLastTime: Dispatch<React.SetStateAction<LastType | undefined>>;
+  lastTime: LastType | null;
+  setLastTime: Dispatch<React.SetStateAction<LastType | null>>;
   usersStatus: UserStatus;
   children: ReactNode;
 };

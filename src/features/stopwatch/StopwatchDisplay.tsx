@@ -3,6 +3,7 @@ import { Time } from "models/times/Time";
 import { useSettings } from "store/settingsContext";
 
 import displayTime from "./displayTime";
+import QuickActions from "./QuickActions";
 import useStyles from "./Stopwatch.styles";
 
 type StopwatchDisplayProps = {
@@ -26,6 +27,7 @@ function StopwatchDisplay({ status, time }: StopwatchDisplayProps) {
             penalty: time?.penalty,
             remainingTime: inspectionTime - (time?.elapsedTime || 0),
           })}
+          <QuickActions hideDelete />
         </div>
       </div>
     </div>

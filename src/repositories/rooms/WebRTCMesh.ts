@@ -405,21 +405,7 @@ class WebRTCMesh {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sendToAll(message: any) {
-    const hostPeer = this.hostId && this.peerList[this.hostId];
-
     this.sendMessage({ data: message });
-
-    if (hostPeer && hostPeer.channel?.readyState === "open") {
-      // this.sendMessage({ data: message });
-    } else {
-      // if connecting do nothing
-      // else take host role
-      //   send message => update host in all peers
-      //   upload offer, hostId and ice candidates.
-    }
-
-    // if connection with host => set loading.
-    // if not conection with host => get host role
   }
 }
 

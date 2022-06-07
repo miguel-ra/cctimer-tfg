@@ -55,12 +55,11 @@ function UserList() {
                 {user}
               </Typography>
               <Typography variant="body2">
-                {userStatus?.status === undefined
-                  ? t("Waiting...")
-                  : userStatus?.status === StopwatchStatus.Idle && userStatus.time?.elapsedTime === 0
+                {userStatus?.status === undefined ||
+                (userStatus?.status === StopwatchStatus.Idle && userStatus.time?.elapsedTime === 0)
                   ? t("Ready!")
                   : displayTime({
-                      status: userStatus.status || StopwatchStatus.Idle,
+                      status: userStatus?.status || StopwatchStatus.Idle,
                       elapsedTime: userStatus.time?.elapsedTime || 0,
                       remainingTime: inspectionTime - (userStatus.time?.elapsedTime || 0),
                       penalty: userStatus.time?.penalty || TimePenalty.NoPenalty,

@@ -17,7 +17,7 @@ enum Action {
 type ActionCallbacks = { [key in Action]: (time: PuzzleTime) => Promise<PuzzleTime | undefined> };
 
 type QuickActionsProps = {
-  resetStopwatch: () => void;
+  resetStopwatch?: () => void;
   hideDelete?: boolean;
 };
 
@@ -117,7 +117,7 @@ function QuickActions({ resetStopwatch, hideDelete }: QuickActionsProps) {
         event.stopPropagation();
         const timeUpdated = await actionCallback[action](lastTime);
         if (!timeUpdated) {
-          resetStopwatch();
+          resetStopwatch?.();
         }
         if (document.body.classList.contains("mousedown")) {
           (document.activeElement as HTMLElement)?.blur();
