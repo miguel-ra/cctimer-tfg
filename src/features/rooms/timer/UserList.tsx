@@ -56,7 +56,7 @@ function UserList() {
               </Typography>
               <Typography variant="body2">
                 {userStatus?.status === undefined
-                  ? t("Connecting...")
+                  ? t("Syncing...")
                   : userStatus?.status === StopwatchStatus.Idle && userStatus.time?.elapsedTime === 0
                   ? t("Ready!")
                   : displayTime({

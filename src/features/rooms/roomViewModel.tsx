@@ -33,6 +33,7 @@ function useRoom() {
   const [nickname, setNickname] = useState("");
   const { setLastTime: setLastTimeStopwatch } = useTimes();
   const [usersStatus, setUsersStatus] = useState<UserStatus>({});
+  const usersStatusRef = useRef(usersStatus);
   const roomsRepository = useRoomsRepository();
   const { roomId: roomIdParam } = useParams();
   const { selectedItem } = useSelectedItem();
@@ -56,6 +57,10 @@ function useRoom() {
   useEffect(() => {
     pathnameRef.current = location.pathname;
   }, [location]);
+
+  useEffect(() => {
+    usersStatusRef.current = usersStatus;
+  }, [usersStatus]);
 
   useEffect(() => {
     lastTimeRef.current = lastTime;
@@ -149,9 +154,9 @@ function useRoom() {
     const roomSendMessage = (roomData: RoomData) => roomsRepository.sendMesasge(selectedItem.id, roomData);
     setSendMessage(() => roomSendMessage);
 
-    const debounceAskScramble = debounce(() => roomSendMessage({ type: RoomDataType.AskScramble }), 300);
-    const debounceAskSettings = debounce(() => roomSendMessage({ type: RoomDataType.AskSettings }), 300);
-    const debounceAskStatus = debounce(() => roomSendMessage({ type: RoomDataType.AskStatus }), 300);
+    const debounceAskScramble = debounce(() => roomSendMessage({ type: RoomDataType.AskScramble }), 500);
+    const debounceAskSettings = debounce(() => roomSendMessage({ type: RoomDataType.AskSettings }), 500);
+    const debounceAskStatus = debounce(() => roomSendMessage({ type: RoomDataType.AskStatus }), 1000);
 
     const unsubscribe = roomsRepository.subscribe(selectedItem?.id, (roomMessage) => {
       const { loading, data, isHost, users, scramble, settings } = roomMessage;
@@ -184,7 +189,7 @@ function useRoom() {
         }
 
         (users || []).forEach((user) => {
-          if (!usersStatus[user]?.status) {
+          if (usersStatusRef.current[user]?.status === undefined) {
             debounceAskStatus();
           }
         });

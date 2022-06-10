@@ -3,6 +3,7 @@ type PeerId = string;
 type Peer = {
   connection: RTCPeerConnection;
   channel?: RTCDataChannel;
+  iceCandidates?: string[];
 };
 
 type PeerAnswer = {

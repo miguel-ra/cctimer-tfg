@@ -26,6 +26,7 @@ type Message = DrafMessage & {
   type: MessageType;
   uuid: MessageId;
   from: PeerId;
+  browser: string;
 };
 
 type SubscriptionMessage = {

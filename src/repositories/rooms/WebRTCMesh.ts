@@ -1,6 +1,7 @@
 import { BloomFilter } from "bloomfilter";
 import { child, get, onChildAdded, onValue, push, ref, set, update } from "firebase/database";
 import { v4 as uuidv4 } from "uuid";
+import webrtcAdapter from "webrtc-adapter";
 
 import firebase from "shared/firebase";
 
@@ -18,6 +19,10 @@ import {
   PeerSignal,
 } from "./webrtc/Peer";
 
+enum Browser {
+  firefox = "firefox",
+}
+
 type Path = "signal" | "offer" | "answer" | "candidates" | "peers";
 type PathsCollection = { [key in Path]: string };
 
@@ -34,9 +39,10 @@ const PEER_CHANNEL_LABEL = "mesh";
 class WebRTCMesh {
   public status: MeshStatus;
   public peerList: PeersCollection = {};
+  private browser: string;
   private peerId: PeerId;
   private hostId?: PeerId;
-  private bloomMessages: BloomFilter = new BloomFilter(32 * 256, 16);
+  private bloomMessages: BloomFilter = new BloomFilter(32 * 256, 32);
   private paths: PathsCollection;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private observable: Observable<any> = new Observable();
@@ -66,6 +72,7 @@ class WebRTCMesh {
   }
 
   constructor({ peerId, paths, offer }: { peerId: PeerId; paths: PathsCollection; offer?: PeerOffer }) {
+    this.browser = webrtcAdapter.browserDetails.browser;
     this.peerId = peerId;
     this.paths = paths;
 
@@ -228,7 +235,13 @@ class WebRTCMesh {
     type = MessageType.Default,
     ...draftMessage
   }: DrafMessage) {
-    const message: Message = { ...draftMessage, uuid, from, type };
+    const message: Message = {
+      ...draftMessage,
+      uuid,
+      from,
+      type,
+      browser: this.browser,
+    };
     const rawMessage = JSON.stringify(message);
 
     this.bloomMessages.add(uuid);
@@ -246,7 +259,7 @@ class WebRTCMesh {
 
   private async handleDataChannelMessage({ data: rawMessage }: MessageEvent) {
     const message: Message = JSON.parse(rawMessage);
-    const { uuid, type, data, from, to } = message;
+    const { uuid, type, data, from, to, browser } = message;
 
     if (this.bloomMessages.test(uuid)) {
       return;
@@ -261,7 +274,9 @@ class WebRTCMesh {
       return;
     }
 
-    console.log({ uuid, type, data, from, to });
+    if (type !== MessageType.Default) {
+      console.log({ type, data, from, to, browser });
+    }
 
     switch (type) {
       case MessageType.Handshake: {
@@ -277,6 +292,12 @@ class WebRTCMesh {
         if (this.peerList[from]) {
           return;
         }
+
+        if (browser === Browser.firefox && this.browser !== Browser.firefox) {
+          this.sendMessage({ type: MessageType.Hello });
+          return;
+        }
+
         const { connection, channel, offer } = await this.createOffer();
 
         this.peerList[from] = {
@@ -284,13 +305,15 @@ class WebRTCMesh {
           channel: this.configPeerChannel(channel, from),
         };
 
+        const peerId = this.peerId;
         connection.onicecandidate = (event) => {
-          if (event.candidate) {
+          if (event.candidate?.candidate) {
             const candidate = {
               ...event.candidate.toJSON(),
               peerId: this.peerId,
             };
 
+            console.log(event.candidate, this.peerId, from);
             this.sendMessage({
               type: MessageType.Candidate,
               data: { candidate },
@@ -299,7 +322,9 @@ class WebRTCMesh {
           }
         };
 
-        this.sendMessage({ type: MessageType.Offer, data: { offer }, to: from });
+        setTimeout(() => {
+          this.sendMessage({ type: MessageType.Offer, data: { offer }, to: from });
+        }, 1000);
 
         return;
       }
@@ -308,20 +333,20 @@ class WebRTCMesh {
         const { offer } = data;
 
         const peer: Peer = {
-          connection: await this.createPeerConnection(),
+          connection: new RTCPeerConnection(RTC_CONFIG),
         };
-        this.peerList[offer.peerId] = peer;
 
         peer.connection.ondatachannel = (event) => {
           this.peerList[offer.peerId].channel = this.configPeerChannel(event.channel, offer.peerId);
         };
 
         peer.connection.onicecandidate = (event) => {
-          if (event.candidate) {
+          if (event.candidate?.candidate) {
             const candidate = {
               ...event.candidate.toJSON(),
               peerId: this.peerId,
             };
+            console.log(event.candidate, this.peerId, from);
 
             this.sendMessage({
               type: MessageType.Candidate,
@@ -335,13 +360,25 @@ class WebRTCMesh {
         const answerDescription = await peer.connection.createAnswer();
         await peer.connection.setLocalDescription(answerDescription);
 
+        (peer.iceCandidates || []).forEach((candidate) => {
+          peer.connection.addIceCandidate(new RTCIceCandidate(candidate as any));
+        });
+        peer.iceCandidates = [];
+
+        this.peerList[offer.peerId] = {
+          ...this.peerList[offer.peerId],
+          ...peer,
+        };
+
         const answer: PeerAnswer = {
           peerId: this.peerId,
           type: answerDescription.type,
           sdp: answerDescription.sdp,
         };
 
-        this.sendMessage({ type: MessageType.Answer, data: { answer }, to: from });
+        setTimeout(() => {
+          this.sendMessage({ type: MessageType.Answer, data: { answer }, to: from });
+        }, 1000);
 
         return;
       }
@@ -350,11 +387,36 @@ class WebRTCMesh {
         const answerDescription = new RTCSessionDescription(data.answer);
         this.peerList[from].connection.setRemoteDescription(answerDescription);
 
+        (this.peerList[from].iceCandidates || []).forEach((candidate) => {
+          this.peerList[from].connection.addIceCandidate(new RTCIceCandidate(candidate as any));
+        });
+        this.peerList[from].iceCandidates = [];
+
         return;
       }
 
       case MessageType.Candidate: {
-        this.peerList[from].connection.addIceCandidate(new RTCIceCandidate(data.candidate));
+        const { peerId, ...candidate } = data.candidate;
+
+        if (!this.peerList[peerId]) {
+          this.peerList[peerId] = {
+            ...this.peerList[peerId],
+          };
+        }
+
+        const peer = this.peerList[peerId];
+
+        if (!peer?.connection?.localDescription) {
+          peer.iceCandidates = peer.iceCandidates || [];
+          peer.iceCandidates?.push(candidate);
+        } else {
+          [...(peer.iceCandidates || []), data.candidate].forEach((candidate) => {
+            setTimeout(() => {
+              peer.connection.addIceCandidate(new RTCIceCandidate(candidate as any));
+            }, 1000);
+          });
+          peer.iceCandidates = [];
+        }
         return;
       }
 
