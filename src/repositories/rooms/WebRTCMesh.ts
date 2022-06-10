@@ -31,6 +31,18 @@ const RTC_CONFIG = {
     {
       urls: ["stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302"], // free stun server
     },
+    {
+      username: "t2bV14SjMpprZKHwyVl2AYhfGvH1aP_giLcf1wBLppY-7ufVsVnWiSeyPi1t5YjpAAAAAGKjxAttaWd1ZWxyYQ==",
+      credential: "c0e1a782-e90b-11ec-b8f9-0242ac120004",
+      urls: [
+        "turn:fr-turn1.xirsys.com:80?transport=udp",
+        "turn:fr-turn1.xirsys.com:3478?transport=udp",
+        "turn:fr-turn1.xirsys.com:80?transport=tcp",
+        "turn:fr-turn1.xirsys.com:3478?transport=tcp",
+        "turns:fr-turn1.xirsys.com:443?transport=tcp",
+        "turns:fr-turn1.xirsys.com:5349?transport=tcp",
+      ],
+    },
   ],
   iceCandidatePoolSize: 10,
 };
