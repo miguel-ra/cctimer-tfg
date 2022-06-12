@@ -27,7 +27,7 @@ function Showcase({ title, children, className }: ShowcaseProps) {
       <nav>
         <ul className={styles.items}>
           {React.Children.map(children, (child, index) => {
-            if (child.type.name === "ShowcaseIcon") {
+            if (child.type.displayName === "ShowcaseIcon") {
               const { onSelect, onDelete, ...childProps } = child.props;
 
               const canDelete =

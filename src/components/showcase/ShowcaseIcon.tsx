@@ -50,4 +50,6 @@ function ShowcaseIcon({ label, Icon, isSelected, canDelete, ...props }: Showcase
   );
 }
 
+ShowcaseIcon.displayName = "ShowcaseIcon";
+
 export default ShowcaseIcon;

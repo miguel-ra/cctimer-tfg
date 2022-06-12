@@ -19,4 +19,6 @@ function ShowcaseButton({ label, onClick, children }: ShowcaseButtonProps) {
   );
 }
 
+ShowcaseButton.displayName = "ShowcaseButton";
+
 export default ShowcaseButton;
