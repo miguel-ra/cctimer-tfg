@@ -1,4 +1,5 @@
 import debounce from "lodash/debounce";
+import throttle from "lodash/throttle";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
@@ -152,11 +153,11 @@ function useRoom() {
     roomsRepository.sendMesasge(selectedItem?.id, { type: RoomDataType.AskScramble });
 
     const roomSendMessage = (roomData: RoomData) => roomsRepository.sendMesasge(selectedItem.id, roomData);
-    setSendMessage(() => roomSendMessage);
+    setSendMessage(() => throttle(roomSendMessage, 295));
 
     const debounceAskScramble = debounce(() => roomSendMessage({ type: RoomDataType.AskScramble }), 500);
     const debounceAskSettings = debounce(() => roomSendMessage({ type: RoomDataType.AskSettings }), 500);
-    const debounceAskStatus = debounce(() => roomSendMessage({ type: RoomDataType.AskStatus }), 1000);
+    const debounceAskStatus = debounce(() => roomSendMessage({ type: RoomDataType.AskStatus }), 500);
 
     const unsubscribe = roomsRepository.subscribe(selectedItem?.id, (roomMessage) => {
       const { loading, data, isHost, users, scramble, settings } = roomMessage;
@@ -170,6 +171,7 @@ function useRoom() {
         lastTimeRef.current = null;
         setLastTime(null);
         setLastTimeStopwatch(undefined);
+        debounceAskStatus();
       }
 
       if (data) {

@@ -7,6 +7,10 @@
   bottom: 0;
   right: 0;
   padding: 1.2rem;
+  top: 0;
+  overflow-y: auto;
+  display: flex;
+  align-items: end;
 }
 
 .userCard {
@@ -15,10 +19,14 @@
   border: shape.get("borderWitdh") solid palette.get("border.primary");
   transition: border transition.generate(color, border, background-color);
   padding: 0.5rem 1rem;
-  margin-top: 1.2rem;
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: space-between;
+
+  &:not(:first-child) {
+    margin-top: 1.2rem;
+  }
   & svg {
     color: palette.get("text.secondary");
   }

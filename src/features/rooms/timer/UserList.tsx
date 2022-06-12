@@ -37,14 +37,14 @@ function displayTime({
 
 function UserList() {
   const { t } = useTranslation();
-  const { users, usersStatus } = useRoomTimer();
+  const { users = [], usersStatus } = useRoomTimer();
   const { settings } = useSettings();
 
   const inspectionTime = settings.inspection.time * 1000;
 
   return (
     <div className={styles.userList}>
-      {users?.map((user) => {
+      {users.map((user) => {
         const userStatus = usersStatus?.[user];
         const Icon = userStatus?.status === StopwatchStatus.Idle ? CheckIcon : ClockIcon;
         return (
@@ -56,7 +56,7 @@ function UserList() {
               </Typography>
               <Typography variant="body2">
                 {userStatus?.status === undefined
-                  ? t("Syncing...")
+                  ? `${t("Syncing")}...`
                   : userStatus?.status === StopwatchStatus.Idle && userStatus.time?.elapsedTime === 0
                   ? t("Ready!")
                   : displayTime({

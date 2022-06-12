@@ -55,7 +55,16 @@ function RoomTimerProvider({
 }: RoomTimerProviderProps) {
   return (
     <RoomTimerContext.Provider
-      value={{ roomId, users, isHost, nickname, sendMessage, lastTime, setLastTime, usersStatus }}
+      value={{
+        roomId,
+        users,
+        isHost,
+        nickname,
+        sendMessage,
+        lastTime,
+        setLastTime,
+        usersStatus,
+      }}
     >
       {children}
     </RoomTimerContext.Provider>

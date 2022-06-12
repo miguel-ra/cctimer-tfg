@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import Box from "components/flexboxgrid/Box";
 import ScrambleText from "components/scramble/ScrambleText";
+import Spacer from "components/spacer/Spacer";
 import Spinner from "components/spinner/Spinner";
 import { useSelectedItem } from "features/router/routerViewModel";
 import Stopwatch, { StopwatchCallbackOptions } from "features/stopwatch/Stopwatch";
@@ -21,11 +22,9 @@ import styles from "./RoomTimerDesktop.module.scss";
 function TimerDesktop() {
   const { selectedItem } = useSelectedItem();
   const { scramble } = useScramble();
-  const { roomId, lastTime, setLastTime, isHost } = useRoomTimer();
+  const { roomId, lastTime, setLastTime, isHost, nickname } = useRoomTimer();
   const { lastTime: lastTimeStopwatch } = useTimes();
   const { t } = useTranslation();
-
-  const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;
 
   const onStatusChange = useCallback(
     ({ time, status }: StopwatchCallbackOptions) => {
@@ -38,6 +37,9 @@ function TimerDesktop() {
     scramble.text === lastTime?.scramble.text &&
     lastTime?.status === StopwatchStatus.Idle &&
     lastTime.time.elapsedTime > 0;
+
+  const ScrambleImage = selectedItem?.key ? puzzlesConfig[selectedItem?.key].Image : null;
+  const scrambleState = isHost || !disableStopwatch ? scramble.state : "";
 
   useEffect(() => {
     setLastTime((prevLastTime) => {
@@ -57,14 +59,22 @@ function TimerDesktop() {
   return (
     <Box flexDirection="column" flex={1} position="relative">
       <div className={styles.stopwatchContainer}>
-        <ScrambleText showRefresh={isHost}>{scramble.text}</ScrambleText>
+        {isHost || !disableStopwatch ? (
+          <ScrambleText showRefresh={isHost}>{scramble.text}</ScrambleText>
+        ) : (
+          <ScrambleText showRefresh={isHost}>
+            {t("Waiting for the host to generate a new scramble")}
+          </ScrambleText>
+        )}
         {disableStopwatch ? (
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           <StopwatchDisplay status={lastTime!.status} time={lastTime!.time} />
         ) : (
           <Stopwatch callback={onStatusChange} hideDelete />
         )}
-        <div className={styles.roomCode}>
+        <div className={styles.roomInfo}>
+          {t("Nickname")}: <strong>{nickname}</strong>
+          <Spacer h={0.5} />
           {t("Room code")}: <strong>{roomId}</strong>
         </div>
         <UserList />
@@ -79,7 +89,7 @@ function TimerDesktop() {
                 </Box>
               }
             >
-              <ScrambleImage className={styles.scramble} scramble={scramble.state} />
+              <ScrambleImage key={scrambleState} className={styles.scramble} scramble={scrambleState} />
             </Suspense>
           </section>
         )}

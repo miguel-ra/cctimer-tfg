@@ -12,6 +12,7 @@ const useStyles = createUseStyles({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
+    bottom: 0,
     [theme.breakpoints.up("md")]: {
       width: "auto",
       right: "1rem",

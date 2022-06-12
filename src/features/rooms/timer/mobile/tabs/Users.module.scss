@@ -1,0 +1,10 @@
+.users {
+  width: 100%;
+  height: 100%;
+  & > div {
+    position: relative;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

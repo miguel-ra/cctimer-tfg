@@ -28,12 +28,10 @@ type PathsCollection = { [key in Path]: string };
 
 const RTC_CONFIG = {
   iceServers: [
+    { urls: ["stun:fr-turn1.xirsys.com"] },
     {
-      urls: ["stun:stun1.l.google.com:19302", "stun:stun2.l.google.com:19302"], // free stun server
-    },
-    {
-      username: "t2bV14SjMpprZKHwyVl2AYhfGvH1aP_giLcf1wBLppY-7ufVsVnWiSeyPi1t5YjpAAAAAGKjxAttaWd1ZWxyYQ==",
-      credential: "c0e1a782-e90b-11ec-b8f9-0242ac120004",
+      username: "IK7zLFWT0Bh4kLa7yi9mEqHq2NQsi4oqZ8ZYnBc7oTBGw39_a2JNQ5awIri6qEQgAAAAAGKk47VtaWd1ZWxyYQ==",
+      credential: "374cf74a-e9b7-11ec-b2f9-0242ac120004",
       urls: [
         "turn:fr-turn1.xirsys.com:80?transport=udp",
         "turn:fr-turn1.xirsys.com:3478?transport=udp",
@@ -54,7 +52,7 @@ class WebRTCMesh {
   private browser: string;
   private peerId: PeerId;
   private hostId?: PeerId;
-  private bloomMessages: BloomFilter = new BloomFilter(32 * 256, 32);
+  private bloomMessages: BloomFilter = new BloomFilter(8 * 1024 * 1024, 16); // 1MB
   private paths: PathsCollection;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private observable: Observable<any> = new Observable();
@@ -241,6 +239,14 @@ class WebRTCMesh {
     }
   }
 
+  private loadPendingIceCandidates(peer: Peer) {
+    (peer.iceCandidates || []).forEach((candidate) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      peer.connection.addIceCandidate(new RTCIceCandidate(candidate as any));
+    });
+    peer.iceCandidates = [];
+  }
+
   private sendMessage({
     uuid = uuidv4(),
     from = this.peerId,
@@ -255,8 +261,6 @@ class WebRTCMesh {
       browser: this.browser,
     };
     const rawMessage = JSON.stringify(message);
-
-    this.bloomMessages.add(uuid);
 
     if (message.to && this.peerList[message.to].channel?.readyState === "open") {
       this.peerList[message.to].channel?.send(rawMessage);
@@ -273,7 +277,7 @@ class WebRTCMesh {
     const message: Message = JSON.parse(rawMessage);
     const { uuid, type, data, from, to, browser } = message;
 
-    if (this.bloomMessages.test(uuid)) {
+    if (from === this.peerId || this.bloomMessages.test(uuid)) {
       return;
     }
 
@@ -284,10 +288,6 @@ class WebRTCMesh {
     } else if (to !== this.peerId) {
       this.sendMessage(message);
       return;
-    }
-
-    if (type !== MessageType.Default) {
-      console.log({ type, data, from, to, browser });
     }
 
     switch (type) {
@@ -317,7 +317,6 @@ class WebRTCMesh {
           channel: this.configPeerChannel(channel, from),
         };
 
-        const peerId = this.peerId;
         connection.onicecandidate = (event) => {
           if (event.candidate?.candidate) {
             const candidate = {
@@ -325,7 +324,6 @@ class WebRTCMesh {
               peerId: this.peerId,
             };
 
-            console.log(event.candidate, this.peerId, from);
             this.sendMessage({
               type: MessageType.Candidate,
               data: { candidate },
@@ -334,9 +332,7 @@ class WebRTCMesh {
           }
         };
 
-        setTimeout(() => {
-          this.sendMessage({ type: MessageType.Offer, data: { offer }, to: from });
-        }, 1000);
+        this.sendMessage({ type: MessageType.Offer, data: { offer }, to: from });
 
         return;
       }
@@ -358,7 +354,6 @@ class WebRTCMesh {
               ...event.candidate.toJSON(),
               peerId: this.peerId,
             };
-            console.log(event.candidate, this.peerId, from);
 
             this.sendMessage({
               type: MessageType.Candidate,
@@ -372,10 +367,7 @@ class WebRTCMesh {
         const answerDescription = await peer.connection.createAnswer();
         await peer.connection.setLocalDescription(answerDescription);
 
-        (peer.iceCandidates || []).forEach((candidate) => {
-          peer.connection.addIceCandidate(new RTCIceCandidate(candidate as any));
-        });
-        peer.iceCandidates = [];
+        this.loadPendingIceCandidates(peer);
 
         this.peerList[offer.peerId] = {
           ...this.peerList[offer.peerId],
@@ -388,9 +380,7 @@ class WebRTCMesh {
           sdp: answerDescription.sdp,
         };
 
-        setTimeout(() => {
-          this.sendMessage({ type: MessageType.Answer, data: { answer }, to: from });
-        }, 1000);
+        this.sendMessage({ type: MessageType.Answer, data: { answer }, to: from });
 
         return;
       }
@@ -399,10 +389,7 @@ class WebRTCMesh {
         const answerDescription = new RTCSessionDescription(data.answer);
         this.peerList[from].connection.setRemoteDescription(answerDescription);
 
-        (this.peerList[from].iceCandidates || []).forEach((candidate) => {
-          this.peerList[from].connection.addIceCandidate(new RTCIceCandidate(candidate as any));
-        });
-        this.peerList[from].iceCandidates = [];
+        this.loadPendingIceCandidates(this.peerList[from]);
 
         return;
       }
@@ -422,12 +409,8 @@ class WebRTCMesh {
           peer.iceCandidates = peer.iceCandidates || [];
           peer.iceCandidates?.push(candidate);
         } else {
-          [...(peer.iceCandidates || []), data.candidate].forEach((candidate) => {
-            setTimeout(() => {
-              peer.connection.addIceCandidate(new RTCIceCandidate(candidate as any));
-            }, 1000);
-          });
-          peer.iceCandidates = [];
+          this.loadPendingIceCandidates(peer);
+          peer.connection.addIceCandidate(new RTCIceCandidate(data.candidate));
         }
         return;
       }
