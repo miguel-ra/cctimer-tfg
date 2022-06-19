@@ -1,4 +1,5 @@
 @use "styles/palette";
+@use "styles/colors";
 @use "styles/transition";
 
 .showcaseIcon {
@@ -8,22 +9,14 @@
   display: flex;
   position: relative;
   user-select: none;
-  outline-offset: 0.75rem;
-  --background-color: palette.get("background.secondary");
+  outline: none;
+  --background-color: #{palette.get("background.secondary")};
   -webkit-tap-highlight-color: transparent;
 
   path,
   circle,
   rect {
     transition: transition.generate(color);
-  }
-
-  &:hover,
-  &:focus-within {
-    .iconBorder {
-      opacity: 1;
-      transform: scale(1.322);
-    }
   }
 
   &.selected {
@@ -34,6 +27,20 @@
     }
     .iconDelete {
       color: palette.get("text.secondary");
+    }
+  }
+
+  &:hover,
+  &:focus-within {
+    .iconBorder {
+      opacity: 1;
+      transform: scale(1.322);
+    }
+  }
+
+  &:focus {
+    .iconBorder {
+      color: colors.get("blue.main");
     }
   }
 
