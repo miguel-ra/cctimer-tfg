@@ -32,8 +32,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll=false --ci",
     "test:local": "react-scripts test",
-    "generate:locales": "i18next 'src/**/*.{ts,tsx}' --config=internals/i18n/parser.config.js",
-    "lint": "eslint -c .eslintrc --ext .js,.jsx,.ts,.tsx .",
+    "test:e2e": "playwright test",
+    "test:e2e:local": "PWDEBUG=1 playwright test --headed",
+    "generate:locales": "i18next 'src/**/*.{ts,tsx}' --config=internals/i18n/parser.config.js ",
+    "lint": "eslint -c .eslintrc --ext .js,.jsx,.ts,.tsx src",
     "lint:fix": "npm run lint -- --fix"
   },
   "eslintConfig": {
@@ -60,6 +62,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.22.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

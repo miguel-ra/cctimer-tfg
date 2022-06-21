@@ -26,3 +26,9 @@ TODOs.txt
 .vercel
 
 translation_old.json
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/test-results/
+/playwright-report/
+/playwright/.cache/
