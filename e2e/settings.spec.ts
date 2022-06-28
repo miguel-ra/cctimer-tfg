@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
+import { baseUrl } from "./contants";
+
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://localhost:3000");
+  await page.goto(baseUrl);
 });
 
 test.describe("Settings", () => {
@@ -12,7 +14,7 @@ test.describe("Settings", () => {
 
     await expect(page).toHaveURL(/.*\/es/);
 
-    await page.goto("http://localhost:3000");
+    await page.goto(baseUrl);
 
     await expect(page).toHaveURL(/.*\/es/);
   });

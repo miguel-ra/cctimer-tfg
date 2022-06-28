@@ -239,7 +239,7 @@ function Stopwatch({ callback, hideDelete }: StopwatchProps) {
       <div
         className={clsx(classes.displayWrapper, { running: status !== Status.Dnf && status !== Status.Idle })}
       >
-        <div className={classes.display} style={{ color }}>
+        <div className={classes.display} style={{ color }} data-test-id="stopwatch-time">
           {displayTime({ status, elapsedTime, penalty: lastTime?.penalty, remainingTime })}
         </div>
         <QuickActions resetStopwatch={resetStopwatch} hideDelete={hideDelete} />

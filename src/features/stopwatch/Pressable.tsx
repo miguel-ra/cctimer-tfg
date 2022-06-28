@@ -135,6 +135,7 @@ function Pressable({
       ref={domContainer}
       className={clsx(classes.root, className, { pressed })}
       {...props}
+      data-test-id="stopwatch-pressable"
     >
       {children}
     </div>

@@ -54,6 +54,7 @@ function ScrambleText({ children, showRefresh }: ScrambleTextProps) {
           checkScrambleHeight();
         }}
         className={clsx(classes.root, { [classes.hiddenScramble]: showMore })}
+        data-test-id="scramble-text"
       >
         <Typography variant="h6" className={classes.text}>
           {children}

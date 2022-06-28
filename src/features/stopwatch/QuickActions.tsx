@@ -156,12 +156,12 @@ function QuickActions({ resetStopwatch, hideDelete }: QuickActionsProps) {
           >
             {t("DNF")}
           </Button>
+          {!hideDelete && (
+            <Button variant="outlined" color="red" data-action={Action.Delete} size="small">
+              {t("Delete")}
+            </Button>
+          )}
         </>
-      )}
-      {!hideDelete && (
-        <Button variant="outlined" color="red" data-action={Action.Delete} size="small">
-          {t("Delete")}
-        </Button>
       )}
     </div>
   );

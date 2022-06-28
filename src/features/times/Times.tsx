@@ -65,7 +65,12 @@ function Times({ mobile }: TimesProps) {
   return (
     <div className={classes.root}>
       <div className={classes.timesWrapper}>
-        <div className={classes.times} onClick={handleTimesClick} onKeyDownCapture={handleTimesKeyDown}>
+        <div
+          className={classes.times}
+          onClick={handleTimesClick}
+          onKeyDownCapture={handleTimesKeyDown}
+          data-test-id="times"
+        >
           {puzzleTimes
             .map((time) => {
               const isBestTime = time.id === puzzleStats?.single?.best?.ids?.[0];
